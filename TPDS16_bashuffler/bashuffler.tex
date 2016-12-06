@@ -1608,6 +1608,7 @@ The case of only one fetch in each shuffle task is skipped because the
 sparse communication pattern will leave some of the links idle.
 The results show that PGSS takes significantly less
 time to complete the reduce than RSS.
+The exact speedup is depicted in Fig.~\ref{fig:new_speedup} and will be described soon.
 The reduce completion time of RSS with different numbers of fetchers
 deviates from each other over a large value range without obeying following an obvious pattern,
 which indicates that the random source selection method cannot fully
@@ -1615,8 +1616,8 @@ utilize the network bandwidth for different levels of network traffic
 congestions.
 It is not our work to obtain such an ``optimal'' fetcher number that generates the least reduce time because it seems unpredictable from the results of different benchmarks or just may not be unique 
 (e.g., 4 fetchers and 6 fetchers in RankedInvertedIndex generate almost the same reduce time, and it is hard to tell the fetch number is an important impact factor for the same reduce time), which indicates that the obtaining the ``optimal'' fetcher number may be a false proposition.
-Besides, even if there is such an ``optimal'' fetcher number for RSS, it requires users multiple runs to obtain such number, and the ``best'' reduce completion time is narrowly shorter than the worst one with PGSS in the Terasort Case. 
-While in the other benchmarks, PGSS always outperforms (or performs no worse than) RSS with the ``optimal'' fetcher number. 
+Besides, even if there is such an ``optimal'' fetcher number for RSS, it requires users multiple runs to obtain such number, and the best reduce completion time is narrowly shorter than the worst one with PGSS in the Terasort Case. 
+While in the other benchmarks, PGSS always outperforms (or performs no worse than) RSS with any fetcher number. 
 Nevertheless, the reduce completion time of GSS and PGSS (especially PGSS) is more flat
 with different numbers of fetchers in all benchmarks.
 It shows that BAShuffler can be applied to various traffic congestion statuses.
