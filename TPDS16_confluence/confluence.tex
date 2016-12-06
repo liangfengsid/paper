@@ -624,13 +624,10 @@ overheads of the computing tasks that include multiple iterations of
 distributed operations and thus multiple shuffle operations.
 For instance, Spark~\cite{zaharia2012resilient} adopts the in-memory approach 
 to reuse data across iterations in the memory to avoid the overhead of transferring the intermediate data into and out of the disk. 
-%A pervasive idea is to store the output data of each iteration in the memory so that the following computing iterations can reuse these data without reading from the disk, which can save disk I/O overheads. 
 However, none of them proposes a useful method to minimize the size of
 the data to be transferred in multiple shuffle iterations.
 
-Our key insight is that dataset entries are generally in the format of key-value pairs. 
-%Without knowledge and proper utilization of the semantics of the computing paradigms,
-How the output data of the
+Our key insight is that dataset entries are generally in the format of key-value pairs. How the output data of the
 previous shuffle iterations are partitioned across different locations
 can greatly affect the data are to be
 shuffled and its efficiency in the following computing iterations.
@@ -704,7 +701,6 @@ the \emph{pure confluence subgraph}.
 Within a pure confluence subgraph, if all the dataset entries matching
 the source keys are assigned to the same node, all the generated
 datasets can be computed locally in the node without shuffling.
-%The optimal key partitioning scheme that minimizes the shuffle sizes of multiple iteration cannot be obtained in polynomial time. 
 
 To make use of the confluence key partitioning scheme (CKP), the
 programs need to add the corresponding user-defined partitioner
@@ -713,8 +709,6 @@ to guide the assignment of data entries to their desired locations.
 Most distributed computing paradigms, such as Spark~\cite{zaharia2012resilient} and Twister~\cite{ekanayake2010twister},
 provide an interface for adding a user-defined partitioner for the shuffle
 operation.
-%The existing programs can be easily modified to use the confluence key
-%partitioner without affecting the daily use of other users and programs.
 By applying the CKP scheme, the shuffle sizes of multiple computing
 iterations can be reduced significantly. %in polynomial time,
 Note that this will not impact the computing workload skew level; that is,
@@ -747,18 +741,9 @@ The experiment on the medium-size Spark cluster demonstrates that CKP could decr
 The rest of the paper is organized as follows. Section~\ref{section:background}
 gives some background information on iterative distributed operations
 , dependency graph, and the model of the iterative shuffle size.
-%%%on optimizing distributed computing, especially of multiple shuffle iterations. 
-% Section~\ref{section:model} describes a model for
-% the shuffle size of the distributed
-% computing tasks with multiple shuffle iterations. The model demonstrates
-% that finding out the optimal key partitioning scheme that minimizes the
-% overall shuffle size is an NP-hard problem.
 In Section~\ref{section:keyDependencyGraph}, we show how to construct
 the KDG and to reduce effectively the shuffle sizes by the Confluence Key
 Partitioning scheme, as well as analyzing the workload skew level.
-%find out the confluence subgraphs from it. 
-%We will also prove why localizing the datasets corresponding to the confluence subgraphs can avoid unnecessary re-shuffling in some shuffle iterations and minimize the shuffle sizes. 
-%s\textcolor{red}{The standard deviation analysis}.
 Section~\ref{section:application} introduces how to apply CKP in
 the real-life iterative distributed applications 
 and Section~\ref{section:implement} discusses the
@@ -767,10 +752,6 @@ The evaluation results of the performance are presented in Section~\ref{section:
 We discuss the related work in Section~\ref{section:relatedWork} and
 conclude the paper and suggest some possible future work in
 Section~\ref{section:conclusion}.
-%Section \ref{section:relatedWork} explores the related work. 
-%We make the conclusion and introduce the future work in Section \
-
-%State the computing will not be centralized in some specific nodes. 
 
 
 \section{Background}\label{section:background}
@@ -846,8 +827,7 @@ distributed operations and discuss the time complexity of obtaining
 the optimal key partitioning scheme that minimizes the overall shuffle
 size.
 
-% In the following discussion, we make two assumptions on the properties of the input data and the distributed operations. 
-% 1)For each input key-value pair, the expected number of output pairs of the operations are the same. 
+
 
 For the iterative distributed operations, the result of the $i_{th}$ iteration can be obtained recursively by:
 \begin{equation}\label{eq:m}
@@ -900,14 +880,13 @@ we need to exhaustively explore the possible key partition schemes of all the ke
 By calculating the overall data transfer size of each scheme, the optimal solution is the scheme with the minimal size. 
 The time complexity of the exhaustive method is $O(n^{\sum_{i=1}^{m} |A_i|}$), 
 where $n$ is the number of nodes in the cluster and $|A_i|$ is the number of data entries of $A_i$, 
-%and it is a hard problem. 
 which indicates that it is an NP-complete problem. 
 
 In fact, we usually do not know the contents of $A_i$ and cannot explore the partition scheme 
 for the next iteration until the program has actually finished the $i_{th}$ iteration. 
 Due to this limitation, the idea of finding out the optimal partition schemes for all the iterations to minimize the overall data transfer size $S$ is infeasible. 
 In the rest of this paper, the shuffle size is used to refer to the data transfer size of the shuffle operation. 
-%\textcolor{red}{To be continued...}
+
 
 \section{Confluence}\label{section:keyDependencyGraph}
 Even though it is hard to find the optimal partition solution to minimize the overall shuffle size,
@@ -953,33 +932,6 @@ After that, we present Confluence Key Partitioning Scheme, which decreases the o
 \label{fig:KDG}
 \end{figure}
 
-% \begin{algorithm}
-% \caption{Construction of the Key Dependency Graph}\label{algo:KDG}
-% \begin{algorithmic}[1]
-%  % \KwData{Distributed operation semantics and Directed Graph $G=(V,E)$, $V=\{\}$, $E=\{\}$}
-%  % \KwResult{Key Dependency Graph $G$}
-% \Procedure{Construct V}{}\Comment{Construction of $V$}
-% \ForAll{Iteration $i$}
-%   \ForAll{$k \in K$, where $K$ contains all the possible keys (or key patterns) of the output key-value pairs of Iteration $i$}
-%     \State add vertex $v_{i,k}$ to $V$
-%   \EndFor
-
-%   \If{any possible key is unknown}
-%     \State add vertex $v_{i,x}$ to $V$
-%   \EndIf
-% \EndFor
-% \EndProcedure
-
-% \Procedure{Construct E}{}\Comment{Construction of E}
-% \ForAll{Iteration $i$}
-%   \ForAll{key dependency $v_{i,k1} \Rightarrow v_{i+1,k2}$}
-%     \State add edge $(v_{i,k1}, v_{i+1,k2})$ to $E$
-%   \EndFor
-% \EndFor
-% \EndProcedure
-
-% \end{algorithmic}
-% \end{algorithm}
 
 \subsection{Key Dependency Graph}
 
@@ -994,37 +946,6 @@ The distributed operation semantics should be known prior by the programmers.
 
 The construction process of the key dependency graph G is shown as in Algorithm~\ref{algo:KDG}.
 Note that when constructing $E$, for the unknown keys, it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
-%
-%\textbf{Construction of $V$}:
-%The vertex set $V$ is defined as the follows. 
-%\begin{itemize}
-%\item[1)] $\forall i$, suppose that the set $K$ contains all the possible keys (or key patterns) of the output key-value pairs of Iteration $i$. 
-%We have vertex $v_{i,k} \in V$,  $\forall k \in K$, where Vertex $v_{i,k}$ is called to be in level $i$. 
-%Specially, vertex $v_{0,k} \in V$ stands for the key $k$ in the possible key set  
-%of the raw input dataset before any distributed operations.  
-%\item[2)] If any possible key is unknown in iteration $i$, we have another special vertex $v_{i,x} \in V$, 
-%where $x$ is only a symbol indicating the unknown keys. 
-%\end{itemize}
-
-%Note that if any possible key is unknown in the raw input dataset, we have $v_{0,x} \in V$. 
-%
-%\textbf{Construction of $E$}: The \emph{key dependency} is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
-%the output key-value pairs with key $k1$ 
-%in Iteration $i$ can generate a key-value pair with key $k2$ in Iteration $i+1$.
-%
-%The key dependency is specific to the application semantics. Additionally for the unknown keys, it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
-%
-%For all the key dependencies $v_{i,k1} \Rightarrow v_{i+1,k2}$, the edge $(v_{i,k1}, v_{i+1,k2})$ is added to $E$.
-
-%\begin{itemize}
-%\item[4)] We add a directed edges $(v_{i1,k1}, v_{i2,k2})$, $\forall i1, \forall k1, \forall i2, \forall k2$, to $E$ if $i2=i1+1$ 
-%and any of the output key-value pairs with key $k1$ 
-%in iteration $i1$ generates any key-value pair with key $k2$ in iteration $i2$. 
-%\item[5)] Add the directed edges $(v_{i1,k1}, v_{i2,x}), \forall i1, \forall k1, \forall i2$, to $E$ if $i2=i1+1$ 
-%and any of the output key-value pairs with key $k1$ 
-%in iteration $i1$ generates any key-value pair with unknown keys in iteration $i2$. 
-%\item[6)] We add the directed edges $(v_{i1,x}, v_{i2,k2})$ and $(v_{i1,x}, v_{i2,x}), \forall i1, \forall i2, \forall k2$, to $E$ if $i2=i1+1$. 
-%\end{itemize} 
 
 %The construction of the KDG $G=(V,E)$ is finished here. 
 This graph is a directed acyclic graph (DAG).
@@ -1065,11 +986,7 @@ Note that the key dependency graph is always the pure confluence subgraph of its
 \begin{figure}[!t]
 \centering
 \includegraphics[width=1\columnwidth]{figure3}
-\caption{A Key Dependency Graph Example 
-% The subgraphs in Box C1, C2, C3 are the confluence subgraphs, respectively,
-% while the subgraph in Box C4 is not. The subgraphs in C1 and C3 are also pure confluence subgraphs. 
-% The KDG is the pure confluence subgraph of itself. 
-}
+\caption{A Key Dependency Graph Example}
 \label{fig:keyDependencyGraph}
 %\vspace{-0.2in}
 \end{figure}
@@ -1091,9 +1008,6 @@ the keys of all entries of $B_w$ are in the confluence key set $V'_w$.
 We call the datasets $B_u$ and $B_w$ in Theorem \ref{thm:upwardClosure} 
 the \emph{upward closure pair} datasets of the confluence subgraph. 
 It can be further conducted from Theorem \ref{thm:upwardClosure} to get:
-%If $A_u$ and $A_w$ contain all the data entries of the corresponding iteration whose keys are in $V'_u$ and 
-%$V'_w$, respectively, $A_u$ and $A_w$ are called the \emph{full upward closure pair} datasets of the confluence subgraph. 
-%We can further have another conduction from Theorem \ref{thm:upwardClosure}. 
 
 \newtheorem{conduction}{\textbf{Theorem}}[theorem] 
 \begin{conduction}\label{thm:zeroTransfer}
@@ -1244,11 +1158,6 @@ In the following, we illustrate the methods to divide the iterative
 distributed operations with the real-life application examples, 
 namely MovieLensALS, MultiAdjacentList and KMeans.
 
-% We also introduce the effect of the map-side combine mechanism and the
-% limitations of applying CKP in MapReduce.
-% The implementation details of binding partitions and executors to
-% facilitate CKP in Spark and the discussion on how to automate
-% the confluence process will also be presented.
 
 
 
@@ -1313,21 +1222,6 @@ KMeans & $|A| \cdot \sum_{i=2}^{m} (\sum_{j=1}^{k} p'_{ij} - 1/n)$ \cr
 \end{table}
 
 
-
-% \begin{figure}[!t]
-% \centering
-
-% \subfigure[Original]{
-% \includegraphics[width=0.5\columnwidth,height=0.45\columnwidth]{adjListBefore}
-% \label{fig:adjListBefore}
-% }
-% \subfigure[After Division]{
-% \includegraphics[width=1\columnwidth,height=0.45\columnwidth]{adjListAfter}
-% \label{fig:adjListAfter}
-% }
-% \caption{The Original (a) and Divided (b) Iterative Evolution of the Datasets of the MultiAdjacentList Application. The Keys of the Datasets are Marked by Parenthesis. Pure Confluence Subgraph can be Found in the Computing Iterations in the Dashed Box}
-% \label{fig:adjListDivision}
-% \end{figure}
 
 \subsection{MultiAdjacentList}
 MultiAdjacentList \cite{multiAdjList} is
@@ -1440,44 +1334,6 @@ However, CKP is still beneficial because it eliminates the overhead time
 of initializing and cleaning up the %bunches of
 shuffle connections, which can be time-consuming.
 
-% \subsection{Other Applications}
-% Besides the matrix multiplication which is obviously of the \emph{many-to-one} key dependency rules, CKP is also applicable to many other distributed applications in the fields of scientific computing, graph computing, machine learning, data analysis, etc. 
-% We generalize the many-to-one key dependency and present three typical types of many-to-one key dependency patterns that exist in many distributed applications and can apply CKP to decrease the shuffle size. 
-% Many other types of key dependency pattern can benefit from the Confluence technique depending on the specific program semantics, but we are not exhaustedly listing them out here.
-
-% \emph{Many-to-one dependency}: Suppose $\exists f \exists D$, where $f$ is a function and D is a specific value. 
-% $\forall k$ such that $f(k)=D$, if we can claim the key dependency: $k \Rightarrow D$, such key dependency is named as the many-to-one dependency.
-
-% We introduce three examples of many-to-one dependency based on different application semantics of the keys: range dependency, category dependency, and feature reduction dependency.  
-
-% \textbf{Range dependency}: 
-% In the many-to-one dependency, 
-% %if all the data entries with any key $k$ ($k \in D$, where $D$ is a value range) are map to entries with the key $D$, we have the range dependency: $k \Rightarrow D, \forall k \in D$. 
-% if the key $k$ is of the continuous or discrete value type, $D$ is a value range and the function $f$ is defined as: $k \in D$, such dependency relationship is called the range dependency. 
-% For example, $5 \Rightarrow [0, 10)$ and $6.2 \Rightarrow [0, 10)$.
-% Many data analysis applications behave the range dependency, 
-% such as counting the number of population that fall in different height ranges from individual height data and analyzing the climate of different geographic areas from individual geographic coordinates data. 
-% %In the iterative distributed program, suppose that $k_1$ and $k_2$ are any key of two adjacent iterations, respectively. 
-% %If they obey the key dependency pattern: $k_1 \Rightarrow k_2, \forall k_1 \in Range$ , $k_2=Range$, 
-
-% \textbf{Category dependency}:
-% The many-to-one dependency is the category dependency if the key $k$ is of the enumeration type, $D$ is a category identifier of the enumeration values and the function $f$ is defined as: $k$ can be classified into category $D$. 
-% Key mappings from species to genus, to family, to order, etc. in Taxonomy and key mappings from child nodes to the corresponding parent nodes in the tree data structure have the category dependency relationship. For example, ``$whale \Rightarrow mammal$'' and ``$dophin \Rightarrow mammal$''. 
-% KMeans \cite{kmeans} is the well-known clustering algorithm in data mining. 
-% In every iteration, it groups the points with the Euclidean-nearest centroids of the clusters and updates the Euclidean means of the clusters as the new centroids. 
-% Although the points are not guaranteed to be grouped into the same cluster in every iteration, 
-% if the dataset obeys the obvious cluster pattern and the clusters are more or less stable, 
-% most of the points will be. 
-% CKP can utilize the ``$points \Rightarrow cluster$'', which is the category dependency. 
-
-
-% \textbf{Feature reduction dependency}: 
-% Suppose that the key $k$ is of the tuple type with $n$ features: $(k_1, k_2, ..., k_n)$, $D$ is of the tuple type with $m$ features: $(D_1, D_2, ..., D_m), (m<n)$. 
-% If the function $f$ is defined as: each element $D_i$ with Index $i$ is equal to $k_i$, $i=1,2,...,m$, such dependency relationship is called the feature reduction dependency. 
-% The matrix multiplication algorithm and MovieLensALS application mentioned above fall into this category. 
-
-% These typical key dependency patterns can guide the programmers to quickly find the pure confluence subgraphs of the distributed applications by considering whether they have similar semantics or use cases. 
-
 
 \subsection{Confluence in Hadoop}
 CKP can be widely applied to decrease the shuffle size of the iterative
@@ -1514,12 +1370,6 @@ where $N$ is the number of the executors in each computing iteration.
 
 The partition-executor-binding implementation will not introduce negative side effects into the system in the following three aspects: 1)  The order to run the pending tasks of the same iteration does not affect the completion time of each computing iteration; 2) In the hash manner, each executor is expected to run the same number of tasks in each computing iteration;
 3) The task scheduling overhead is trivial and negligible, which is only linear to the number of executors. 
-
-%In the class \emph{TaskSchedulerImpl}, if the binding feature is turned on, it will store the task partitions that each executor has processed in the partition-executor binding map.
-%In the following iterations, when selecting the tasks for an available executor, the task scheduler will first try to select the task whose partition has been processed by that executor before by searching the binding map. 
-%If no such task exists, the task scheduler will select a new task whose partition is not bounded to any executor and update the binding map information. 
-%The partition-executor-binding implementation guarantees that once a partition is processed by a executor, it can be processed in the same executor afterwards until it is notified to stop. 
-%The workloads of the executors will maintain in balance since the task partitions are evenly distributed to the executors in the first confluence iteration.
 
 
 \begin{table*}[!t]
@@ -1693,77 +1543,6 @@ The CKP decreases the shuffle workload greatly (about 50\%) in one iteration out
 
 
 
-%\begin{figure}[!t]
-%\centering
-%
-%\subfigure[Shuffle Sizes of Stage 2]{
-%\includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthSize}
-%\label{fig:lengthSize}
-%}
-%\subfigure[Mean and Standard Deviation of the executor shuffle size in Stage 1]{
-%\includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthMeanSize}
-%\label{fig:lengthMeanSize}
-%}
-%
-%\caption{MatrixMultiplication Shuffle Size With Different Input Matrix Length}
-%\label{fig:lengthSizes}
-%\end{figure}
-
-% \begin{figure}[!t]
-% \centering
-
-% \subfigure[Stages Completion Time]{
-% \includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthTime}
-% \label{fig:lengthTime}
-% }
-% \subfigure[Mean Task Completion Time and Standard Deviation of Stage 2]{
-% \includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthMeanTime}
-% \label{fig:lengthMeanTime}
-% }
-
-% \caption{MatrixMultiplication Job Completion Time With Different Input Matrix Length}
-% \label{fig:lengthTimes}
-% \end{figure}
-
-% \begin{figure}[!t]
-% \centering
-% \includegraphics[width=1\columnwidth]{figure8}
-% \caption{MatrixMultiplication Job Completion Time With Different Input Matrix Length}
-% \label{fig:lengthTime}
-% %\vspace{-0.2in}
-% \end{figure}
-
-% \subsection{Completion Time}
-% As one of the practical goals of minimizing the shuffle size of iterative distributed operations is to minimize the job completion time, we evaluate the stage completion time of the MatrixMultiplication benchmark with different matrix lengths.
-% Fig.~\ref{fig:lengthTime} shows the completion time of Stage 1 and Stage 2 and the other overhead time. 
-% As mentioned above, although the shuffle size of Stage 2 is small, the execution time of starting and cleaning the shuffle servers and clients is remarkable. 
-% The completion time of CKP in Stage 2 is only $46\%\sim70\%$ of that when RKP is used, by merely eliminating the shuffle connections.  
-% In the benchmark of MatrixMultiplication, CKP can decrease the overall job completion time by $17\%\sim24\%$. 
-
-% The stage completion time is dominated by the last completion time of all the executors in that stage, while the mean completion of the executors indicates the average time performance of the executors. 
-% The mean completion time of the executors of Stage 2 and its standard deviation is drawn in Figure~\ref{fig:lengthMeanTime}. 
-% The results show that CKP improves the completion time of the executors with different input sizes. 
-% The standard deviation of CKP is less than that of RKP as well, as CKP has less executor completion time than RKP and does not increase the workload skew level. 
-
-
-
-%\begin{figure}[!t]
-%\centering
-%
-%\subfigure[Reduce Completion Time with Different Input Data Sizes]{
-%\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_sizes}
-%\label{fig:r_sizes}
-%}
-%\subfigure[Job Completion Time of Multiple Concurrent Jobs]{
-%\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_concurrent}
-%\label{fig:r_concurrent}
-%}
-%
-%\caption{Completion Time with Different Input Data Sizes and Multiple Concurrent Jobs}
-%\label{fig:r_sizes_concurrent}
-%\vspace{-0.2in}
-%\end{figure}
-
 \section{Related Work}\label{section:relatedWork}
 \textbf{Iterative distributed computing}: 
 Some works \cite{gunarathne2013scalable, bu2010haloop, ekanayake2010twister} improved the distributed frameworks for the iterative MapReduce-like computing by extended the programming interfaces to support multiple map and reduce phases. 
@@ -1784,10 +1563,7 @@ iteration of the MapReduce jobs, but it did not provide the solution for iterati
 
 
 \textbf{Datacenter networking for shuffle}: 
-In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals \cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}. 
-% , including ensuring the high throughput and scalability of a large pool of resources \cite{greenberg2009vl2}, maintaining the fairness of concurrent shuffle tasks \cite{popa2012faircloud} and satisfying the bandwidth demands to make the performance more predictable. 
-% Seawall \cite{shieh2011sharing} allocated the network bandwidth for the shuffle tasks to meet the user-specified policy. 
-% Orchestra \cite{chowdhury2011managing} claimed to reduce the shuffle completion time by dynamically controlling the number TCP flows based on the workloads of the shuffle tasks. 
+In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals \cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}.  
 Confluence does not concern with the underlying network level. However, by decreasing the shuffle workload, the shuffle tasks applying the confluence key partitioning scheme can work on these shuffle-optimized datacenter networks seamlessly and gain more performance increase.    
 
 \textbf{Skew\&Straggler}: 
@@ -1812,41 +1588,6 @@ Confluence greatly decreases the overall shuffle size while not introducing the 
 in the fields of scientific computing, machine learning, data
 analysis, etc.
 
-% \textcolor{red}{We plan to study the method to quantify the shuffle size of the
-% iterative distributed operations that need to be divided into smaller
-% sub-operations in order to adapt to the confluence key partitioning scheme.
-% More existing distributed applications can then adopt Confluence with a
-% quantitive performance guarantee.
-% We will also try to explore the use of Confluence in those cases where the
-% datasets are not uniformly distributed or where the computation logic on
-% data of the same size will generate outputs of very different sizes.}
-
-% \begin{figure}[!t]
-% \centering
-
-% \subfloat[Cluster Shuffle Throughput in the Virtual Along the Timeline]{
-% \includegraphics[width=1\columnwidth,height=0.4\columnwidth]{r_vshuffle_timeline}
-% \label{fig:r_vshuffle_timeline}
-% }
-% \hfil
-% \subfloat[Sorted Cluster Throughput in the Physical Testbed]{
-% \includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{r_pshuffle_rate}
-% \label{fig:r_pshuffle_rate}
-% }
-% \hfil
-% \subfloat[Sorted Cluster Throughput in the Virtual Testbed]{
-% \includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{r_vshuffle_rate}
-% \label{fig:r_vshuffle_rate}
-% }
-
-% \caption{Cluster Shuffle Throughput of the SequenceCount Job along the Timeline and 
-% Cluster Shuffle Throughput Sorted by Size}
-% \label{fig:r_fetchers}
-% \end{figure}
-
-
-
-%TODO future work
 
 
 % An example of a floating figure using the graphicx package.
