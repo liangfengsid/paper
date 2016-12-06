@@ -1,0 +1,2073 @@
+
+%% bare_jrnl_compsoc.tex
+%% V1.4a
+%% 2014/09/17
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8a or later) with an IEEE
+%% Computer Society journal paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_conf_compsoc.tex,
+%%                    bare_jrnl_compsoc.tex, bare_jrnl_transmag.tex
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices and paper sizes can       ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[10pt,journal,compsoc]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+\ifCLASSOPTIONcompsoc
+  % IEEE Computer Society needs nocompress option
+  % requires cite.sty v4.0 or later (November 2003)
+  \usepackage[nocompress]{cite}
+\else
+  % normal IEEE
+  \usepackage{cite}
+\fi
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+%
+% Note that some packages require special options to format as the Computer
+% Society requires. In particular, Computer Society  papers do not use
+% compressed citation ranges as is done in typical IEEE papers
+% (e.g., [1]-[4]). Instead, they list every citation separately in order
+% (e.g., [1], [2], [3], [4]). To get the latter we need to load the cite
+% package with the nocompress option which is supported by cite.sty v4.0
+% and later. Note also the use of a CLASSOPTION conditional provided by
+% IEEEtran.cls V1.7 and later.
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  \graphicspath{{./figure/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/tex-archive/info/epslatex/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+\ifCLASSOPTIONcompsoc
+  \usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
+\else
+  \usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a sans serif font rather
+% than the serif font used in traditional IEEE formatting and thus the need
+% to invoke different subfig.sty package options depending on whether
+% compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+
+\usepackage{tabularx}
+\usepackage{color}
+\usepackage[ruled]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{threeparttable}
+
+\makeatletter
+\newcommand{\removelatexerror}{\let\@latex@error\@gobble}
+\makeatother
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Do not use the stfloats baselinefloat ability as IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/dblfloatfix/
+
+
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
+% Axel Sommerfeldt. This package may be useful when used in conjunction with 
+% IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
+% submissions have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.4.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/endfloat/
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/url/
+% Basically, \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor diffe-rent hete-roge-neity}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Confluence: Improving Iterative \\Distributed Operations by\\ Key-Dependency-Aware Partitioning}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+%
+%\IEEEcompsocitemizethanks is a special \thanks that produces the bulleted
+% lists the Computer Society journals use for "first footnote" author
+% affiliations. Use \IEEEcompsocthanksitem which works much like \item
+% for each affiliation group. When not in compsoc mode,
+% \IEEEcompsocitemizethanks becomes like \thanks and
+% \IEEEcompsocthanksitem becomes a line break with idention. This
+% facilitates dual compilation, although admittedly the differences in the
+% desired content of \author between the different types of papers makes a
+% one-size-fits-all approach a daunting prospect. For instance, compsoc 
+% journal papers have the author affiliations above the "Manuscript
+% received ..."  text while in non-compsoc journals this is reversed. Sigh.
+
+% \author{Feng~Liang,~\IEEEmembership{Member,~IEEE,}
+%         and~Francis~C.~M.~Lau,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
+% \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem F. Liang and F.C.M. Lau are with Department
+% of Computer Science, The University of Hong Kong, Hong Kong.\protect\\
+% % note need leading \protect in front of \\ to get a newline within \thanks as
+% % \\ is fragile and will error, could use \hfil\break instead.
+% E-mail: F. Liang- loengf@connect.hku.hk, %\protect\\
+% F.C.M. Lau- fcmlau@cs.hku.hk}%
+% %\thanks{Manuscript received April 19, 2005; revised September 17, 2014.}
+% }
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+% \markboth{IEEE Transactions on Parallel and Distributed Systems,~Vol.~26, No.~9, September~2016}%
+% {Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Computer Society Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+% The publisher's ID mark at the bottom of the page is less important with
+% Computer Society journal papers as those publications place the marks
+% outside of the main text columns and, therefore, unlike regular IEEE
+% journals, the available text space is not reduced by their presence.
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2014 IEEE}
+% or like this to get the Computer Society new two part style.
+%\IEEEpubid{\makebox[\columnwidth]{\hfill 0000--0000/00/\$00.00~\copyright~2014 IEEE}%
+%\hspace{\columnsep}\makebox[\columnwidth]{Published by the IEEE Computer Society\hfill}}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark (Computer Society jorunal
+% papers don't need this extra clearance.)
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+% for Computer Society papers, we must declare the abstract and index terms
+% PRIOR to the title within the \IEEEtitleabstractindextext IEEEtran
+% command as these need to go into the title area created by \maketitle.
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+The shuffle operation can generate a large amount of data to transfer in
+the network and take up a substantial portion of the overall I/O workloads 
+for many MapReduce-like distributed operations. The phenomenon is
+particularly pronounced in applications that are iterative as can be
+commonly seen in
+%The shuffle workload is accumulated in the iterative distributed
+%operations that reuse the data in multiple computing iterations, which
+%is supported by the
+pervasive in-memory distributed frameworks such as Spark.
+We find that the shuffle workload of multiple distributed computing
+iterations can be decreased by partitioning the datasets based on a
+well-designed key partitioning scheme, %as is first proposed in this paper,
+which we call Confluence in this paper.
+
+Confluence constructs a key dependency graph based on the application
+semantics to reflect the key dependency relationship of the datasets of
+adjacent computing iterations.
+After applying Confluence, the datasets needed by the multiple
+iterations will be partitioned and assigned to the nodes where they will
+be needed so that transferring
+data via the network is eliminated and the overall shuffle size is
+decreased, while keeping the workloads in a balanced state.
+By examples, we demonstrate the wide applicability of Confluence.
+%is widely applicable to distributed computing applications in the fields of
+%scientific computing, machine learning, data analysis, etc.
+The experimental results on a Spark cluster show that Confluence can
+greatly decrease the shuffle size for the typical iterative distributed applications by up to 50\%
+while not affecting %increasing
+the skewness of the workload. 
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Spark; Shuffle; MapReduce; Iterative Distributed Operation; Key Partitioning
+\end{IEEEkeywords}}
+
+
+% make the title area
+\maketitle
+
+
+% To allow for easy dual compilation without having to reenter the
+% abstract/keywords data, the \IEEEtitleabstractindextext text will
+% not be used in maketitle, but will appear (i.e., to be "transported")
+% here as \IEEEdisplaynontitleabstractindextext when the compsoc 
+% or transmag modes are not selected <OR> if conference mode is selected 
+% - because all conference papers position the abstract like regular
+% papers do.
+\IEEEdisplaynontitleabstractindextext
+% \IEEEdisplaynontitleabstractindextext has no effect when using
+% compsoc or transmag under a non-conference mode.
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\IEEEraisesectionheading{\section{Introduction}\label{section:introduction}}
+% Computer Society journal (but not conference!) papers do something unusual
+% with the very first section heading (almost always called "Introduction").
+% They place it ABOVE the main text! IEEEtran.cls does not automatically do
+% this for you, but you can achieve this effect with the provided
+% \IEEEraisesectionheading{} command. Note the need to keep any \label that
+% is to refer to the section immediately after \section in the above as
+% \IEEEraisesectionheading puts \section within a raised box.
+
+
+
+
+% The very first letter is a 2 line initial drop letter followed
+% by the rest of the first word in caps (small caps for compsoc).
+% 
+% form to use if the first word consists of a single letter:
+% \IEEEPARstart{A}{demo} file is ....
+% 
+% form to use if you need the single drop letter followed by
+% normal text (unknown if ever used by IEEE):
+% \IEEEPARstart{A}{}demo file is ....
+% 
+% Some journals put the first two words in caps:
+% \IEEEPARstart{T}{his demo} file is ....
+% 
+% Here we have the typical use of a "T" for an initial drop letter
+% and "HIS" in caps to complete the first word.
+
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+
+
+% needed in second column of first page if using \IEEEpubid
+%\IEEEpubidadjcol
+Distributed applications consisting of iterative distributed operations are pervasive in the fields of graph computing~\cite{Malewicz:2010:PSL, Lu:2014:LDG}, database query processing~\cite{thusoo2009hive,Yu:2008:DSG,Armbrust:2015:SSR} and machine learning~\cite{low2012distributed,kraska2013mlbase}.
+To process the big data,
+distributed computing frameworks like YARN~\cite{vavilapalli2013apache},
+Mesos~\cite{hindman2011mesos} and Dryad~\cite{isard2007dryad} are often used.
+%have made the computing on big data feasible and robust.
+Several distributed computing paradigms have been developed on top of
+these frameworks to match various styles and
+scenarios of computing on large-scale data~\cite{thusoo2009hive, Yu:2008:DSG}.
+MapReduce~\cite{dean2008mapreduce}, being one of the most popular
+distributed paradigms, provides the users with a simple map-and-reduce
+interface that can suit most of these data analysis tasks.
+Generally, it saves the output data in the file system, such as HDFS~\cite{shvachko2010hadoop}. 
+This is inefficient for tasks of the iterative distributed operations, where one iteration reuses the data from the previous iterations. The sharing of data between iterations is usually done
+through a shuffle operation.
+%\textcolor{red}{applications of multiple iterations:machine learning}
+%Spark{zaharia2012resilient} improves distributed computing tasks of multiple iterations by computing and storing data in memory. 
+
+Most of the distributed computing paradigms include the shuffle
+operation, which transfers the intermediate output data of the map
+operations to the computer nodes doing the reduce operations.
+The shuffle operation transfers data from a group of nodes to the other
+nodes in the same group, which follows a many-to-many communication
+pattern.
+%The intermediate data are used as the input data for the subsequent computing operations. 
+The shuffle operation may require a large amount of network bandwidth
+and sometimes even dominate the job completion time especially for the
+shuffle-heavy jobs, where the volume of data to shuffle is large
+comparing to the input data size.
+The study based on the Yahoo! work trace has revealed as much as 70\% of the
+jobs are shuffle-heavy~\cite{chen2011case} and the shuffle completion
+time can account for as much as 33\% of overall completion time~\cite{chowdhury2011managing, al2010hedera}.
+%Shuffle-heavy jobs are common in practice, and examples are matrix multiplication, \textcolor{red}{more examples here.}
+
+Several iterative distributed computing paradigms \cite{bu2010haloop,
+zaharia2012resilient} have been developed to overcome the disk I/O
+overheads of the computing tasks that include multiple iterations of
+distributed operations and thus multiple shuffle operations.
+For instance, Spark~\cite{zaharia2012resilient} adopts the in-memory approach 
+to reuse data across iterations in the memory to avoid the overhead of transferring the intermediate data into and out of the disk. 
+%A pervasive idea is to store the output data of each iteration in the memory so that the following computing iterations can reuse these data without reading from the disk, which can save disk I/O overheads. 
+However, none of them proposes a useful method to minimize the size of
+the data to be transferred in multiple shuffle iterations.
+
+Our key insight is that dataset entries are generally in the format of key-value pairs. 
+%Without knowledge and proper utilization of the semantics of the computing paradigms,
+How the output data of the
+previous shuffle iterations are partitioned across different locations
+can greatly affect the data are to be
+shuffled and its efficiency in the following computing iterations.
+By the default hashed-by-key partitioning scheme, the shuffle size of
+each map-and-reduce iteration would be almost of the same size as the
+map output data. The total shuffle size of multiple iterations
+can be very large.
+In fact, following the semantics of the application,
+the key values of the data entries of the next computing iteration can
+usually be determined by the key values of the previous iteration.
+The \textbf{application semantics} refers to what new key-value data entries  
+a key-value data entry will generate in a distributed operation, based on the 
+logic of the program. 
+If we have a key partitioning scheme such that some data needed for the
+following computing iterations can be assigned to the same computing
+node after shuffling, we can reduce
+%we can avoid re-shuffling data in the following iterations and
+the data volume of the shuffle operations (we call that the
+``shuffle size'' in the rest of this paper). We use a simple example to
+illustrate this idea.
+
+For instance, the MapReduce-style matrix multiplication algorithm is a two-iteration
+(stage) operation whose shuffle size can be minimized with a ``better''
+key partitioning scheme.
+Each entry of the matrix product $C=AB$, where $A \in R^{m \times k}$ and $B \in R^{k \times n}$, is denoted as $C_{ij}=\sum_{p=1}^k A_{ip}B_{pj}$. 
+Stage 1 calculates $A_{ip}B_{pj}$, $p=1, 2, ..., k$. 
+Stage 2 obtains $C_{ij}$ by summing $A_{ip}B_{pj}$, $p=1, 2, ..., k$.
+Fig.~\ref{fig:matrixExample} shows an example of $2 \times 2$ matrix multiplication in a four-node cluster. 
+The data entries are in the key-value format, where the keys are $(i,j,p)$ or $(i,j)$. 
+The boxes having the same color represent
+the related data entries needed to generate a particular result entry $C_{ij}$. 
+By using the default hashed key partitioning scheme in both shuffle iterations
+(Fig.~\ref{fig:matrixExample}(b)), the data entries representing the addends
+for a particular sum need to be transferred to the same node in the
+second shuffle iteration. %before calculating the final sum.
+For example, to get $(1,1) \rightarrow 19$, the entry $(1,1)\rightarrow 14$ in Node 2 needs to be transferred to Node 1 to join the entry $(1,1) \rightarrow 5$.
+However, if in the first shuffle iteration, knowing that
+entries with keys $(i,j,p)$ are expected to all mapped to the key $(i,j)$ in
+the second iteration (Fig.~\ref{fig:matrixExample}(c)), a better partitioning can
+be done such that no entry is needed to be transferred in the second shuffle
+iteration.
+For example, by assigning $(1,1,1)\rightarrow 5$ and $(1,1,2)
+\rightarrow 14$ to the same node (Node 1) in the first shuffle iteration,
+the result entry $(1,1) \rightarrow 19$ can be obtained locally in Node
+1 from the input entries in the second iteration with no data transfer.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{figure1}
+\caption{An Example of the MapReduce-style Matrix Multiplication Algorithm with Different Key Partitioning Schemes 
+}
+\label{fig:matrixExample}
+%\vspace{-0.2in}
+\end{figure}
+
+
+
+In the above simple example, obviously, there is a dependency between
+the keys $(i,j,p)$ and the key $(i,j)$. Knowing and leverage this
+dependency, partitioning the data entries to decrease/minimize the shuffle
+would become possible.
+
+We present a new data structure called the \emph{key dependency graph} (KDG) for this purpose.
+%to extract the semantics of the computing paradigm.
+The KDG is a directed acyclic graph which depicts how the keys of the
+dataset entries of each iteration are generated from the previous iteration.
+From the KDG, we can identify the subgraphs in which the dataset
+entries with the keys in the source nodes will only generate the dataset
+entries with keys in the downstream nodes. We call such a subgraph
+the \emph{pure confluence subgraph}.
+Within a pure confluence subgraph, if all the dataset entries matching
+the source keys are assigned to the same node, all the generated
+datasets can be computed locally in the node without shuffling.
+%The optimal key partitioning scheme that minimizes the shuffle sizes of multiple iteration cannot be obtained in polynomial time. 
+
+To make use of the confluence key partitioning scheme (CKP), the
+programs need to add the corresponding user-defined partitioner
+%for each specific distributed program
+to guide the assignment of data entries to their desired locations.
+Most distributed computing paradigms, such as Spark~\cite{zaharia2012resilient} and Twister~\cite{ekanayake2010twister},
+provide an interface for adding a user-defined partitioner for the shuffle
+operation.
+%The existing programs can be easily modified to use the confluence key
+%partitioner without affecting the daily use of other users and programs.
+By applying the CKP scheme, the shuffle sizes of multiple computing
+iterations can be reduced significantly. %in polynomial time,
+Note that this will not impact the computing workload skew level; that is,
+the standard deviation of the computing workloads of the
+nodes in the cluster after applying CKP will not be larger than that
+with the random hashing scheme.
+We are not aware of any previous work
+%As far as we know, we are the first
+that also tried to decrease the overall
+shuffle traffic by a key partitioning scheme across multiple
+iterations based on the application semantics of the keys.
+%\textcolor{red}{Performance}
+
+Our major contributions are listed as follows.
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+\item We invented the new data structure Key Dependency Graph to depict the iterative application semantics 
+and used the Confluence Key Partitioning (CKP) scheme to decrease the shuffle traffic
+across distributed computing iterations.
+
+\item We gave the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
+
+\item We implemented CKP in Spark and illustrated the use of CKP with several typical iterative distributed applications from different fields. 
+The experiment on the medium-size Spark cluster demonstrates that CKP could decrease the overall shuffle traffic workload by as much as 50\%.  
+\end{itemize}
+
+
+The rest of the paper is organized as follows. Section~\ref{section:background}
+gives some background information on iterative distributed operations
+, dependency graph, and the model of the iterative shuffle size.
+%%%on optimizing distributed computing, especially of multiple shuffle iterations. 
+% Section~\ref{section:model} describes a model for
+% the shuffle size of the distributed
+% computing tasks with multiple shuffle iterations. The model demonstrates
+% that finding out the optimal key partitioning scheme that minimizes the
+% overall shuffle size is an NP-hard problem.
+In Section~\ref{section:keyDependencyGraph}, we show how to construct
+the KDG and to reduce effectively the shuffle sizes by the Confluence Key
+Partitioning scheme, as well as analyzing the workload skew level.
+%find out the confluence subgraphs from it. 
+%We will also prove why localizing the datasets corresponding to the confluence subgraphs can avoid unnecessary re-shuffling in some shuffle iterations and minimize the shuffle sizes. 
+%s\textcolor{red}{The standard deviation analysis}.
+Section~\ref{section:application} introduces how to apply CKP in
+the real-life iterative distributed applications 
+and Section~\ref{section:implement} discusses the
+implementation details of CKP in Hadoop and Spark.
+The evaluation results of the performance are presented in Section~\ref{section:evaluation}. 
+We discuss the related work in Section~\ref{section:relatedWork} and
+conclude the paper and suggest some possible future work in
+Section~\ref{section:conclusion}.
+%Section \ref{section:relatedWork} explores the related work. 
+%We make the conclusion and introduce the future work in Section \
+
+%State the computing will not be centralized in some specific nodes. 
+
+
+\section{Background}\label{section:background}
+\subsection{Iterative Distributed Operations}
+Datasets of large volume cannot be stored in a single computer node
+and are often separated into several partitions, 
+where each partition is distributed to a node in the computer cluster. 
+We refer to a dataset which is separately stored in several nodes as a distributed dataset. 
+The function whose inputs include the distributed dataset is called a \emph{distributed operation}.
+Each entry of the distributed dataset can be represented as a key-value pair. 
+%\textcolor{red}{How to obtain each entry in the dataset. }
+
+In many distributed computing paradigms, there are often several
+iterations involving different distributed operations being applied
+to the input dataset before the final results are obtained. 
+Each iteration usually takes the outputs of the previous iteration as
+the input dataset.
+
+One typical example of the distributed operation is
+MapReduce~\cite{dean2008mapreduce}, which divides the operation into two
+primitives: map and reduce.
+Many iterative distributed paradigms such as the in-memory paradigm
+Spark~\cite{zaharia2012resilient} and the distributed database query
+engine Hive~\cite{thusoo2009hive} can be equated to multiple
+iterations of MapReduce operations.
+For iterative distributed
+operations, we refer to the general iterative map-and-reduce operation, 
+where the ``map'' primitive performs one or more transformation operations on the
+datasets in each local node, and the ``reduce'' primitive would
+re-partition the datasets by transferring the data entries with
+the same keys to the designated locations and group the entries of the same key to one key-value pair, where this \textit{value} is a list of the values that associate with the key. 
+The output of each data entry of the reduce primitive is also called as the key-value-list pair in this paper.
+The reduce primitive does not involve any transformation on the values of the entries and is also known as the shuffle operation. 
+
+Note that division of map and reduce in the matrix multiplication example in Section~\ref{section:introduction} is slightly different from the definition here. 
+In the example, the reduce primitive aggregate the value list of each key to a value, which follows the traditional style of MapReduce. 
+While by the definition here, the aggregate operations join the other data transformation operation in the map primitive of the next iteration. 
+Each iteration of distributed operation can have a series of transformations plus at most one shuffle operation.
+In the rest of this paper, the terms of the reduce primitive and the shuffle operation may be used interchangeably. 
+
+
+The traffic pattern of the data to shuffle in each iteration is directly
+dictated by the key partitioning scheme.
+A random or careless key partitioning scheme may cause unnecessary
+shuffle traffic across multiple iterations of distributed operation.
+This is what we set out to reduce using our partitioning scheme.
+
+
+\subsection{Dependency Graph}
+The dependency graph is a directed graph usually used for
+describing the dependency relationship of instructions, tasks, data, etc
+\cite{sakellariou2004hybrid,zhao2006scheduling,isard2007dryad}.
+The scheduler can use the dependency graph to decide the order the execution of instructions or tasks. 
+In distributed frameworks, the scheduler uses the data dependency graph
+or task dependency graph to make the tasks execute in parallel in the
+cluster.
+As the tasks are meant to process their specific data, the task dependency
+graph is the data dependency graph as well.
+
+In the data dependency graph, the datasets are divided into graph nodes
+based on locations and the dependency relationship is
+constructed upon the execution stages and data locations.
+The data partition information is specific to the application running
+situation and the cluster environment.
+In the key dependency graph proposed in this paper, the construction of
+the graph does not use any data partitioning information, but considers
+the application semantics of the keys of the data, which depends on the
+application logic only.
+
+\subsection{Iterative Shuffle Size}\label{section:model}
+We model the overall shuffle size of the iterative
+distributed operations and discuss the time complexity of obtaining
+the optimal key partitioning scheme that minimizes the overall shuffle
+size.
+
+% In the following discussion, we make two assumptions on the properties of the input data and the distributed operations. 
+% 1)For each input key-value pair, the expected number of output pairs of the operations are the same. 
+
+For the iterative distributed operations, the result of the $i_{th}$ iteration can be obtained recursively by:
+\begin{equation}\label{eq:m}
+A'_i=m_i(A_{i-1})
+\end{equation}
+\begin{equation}\label{eq:r}
+A_i=r_i(A'_i)
+\end{equation}
+, where $A_{i-1}$ is the output of the $(i-1)_{th}$ iteration as well as the input of the $i_{th}$ iteration, 
+$m_i$ is the map primitive of the $i_{th}$ iteration that operates on $A_{i-1}$ locally without changing the partition locality, 
+and $r_i$ is the shuffle operation of the $i_{th}$ iteration that takes the output $A'_i$ of the map primitive as the input.  
+The keys of $A_i$ and $A'_i$ are the same, but the partition localities are different. 
+In the first iteration, when i is equal to 1, 
+$A_0$ represents the raw input datasets before any processing.  
+
+Suppose in the $i_{th}$ iteration of the shuffle operation, in order to collect an entry $a \in A_i$, 
+the size of data that need to be transferred is a function of $a$ and $A'_i$: $s_i(a,A'_i)$. The function $s_i$ can be different in different key partitioning schemes. 
+The data transfer size to obtain $A_i$ is: 
+\begin{equation}\label{eq:si}
+\begin{aligned}
+S_i&=\sum_{a \in A_i} s_i(a,A'_i).
+% &=|A_i| \cdot s_i(a_i, A_{i-1})
+\end{aligned}
+\end{equation}
+
+Within the same $i_{th}$ iteration, for $\forall a_p, a_q \in A_i$ where $a_p \neq a_q$, the values of $s_i(a_p,A'_i)$ and $s_i(a_q,A'_i)$ are independent of each other. 
+It means that if the value of $s_i(a_p,A'_i)$ changes due to a different partition location of $a_p$, the value of $s_i(a_q,A'_i)$ remains unchanged unless $a_q$ is partitioned to a different location. 
+
+If $m$ iterations are required to compute the final result, 
+the overall accumulated data transfer size for obtaining the final result is
+\begin{equation}\label{eq:s}
+S=\sum_{i=1}^{m} S_i=\sum_{i=1}^{m} \sum_{a_i \in A_i} s_i(a,A'_i).
+\end{equation}
+
+
+If values of $S_i (1 \leq i \leq m)$ are independent of each other, 
+$S$ is a linear function and $S$ can be minimized simply by minimizing each $s_i(a,A'_i)$.
+However, most usually, $S_i$ and $S_{i+1}$ are correlated.
+The value of $S_i$ depends on the logic of the function $m_i$ in Formula \ref{eq:m}, 
+the partition locality of dataset $ A_{i-1}$, 
+as well as the locations where each entry of $A_i$ is partitioned to. 
+The partition locality of $A_i$ inherited from the $i_{th}$ iteration 
+will again affect the value of $S_{i+1}$.
+%\textcolor{red}{add Markov-Chain-like relation here}
+
+If the contents of $A_i (i=1,2,...,m)$ are already known, to find out the optimal key partitioning scheme that minimizes 
+%A clumsy and straightforward way to minimize 
+the overall data transfer size $S$,  %is 
+we need to exhaustively explore the possible key partition schemes of all the key-value pairs across all the iterations. 
+By calculating the overall data transfer size of each scheme, the optimal solution is the scheme with the minimal size. 
+The time complexity of the exhaustive method is $O(n^{\sum_{i=1}^{m} |A_i|}$), 
+where $n$ is the number of nodes in the cluster and $|A_i|$ is the number of data entries of $A_i$, 
+%and it is a hard problem. 
+which indicates that it is an NP-complete problem. 
+
+In fact, we usually do not know the contents of $A_i$ and cannot explore the partition scheme 
+for the next iteration until the program has actually finished the $i_{th}$ iteration. 
+Due to this limitation, the idea of finding out the optimal partition schemes for all the iterations to minimize the overall data transfer size $S$ is infeasible. 
+In the rest of this paper, the shuffle size is used to refer to the data transfer size of the shuffle operation. 
+%\textcolor{red}{To be continued...}
+
+\section{Confluence}\label{section:keyDependencyGraph}
+Even though it is hard to find the optimal partition solution to minimize the overall shuffle size,
+if the application semantics of the specific distributed operations (distributed operation semantics) is already known, 
+the shuffle size can be reduced to the maximum extent %in polynomial time 
+by exploring the key dependency of different iterations. 
+
+This section firstly describes the the construction process of the key dependency graphs, as well as its properties. 
+After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
+
+\begin{figure}[!t]
+\removelatexerror
+
+\begin{algorithm}[H]
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+ \Input{Key Set $K_i$, containing all the possible keys (or key patterns) of the output key-value pairs of any Iteration $i$;\\
+ Key Dependency Set $D$, containing the key dependency of all iterations;
+ }
+ \Output{Key Dependency Graph $G=(V,E)$}
+\tcc{Construction of $V$}
+ \ForEach{Iterations $i$}{
+  \ForEach{$k \in K_i$}{
+    add vertex $v_{i,k}$ to $V$
+  }
+  \If{any possible key is unknown}{
+    add vertex $v_{i,x}$ to $V$
+  }
+}
+
+\tcc{Construction of E}
+\ForEach{Iterations $i$}{
+  \ForEach{key dependency $v_{i,k1} \Rightarrow v_{i+1,k2}$ in $D$}{
+    add edge $(v_{i,k1}, v_{i+1,k2})$ to $E$
+  }
+}
+\caption{Construction of the Key Dependency Graph}
+\label{algo:KDG}
+\end{algorithm}
+
+\caption{Pseudo Code of Constructing the Key Dependency Graph}
+\label{fig:KDG}
+\end{figure}
+
+% \begin{algorithm}
+% \caption{Construction of the Key Dependency Graph}\label{algo:KDG}
+% \begin{algorithmic}[1]
+%  % \KwData{Distributed operation semantics and Directed Graph $G=(V,E)$, $V=\{\}$, $E=\{\}$}
+%  % \KwResult{Key Dependency Graph $G$}
+% \Procedure{Construct V}{}\Comment{Construction of $V$}
+% \ForAll{Iteration $i$}
+%   \ForAll{$k \in K$, where $K$ contains all the possible keys (or key patterns) of the output key-value pairs of Iteration $i$}
+%     \State add vertex $v_{i,k}$ to $V$
+%   \EndFor
+
+%   \If{any possible key is unknown}
+%     \State add vertex $v_{i,x}$ to $V$
+%   \EndIf
+% \EndFor
+% \EndProcedure
+
+% \Procedure{Construct E}{}\Comment{Construction of E}
+% \ForAll{Iteration $i$}
+%   \ForAll{key dependency $v_{i,k1} \Rightarrow v_{i+1,k2}$}
+%     \State add edge $(v_{i,k1}, v_{i+1,k2})$ to $E$
+%   \EndFor
+% \EndFor
+% \EndProcedure
+
+% \end{algorithmic}
+% \end{algorithm}
+
+\subsection{Key Dependency Graph}
+
+The directed graph $G=(V,E)$, which is named as the \emph{key dependency graph} (KDG), addresses the key dependency status of the distributed operation iterations. 
+
+The \emph{key dependency} is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
+the output key-value pairs with key $k1$ 
+in Iteration $i$ can generate a key-value pair with key $k2$ in Iteration $i+1$.
+The key dependency is specific to the distributed operation semantics
+and the distributed operation semantics decides which graph node should point to which others. 
+The distributed operation semantics should be known prior by the programmers.
+
+The construction process of the key dependency graph G is shown as in Algorithm~\ref{algo:KDG}.
+Note that when constructing $E$, for the unknown keys, it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
+%
+%\textbf{Construction of $V$}:
+%The vertex set $V$ is defined as the follows. 
+%\begin{itemize}
+%\item[1)] $\forall i$, suppose that the set $K$ contains all the possible keys (or key patterns) of the output key-value pairs of Iteration $i$. 
+%We have vertex $v_{i,k} \in V$,  $\forall k \in K$, where Vertex $v_{i,k}$ is called to be in level $i$. 
+%Specially, vertex $v_{0,k} \in V$ stands for the key $k$ in the possible key set  
+%of the raw input dataset before any distributed operations.  
+%\item[2)] If any possible key is unknown in iteration $i$, we have another special vertex $v_{i,x} \in V$, 
+%where $x$ is only a symbol indicating the unknown keys. 
+%\end{itemize}
+
+%Note that if any possible key is unknown in the raw input dataset, we have $v_{0,x} \in V$. 
+%
+%\textbf{Construction of $E$}: The \emph{key dependency} is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
+%the output key-value pairs with key $k1$ 
+%in Iteration $i$ can generate a key-value pair with key $k2$ in Iteration $i+1$.
+%
+%The key dependency is specific to the application semantics. Additionally for the unknown keys, it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
+%
+%For all the key dependencies $v_{i,k1} \Rightarrow v_{i+1,k2}$, the edge $(v_{i,k1}, v_{i+1,k2})$ is added to $E$.
+
+%\begin{itemize}
+%\item[4)] We add a directed edges $(v_{i1,k1}, v_{i2,k2})$, $\forall i1, \forall k1, \forall i2, \forall k2$, to $E$ if $i2=i1+1$ 
+%and any of the output key-value pairs with key $k1$ 
+%in iteration $i1$ generates any key-value pair with key $k2$ in iteration $i2$. 
+%\item[5)] Add the directed edges $(v_{i1,k1}, v_{i2,x}), \forall i1, \forall k1, \forall i2$, to $E$ if $i2=i1+1$ 
+%and any of the output key-value pairs with key $k1$ 
+%in iteration $i1$ generates any key-value pair with unknown keys in iteration $i2$. 
+%\item[6)] We add the directed edges $(v_{i1,x}, v_{i2,k2})$ and $(v_{i1,x}, v_{i2,x}), \forall i1, \forall i2, \forall k2$, to $E$ if $i2=i1+1$. 
+%\end{itemize} 
+
+%The construction of the KDG $G=(V,E)$ is finished here. 
+This graph is a directed acyclic graph (DAG).
+The time complexity to construct this graph is $O(\sum_{i=1}^m k_{i-1} k_i)$, 
+where $k_i$ is the number of keys (or key patterns) in iteration i and $m$ is the total number of iterations.
+Usually, $k_i$ is very small in value when it is referred as the key pattern (not the distinguished values of the keys), which is constrained by the application semantics. 
+For example, in the matrix multiplication application, the subgraph from the second level to the third (final level) of the KDG can be denoted as a one node to one node subgraph: $(a, b, [1, n]) \rightarrow (a, b)$, 
+where $a$ and $b$ stand for any row and any column index of the matrix, 
+and $[1, n]$ stands for the range from 1 to the the matrix dimension length $n$.
+
+The subgraph $C=(V', E')$ of $G=(V,E)$ is called a \emph{confluence subgraph} if it satisfies the following
+\emph{outward exclusive} requirements: 
+denote $V'_i$ as the set of all the vertexes in $V'$ which are in level $i$ in $G$.  
+$V'_i$ satisfies $V'_i=\bigcup_{v'_{i-1} \in V'_{i-1}}V_i$, where $V_i$ is the set of vertexes that $v'_{i-1}$ has an edge $e \in E$ points to. 
+%For any $v'_1 \in V', v'_2 \in V'$, if $e' =(v'_1,v'_2) \in E$, 
+%then $e' \in E'$. For any $e'=(v'_1,v'_2)\in E'$, $v'_1 \in V'$ and $v'_2 \in V'$. 
+The edge $e' =(v'_1,v'_2)$ is in $E'$ iff $v'_1 \in V', v'_2 \in V'$ and $(v'_1,v'_2) \in E$.
+
+In other words, in the confluence subgraph, all the vertexes in the upper level have no edge pointing to
+the vertexes in the lower level outside the confluence subgraph. 
+Let Level $u$ and Level $w$ be the uppermost level and the lowest level that $V'$ contains, respectively. 
+$V'_u$ is called the \emph{source key set} at level $u$ and $V'_w$ the \emph{confluence key set} at level $w$
+of the confluence subgraph $C=(V',E')$. 
+
+We call the confluence subgraph $C=(V', E')$ the \emph{pure confluence subgraph} if 
+it further satisfies the \emph{inward exclusive} requirement: 
+$V'_{i-1}=\bigcup_{v'_i \in V'_i}V''_{i-1}$, where $V''_{i-1}$ is the set of vertexes that have an edge $e \in E$ pointing to $v'_i$. 
+
+%\textcolor{red}{the time complexity of getting the confluence subgraph}
+
+An example of the KDG of 3 levels and some of its confluence subgraphs are shown in Fig.~\ref{fig:keyDependencyGraph}. The subgraph in the dashed boxes C3 is a pure confluence subgraph 
+of C1. The subgraph in C2 is a confluence subgraph but not a pure confluence subgraph, 
+as the source node of the edges $(v0x, v11)$ and $(v0x, v12)$ is not in C2. 
+The subgraph in the dotted box C4 is not a confluence subgraph as the edge $(v0x, v12)$ 
+points to the node $v12$, which is not a vertex in the subgraph C4. 
+Note that the key dependency graph is always the pure confluence subgraph of itself, as show in the dashed box C1. 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{figure3}
+\caption{A Key Dependency Graph Example 
+% The subgraphs in Box C1, C2, C3 are the confluence subgraphs, respectively,
+% while the subgraph in Box C4 is not. The subgraphs in C1 and C3 are also pure confluence subgraphs. 
+% The KDG is the pure confluence subgraph of itself. 
+}
+\label{fig:keyDependencyGraph}
+%\vspace{-0.2in}
+\end{figure}
+
+\subsection{Properties of Confluence Subgraph}
+For the distributed operations of several iterations, suppose that there is a confluence subgraph $C$ of its KDG 
+with the source key set $V'_u$ at level $u$ and the confluence key set $V'_w$ at level $w(w > u)$. 
+Let $B_u$ be a part of the output dataset of the $u_{th}$ iteration 
+and $B_w$ be the dataset generated by $B_u$ after $(w-u)$ iterations. 
+%Let $A_u$ and $A_w$ be a part of the output datasets of the $u_{th}$ and $w_{th}$ iteration, respectively.
+We have a theorem that can easily be conducted by the definition of the confluence subgraph. 
+
+\newtheorem{theorem}{\textbf{Theorem}}
+\begin{theorem}\label{thm:upwardClosure}
+If the keys of all the entries of $B_u$ are in the source key set $V'_u$, 
+the keys of all entries of $B_w$ are in the confluence key set $V'_w$. 
+\end{theorem}
+
+We call the datasets $B_u$ and $B_w$ in Theorem \ref{thm:upwardClosure} 
+the \emph{upward closure pair} datasets of the confluence subgraph. 
+It can be further conducted from Theorem \ref{thm:upwardClosure} to get:
+%If $A_u$ and $A_w$ contain all the data entries of the corresponding iteration whose keys are in $V'_u$ and 
+%$V'_w$, respectively, $A_u$ and $A_w$ are called the \emph{full upward closure pair} datasets of the confluence subgraph. 
+%We can further have another conduction from Theorem \ref{thm:upwardClosure}. 
+
+\newtheorem{conduction}{\textbf{Theorem}}[theorem] 
+\begin{conduction}\label{thm:zeroTransfer}
+If the subgraph $C$ is a pure confluence subgraph and the keys of all the entries of $B_u$ are in the source key set $V'_u$, 
+when $B_u$ is stored in one single node, 
+the minimum data transfer size for obtaining $B_w$ is 0. 
+\end{conduction}
+
+Theorem \ref{thm:zeroTransfer} indicates that if the datasets $B_u$ and $B_w$ are 
+the upward closure pair of a pure confluence subgraph 
+and $B_u$ is partitioned in one node, 
+we can finish all the following $(w-u)$ iterations of distributed operations in the same node to obtain $A_w$, 
+without any data transferring. 
+We name this key partitioning scheme the \textbf{Confluence Key Partitioning} scheme. 
+
+
+%\textcolor{red}{The usage of the confluence keys}
+%\textcolor{red}{how it reduce the data transfer size}
+\subsection{Confluence Key Partitioning}\label{section:CKP}
+We demonstrate that the overall data transfer size can be decreased by 
+localizing the pure confluence subgraph, 
+i.e., placing the datasets corresponding to the pure confluence subgraph in a node. 
+
+Assume that there is a pure confluence subgraph $C$ in the KDG, 
+from level $u$ to level $w(u \neq 0, w>u)$. 
+Let $V'_u$ and $V'_w$ be the source key set and the confluence key set of $C$, respectively, and $B_u$ and $B_w$ be the upward closure pair datasets. 
+The \emph{Confluence Key Partitioning (CKP)} scheme partitions the dataset $B_u$ %, whose keys are all in $V'_u$, 
+in one single node in Iteration $u$
+and completes the following $(w-u)$ iterations of operations on $B_u$ and its generated dataset in the same node. 
+
+CKP localizes the data in the granularity of a pure confluence subgraph, different pure confluence subgraphs are partitioned randomly. 
+
+Although the KDG is the pure confluence subgraph of itself,
+we do not consider the localizing the whole KDG in the above discussion. 
+The reason is that the raw input dataset %which is considered as the output of iteration 0
+is always distributed across the cluster before the first iteration. 
+
+We analyze the expected overall data transfer size $S'$ of CKP
+in comparison with that $S''$ of the random key partitioning scheme (RKP), which is ignorant of the key semantics and partition the data entries randomly (e.g., partition by the hashed value of keys). 
+$S'_i$ and $S''_i$ denote the expected data transfer size of CKP and and RKP in the $i_{th}$ iteration, respectively.  
+% We assume that in every iteration, each key is expected 
+
+Before going further, we figure out the function $s_i(a,A'_i)$ in Formula \ref{eq:si} in the case that $a$ is randomly (uniformly) partitioned to a node. 
+In this case, the probability of $a$ is partitioned to any node is $1/n$, where $n$ is the number of nodes in the cluster. 
+We call such an entry that has the same probability being partitioned to any node as the uniformly-partitioned entry. 
+As long as the partition location of an entry is finally hashed to the computer nodes, the entry is a uniformly-partitioned entry.
+
+Suppose that $a'$ is the set of input data entries that have the same key as $a$ right before the shuffle operation and $p_j$ denotes the percentage of data entries of $a'$ that lie in Node $j$, where $\sum_{j=1}^{n} p_i=1$.
+We have
+\begin{equation}\label{eq:si2}
+s_i(a,A'_i)= \sum_{j=1}^{n} [\frac{1}{n}|a|(1-p_j)]=\frac{(n-1)} {n}\cdot |a|
+\end{equation}
+, where $|a|$ is the length of the value list of $a$, which is also the number of data entries in $a'$. 
+It shows that if $a$ is randomly partitioned to a node, 
+the distribution of $a'$ does not affect the data transfer size for collecting $a$. 
+
+\newtheorem{siTheorem}{\textbf{Theorem}}
+\begin{theorem}\label{thm:siTheorem}
+The data transfer size for collecting the uniformly-partitioned entry in the shuffle operation is decided only by the number of nodes in the cluster and the length of this entry. 
+\end{theorem}
+
+By Theorem \ref{thm:siTheorem}, when using RKP, the data transfer size of the $i_{th}$ iteration is $S''_i=\sum_{a\in A_i} \frac{(n-1) \cdot |a|}{n}=\frac{n-1}{n}|A'_i|$, 
+where $|A'_i|$ is the number of data entries in $A'_i$.
+
+For CKP, we analyze every iteration as follows. 
+
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+\item[1)] From Iteration $1$ to $(u-1)$, the key partitioning scheme is the same as RKP: 
+$S'_i=S''_i, 1 \leq i \leq u-1$. 
+
+\item[2)] In Iteration u, an entry of $B_u$ belongs to a pure confluence subgraph and the pure confluence subgraph is randomly partitioned. 
+The entries in $B_u$ are uniformly-partitioned entries, as well as the entries in $A_u-B_u$. Therefore, $S'_u=S''_u$.
+
+\item[3)] From the $(u+1)_{th}$ to $w_{th}$ iteration, the data transfer size of the operations on the datasets generated by $B_u$
+is 0, by Theorem \ref{thm:zeroTransfer}. 
+We have $S'_i=S''_i-\frac{n-1}{n}|B'_i|$, 
+where $r_i(B'_i)=B_i, u+1 \leq i \leq w$. 
+
+\item[4)] From iteration $(w+1)$ onward, the data entries are uniformly-partitioned entries again:
+$S'_i=S''_i, i \geq w+1$.
+\end{itemize}
+
+In all, the expected overall data transfer size after applying CKP 
+is $S'=S''- \frac{n-1}{n}\sum_{i=u+1}^w |B'_i|$, 
+which eliminates exactly the shuffle workload of the datasets that associate with the keys in the pure confluence subgraphs as compared to RKP, without introducing other shuffle workloads. 
+$\sum_{i=u+1}^w |B'_i|$ stands for the shuffle size improvement of CKP as compared to RKP.
+This result indicates that CKP can reduce more data transfer size 
+if the pure confluence subgraph contains more iterations 
+or the size of the dataset corresponding to the pure confluence subgraph is larger. 
+In Section~\ref{section:application}, the value of $\sum_{i=u+1}^w |B'_i|$ will be figured out for the specific distributed operations.
+
+
+\subsection{Workload Skew Analysis}\label{section:skew}
+The workload of a node is the number of data entries of the map primitive in that node and 
+The workload skew level of Iteration $i$ is the standard deviation of the expected workloads of different nodes in that iteration, which is denoted as $L_i$. 
+The math symbols in Section~\ref{section:CKP} are reused here without duplicated definition. 
+Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and CKP and will not affect the standard deviation of the workloads.
+And we only consider the workload skew levels of the iterations that the pure confluence subgraphs affects (Iteration $u+1$ to $w+1$).
+The reason is that both RKP and CKP use the same key partitioning policy in the CKP-not-affected iterations and the workload skew levels of these iterations will be the same in both schemes.
+
+
+In all iterations when RKP is applied, every entry is a uniformly-partitioned entry, the expected workloads of the all the nodes are the same and the expected workload skew level is 0. 
+
+When CKP is applied, as each output entry of the shuffle operation is the uniformly-partitioned entry in Iteration $u$, the workloads of all the nodes are the same in Iteration $u+1$. 
+Therefore, $L_{u+1}=0$.
+
+In Iterations from $u+2$ to $w+1$, 
+it can be divided into two phases based on the semantics of the distributed operations. 
+Suppose that Iteration $u' (u+1 \leq u' \leq w)$ is such an iteration that in every iteration from $u+1$ to $u'-1$, each input entry of the map primitive is expected to generate the same number of output entries of the shuffle operation, and in Iteration $u'$, the expected number of output entries of the shuffle operation generated by each map input entry is unknown or not the same. 
+Note that such Iteration $u'$ may not exist and in this case, we denote it as $u'=w+1$. 
+
+\textbf{Phase 1}: From Iteration $u+2$ to $u'$, 
+the workloads are the same in all the nodes and the workload skew level of every iteration is 0.
+
+\textbf{Phase 2}: From Iteration $u'+1$ to $w+1$, 
+the workloads of the nodes in each iteration are unpredictable, 
+which are dependent on the number of data entries that can be generated by the data localized in each node. Therefore, $L_i \geq 0, u'+1 \leq i \leq w+1$.
+
+Although the workload skew levels of CKP in Phase 2 is unpredictable,
+fortunately, such Iteration $u'$ does not exist in many distributed operation, 
+including matrix multiplication and the other distributed applications (MovieLensALS, MultiAdjacentList and KMeans) introduced in Section~\ref{section:application}. 
+In these applications, the expected workload skew level of CkP is 0, which is the same as that of RKP.
+In the distributed application where $u'$ does exist, the workload skew level may not be 0 and specific workload skew analysis is needed for this specific application.
+
+
+%\textcolor{red}{TODO}
+
+%Matrix Multiplication
+\section{Application}\label{section:application}
+% In this section, we illustrate how CKP can be applied to the matrix multiplication algorithm straightforwardly. 
+In this section, we show how CKP can be applied in various
+iterative distributed applications, even when the applications are not well-structured and the pure confluence subgraphs
+are not obvious, by dividing the operations into multiple sub-operations.
+
+In the key dependency graph of the matrix multiplication algorithm, 
+the pure confluence subgraphs are obvious in the second iteration, 
+whose keys follow the many-to-one mapping pattern.
+In some cases, CKP may not be applicable when
+the pure confluence subgraphs cannot be found%for the whole iterative distributed operations
+in the straightforward way.
+In this case, if the iterative distributed operations can be divided into several smaller operations to fit the Confluence model, 
+CKP can be flexibly applied to some of the divided operations.
+The division of the iterative distributed operations can be based on either the operations or the datasets. 
+In the following, we illustrate the methods to divide the iterative
+distributed operations with the real-life application examples, 
+namely MovieLensALS, MultiAdjacentList and KMeans.
+
+% We also introduce the effect of the map-side combine mechanism and the
+% limitations of applying CKP in MapReduce.
+% The implementation details of binding partitions and executors to
+% facilitate CKP in Spark and the discussion on how to automate
+% the confluence process will also be presented.
+
+
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=2\columnwidth]{figure4}
+\caption{The Original (Suffixed by \_O) and Divided (Suffixed by \_D) Iterative Evolution of the Datasets of the MovieLensALS and MultiAdjacentList Applications. The Keys of the Datasets are Marked by Parenthesis. Pure Confluence Subgraphs can be Found in the Computing Iterations in the Dashed Boxes
+}
+\label{fig:alsDivision}
+%\vspace{-0.2in}
+\end{figure*}
+
+
+\subsection{MovieLensALS}
+MovieLensALS \cite{movielensals} is a
+recommendation application that uses Alternating Least Squares (ALS)
+method in collaborative filtering in order to recommend the product
+items to the users based on the user-item rating information.
+During the execution, it organizes the rating data into the user-item
+blocks grouped by the keys ``$(userId, itemId)$".
+In the successive iterations, it needs to reorganize the user-item block
+data by generating the user block and the item block grouped by
+``$userId$'' and ``$itemId$'', respectively.
+This operation is done in two iterations as shown in Fig.~\ref{fig:alsDivision}(a). 
+No single key partitioning scheme can remove the shuffle data in order
+to generate both of these blocks from the user-item block, as the key
+dependency follows a many-to-many pattern.
+However, if the iterative distributed operation is regarded as two
+individual iterative operations and is divided as in
+Fig.~\ref{fig:alsDivision}(b), the pure confluence subgraph can be found in
+the operation in the dashed box.
+CKP can then be applied on the key dependency $(userId, itemId) \Rightarrow
+userId$ for the user block.
+
+As CKP is applied only in one successive iteration in MovieLensALS, the workload skew level is 0.
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{CKP Shuffle Size Improvements in Different Distributed Operations}\label{table:skew}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{0.5\textwidth}{ c || c }
+\hline
+\textbf{Distributed Operations} & \textbf{CKP Shuffle Size Improvement}  \\
+\hline
+MatrixMultiplication & $n^3 for R^{n \times n}$\\
+\hline
+MovieLensALS  & \# of $(user,item)$ entries  \\%; input file size 640 MB 
+\hline
+MultiAdjacentList  & 1/2 the RKP shuffle size in every iteration \\
+\hline
+KMeans & $|A| \cdot \sum_{i=2}^{m} (\sum_{j=1}^{k} p'_{ij} - 1/n)$ \cr
+& upper bound:$|A| \cdot (m-1)(n-1)/n$ \cr
+& lower bound:$-|A|\cdot (m-1)/n$\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+
+
+% \begin{figure}[!t]
+% \centering
+
+% \subfigure[Original]{
+% \includegraphics[width=0.5\columnwidth,height=0.45\columnwidth]{adjListBefore}
+% \label{fig:adjListBefore}
+% }
+% \subfigure[After Division]{
+% \includegraphics[width=1\columnwidth,height=0.45\columnwidth]{adjListAfter}
+% \label{fig:adjListAfter}
+% }
+% \caption{The Original (a) and Divided (b) Iterative Evolution of the Datasets of the MultiAdjacentList Application. The Keys of the Datasets are Marked by Parenthesis. Pure Confluence Subgraph can be Found in the Computing Iterations in the Dashed Box}
+% \label{fig:adjListDivision}
+% \end{figure}
+
+\subsection{MultiAdjacentList}
+MultiAdjacentList \cite{multiAdjList} is
+a graph computing application which generates the heads and tails of
+lists of various lengths from the information of edges.
+In every iteration, where the key $L_i$ represents a list of length $i$ and its values are the sets of the head nodes and tail nodes of the list, it
+generates a group of new lists of length $i+1$ by appending each head
+node and each tail node to it. Each new list acts as the key and
+its new head nodes and tail nodes act as the value.
+The evolution of the data of multiple iterations is shown as Fig.~\ref{fig:alsDivision}(c).
+The key dependencies are $L_i \Rightarrow (heads, L_i)$ and $L_i \Rightarrow (L_i, tails)$. 
+We cannot use CKP to localize the keys $(heads, L_i)$ and $(L_i, tails)$ with $L_i$, 
+as the datasets corresponding to Key $(heads, L_i)$ and Key $(L'_i, tails)$ may overlap for different $L_i$ and $L'_i$.
+However, the iterative operations can be divided into several smaller iterative operations by dividing the dataset as in Fig.~\ref{fig:alsDivision}(d). 
+In the iterative operations in the dashed boxes, the pure confluence subgraphs exist 
+in their KDG's by the key dependency $L_i \Rightarrow (L_i, tails)$.
+Applying CKP to these operations and leaving the other iterative operations
+that are related to the keys $(heads, L_i)$ to be randomly partitioned,
+only half of the datasets need to be shuffled. 
+
+In the setting that every node has $l$ heads and $l$ tails on average, every map input entry is expected to generate $2 \cdot l$ shuffle output entries in each iteration. Therefore, by the discussion in Section~\ref{section:skew}, the workload skew level of each iteration is 0 when CKP is applied. 
+
+\subsection{KMeans}
+KMeans \cite{kmeans} is the popular clustering algorithm in data mining, which groups the vector points into $k$ clusters where each vector point belongs to the cluster with the nearest mean. 
+This process could be done in a dedicated number of iterations. 
+With the initial $k$ chosen points regarded as the centers of the clusters, 
+in each iteration, every point is compared with the $k$ centers and is is grouped into the cluster where the Euclidean distance between the point and the center is the smallest. 
+After all points are grouped, each new cluster center for the next iteration is chosen by the mean of the points in that cluster. 
+The shuffle operation takes place when calculating the mean of each cluster whose points are located in different nodes. 
+
+If the points are bound to the same cluster in every iteration, 
+by using the key dependency $points \Rightarrow centers$ 
+and localizing the points in the same cluster at the first iteration, 
+CKP can eliminate the shuffle size in the successive iterations. 
+However, the affiliation of point to clusters are not stable between iterations. 
+One point that is grouped into one cluster in a iteration can be grouped into another cluster in the next iteration. 
+We estimate the shuffle size in this case. 
+
+Suppose that $p'_{ij}$ is the percentage of points that are grouped in Cluster $j$ both in the first CKP iteration and Iteration $i (i \neq 1)$, 
+$|A|$ is the total number of points, $m$ is the total number of iterations, 
+and $n$ is number of nodes. 
+The shuffle size of Iteration $i$ is $S_i=|A| \cdot (1-\sum_{j=1}^{k} p'_{ij})$.
+The CKP shuffle size improvement in Iteration $i$ is 
+$(n-1)/n \cdot |A| - S_i = |A| \cdot (\sum_{j=1}^{k} p'_{ij} - 1/n)$, 
+and the overall CKP shuffle size improvement is $|A| \cdot \sum_{i=2}^{m} (\sum_{j=1}^{k} p'_{ij} - 1/n)$.
+The higher $\sum_{i=2}^{m} \sum_{j=1}^{k} p'_{ij}$ is, the higher the shuffle size improvement. 
+In the best case that points are bound to the same cluster in every iteration, 
+$\sum_{j=1}^{k} p'_{ij}=1 (i=2,3,...m)$ 
+and the shuffle size improvement is $|A| \cdot (m-1)(n-1)/n$.
+In the worst case, every point grouped into cluster $i$ in the first iteration is grouped to a cluster other than $i$, the shuffle size improvement is 
+$-|A|\cdot (m-1)/n$. 
+The affiliation of the points to the clusters are more stable after running a few iterations. 
+Instead of localizing the points of the same cluster in the very first iteration of KMeans, localizing them after a few beginning iterations can give higher $\sum_{j=1}^{k} p'_{ij}$.
+
+In every iteration of KMeans, as every input point generates the same point as the input for the next iteration, the workload skew level of every iteration is 0. 
+
+
+A summary of the CKP shuffle size improvements of the distributed operations discussed above is shown in Table~\ref{table:skew}.
+All the values of the CKP shuffle size improvement are figured out without consideration to the map-side combine mechanism discussed in Section~\ref{section:implement}.
+
+
+\begin{table*}[!t]
+\begin{threeparttable}[b]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{User-Defined Functions of ConfluencePartitioner in Different Distributed Operations}
+\label{table:code}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{0.95\textwidth}{ c || c |c  }
+\hline
+\textbf{Distributed Operations} & \textbf{Key Dependency} & \textbf{User-Defined Function} \\
+\hline
+MatrixMultiplication & $(i,j,p) \Rightarrow (i,j)$ & (a:Any) $=>$ a match \{case (\_ , \_, \_) $=>$ (a.\_1, a.\_2)\}\\
+\hline
+MovieLensALS  &$(user,item) \Rightarrow user$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
+\hline
+MultiAdjacentList  & $list \Rightarrow (list, tails)$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
+\hline
+KMeans & $points \Rightarrow cluster$ & (a:Any) $=>$ a match \{case p:Vector[Double] $=>$ closestPoint(point, cluster\_centers)\tnote{1}\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\begin{tablenotes}
+    \item[1] closestPoint(point, cluster\_centers) is the function which returns the index of the point in ``cluster\_centers'' that is in the shortest Euclidean distance with ``point''.
+  \end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+\section{Implementation}\label{section:implement}
+This section introduces the effect of the map-side combine mechanism and the
+limitations of applying CKP in MapReduce.
+The implementation details of binding partitions and executors to
+facilitate CKP in Spark and the discussion on how to automate
+the confluence approach will also be presented.
+
+\subsection{Map-Side Combine}
+In practice, existing distributed frameworks can do map-side
+combine for the map output data before the shuffle operation if the
+reduce operation is an aggregate function, e.g, the sum function of the
+reduce operation in Stage 2 of the matrix multiplication algorithm as
+mentioned above.
+The map-side combine does the local reduce operation on map output data
+such that the data needed to transfer in the shuffle operation can be
+greatly decreased in size even when RKP is applied.
+However, CKP is still beneficial because it eliminates the overhead time
+of initializing and cleaning up the %bunches of
+shuffle connections, which can be time-consuming.
+
+% \subsection{Other Applications}
+% Besides the matrix multiplication which is obviously of the \emph{many-to-one} key dependency rules, CKP is also applicable to many other distributed applications in the fields of scientific computing, graph computing, machine learning, data analysis, etc. 
+% We generalize the many-to-one key dependency and present three typical types of many-to-one key dependency patterns that exist in many distributed applications and can apply CKP to decrease the shuffle size. 
+% Many other types of key dependency pattern can benefit from the Confluence technique depending on the specific program semantics, but we are not exhaustedly listing them out here.
+
+% \emph{Many-to-one dependency}: Suppose $\exists f \exists D$, where $f$ is a function and D is a specific value. 
+% $\forall k$ such that $f(k)=D$, if we can claim the key dependency: $k \Rightarrow D$, such key dependency is named as the many-to-one dependency.
+
+% We introduce three examples of many-to-one dependency based on different application semantics of the keys: range dependency, category dependency, and feature reduction dependency.  
+
+% \textbf{Range dependency}: 
+% In the many-to-one dependency, 
+% %if all the data entries with any key $k$ ($k \in D$, where $D$ is a value range) are map to entries with the key $D$, we have the range dependency: $k \Rightarrow D, \forall k \in D$. 
+% if the key $k$ is of the continuous or discrete value type, $D$ is a value range and the function $f$ is defined as: $k \in D$, such dependency relationship is called the range dependency. 
+% For example, $5 \Rightarrow [0, 10)$ and $6.2 \Rightarrow [0, 10)$.
+% Many data analysis applications behave the range dependency, 
+% such as counting the number of population that fall in different height ranges from individual height data and analyzing the climate of different geographic areas from individual geographic coordinates data. 
+% %In the iterative distributed program, suppose that $k_1$ and $k_2$ are any key of two adjacent iterations, respectively. 
+% %If they obey the key dependency pattern: $k_1 \Rightarrow k_2, \forall k_1 \in Range$ , $k_2=Range$, 
+
+% \textbf{Category dependency}:
+% The many-to-one dependency is the category dependency if the key $k$ is of the enumeration type, $D$ is a category identifier of the enumeration values and the function $f$ is defined as: $k$ can be classified into category $D$. 
+% Key mappings from species to genus, to family, to order, etc. in Taxonomy and key mappings from child nodes to the corresponding parent nodes in the tree data structure have the category dependency relationship. For example, ``$whale \Rightarrow mammal$'' and ``$dophin \Rightarrow mammal$''. 
+% KMeans \cite{kmeans} is the well-known clustering algorithm in data mining. 
+% In every iteration, it groups the points with the Euclidean-nearest centroids of the clusters and updates the Euclidean means of the clusters as the new centroids. 
+% Although the points are not guaranteed to be grouped into the same cluster in every iteration, 
+% if the dataset obeys the obvious cluster pattern and the clusters are more or less stable, 
+% most of the points will be. 
+% CKP can utilize the ``$points \Rightarrow cluster$'', which is the category dependency. 
+
+
+% \textbf{Feature reduction dependency}: 
+% Suppose that the key $k$ is of the tuple type with $n$ features: $(k_1, k_2, ..., k_n)$, $D$ is of the tuple type with $m$ features: $(D_1, D_2, ..., D_m), (m<n)$. 
+% If the function $f$ is defined as: each element $D_i$ with Index $i$ is equal to $k_i$, $i=1,2,...,m$, such dependency relationship is called the feature reduction dependency. 
+% The matrix multiplication algorithm and MovieLensALS application mentioned above fall into this category. 
+
+% These typical key dependency patterns can guide the programmers to quickly find the pure confluence subgraphs of the distributed applications by considering whether they have similar semantics or use cases. 
+
+
+\subsection{Confluence in Hadoop}
+CKP can be widely applied to decrease the shuffle size of the iterative
+distributed paradigms that compute and store intermediate datasets in
+the memory, like Spark and Twister.
+However, we find it not applicable to Hadoop MapReduce for the following reason. 
+Hadoop MapReduce stores the output result of each distributed operation
+iteration in the distributed file system, i.e., HDFS,
+where the partitioned locations of the data blocks are reorganized due to the internal storing mechanism of HDFS.
+Even if the datasets are partitioned by CKP during the distributed
+operation, the partitioned locations of the datasets will not be
+retained in the next iteration of the distributed operation.
+
+An alternative solution is to modify the mechanism of HDFS on choosing the
+partitioned locations of data blocks when storing data to a file.
+If the dataset is able to declare the preferred partitioned location as the node where it is kept in the memory and HDFS writes the dataset to its preferred partitioned locations, the partitioned locations of the datasets will remain unchanged and CKP is applicable. 
+We have not implemented this new mechanism in HDFS and the feasibility is yet to be verified. 
+
+
+\subsection{Binding Partition and Executor in Spark}
+In the implementation of Spark, the partition is only a logical location where the task executes the dataset, while the logical locations of tasks are not tied up with the actual(physical) positions of the executors. 
+In other words, %if a dataset is assigned to the same partition, 
+the tasks working on the same partition are not guaranteed to be assigned to the same executor (or the same computer node) across different iterations, in which case shuffling of data is still needed. 
+
+To amend the mismatch of the logical partition and the actual position of the executor, we implement the new feature in Spark to allow the binding of the task partitions and the executors. 
+The binding can be done in the hash manner. 
+In the default settings of the task scheduler of Spark, when an executor becomes free, the task scheduler selects the task with whichever partition from the head of task queue. The selected task will run in that executor. 
+Now, if the partition-executor-binding feature is turn on, when the task scheduler selects a task for the free executor, 
+it selects the task whose task partition hash code is the same as the hash code of the free executor. 
+The hash manner binding ensures that the tasks of the same partition will always be allocated to the same executor in different iterations. 
+Finding the first task that first hashed maps the executor from the task queue, 
+the time complexity of scheduling each task is $O(N)$, 
+where $N$ is the number of the executors in each computing iteration. 
+
+The partition-executor-binding implementation will not introduce negative side effects into the system in the following three aspects: 1)  The order to run the pending tasks of the same iteration does not affect the completion time of each computing iteration; 2) In the hash manner, each executor is expected to run the same number of tasks in each computing iteration;
+3) The task scheduling overhead is trivial and negligible, which is only linear to the number of executors. 
+
+%In the class \emph{TaskSchedulerImpl}, if the binding feature is turned on, it will store the task partitions that each executor has processed in the partition-executor binding map.
+%In the following iterations, when selecting the tasks for an available executor, the task scheduler will first try to select the task whose partition has been processed by that executor before by searching the binding map. 
+%If no such task exists, the task scheduler will select a new task whose partition is not bounded to any executor and update the binding map information. 
+%The partition-executor-binding implementation guarantees that once a partition is processed by a executor, it can be processed in the same executor afterwards until it is notified to stop. 
+%The workloads of the executors will maintain in balance since the task partitions are evenly distributed to the executors in the first confluence iteration.
+
+
+\begin{table*}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Benchmark Settings}
+\label{table:benchmark}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{0.85\textwidth}{ c || c | c }
+\hline
+\textbf{Benchmark} & \textbf{Input Data} & \textbf{Runtime Setting} \\
+\hline
+MatrixMultiplication & matrix type: $Z^{1000 \times 1000}$ & Nil\\
+\hline
+MovieLensALS & 21,622,187 ratings from 234,934 users on 29,584 movies &32 user blocks and 32 item blocks\\%; input file size 640 MB 
+\hline
+MultiAdjacentList & 25,000,000 vertexes with average in/out-degree being 2& 4 iterations \\%; input file size 1GB
+\hline
+KMeans & 64,534,480 wikipedia page visit records& 32 centers, 10 iterations \\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table*}
+
+
+\subsection{Automating Confluence}
+Currently, programmers need to manually discover the pure confluence subgraphs of the iterative distributed applications from KDG and specify the key partitioning scheme in the program code if they apply CKP. 
+A system which automates this process before the runtime of the application and frees the programmers the extra work may sound attractive. 
+However, there are some difficulties implementing such a system because 
+it is hard for the machines to really \textbf{understand} the application semantics. 
+The reasons are as follows. 
+1) Difficulty in constructing the vertexes: 
+without the provision of the real meanings of the keys by the programmer, 
+the domain of the values of keys or the patterns of the keys are unknown without visiting the values of the whole dataset. 
+2) Difficulty in constructing the edges: 
+the key dependency relationship is unclear by merely looking at logic of the program code because the key dependency relationship can also depend on the values, which are unknown until runtime. 
+
+To apply CKP, the powerful partitioner interface offered by the pervasive distributed frameworks allows the programmers to easily implement the specific partitioner for their distributed application. 
+We make one step further by implementing the half-automatic approach so that if the programmers provide the information of the pure confluence subgraphs via a simple interface, the system will generate the corresponding partitioner 
+and apply CKP automatically. 
+
+We implement the class named ConfluencePartitioner in Spark, 
+which only requires the programmer to input the user-defined function that defines the mapping of the keys to the pure confluence subgraphs. 
+The shuffle operation uses the ConfluencePartitioner to identify the pure confluence subgraphs that the data entries belong to 
+and partitions each pure confluence subgraph randomly by the hashed value of the subgraph.  
+To apply CKP with ConfluencePartitioner can be as simple as a single line of code
+in the Scala language:
+
+\textit{data.shuffleOperation (new ConfluencePartitioner (num-Partitions, user-defined-function))}
+
+Table~\ref{table:code} shows the user-defined functions in the Scala codes of different distributed operations mentioned above. 
+
+To calculate the partition of a key-value entry in the shuffle operation, 
+the user-defined function is applied to the key of the entry, 
+and the returned result is then hashed by number of total partition nodes. 
+The hashed value decides the partition location of this entry. 
+In this way, the key-value entries whose returned values of the user-defined function are the same are considered to match the same confluence key node and will be partitioned to the same node.
+
+With ConfluencePartitioner, the programmers can apply CKP even without knowing the details of implementing the self-defined partitioner and repeatedly writing different self-defined partitioners for different distributed operations.
+
+
+\section{Evaluation}\label{section:evaluation}
+We conduct experiments on a physical testbed to compare the performance of CKP with the default RKP scheme in various aspects: the improvement on the shuffle sizes of different iterations, the shuffle skew level of the executors, and the scalability via the metrics of the overall shuffle sizes against different input data volumes. 
+
+
+\subsection{Testbed and Benchmarks}
+The testbed consists of 18 computer nodes of the Gideon-II cluster in HKU \cite{gideon}, where each node is equipped with 2 quad-core, 32 GB DDR3 memory and 2 $\times$ 300 GB SAS hard disks running RAID-1. 
+The nodes run with Scientific Linux 5.3 and are connected to an internal non-blocking switch with GbE ports. 
+In the setting of the YARN cluster, one node takes the role of  the name node of HDFS and one other acts as the resource manager of YARN, while the remaining 16 nodes are configured as both the HDFS data nodes and YARN node managers. 
+Spark is deployed on top of the YARN cluster with 16 executor, where each executor runs with 8 GB of memories. 
+
+Several benchmarks that are representative ones of their fields are used to evaluate the performance of CKP.
+Unless further specified, the input data sizes and the running setting of the benchmarks are listed in Table \ref{table:benchmark}.
+Pure confluence subgraphs can be found based on the key dependency relationship indicated in the table, and CKP is applied on these pure confluence subgraphs. 
+CKP is compared with RKP as the baseline as RKP is the default and generally used key partitioning scheme for the distributed operations. 
+Other key partitioning scheme are sometimes used to balance the workload of the executors for specific datasets. 
+These key partitioning schemes rely not only on application semantics but also on the distribution of the datasets, we do not compare CKP with them here. 
+
+\subsection{Metrics}
+We measure the shuffle size of each distributed computing iteration (or alternately, stage) of benchmarks. 
+The shuffle size of each iteration is the sum of the data transfer size of the shuffle operation of all the executors in that iteration. 
+This metric depicts the performance of CKP in decreasing the data transfer size. 
+Besides, the standard deviation of the shuffle sizes of the executors is measured as the metric to evaluate the workload skew level of the key partitioning schemes. 
+This metric is also measured in each iteration of the benchmark. 
+The scalability of CKP is measured by the overall shuffle size of all the iterations that are in the pure confluence subgraphs with different volumes of input data. 
+% As the iterative distributed operations are finished iteration by iteration, the completion time of each iteration is measured to show the benefit of minimizing the shuffle size. 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{figure5}
+\caption{Shuffle Sizes of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks
+}
+\label{fig:size}
+%\vspace{-0.2in}
+\end{figure}
+
+
+\subsection{Shuffle Sizes Improvement} 
+The results of the shuffle size of each iteration (or stage) after applying CKP and RKP in all the benchmarks are shown in Fig.~\ref{fig:size}, respectively. 
+
+In MatrixMultiplication, CKP totally removes the shuffle operation of Stage 2 whose shuffle size is 0, and the shuffle size of Stage 1 remains closed to that of RKP (Fig.~\ref{fig:size}(a)). 
+Note that when RKP is applied, the shuffle size of Stage 2 is very small as compared to Stage 1 due to the map-side combine mechanism mentioned above.
+% Still, we will show that CKP has the advantage in minimizing the job completion time by eliminating the shuffle runtime overheads in the latter sub-sections. 
+
+
+The benefit of applying CKP on the smaller iterative distributed operation divided based on operations can be read in Fig.~\ref{fig:size}(b).
+In MovieLensALS, after applying CKP, the shuffle size for generating the user block is 0, while that for generating the item block remains almost the same as that of RKP. 
+As a result, the CKP shuffle size for generating these two block is half of that of RKP. 
+Because the other iterations of the distributed operations cannot be improved by CKP, 
+the overall shuffle traffic CKP can decrease for the application is about 11\%.
+
+After applying CKP in MultiAdjacentList benchmark, the shuffle size of each iteration is decreased by half beginning from Iteration 2 (Fig.~\ref{fig:size}(c)). 
+The reason is that by using CKP on divided sub-operations that handle the datasets corresponding to the key $(list, tails)$, only the datasets of Key  $(heads, L_i)$ need to be shuffled.
+
+In the KMeans benchmark, by partitioning the points into the clusters they belong to at the first few iterations, CKP decreases the overall cluster shuffle size by 12\%. 
+This decrease in shuffle size is contributed by avoiding the repartition of the points that are stable to their clusters,
+although not all points are fixed to their clusters in every iteration. 
+
+Note that the shuffle sizes of the other iterations that do not apply CKP remains almost unchanged, which means that CKP can decrease the shuffle size of distributed iterations that have the confluence key dependency without introducing extra workloads to the other iterations. 
+How CKP can decrease the overall shuffle traffic depends on how large the portion of data corresponding to the pure confluence subgraph take in the overall processing of the application. 
+For MultiAdjacentList, the CKP can be applied to half of the operations, either appending to the head or to the tail.
+While for MovieLensALS, CKP can only be applied to the operation that arrange the user-item blocks, which is only a small portion of the overall application. 
+Still, it indicates the potential of applying CKP in the complicated iterative distributed applications. 
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{figure6}
+\caption{Standard Deviations (SD) of the Shuffle Sizes of the Executors of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks
+}
+\label{fig:SD}
+%\vspace{-0.2in}
+\end{figure}
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{figure7}
+\caption{Overall Shuffle Size of the Pure-Confluence-Subgraphs-Related Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}
+\label{fig:sizeLine}
+%\vspace{-0.2in}
+\end{figure}
+
+\subsection{Workload Skew}
+The standard deviations of the shuffle workloads of the executors of different benchmarks are shown in Fig.~\ref{fig:SD}. 
+As expected, the workload standard deviations of the CKP-affected stages of MatrixMultiplication (Fig.~\ref{fig:SD}(a)), MovieLensALS (Fig.~\ref{fig:SD}(b)) and MultiAdjacentList (Fig.~\ref{fig:SD}(c)) are all 0. 
+In the KMeans benchmark, the standard deviation of CKP is larger than that of RKP (Fig.~\ref{fig:SD}(d)). 
+The reason is that the number of points belonging to each cluster varies but the number of cluster centers (32) is not large enough as compared to 
+the computer nodes (16) to even the workloads of the nodes. 
+If the number of cluster centers is large enough, the actual number of points partitioned to each node will get closer to the expected value, 
+which is the same in every node.
+Still, the standard deviation of CKP (7 MB) is small as compared to the mean shuffle size of the executors (25 MB).
+
+For the stages that are either before or after the CKP-affected stages, the standard deviations remain almost the same as RKP, or the change is so tiny as compared to the overall shuffle size of the stage that can be ignored. 
+
+
+
+
+\subsection{Scalability}
+The overall shuffle sizes of the pure-confluence-subgraph-related iterations with different input sizes in various benchmarks are shown in Fig.~\ref{fig:sizeLine}. 
+In MatrixMultiplication, 
+the overall shuffle size of RKP increases linearly as the matrix length grows, while that of CKP is always 0. 
+CKP can totally remove the shuffle workload for Stage 2 of MatrixMultiplication. 
+In the other benchmarks, the shuffle sizes of CKP always keep in a fixed (or stable) ratio to those of RKP, e.g., 50\% in both MovieLensALS and MultiAdjacentList and around 88\% in KMeans. 
+The result shows that CKP scales well with different volumes of input data. 
+The CKP decreases the shuffle workload greatly (about 50\%) in one iteration out of the many distributed operations in the MovieLensALS application, and a little (about 12\%) but in every iteration of the distributed operations of the KMeans application. 
+
+
+
+%\begin{figure}[!t]
+%\centering
+%
+%\subfigure[Shuffle Sizes of Stage 2]{
+%\includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthSize}
+%\label{fig:lengthSize}
+%}
+%\subfigure[Mean and Standard Deviation of the executor shuffle size in Stage 1]{
+%\includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthMeanSize}
+%\label{fig:lengthMeanSize}
+%}
+%
+%\caption{MatrixMultiplication Shuffle Size With Different Input Matrix Length}
+%\label{fig:lengthSizes}
+%\end{figure}
+
+% \begin{figure}[!t]
+% \centering
+
+% \subfigure[Stages Completion Time]{
+% \includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthTime}
+% \label{fig:lengthTime}
+% }
+% \subfigure[Mean Task Completion Time and Standard Deviation of Stage 2]{
+% \includegraphics[width=0.8\columnwidth,height=0.5\columnwidth]{lengthMeanTime}
+% \label{fig:lengthMeanTime}
+% }
+
+% \caption{MatrixMultiplication Job Completion Time With Different Input Matrix Length}
+% \label{fig:lengthTimes}
+% \end{figure}
+
+% \begin{figure}[!t]
+% \centering
+% \includegraphics[width=1\columnwidth]{figure8}
+% \caption{MatrixMultiplication Job Completion Time With Different Input Matrix Length}
+% \label{fig:lengthTime}
+% %\vspace{-0.2in}
+% \end{figure}
+
+% \subsection{Completion Time}
+% As one of the practical goals of minimizing the shuffle size of iterative distributed operations is to minimize the job completion time, we evaluate the stage completion time of the MatrixMultiplication benchmark with different matrix lengths.
+% Fig.~\ref{fig:lengthTime} shows the completion time of Stage 1 and Stage 2 and the other overhead time. 
+% As mentioned above, although the shuffle size of Stage 2 is small, the execution time of starting and cleaning the shuffle servers and clients is remarkable. 
+% The completion time of CKP in Stage 2 is only $46\%\sim70\%$ of that when RKP is used, by merely eliminating the shuffle connections.  
+% In the benchmark of MatrixMultiplication, CKP can decrease the overall job completion time by $17\%\sim24\%$. 
+
+% The stage completion time is dominated by the last completion time of all the executors in that stage, while the mean completion of the executors indicates the average time performance of the executors. 
+% The mean completion time of the executors of Stage 2 and its standard deviation is drawn in Figure~\ref{fig:lengthMeanTime}. 
+% The results show that CKP improves the completion time of the executors with different input sizes. 
+% The standard deviation of CKP is less than that of RKP as well, as CKP has less executor completion time than RKP and does not increase the workload skew level. 
+
+
+
+%\begin{figure}[!t]
+%\centering
+%
+%\subfigure[Reduce Completion Time with Different Input Data Sizes]{
+%\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_sizes}
+%\label{fig:r_sizes}
+%}
+%\subfigure[Job Completion Time of Multiple Concurrent Jobs]{
+%\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_concurrent}
+%\label{fig:r_concurrent}
+%}
+%
+%\caption{Completion Time with Different Input Data Sizes and Multiple Concurrent Jobs}
+%\label{fig:r_sizes_concurrent}
+%\vspace{-0.2in}
+%\end{figure}
+
+\section{Related Work}\label{section:relatedWork}
+\textbf{Iterative distributed computing}: 
+Some works \cite{gunarathne2013scalable, bu2010haloop, ekanayake2010twister} improved the distributed frameworks for the iterative MapReduce-like computing by extended the programming interfaces to support multiple map and reduce phases. 
+The general idea was to cache the output data of each iteration for the next iteration. 
+Spark \cite{zaharia2012resilient} provided more kinds of operation interfaces and supported a series of transformations on the distributed input datasets in the memory by the concept of resilient distributed dataset. 
+These iterative distributed frameworks tried to minimize the I/O overhead by storing the intermediate data of each iteration in the memory, instead of in the disk like Hadoop. 
+However, they did not consider the heavy network workload during the shuffle operations. 
+Inheriting the benefit of fast memory I/O speed, Confluence decreases the shuffle sizes and alleviate the network workload by considering the key dependency of multiple relational iterations. 
+
+\textbf{Parallel\&Distributed algorithms optimization}: Lots of work has been conducted on the optimization of parallel\&distributed machine learning algorithms~\cite{bekkerman2011scaling} and science computing \cite{kiran2013verification, mensink2012metric}, including the matrix multiplication methods~\cite{buluc2012parallel, ballard2012communication}. 
+Generally, they focused on optimizing the algorithm itself by decomposing the tasks to increase the task parallelism and removing the synchronization boundary between the I/O-intensive tasks and compute-intensive tasks. 
+Sarma et al. \cite{Sarma:2013:ULB} represented the map-and-reduce communication cost as the number of data entries needed to generate from the map input for the distributed application with a given parallelism factor. 
+To decrease the communication cost for a specific distributed application, one need redesign the distributed program itself, operating with the proper parallelism factor. 
+The term of communication cost is slightly different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce workers, while the shuffle size transfer size of data between different computer nodes. 
+The algorithms with the minimum communication cost can further decrease the shuffle size by considering the key dependency of the datasets in multiple iterations. 
+ShuffleWatcher~\cite{faraz2014shufflewatcher} scheduled the locality of the map tasks and the reduce tasks to decrease shuffle inter-node traffic for the single 
+iteration of the MapReduce jobs, but it did not provide the solution for iterative distributed operations. 
+
+
+\textbf{Datacenter networking for shuffle}: 
+In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals \cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}. 
+% , including ensuring the high throughput and scalability of a large pool of resources \cite{greenberg2009vl2}, maintaining the fairness of concurrent shuffle tasks \cite{popa2012faircloud} and satisfying the bandwidth demands to make the performance more predictable. 
+% Seawall \cite{shieh2011sharing} allocated the network bandwidth for the shuffle tasks to meet the user-specified policy. 
+% Orchestra \cite{chowdhury2011managing} claimed to reduce the shuffle completion time by dynamically controlling the number TCP flows based on the workloads of the shuffle tasks. 
+Confluence does not concern with the underlying network level. However, by decreasing the shuffle workload, the shuffle tasks applying the confluence key partitioning scheme can work on these shuffle-optimized datacenter networks seamlessly and gain more performance increase.    
+
+\textbf{Skew\&Straggler}: 
+The distributed computing paradigms like MapReduce adopted the data locality principle, either to place the computing tasks closed to data locations in priority to reduce the traffic workloads of data migration \cite{dean2008mapreduce, zaharia2008improving} or to avoid the unbalanced allocation of workloads by considering the compute skew problems \cite{kwon2010skew, kwon2012skewtune}. 
+They concerned with the placing of map tasks where the required input data are self-contained.
+As the input data of each shuffle task are distributed across the cluster, such task-to-data approach cannot help in the shuffle tasks. 
+Confluence localizes the data and tasks by partitioning the data corresponding to each pure confluence subgraph with multiple shuffle iterations in the same node, which eliminates the shuffle traffic of the following iterations while not impacting the balance of workloads.
+Aaron et al. \cite{Harlap:2016:ASP} addressed the problem of stragglers in iterative machine learning. If the unbalance in the granule of pure confluence subgraph does exist for some particular dataset or algorithm, the partitioning scheme of the pure confluence subgraph can be manually specified by the user to prevent stragglers. 
+
+\textbf{DAG scheduling}: 
+Similar to the DAG task scheduling algorithms \cite{sakellariou2004hybrid, zhao2006scheduling, spark-dagscheduler, isard2007dryad} that schedule the tasks to based on the task dependency graph, Confluence optimizes the partition location based on the key dependency graph. 
+The difference is, in terms of the goal, that the DAG task scheduling algorithms tried to parallel the execution of jobs that are not depended on each other to increase parallelism, while Confluence isolates the partitions of the data with dependency relationship in multiple shuffle iterations to reduce the network traffic. 
+
+
+\section{Conclusion and Future Work}\label{section:conclusion}
+We have presented Confluence Key Partitioning scheme, the first work on decreasing the shuffle size of
+iterative distributed operations leveraging the key dependency. 
+Confluence guides the data partitioning across different iterations based on the key dependency graph, 
+which is constructed with the application semantics.
+%We use Confluence to partition the datasets to avoid undesired network traffic across multiple iterations during the shuffle operations. 
+Confluence greatly decreases the overall shuffle size while not introducing the workload skew side effect for a variety of distributed operations
+in the fields of scientific computing, machine learning, data
+analysis, etc.
+
+% \textcolor{red}{We plan to study the method to quantify the shuffle size of the
+% iterative distributed operations that need to be divided into smaller
+% sub-operations in order to adapt to the confluence key partitioning scheme.
+% More existing distributed applications can then adopt Confluence with a
+% quantitive performance guarantee.
+% We will also try to explore the use of Confluence in those cases where the
+% datasets are not uniformly distributed or where the computation logic on
+% data of the same size will generate outputs of very different sizes.}
+
+% \begin{figure}[!t]
+% \centering
+
+% \subfloat[Cluster Shuffle Throughput in the Virtual Along the Timeline]{
+% \includegraphics[width=1\columnwidth,height=0.4\columnwidth]{r_vshuffle_timeline}
+% \label{fig:r_vshuffle_timeline}
+% }
+% \hfil
+% \subfloat[Sorted Cluster Throughput in the Physical Testbed]{
+% \includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{r_pshuffle_rate}
+% \label{fig:r_pshuffle_rate}
+% }
+% \hfil
+% \subfloat[Sorted Cluster Throughput in the Virtual Testbed]{
+% \includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{r_vshuffle_rate}
+% \label{fig:r_vshuffle_rate}
+% }
+
+% \caption{Cluster Shuffle Throughput of the SequenceCount Job along the Timeline and 
+% Cluster Shuffle Throughput Sorted by Size}
+% \label{fig:r_fetchers}
+% \end{figure}
+
+
+
+%TODO future work
+
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+% However, the Computer Society has been known to put floats at the bottom.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+%\appendices
+%\section{Proof of the First Zonklar Equation}
+%Appendix one text goes here.
+%
+%% you can choose not to have a title for an appendix
+%% if you want by leaving the argument blank
+%\section{}
+%Appendix two text goes here.
+%
+%
+%% use section* for acknowledgment
+%\ifCLASSOPTIONcompsoc
+%  % The Computer Society usually uses the plural form
+%  \section*{Acknowledgments}
+%\else
+%  % regular IEEE prefers the singular form
+%  \section*{Acknowledgment}
+%\fi
+%
+%
+%The authors would like to thank...
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+%\ifCLASSOPTIONcaptionsoff
+%  \newpage
+%\fi
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{22}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{IEEELonger}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%\begin{thebibliography}{1}
+%
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%
+%\end{thebibliography}
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fengliang}}]{Feng Liang}
+% is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interest mainly includes distributed file systems, distributed computing, and data center resource management. He is recently undertaking the research project on improving the network performance of MapReduce.
+% \end{IEEEbiography}
+
+% % \vspace{-.8in}
+
+
+% % if you will not have a photo at all:
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fcmlau}}]{Francis C.M. Lau}
+% received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
+% computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
+% \end{IEEEbiography}
+
+% insert where needed to balance the two columns on the last page with
+% biographies
+%\newpage
+
+
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
+

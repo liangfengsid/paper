@@ -1,0 +1,65 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: confluence.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: IEEELonger.bib
+Warning--entry type for "multiAdjList" isn't style-file defined
+--line 12 of file IEEELonger.bib
+Warning--entry type for "movielensals" isn't style-file defined
+--line 26 of file IEEELonger.bib
+Warning--entry type for "gideon" isn't style-file defined
+--line 33 of file IEEELonger.bib
+Warning--entry type for "kmeans" isn't style-file defined
+--line 446 of file IEEELonger.bib
+-- IEEEtran.bst version 1.13 (2008/09/30) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+
+Done.
+You've used 40 entries,
+            4039 wiz_defined-function locations,
+            1028 strings with 16478 characters,
+and the built_in function-call counts, 34831 in all, are:
+= -- 2581
+> -- 1048
+< -- 291
++ -- 557
+- -- 193
+* -- 1687
+:= -- 4778
+add.period$ -- 86
+call.type$ -- 40
+change.case$ -- 39
+chr.to.int$ -- 708
+cite$ -- 40
+duplicate$ -- 2440
+empty$ -- 2957
+format.name$ -- 228
+if$ -- 8168
+int.to.chr$ -- 0
+int.to.str$ -- 40
+missing$ -- 476
+newline$ -- 153
+num.names$ -- 35
+pop$ -- 1240
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 2646
+stack$ -- 0
+substring$ -- 1688
+swap$ -- 2000
+text.length$ -- 55
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 40
+warning$ -- 0
+while$ -- 169
+width$ -- 42
+write$ -- 398
+(There were 4 warnings)

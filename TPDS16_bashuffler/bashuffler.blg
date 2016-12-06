@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: bashuffler.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: example_full.bib
+Warning--entry type for "aws" isn't style-file defined
+--line 275 of file example_full.bib
+Repeated entry---line 331 of file example_full.bib
+ : @inproceedings{vojnovic2000global
+ :                                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 506 of file example_full.bib
+ : @inproceedings{vavilapalli2013apache
+ :                                     ,
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.13 (2008/09/30) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty journal in ahmad2012puma
+
+Done.
+You've used 45 entries,
+            4039 wiz_defined-function locations,
+            1053 strings with 16928 characters,
+and the built_in function-call counts, 39290 in all, are:
+= -- 2913
+> -- 1141
+< -- 329
++ -- 619
+- -- 207
+* -- 1895
+:= -- 5378
+add.period$ -- 98
+call.type$ -- 45
+change.case$ -- 42
+chr.to.int$ -- 816
+cite$ -- 46
+duplicate$ -- 2759
+empty$ -- 3406
+format.name$ -- 247
+if$ -- 9253
+int.to.chr$ -- 0
+int.to.str$ -- 45
+missing$ -- 523
+newline$ -- 164
+num.names$ -- 43
+pop$ -- 1353
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 2986
+stack$ -- 0
+substring$ -- 1944
+swap$ -- 2252
+text.length$ -- 57
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 45
+warning$ -- 1
+while$ -- 188
+width$ -- 47
+write$ -- 440
+(There were 2 error messages)

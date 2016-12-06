@@ -1,0 +1,2660 @@
+
+%% bare_jrnl_compsoc.tex
+%% V1.4a
+%% 2014/09/17
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8a or later) with an IEEE
+%% Computer Society journal paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_conf_compsoc.tex,
+%%                    bare_jrnl_compsoc.tex, bare_jrnl_transmag.tex
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices and paper sizes can       ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[10pt,journal,compsoc]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+\ifCLASSOPTIONcompsoc
+  % IEEE Computer Society needs nocompress option
+  % requires cite.sty v4.0 or later (November 2003)
+  \usepackage[nocompress]{cite}
+\else
+  % normal IEEE
+  \usepackage{cite}
+\fi
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+%
+% Note that some packages require special options to format as the Computer
+% Society requires. In particular, Computer Society  papers do not use
+% compressed citation ranges as is done in typical IEEE papers
+% (e.g., [1]-[4]). Instead, they list every citation separately in order
+% (e.g., [1], [2], [3], [4]). To get the latter we need to load the cite
+% package with the nocompress option which is supported by cite.sty v4.0
+% and later. Note also the use of a CLASSOPTION conditional provided by
+% IEEEtran.cls V1.7 and later.
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  \graphicspath{{./figure/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/tex-archive/info/epslatex/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+\ifCLASSOPTIONcompsoc
+  \usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
+\else
+  \usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a sans serif font rather
+% than the serif font used in traditional IEEE formatting and thus the need
+% to invoke different subfig.sty package options depending on whether
+% compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Do not use the stfloats baselinefloat ability as IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/dblfloatfix/
+
+
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
+% Axel Sommerfeldt. This package may be useful when used in conjunction with 
+% IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
+% submissions have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.4.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/endfloat/
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/url/
+% Basically, \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usepackage{tabularx}
+\usepackage{color}
+% \usepackage{algpseudocode}
+\makeatletter
+\newcommand{\removelatexerror}{\let\@latex@error\@gobble}
+\makeatother
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor diffe-rent hete-roge-neity}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Maximizing Shuffle Network Bandwidth 
+\\Utilization by Application-Level Flow Scheduling}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+%
+%\IEEEcompsocitemizethanks is a special \thanks that produces the bulleted
+% lists the Computer Society journals use for "first footnote" author
+% affiliations. Use \IEEEcompsocthanksitem which works much like \item
+% for each affiliation group. When not in compsoc mode,
+% \IEEEcompsocitemizethanks becomes like \thanks and
+% \IEEEcompsocthanksitem becomes a line break with idention. This
+% facilitates dual compilation, although admittedly the differences in the
+% desired content of \author between the different types of papers makes a
+% one-size-fits-all approach a daunting prospect. For instance, compsoc 
+% journal papers have the author affiliations above the "Manuscript
+% received ..."  text while in non-compsoc journals this is reversed. Sigh.
+
+% \author{Feng~Liang,~\IEEEmembership{Member,~IEEE,}
+%         and~Francis~C.~M.~Lau,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
+% \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem F. Liang and F.C.M. Lau are with Department
+% of Computer Science, The University of Hong Kong, Hong Kong SAR.\protect\\
+% % note need leading \protect in front of \\ to get a newline within \thanks as
+% % \\ is fragile and will error, could use \hfil\break instead.
+% E-mail: F. Liang- loengf@connect.hku.hk, %\protect\\
+% F.C.M. Lau- fcmlau@cs.hku.hk}%
+% %\thanks{Manuscript received April 19, 2005; revised September 17, 2014.}
+% }
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+%\markboth{IEEE Transactions on Parallel and Distributed Systems,~Vol.~26, No.~9, September~2015}%
+%{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Computer Society Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+% The publisher's ID mark at the bottom of the page is less important with
+% Computer Society journal papers as those publications place the marks
+% outside of the main text columns and, therefore, unlike regular IEEE
+% journals, the available text space is not reduced by their presence.
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2014 IEEE}
+% or like this to get the Computer Society new two part style.
+%\IEEEpubid{\makebox[\columnwidth]{\hfill 0000--0000/00/\$00.00~\copyright~2014 IEEE}%
+%\hspace{\columnsep}\makebox[\columnwidth]{Published by the IEEE Computer Society\hfill}}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark (Computer Society jorunal
+% papers don't need this extra clearance.)
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+% for Computer Society papers, we must declare the abstract and index terms
+% PRIOR to the title within the \IEEEtitleabstractindextext IEEEtran
+% command as these need to go into the title area created by \maketitle.
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+The shuffle operation, which relies on the network bandwidth to transfer data across computer nodes in the cluster, is pervasive in the distributed applications.
+However, unlike the node-monopolistic resource such as memories and CPU cores, the existing distributed resource management platforms does not offer a fine-grained resource allocation mechanism for the network bandwidth.
+The problem of underutilization of the network bandwidth can
+greatly affect the completion time of those tasks
+having large volumes of data to transfer within the cluster,
+the shuffle-heavy MapReduce jobs being a typical one. 
+%Unlike tasks that rely on the memory and the CPU,  whose execution time 
+%only depends on the resource on the single node, the performance of the shuffle task is determined by 
+%the available I/O bandwidth on both ends of the source and the destination nodes. 
+%The influence of the bottleneck of bandwidth in one endpoint of a communication flow is more usual especially 
+Unfortunately, the impact of bandwidth underutilization is more pronounced
+if the network bandwidth capacities of the nodes in the cluster are
+varied.
+
+
+%In this paper, we demonstrate how the data transfer rates of the randomly scheduled communication flows 
+%can be limited by the bottleneck network links and are thus lower than the network bandwidth capacity,
+In this paper, we demonstrate how the communication flows with
+randomly selected source nodes in the shuffle phase
+cannot fully utilize the network bandwidth capacity in a max-min fair network,
+%propose an algorithm to calculate the network throughput of the max-min fair network, 
+and present BAShuffler, a bandwidth-aware shuffle scheduler, that can
+maximize the overall network bandwidth utilization by using a greedy
+or a partially greedy method 
+when scheduling the source nodes of the fetch flows. 
+We evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
+comprising a physical cluster and an EC2 virtual cluster respectively. 
+Simulation is also used to evaluate the performance of BAShuffler in
+clusters of different scales.
+Experiment results show that BAShuffler can significantly improve the
+cluster shuffle throughput
+and reduce the execution time of shuffle tasks by up to 29\% as compared to
+the original YARN, especially in heterogeneous network bandwidth
+environments.
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+YARN, MapReduce, Shuffle, Network Scheduling.
+\end{IEEEkeywords}}
+
+
+% make the title area
+\maketitle
+
+
+% To allow for easy dual compilation without having to reenter the
+% abstract/keywords data, the \IEEEtitleabstractindextext text will
+% not be used in maketitle, but will appear (i.e., to be "transported")
+% here as \IEEEdisplaynontitleabstractindextext when the compsoc 
+% or transmag modes are not selected <OR> if conference mode is selected 
+% - because all conference papers position the abstract like regular
+% papers do.
+\IEEEdisplaynontitleabstractindextext
+% \IEEEdisplaynontitleabstractindextext has no effect when using
+% compsoc or transmag under a non-conference mode.
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
+% Computer Society journal (but not conference!) papers do something unusual
+% with the very first section heading (almost always called "Introduction").
+% They place it ABOVE the main text! IEEEtran.cls does not automatically do
+% this for you, but you can achieve this effect with the provided
+% \IEEEraisesectionheading{} command. Note the need to keep any \label that
+% is to refer to the section immediately after \section in the above as
+% \IEEEraisesectionheading puts \section within a raised box.
+
+
+
+
+% The very first letter is a 2 line initial drop letter followed
+% by the rest of the first word in caps (small caps for compsoc).
+% 
+% form to use if the first word consists of a single letter:
+% \IEEEPARstart{A}{demo} file is ....
+% 
+% form to use if you need the single drop letter followed by
+% normal text (unknown if ever used by IEEE):
+% \IEEEPARstart{A}{}demo file is ....
+% 
+% Some journals put the first two words in caps:
+% \IEEEPARstart{T}{his demo} file is ....
+% 
+% Here we have the typical use of a "T" for an initial drop letter
+% and "HIS" in caps to complete the first word.
+
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+
+
+% needed in second column of first page if using \IEEEpubid
+%\IEEEpubidadjcol
+
+% Hadoop is a fault-tolerant, highly reliable and scalable distributing
+% computing platform for big data analysis
+% and processing. It has been widely used in both research and
+% industrial communities since the launch of its first version (referred
+% to as HadoopV1 in this paper).
+% HadoopV1 fits computing tasks into the MapReduce paradigm and tries
+% to schedule the tasks to run in parallel in a cluster and in a
+% fault-tolerant fashion \cite{dean2008mapreduce}. 
+
+% In HadoopV1, %the MapReduce computing paradigm runs
+% the map and the reduce
+% tasks of a MapReduce job are assigned a fixed number of working slots on
+% each node, regardless of the actual computing resources that the tasks may
+% need to consume at the node.
+% To make resource allocation more dynamic and in tune
+% with the needs of the tasks, the next generation of Hadoop features YARN
+% \cite{vavilapalli2013apache}, a general resource managing
+% platform for the cluster.
+% By encapsulating the computing resources (memories and CPU cores) of
+% the cluster via the abstraction of containers, %a collection of containers,
+% YARN exercises a finer-grained control over the resources. 
+% %By applying the term of
+% With this improved paradigm, MapReduce jobs, as well as
+% jobs of other distributed programming frameworks, like Spark
+% \cite{zaharia2012resilient} and Dryad \cite{isard2007dryad},
+% can be divided into a set subtasks and each subtask would run within
+% its container having the desired amounts of memories and CPU cores. 
+% It allows the user to have a more precise control of the resources, as
+% opposed to the very coarse kind of concurrency as produced by the
+% static slots in HadoopV1.
+% %rather than roughly determining the concurrency of computing nodes by the static slots in HadoopV1.  
+
+The shuffle operation is pervasive in the MapReduce-like~\cite{dean2008mapreduce} distributed operations, 
+such as the ``\emph{join}'' operation in the distributed database systems~\cite{thusoo2009hive, Yu:2008:DSG,Armbrust:2015:SSR}, 
+the ``\emph{reduce}'' tasks in the MapReduce systems~\cite{dean2008mapreduce,vavilapalli2013apache}
+and the ``\emph{aggregateByKey}'' operation in Spark~\cite{zaharia2012resilient}.
+The shuffle operation may require a large amount of network bandwidth 
+and is observed to dominate the job completion time in the datacenter.
+A study on the Yahoo! datacenter work trace suggests that as many as 70\% of 
+the jobs are shuffle-heavy and other studies show that the shuffle completion time
+can account for 33\% of the overall completion time.
+Optimizing the shuffle performance is critical for these
+shuffle-heavy jobs.
+
+
+Many popular distributed resource management platforms such as YARN~\cite{vavilapalli2013apache} (the latest Hadoop~\cite{white2015hadoop}) and Mesos~\cite{hindman2011mesos} are developed to cope with the 
+MapReduce-like applications with shuffle operations. 
+By encapsulating the computing resources (usually memories and CPU cores) of the cluster via the abstraction of containers, 
+the distributed platforms exercises a fine-grained control over the resources. 
+If the performance of the distributed tasks is mainly decided by the
+memories and the CPU cores, which is true of
+many compute-intensive jobs, YARN can do very well in terms of resource
+utilization, assuming that the users are able to properly specify %configure
+%approximately proper
+the resource sizes for the tasks, either by experience or by estimation. 
+In reality, however, the shuffle-heavy tasks need to transfer 
+non-trivial amounts of data via the local area network among the tasks.
+The performance of these %network bandwidth required
+communicative tasks can be largely %to a great degree is
+%are very common and the data transfer time is mainly
+affected by the network bandwidth and the scheduling of the communication flows. 
+Disk I/O, on the other hand, has less an effect on such communication time \cite{kavulya2010analysis}.
+%speed may of course affect the throughput
+%in some extent, but it is rarely the bottleneck of performance due to its faster I/O speed.  
+
+%reference to be added 
+%For example, according to our observation, one third of the execution time is spent on the shuffle tasks 
+%after the map tasks finish and before the reduces tasks start in the Terasort MapReduce job in YARN.
+
+Unfortunately, unlike memories and CPU cores, which can be encapsulated into containers on a node, the throughput
+of a communication flow is mainly determined by the available network bandwidth of 
+the network connection on both endpoints of the source and the destination.  
+The network is the shared resource of a pair of nodes even for one single task that transfers data between them. 
+For this reason, the network bandwidth cannot simply be encapsulated in the resource containers that stand for the isolation of the monopolistic resources.
+
+In the distributed platforms, the shuffle tasks by default
+%realizes the importance of better utilization of the cluster network bandwidth, and 
+would try to evenly distribute the workload of the network
+by randomly selecting the source to fetch the map output data. 
+%((Is this the default action of Yarn? Please indicate so if it is.))
+If the links connecting all the nodes in the cluster
+are more or less equal in terms of bandwidth
+and if the number of network connections is
+large, this random source selection policy could prevent the situation
+where some nodes would become a bottleneck.
+%and thus roughly fully utilize the network bandwidth.
+%However, this simple scheduling of network connections
+%cannot optimize the network bandwidth utilization by monitoring the
+%actual connection scheduling status in the cluster. 
+Obviously, however, without monitoring the actual connection
+allocations %status in
+in the cluster, this simple random source scheduling approach cannot offer
+any bandwidth guarantee. 
+%((I don't
+%understand the "monitoring ..." part. Do you mean instead of random
+%selection, we monitor something and then select the nodes accordingly
+%...?))
+And it will likely lead to suboptimal performance
+if the network is a \emph{heterogeneous} one,
+i.e., the network bandwidth capacities of the links are different, 
+whose reason will be analyzed with examples in Section \ref{section:analysis}.
+%Connections between a node with the larger network bandwidth capacity and a node with the smaller one will mostly  likely 
+%be congested at the end with smaller bandwidth if the connections have the random sources or destinations. 
+% The reason for the poor utilization of network bandwidth in heterogeneous
+% networks will be explored in detail in Section \ref{section:analysis}.
+A heterogeneous network environment can be quite common in practice
+for distributed platform users, e.g., YARN users, as physical clusters comprising off-the-shelf
+machines could be fit with a variety of different network devices \cite{zaharia2008improving}, 
+or in a virtual cluster, EC2 virtual machines could be running at
+different network speeds. %insurance. 
+
+Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
+the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
+when a map task finishes. 
+In this paper, instead, we tend to explore the application-level flow scheduling approach, 
+which owns the full information of the shuffle operation, 
+and leave the bandwidth allocation status to the natural behavior of network level. 
+We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
+
+In this paper, 
+% we examine the bandwidth underutilization of the
+% randomly scheduling shuffle flows
+% in both homogeneous and heterogeneous networks, 
+% by analyzing the max-min fairness phenomenon in TCP communication.
+%We find out that the network bandwidth is not evenly shared between TCP flows in the congested network links, 
+%especially when the network bandwidth capacities of the links are different. 
+%We will show how to compute the bandwidth share each TCP flow can gain provided the communication pattern of TCP 
+%flows, regardless of the network topology. 
+we present BAShuffler, a network-bandwidth-aware shuffle scheduler, 
+that can maximize the network bandwidth utilization of the shuffle operation
+without changing the underlying network and the existing MapReduce-like interfaces. 
+%Existing MapReduce programs can run with BAShuffler without modifying any code. 
+BAShuffler applies the partially
+greedy source selection (PGSS) algorithm
+to select the appropriate source nodes of the TCP fetch flow so that 
+the the network bandwidth utilization is maximized. 
+We implement BAShuffler based on YARN and apply it in
+several benchmarks.
+We conduct experiments on both a physical cluster and an EC2
+virtual cluster to evaluate the real performance of BAShuffler. 
+Experiment results show that BAShuffler can significantly increase the
+shuffle throughput
+%add the precise improvement here. 
+%by \textcolor{red}{xxx}\%, 
+and reduce the total job completion time, by up to 29\% for
+shuffle-heavy jobs in the physical and the virtual clusters
+as compared to the original YARN. 
+We also use simulations to mimic the clusters of different scales. 
+The simulation results show that comparing to the
+random-source-selection method adopted by YARN, 
+PGSS can improve the cluster network bandwidth
+utilization especially in a heterogeneous network environment, without low scheduling overhead.
+
+% Our major contributions are:
+% \begin{itemize}
+% \setlength{\itemsep}{0pt}
+% \setlength{\parskip}{0pt}
+% \setlength{\parsep}{0pt}
+% \item We analyzed the cause of the network bandwidth underutilization of the shuffle operation in the TCP network by using the max-min fairness allocation algorithm.
+% We stressed the amplification of the underutilization problem in the heterogeneous network environment. 
+
+% \item We presented the efficient algorithms named Greedy Source Selection (GSS) and Partially Greedy Source Selection (PGSS), which schedules the sources of the fetch flows 
+% of the shuffle operation at the application level to achieve the the maximum 
+% network bandwidth utilization.
+
+% \item We implemented BAShuffler, the bandwidth-aware shuffle source scheduler, atop YARN. 
+% BAShuffler leverages PGSS as the shuffle source scheduling algorithm. 
+% We evaluated BAShuffler in both the physical cluster and the virtual cluster.
+% \end{itemize}
+
+The rest of the paper is organized as follows.
+In Section \ref{section:background}, we provide some background information on the shuffle mechanism
+and the max-min fairness behavior of the TCP communication, and discuss the motivation of improving the shuffle performance by scheduling at the application level.
+% In Section \ref{section:analysis}, we analyze the bandwidth utilization status with different shuffle scenarios
+% and discuss the rationality of scheduling the shuffle flows in the application level.
+%why some TCP flows cannot use the idle network bandwidth
+%at either the source or the
+%destination endpoints of the connections,
+%and thus cannot obtain more bandwidth share to fully utilize the
+%capacities of the links concerned.
+%In Section \ref{section:max-min}, we explore the method to obtain the actual network bandwidth
+%utilization of the TCP flows in the max-min fair network. 
+The design and the implementation details of BAShuffler and PGSS
+are given in Section \ref{section:bashuffler}.
+Section \ref{section:evaluation} presents the evaluation of BAShuffler.
+We discuss the related works in Section \ref{section:relatedwork} and
+conclude the paper in Section \ref{section:conclusion}. 
+
+
+
+\section{Background, Motivation and Discussion}\label{section:background}
+In this section, we give an overview of the resource management mechanism
+and the shuffle policy of YARN and discuss the drawbacks of the current design. 
+We discuss the motivation of scheduling the shuffle flows at the application level
+and introduce the max-min fairness behavior in TCP communication, which is
+a convenient tools used by BAShuffler. 
+
+\subsection{Resource Management and Shuffle in YARN}
+% Hadoop is a fault-tolerant, highly reliable and scalable distributing
+% computing platform for big data analysis
+% and processing. It has been widely used in both research and
+% industrial communities since the launch of its first version (referred
+% to as HadoopV1 in this paper).
+% HadoopV1 fits computing tasks into the MapReduce paradigm and tries
+% to schedule the tasks to run in parallel in a cluster and in a
+% fault-tolerant fashion \cite{dean2008mapreduce}. 
+
+% In HadoopV1, %the MapReduce computing paradigm runs
+% the map and the reduce
+% tasks of a MapReduce job are assigned a fixed number of working slots on
+% each node, regardless of the actual computing resources that the tasks may
+% need to consume at the node.
+% To make resource allocation more dynamic and in tune
+% with the needs of the tasks, the next generation of Hadoop features YARN
+% \cite{vavilapalli2013apache}, a general resource managing
+% platform for the cluster.
+% By encapsulating the computing resources (memories and CPU cores) of
+% the cluster via the abstraction of containers, %a collection of containers,
+% YARN exercises a finer-grained control over the resources. 
+% %By applying the term of
+% With this improved paradigm, MapReduce jobs, as well as
+% jobs of other distributed programming frameworks, like Spark
+% \cite{zaharia2012resilient} and Dryad \cite{isard2007dryad},
+% can be divided into a set subtasks and each subtask would run within
+% its container having the desired amounts of memories and CPU cores. 
+% It allows the user to have a more precise control of the resources, as
+% opposed to the very coarse kind of concurrency as produced by the
+% static slots in HadoopV1.
+
+YARN manages the computing resources in the cluster as a collection
+of containers, each of which consists of memories and CPU cores. The
+jobs are sub-divided into tasks according to a certain specific
+computing paradigm, which are then assigned to their respective allocated
+containers
+%in the cluster and will run in their respective containers with
+having the required amounts of memories and CPU cores.
+%% The computing resources capacity in a container are the maximum resource quotas that a task can use during its lifetime, 
+%% and are not the actual resources that the task is using or will use during its lifetime. 
+%% If the task resource usage exceeds the capacity of the container it runs in, the task will fail. 
+ 
+The resource management mechanism of YARN requires the users to
+estimate the amounts of memories and CPU cores that the tasks will use.
+%towards the approximate optimal practice. 
+An underestimation would result in a container being too small for the task
+to run, while too large a container may deprive other tasks of their
+resources and may even prevent them from running. Either way
+will impact the cluster's overall performance. 
+% Although YARN can hardly achieve dynamic optimal performance, 
+% its ability to control the memories and CPU core serves as a better resource control method 
+% than the static slot approach in HadoopV1. 
+%A method to dynamically control the degree of concurrency in each node
+%based on runtime information to achieve the optimal performance
+%is introduced in \cite{smapreduce}. 
+Although much work~\cite{Delimitrou:2014:QRQ, smapreduce} has been done to optimize the compute-intensive
+resource utilization (of CPU, memory, etc.) in
+Hadoop, there has not been any
+feasible solution for controlling the network bandwidth in the
+cluster.
+%address the importance of controlling the network bandwidth in the
+%Hadoop cluster but cannot raise an feasible solution. 
+Indeed,
+the memory and the CPU core abstraction of YARN cannot properly model the
+performance of tasks that are network-centric such as
+the shuffle phase of MapReduce. 
+ 
+MapReduce is the most common distributed computing paradigm in YARN,
+especially when performing big data analysis. MapReduce can be divided
+into two interfaces: map and reduce.
+The map interface processes the input data and collects a list of
+values corresponding to different keys;
+the reduce interface takes the output of the map primitive as
+input and generates a value for each key.
+Both interfaces run as a set of map or reduce tasks in the YARN
+containers in the cluster.
+
+A reduce task, before the actual reduce semantics execute,
+needs to fetch the map output data from
+different partitions on different nodes for the keys/values to reduce,
+which is called a ``\textbf{shuffle}''.
+Each fetch translates to an HTTP request to the server to transfer the
+map output of a specific partition on a node to the reduce node,
+which can simply be conceived as a TCP flow. 
+There are usually many fetches from different source nodes in a shuffle. 
+A shuffle is a many-to-one TCP communication instance, 
+and all the shuffles together for a MapReduce job
+make up a many-to-many TCP communication. 
+When a shuffle begins, it starts off a specific number of threads, called
+fetchers, each of which then randomly selects a pending fetch from the set
+of all the fetches of the shuffle.
+In other words, a specific number of fetchers will randomly select the
+source nodes to transfer the map output data in parallel. 
+This random source node selection (RSS) approach adopted by YARN can
+approximately evenly distribute the network transfer workload
+over different source nodes, and reduce the probability of the traffic
+congesting in the uplink of a few source nodes.
+
+However, as we have commented,
+RSS cannot fully utilize the network bandwidth
+when the network bandwidth capacities of
+the network links connecting the nodes are different, as in
+a heterogeneous network environment.
+In such an environment, some links might become congested by too many flows,
+while some others leave much of their network bandwidth unused.
+A network bandwidth shuffle scheduler that can select that proper
+source node to fetch data from is necessary in order
+to fully utilize the overall network bandwidth available in the cluster. 
+
+
+\subsection{Application-Level Shuffle Scheduling}\label{section:application_level}
+To improve the shuffle performance, a solution can be devised to operate at the network level or the application level, with both pros and cons
+at either level. 
+
+At the network level, ideas such as
+performance isolation \cite{greenberg2009vl2}
+and fair sharing of network resources \cite{shieh2011sharing,popa2012faircloud} 
+can provide performance guarantees for the shuffle fetch flows.
+However, as the flows belonging to one shuffle are correlated in
+semantics and the shuffle phase cannot finish until its last flow
+finishes, optimization by scheduling the network based on the granule of
+individual flows may not always lead to improved shuffle performance.
+
+Therefore, it is better that the network-level optimization can
+consider the flows belonging to one shuffle as a whole when
+scheduling.
+The ``coflow'' model \cite{chowdhury2014efficient,
+chowdhury2015efficient} has been proposed to allow scheduling the network based on
+the granule of a collection of application-level correlated flows.
+But nevertheless, neither the coflow nor any other pure network-level
+model can actually describe the runtime status of the shuffle phase
+due to information isolation between the network level and the
+application level.
+When there is a large set of map outputs that need to be fetched during
+the shuffle, as the application level can only create a limited number
+of fetch flows at one time (5 per reduce task by default)
+%by the practical considerations to the
+due to system limits,
+the remaining map outputs will be left pending until there are available
+fetch workers later. 
+The network level (or coflow here) is only aware of the existence of
+the flows created, but not the potential flows of the same shuffle
+pending at the application level.
+Minimizing the completion time of the coflow is NOT the same thing as
+minimizing the shuffle completion time.
+
+To obtain the optimal scheduling solution that minimizes the shuffle
+completion time, the scheduler needs to consider both the
+application level runtime status (all the available map outputs and
+destinations) and the network level information (the network fabric,
+the routing, the bandwidth allocation, etc.).
+However, it is too costly %and impractical
+to implement such a scheduler
+because it will need to gather/distribute a large amount of information
+from/to both the application level and the network level.
+The overhead of communication between the application level and the
+network level could be prohibitive.
+What is more important is that such a cross-layer approach would violate the
+principle of the isolation of the application level and the network
+level \cite{saltzer1984end}.
+
+Application-level shuffle scheduling has the advantage of knowing
+the true runtime status of the shuffle.
+Although it cannot make efforts to improve the underlying network, 
+it can observe and predict the behavior and performance of the network, 
+and then schedule the shuffle flows accordingly based on
+these observations and the predicted values (e.g., by using MMF in the TCP
+network) to obtain the near-optimal solution. 
+
+
+\subsection{Max-Min Fairness in TCP Communication}\label{section:MMF}
+The max-min fair (MMF) allocation behavior of TCP communication %with a bottleneck link
+is the converged state achieved by the 
+AIMD (Additive Increase, Multiplicative Decrease) congestion control
+algorithm used by TCP \cite{jacobson1988congestion}.
+The MMF of TCP has been extensively
+analyzed and verified in the literature \cite{bertsekas1992data, chiu1989analysis, kelly1998rate, vojnovic2000global}.
+Although it cannot accurately model the exact behavior of the TCP
+communication, the MMF model is acceptable and appropriate for
+approximating the network behavior, and can lead to useful conclusions in
+various application settings.
+ 
+When there is MMF in the communication network, there
+exists a feasible and unique bandwidth allocation
+such that an attempt to increase the allocation of any flow will be
+at the cost of decreasing the allocation of some other
+flows with equal or smaller allocation.
+Each data flow must have a \emph{bottleneck link}, which is saturated, 
+and of all the data flows sharing the bottleneck link, this data flow
+occupies the overall maximum bandwidth.
+
+The MMF allocation can be derived by a progressive filling
+algorithm if the bandwidth capacities of the links and the routing of all the data flows
+are known in advance (as apposed to best-effort networks). 
+The first step is to find out the saturated links.
+Suppose that all data flows passing through a link will get equal
+bandwidth shares,
+i.e., the bandwidth capacity of the link divided by the number of
+flows going through it. 
+The links with the least average bandwidth share are the saturated links,
+and this least bandwidth share is the final bandwidth allocated to these
+flows on the saturated links.
+The second step is to update the set of links pending for allocation 
+and available bandwidth capacities of the links.
+The saturated links and the all flows on them are removed; 
+for all the other links that are on the paths of the removed flows, 
+the bandwidths occupied by the removed flows are subtracted
+from the link bandwidth capacities. 
+Finally, the first and second steps are repeated given the information on 
+the updated link bandwidth capacities
+and the remaining data flows, until all data flows have been allocated
+bandwidth.
+
+By using this method, the current bandwidth allocated to
+each flow and the utilization of the overall bandwidth can be estimated
+in TCP communication that behaves in the MMF way, given
+the knowledge of the topology, the capacities of the links and the
+routing paths of the flows.
+
+With the recent progress in research on full bisection bandwidth
+topologies \cite{greenberg2009vl2, alizadeh2014conga, niranjan2009portland}, 
+it is practical to simplify the datacenter fabric as a non-blocking switch \cite{ballani2011towards, chowdhury2011managing, alizadeh2013pfabric, kang2013optimizing, chowdhury2014efficient, chowdhury2015efficient}. 
+In this case, the bottleneck links of the flows lie in
+the access layer, which directly connect to the nodes.
+When figuring out the MMF allocation of the TCP flows,
+the network topology and the paths of the data flows
+can be ignored. By merely knowing the bandwidth capacities of the
+uplinks and downlinks in the access layer
+and the source and destination nodes of the TCP flows, we can obtain
+the bandwidth allocation of the flows easily. 
+The non-blocking switch abstraction largely simplifies the estimation of the MMF bandwidth allocation. 
+
+In the rest of the paper, we assume that the bottleneck links of the
+TCP links are all in the access layer,
+and optimize the TCP flow scheduling in the shuffle without the
+knowledge of the network topology of the cluster.
+
+
+\section{BAShuffler}\label{section:bashuffler}
+In this section, we introduce the design of our
+bandwidth-aware shuffle scheduler, named BAShuffler. 
+BAShuffler improves the throughput of the shuffle phase of MapReduce jobs in
+YARN by selecting the appropriate source node
+for fetching map output data from in order to increase the network bandwidth
+utilization.
+%\textcolor{red}{TODO.}
+The greedy source selection method and the partially greedy source
+selection method are applied for selecting the source nodes. 
+BAShuffler optimizes the network transfer throughput at the application level, 
+without having to modify the underlying network protocols. 
+It will not affect the performance of the datacenter networks when
+there are other non-MapReduce jobs running. 
+%This allows the general use of the datacenter for other non-MapReduce
+%jobs. ((I am not sure about the meaning of this sentence; please
+%rewrite.))
+BAShuffler schedules the sources of the fetches in the background
+without any change to the current interfaces of MapReduce, and
+users need not be aware when designing the logic of their jobs.
+BAShuffler can be implemented seamlessly in YARN and
+existing MapReduce jobs can run in YARN without changing any code
+in the presence of BAShuffler.
+
+\subsection{Design of BAShuffler}
+\subsubsection{Design Considerations}
+In order to improve the shuffle performance of MapReduce in YARN, 
+it is necessary for the system to schedule network bandwidth as a
+kind of resource.
+However, it is not appropriate to encapsulate network bandwidth
+in a container
+like what is done for memory or CPU cores, for the following two reasons: 
+a) the network bandwidth occupied by the communication flow is decided
+by the two nodes on both ends of the flow
+and cannot be represented in a container that resides on a single node; 
+b) the task in a container may only use the network bandwidth as the
+necessary resource for some period of time
+throughout the whole lifecycle of the container, and a container for
+network bandwidth cannot properly 
+model the resources a task requires for its execution. 
+Therefore, BAShuffler will not change the allocation mechanism of
+resource containers for the tasks.
+Instead, BAShuffler focuses on the shuffle phase of the reduce task,
+which is already running in an allocated container.
+
+%Even inside
+During the shuffle phase, there are several factors that can
+affect the throughput or the execution time of the shuffles.
+One factor is the number of fetchers of each shuffle fetching the data
+concurrently.
+This number directly decides the traffic workload in the cluster. Too many
+fetchers can jam the network (the TCP incast problem \cite{Phanishayee:2008:MAT}),
+while too few fetchers may increase the probability of the network
+links being underutilized. %in terms of bandwidth.
+%According to our observation, as long as the number of fetchers of
+%each shuffle lies within a reasonable range,
+%e.g., 2 to 5, the overall throughput will not deviate too much. 
+The optimal number of fetchers in fact varies with the network settings as well as the application, but generally need not be very large (as suggested by the incast problem). 
+According to some of the Hadoop best practices (e.g. \cite{white2015hadoop}), tuning the number of fetchers is not a major performance consideration. 
+Considering there can be multiple task containers in one node, we consider 2 to 6 fetchers per shuffle task would be acceptable. 
+For the experiments that evaluate the other factors than the fetcher number, such as different jobs and input sizes, we do not bother with the optimal fetcher number and simply used Hadoop's default number, which is 5. 
+
+Another important factor is the communication pattern of the fetch
+flows, where different communication patterns can lead to different bandwidth utilization status, which we will illustrate in the coming sections.
+To schedule the communication pattern that can yield maximum bandwidth
+utilization, BAShuffler selects the source node of the fetch based on the MMF bandwidth estimation
+when a new fetcher is free.
+
+\begin{figure}
+\centering
+
+\includegraphics[width=1\columnwidth]{figure1}
+
+\caption{Architecture Design of BAShuffler}
+\label{fig:bashuffler}
+%\vspace{-0.2in}
+\end{figure}
+
+\subsubsection{Architecture of BAShuffler}
+The logical position where the BAShuffler components are embedded in YARN is shown in Fig.~\ref{fig:bashuffler}. 
+The solid arrow lines represent local signals or data communications
+between components by method calls in the same node,
+while the dashed arrow lines represent remote procedure calls (RPC)
+between components in different nodes.
+
+At startup, the node managers register the bandwidth capacities of the uplink
+and downlink of the node with BAShuffler. The users can obtain the
+capacities of these access layer links of the nodes either from the
+specification of the cluster configuration or by a simple bandwidth
+evaluation tool.
+
+When a shuffle task needs to schedule a new fetch, with the machine executing the shuffle task as the destination node, it asks the
+BAShuffler caller to initiate a request to the remote BAShuffler
+to decide the source node to schedule, from a set of available nodes that has finished some map task.
+The BAShuffler caller sends the necessary shuffle information to the
+corresponding application master,
+including the shuffle task ID, the list of pending nodes to fetch
+the data from and the request number of source nodes.
+When the application master receives the shuffle scheduling request, 
+it caches the request and extracts the node information from the job
+information maintained in the application master.
+In the heartbeat from the application master to the resource manager,
+besides the original container allocation requests
+of YARN, the application master also sends the shuffle source
+scheduling request to BAShuffler, which lies in the resource manager.
+BAShuffler applies PGSS to schedule the fetch source of the shuffle tasks, which will be introduced in the following sub-sections. 
+BAShuffler adopts the centralized scheduling policy and make the source scheduling decision based on the link
+bandwidth capacities and scheduling status of the whole cluster, e.g., the records of the source and
+destination nodes of the scheduled flows, 
+with the fact that this information is easily at hand of the resource manager.
+When the source nodes for fetching are selected, BAShuffler will
+update the current scheduling information and
+the result is transferred back to the shuffle task in the reversed path. 
+
+When the shuffle task finishes fetching the data from a source and
+wants to free the flow,
+it will use the BAShuffler caller to update the source scheduling
+information in BAShuffler along the same path.
+
+When a node manager is added or deleted from the cluster, 
+the node manager registers or deregisters its link capacities information 
+(and also the existing flow information when deregistering) to BAShuffler, 
+just as at startup. 
+Adding or deleting a node in the cluster will not add additional workloads 
+of the users installing and configuring the system. 
+
+
+\begin{figure}[!t]
+\removelatexerror
+\begin{algorithm}[H]
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+ \Input{$Sources$: the source nodes to select; \\
+ $Pattern$: the sources and destinations the allocated flows in the cluster;}
+ \Output{$Selected$;}
+
+ $Heaviest$ $\gets$ the heaviest-loaded source nodes in $Sources$;\\
+ $MaxBandwidth$ $\gets$ 0;
+ 
+ \ForEach{Source $\in$ Heaviest}{
+  $Util$ $\gets$ the MMF bandwidth utilization of the whole cluster after adding $Source$ to $Pattern$;
+  
+  \If{Util $>$ MaxBandwidth}{
+    $MaxBandwidth \gets Util$;\\
+    $Selected \gets Source$;
+  }
+ }
+add $Selected$ to $Pattern$;\\
+update the load count of $Selected$;
+\caption{Partially Greedy Source Selection}
+\label{algo:PGSS}
+\end{algorithm}
+\caption{Pseudo Code of the Partially Greedy Source Selection Algorithm}
+\label{fig:PGSS}
+\end{figure}
+
+% \begin{figure}[!t]
+% \begin{algorithmic}[1]
+% \Require $Sources$: the source nodes to select; 
+% \\$Pattern$: the sources and destinations the allocated flows in the cluster;\\
+% \Return $Selected$;
+
+% \State $Heaviest$ $\gets$ the heaviest-loaded source nodes in $Sources$;
+% \State $MaxBandwidth$ $\gets$ 0;
+
+% \For{\textbf{each} Source $\in$ Heaviest}
+%   \State $Util$ $\gets$ the MMF bandwidth utilization of the whole 
+%   \State cluster after adding $Source$ to $Pattern$;
+  
+%   \If{Util $>$ MaxBandwidth}
+%     \State $MaxBandwidth \leftarrow Util$;
+%     \State $Selected \leftarrow Source$;
+%   \EndIf
+% \EndFor
+% \State add $Selected$ to $Pattern$;
+% \State update the load count of $Selected$;
+% % \caption{Partially Greedy Source Selection}
+% % \label{algo:PGSS}
+
+% \end{algorithmic}
+% \end{figure}
+
+
+
+\subsection{Greedy Source Selection}
+A straightforward method to improve the shuffle throughput when
+selecting the source is
+to use the greedy method for online scheduling: 
+whenever there is a new fetch to schedule, the shuffle selects the
+pending source node such that after selecting it,
+the MMF bandwidth of the communication pattern is no less
+than that
+when any other pending source node is selected. We call this shuffle
+scheduling policy Greedy Source Selection, or GSS.
+%as against the RSS policy of YARN. 
+
+
+GSS is an effective method as long as it is not the
+worst case:
+the selections of the shuffles focus on a part of the pool of the
+nodes too much
+so that later on, the selection of the remaining source nodes of all
+the shuffles can only be concentrated in the other part of the pool.
+In this case, in the latter period of source scheduling,
+the bandwidth of some nodes cannot be used at all as all the map
+outputs have already been fetched.
+The total bandwidth utilization might fall dramatically in this worst case. 
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+\setlength\tabcolsep{1.5pt}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Time Complexity of Different Scheduling Algorithms for Scheduling Each Request}
+\label{table:complexity}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{.47\textwidth}{c|c|c|c}
+\hline
+\textbf{RSS} & \textbf{GSS} & \textbf{PGSS} &\textbf{Online Optimal}\\
+\hline
+$O(1)$ & $O(M \cdot (N+F))$ &
+$O(K \cdot (N+F))$ &$O(\frac{(P+M-1)!}{P \cdot P! \cdot(M-1)!} \cdot (N+F))$\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+\subsection{Partially Greedy Source Selection}
+Just like the other online scheduling algorithms \cite{wu2007scheduling, sgall1998line}, 
+GSS does not predict the arrival pattern of the coming source nodes. 
+It makes sure that the maximum transfer throughput of the whole
+cluster is achieved during the short period
+following the selection of each source,
+but it cannot guarantee the maximum average throughput of the cluster
+for a much longer period of time.
+
+A better shuffle source scheduling algorithm is possible if we can
+predict the arrival pattern of the source nodes. %to fetch.
+There is however almost no way to know the arrival pattern of the shuffle
+tasks in advance
+as when and where the shuffle task starts depends on the allocation of
+the reduce containers, which is a stochastic process.
+Nevertheless, after a shuffle has started, the future pairs of the
+source and destination of the fetch flows can be approximately predicted.
+The destination of the fetch flows is the node where the shuffle task
+executes,
+and the sources are all the nodes where there are input data for the
+map tasks of the same job
+(we ignore the case when there happens to be no map output partition
+for the shuffle, which is almost impossible
+for reasonably large input datasets). 
+
+Therefore, we can improve GSS to avoid concentration via what we call Partially
+Greedy Source Selection (PGSS), whose algorithm is shown in Fig.~\ref{fig:PGSS}.
+PGSS marks all the nodes with a \emph{load count}, which indicates how many fetch flows will be created from
+the corresponding source nodes in the immediate or near future.
+When a shuffle begins, PGSS predicts that there will be a new fetch
+flow later from every map task.
+Therefore, it increments the load count of each potential pending
+source node by the number of map tasks in the node.
+When PGSS needs to select a source from the pending nodes, 
+it zeros in on the set of source nodes that have the largest remaining load counts first (``partial'') and selects the one that gives that maximum MMF
+bandwidth utilization (``greedy'').
+%and we call this algorithm which applies GSS only to a set of
+%pre-selected source nodes as PGSS. 
+
+PGSS may not increase the overall bandwidth utilization as compared to GSS, 
+%In fact, the bandwidth utilization after applying PGSS is usually
+%smaller than applying GSS,
+as PGSS only selects the source nodes from the heaviest-loaded
+sources, which are a subset of the domain of GSS.
+However, PGSS can avoid the concentration of selection from a small set
+of sources,
+while maintaining the competitive bandwidth utilization, especially in the long run. 
+Another advantage of PGSS against GSS is that PGSS may incur
+even a smaller scheduling overhead, 
+as PGSS only selects the source nodes from the heaviest-loaded nodes. 
+%Following the same settings of
+%We will not go through PGSS and GSS with different flow arrival
+%pattern here,
+%but we compare their performance with simluation,
+%in Section \ref{section:evaluation}.
+
+Although GSS and PGSS are not the online optimal scheduling solutions for the
+shuffle source selection problem,
+they are much simpler in terms of time complexity than the online
+optimal solution. 
+Suppose that the number of nodes in the cluster is $N$,
+and during the shuffle, at a specific scheduling moment, 
+the number of existing flows in the network is $F$.
+$P$ fetchers are
+requesting from the same set of pending sources of size $M$ at the same time, 
+while the number of the heaviest-loaded nodes is $K(K \leq M)$.
+The online optimal solution considers every P-combination with $M$ repeated source nodes and then choose the combination that obtains the maximum bandwidth utilization.  
+Given that the time complexity for obtaining the MMF
+bandwidth utilization
+of a specific network from a communication pattern is $O(N+F)$, 
+the time complexities of different shuffle source scheduling algorithms for scheduling a
+fetcher are summarized in Table~\ref{table:complexity}.
+RSS, by random selection, gives the least time complexity. 
+The time complexities of GSS and PGSS are much smaller than the online optimal algorithm, where generally, PGSS suffers even less scheduling overhead than GSS. 
+It is verified in Section \ref{section:evaluation} that the scheduling
+performance of PGSS is close to the online optimal.
+
+Currently, GSS and PGSS do not differentiate the fetch flows belonging to different shuffle tasks or different jobs during scheduling. 
+It schedules each fetch to maximize the MMF utilization for the whole cluster, but not just for the jobs that the fetch belongs to. 
+Also, GSS and PGSS do not consider the workload size of the flows (the data size to transfer in the flow), as the bandwidth utilization efficiency, instead of the flow completion time, is the major concern of BAShuffler. 
+In fact, the shuffle fetch flows are not batched tasks as some fetch flows are unknown yet and the future flow tasks can come dynamically at casual time.
+It is unpractical to consider the shuffle completion time as the performance goal for the online flow tasks.
+The goal of maximizing bandwidth utilization is reasonable in the shared environment, e.g., in multi-tenant clusters, and we believe that higher overall bandwidth utilization will lead to shorter completion time.
+
+% \begin{figure}[!t]
+% \centering
+
+% \subfloat[Sparse Case]{
+% \includegraphics[width=0.46\columnwidth, height=0.3\columnwidth]{figure3a}
+% \label{fig:network1}}
+% \subfloat[Intensive Case]{
+% \includegraphics[width=0.46\columnwidth, height=0.3\columnwidth]{figure3b}
+% \label{fig:network2}
+% }
+
+% \caption{Scenarios of Selecting the Source in Uneven Flow Pattern}
+% \label{fig:network}
+% %\vspace{-0.2in}
+% \end{figure}
+
+\begin{figure}[!t]
+\centering
+
+\includegraphics[width=1\columnwidth]{figure3}
+
+\caption{Scenarios of Selecting the Source in Uneven Flow Pattern}
+\label{fig:network}
+%\vspace{-0.2in}
+\end{figure}
+
+\subsection{Applying PGSS}\label{section:analysis}
+We illustrate how PGSS is applied when selecting a source based on the
+notion of MMF allocation in both homogeneous and heterogeneous
+network settings, corresponding to the capacities
+of the access layer links being the same or different, respectively.
+The analysis can easily extend to a large scale of nodes and flows in
+the datacenter, as the MMF behavior follows the same
+method of estimation.
+
+As dicussed in Section~\ref{section:MMF}, we assume that the bottleneck links of the TCP
+flows are the access links to the computer nodes.
+We consider both the homogeneous and the heterogeneous network settings,
+which are distinguished by whether the capacities
+of the access layer links are the same or vary.
+%i.e., a homogeneous network environment. 
+Although RSS can distribute the
+flows more or less evenly, %to some extent,
+it cannot guarantee exactly the same workload (or number of flows) on each node. 
+
+%\subsubsection{Sparse Flows}
+%Fig.~\ref{fig:network1} shows
+%a scenario where the shuffle communication flows are sparse.
+%There are three nodes, A, B, and C, in the cluster and 
+%each node has the equivalent uplink and downlink bandwidth capacity of,
+%say, 6 Mbps.
+%The solid arrows labeled a and b represent the existing fetch flows from A to
+%C and from B to C, respectively.
+%These two flows will share the bandwidth of the download link of Node
+%C, each getting 3 Mbps, and the overall bandwidth utilization is 6 Mbps. 
+%A shuffle on Node B has map output data to fetch on both Node A and Node C. 
+%Now, a fetcher on Node B is available and needs to decide a source
+%node to fetch the data.
+%If the fetcher chooses to fetch data from Node A with the new Flow c1,
+%as indicated by the dashed arrow,
+%Flow c1 will only get a bandwidth share of 3 Mbps, and the cluster
+%overall bandwidth utilization is 9 Mbps, out of the maximum capacity
+%of 18 Mbps. Hence, 50\% of the bandwidth is left idle and wasted.  
+%However, if the fetcher chooses to fetch data from Node C with the new Flow c2, 
+%Flow c2 can occupy the full bandwidth of the downlink of Node B or uplink of Node C, which is 6 Mbps, 
+%without affecting the bandwidth allocation of the other flows in the cluster. 
+%The cluster overall bandwidth utilization increases to 12 Mbps, which
+%is 1.3x of that when Node A is chosen.
+
+Fig.~\ref{fig:network} depicts 
+two scenarios of the uneven flow pattern, where uneven means
+that the numbers of flows into or out of all the nodes are not the same, and even otherwise. 
+In the sparse case, most of the links are idle, while in the intensive case, the
+links are almost saturated by the flows.
+In the homogeneous network setting,
+the three nodes, A, B, and C, have the same uplink and downlink bandwidth
+capacities, % which are listed in Table \ref{table:networkSetting}.
+which are 6, 6 and 6, respectively; whereas in the heterogeneous setting,
+there capacities are 6, 6 and 12, respectively.
+% There are three nodes, A, B, and C, in the cluster and 
+% each node has the equivalent uplink and downlink bandwidth capacities, 
+% which are listed in Table \ref{table:networkSetting}.
+The solid arrows represent the existing fetch flows and the dashed arrows represent the newly coming flows that can be selected. 
+Now, a fetcher in Node B becomes available and PGSS needs to decide a source
+node (A or C) to fetch the data. 
+Assume that both Node A and Node C are the heaviest-loaded nodes.
+
+% \begin{table}[!t]
+% % increase table row spacing, adjust to taste
+% \renewcommand{\arraystretch}{1}
+% % \extrarowheight as needed to properly center the text within the cells
+% \caption{Capacities of Upload\&Download Links in Different Network Settings}
+% \label{table:networkSetting}
+% \centering
+% % Some packages, such as MDW tools, offer better commands for making tables
+% % than the plain LaTeX2e tabular which is used here.
+% %\begin{tabular}{|c||c|c|}
+% \begin{tabularx}{.24\textwidth}{c||c|c|c}
+% \hline
+% \textbf{Settings} & \textbf{A} & \textbf{B} & \textbf{C} \\
+% \hline
+%  Homogeneous&6&6&6\\
+% \hline
+% Heterogeneous &6&6&12\\
+% \hline
+% \end{tabularx}
+% %\end{tabular}
+% \end{table}
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Max-Min Fairness Bandwidth Allocation of Flows of the Sparse Case in the Homogeneous Network}
+\label{table:homoSparse}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{.35\textwidth}{c||c|c|c|c|c}
+\hline
+\textbf{Selected Flow} & \textbf{a} & \textbf{b} & \textbf{c1} & \textbf{c2} & \textbf{Overall}\\
+\hline
+Nil &3&3&-&-&6\\
+\hline
+c1 &3&3&3&-&9\\
+\hline
+c2 &3&3&-&6&12\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Max-Min Fairness Bandwidth Allocation of Flows of the Intensive Case in the Homogeneous Network}
+\label{table:homoIntensive}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{.42\textwidth}{c||c|c|c|c|c|c|c}
+\hline
+\textbf{Selected Flow} & \textbf{a} & \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e1} &\textbf{e2} &\textbf{Overall}\\
+\hline
+Nil &2&2&2&6&-&-&12\\
+\hline
+e1 &2&2&2&6&4&-&16\\
+\hline
+e2 &2&2&2&3&-&3&12\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+
+\subsubsection{Homogeneous Network}
+In the homogeneous network setting, the MMF bandwidth
+allocation of each flow before or after selecting a new flow is
+shown in Table \ref{table:homoSparse} (for the sparse case) and Table
+\ref{table:homoIntensive} (for the intensive case), respectively, where ``Nil'' in an entry means before the source selection.
+Different selection decisions can lead to different flow bandwidth allocations and overall bandwidth utilizations. 
+In the sparse case (Fig.~\ref{fig:network}), PGSS will select Node C as the source, which gives 33\% higher overall
+bandwidth utilization than if Node A is selected.
+Note that the RSS policy of YARN will have a 50\% probability of selecting
+Node A, not guaranteeing the maximum utilization of the bandwidth
+even in the homogeneous network setting.
+%Usually, there are lots of such idle bandwidth that can be made use of
+%if the shuffle carefully selects the source node for fetching data. 
+
+In the intensive case (Fig.~\ref{fig:network}), if we have the assumption that the upload (down)
+rates of the flows are only decided by the uplink (downlink)
+capacity and the number of the flows sharing that link
+as in \cite{chowdhury2011managing},
+it will make no difference whether to choose Flow e1 or Flow e2,
+as both source nodes have one outgoing flow from them 
+(Flow a and Flow d). 
+However, by the notion of MMF, PGSS will select e1 that can maximize the overall bandwidth utilization. 
+Applying MMF to estimate the bandwidth allocation can
+help make better decisions when selecting the source nodes at the
+application level.
+
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Max-Min Fairness Bandwidth Allocation of Flows of Uneven Flow Pattern in Heterogeneous Network Setting}
+\label{table:heteUneven}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{.35\textwidth}{c||c|c|c|c|c}
+\hline
+\textbf{Selected Flow} & \textbf{a} & \textbf{b} & \textbf{c1} & \textbf{c2} & \textbf{Overall}\\
+\hline
+Nil &6&6&-&-&12\\
+\hline
+c1 &3&6&3&-&12\\
+\hline
+c2 &6&6&-&6&18\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+\subsubsection{Heterogeneous Network}
+In the heterogeneous network setting, the randomly source selection policy
+can have an even greater (negative) impact on the
+bandwidth utilization than in a homogeneous network, 
+no matter whether the flows are evenly allocated across the network or not.
+
+%\subsubsection{Uneven Flow Pattern}
+Look at the uneven flow patterns in Fig.~\ref{fig:network} again. 
+In the heterogeneous network setting, 
+the MMF bandwidth allocation of each flow is shown in Table \ref{table:heteUneven}
+The overall bandwidth utilization difference between selecting Flow c1 and Flow c2 is amplified in the heterogeneous network (3:2),
+compared to the homogeneous network (4:3).
+PGSS will always select the source (Node C) that brings about the maximum
+bandwidth utilization.
+
+In the homogeneous network, if the communication pattern of the flows
+is exactly even, that is
+where every link has the same number of flows, selecting any source
+node for fetching
+will make almost no difference in the overall bandwidth utilization. 
+However, in the heterogeneous network, selecting the right source node
+can lead to a higher bandwidth utilization.
+
+\begin{figure}[!t]
+\centering
+
+\includegraphics[width=0.5\columnwidth,height=0.35\columnwidth]{figure4}
+
+\caption{Selecting the Source in the Even Flow Pattern}
+\label{fig:network3}
+%\vspace{-0.2in}
+\end{figure}
+ 
+Fig.~\ref{fig:network3} depicts the scenarios of the even flow pattern, and the capacities of the links follow the heterogeneous setting.
+%We analyze the bandwidth utilization in the even flow pattern
+%scenario as shown in Fig.~\ref{fig:network3}. 
+The MMF allocation of the flows before and after
+selecting the new dashed flows is shown in Table
+\ref{table:heteEven}.
+Surprisingly but it does happen that the overall MMF bandwidth utilization
+drops if Flow d1 is selected.
+PGSS selects Flow d2 to guarantee the maximum bandwidth utilization.
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Max-Min Fairness Bandwidth Allocation of Flows of Even Flow Pattern in Heterogeneous Network Setting}
+\label{table:heteEven}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{.45\textwidth}{c||c|c|c|c|c|c|c|c|c}
+\hline
+\textbf{} & \textbf{a1} & \textbf{a2} & \textbf{b1} & \textbf{b2} & \textbf{c1} &\textbf{c2}& \textbf{d1}& \textbf{d2} &\textbf{Overall}\\
+\hline
+Nil &3&3&3&3&3&3&-&-&18\\
+\hline
+d1 &3&3&2&2&2&3&2&-&17\\
+\hline
+d2 &3&3&2&2&4&3&-&2&19\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+Overall, neither RSS nor selecting the source based on the number of flows on
+the link can help make the right decision that can
+maximize the bandwidth utilization in the MMF network.
+However, by using the knowledge
+of the bandwidth capacities of the
+access layer links and the TCP flow communication patterns (sources
+and destinations of the flows),
+PGSS can easily find out the proper source node for achieving the maximum
+transfer throughput of the flows by
+the behavior of MMF.
+
+
+\subsection{Implementation Details}
+\textbf{Rearranging Selecting Sequence}: PGSS applies the ``first-hit" approach when selecting the source node that achieves the maximum bandwidth utilization. 
+For a specific sequence of the pending source nodes, PGSS will always
+prefer the source node at the front of the sequence
+among the source nodes with the same maximum bandwidth utilization
+if they are selected.
+%after selected.
+To avoid the case where the source nodes in the front
+of the sequence starve the nodes in the tail,
+PGSS rearranges the sequence of the pending source nodes randomly
+before it starts to find the first-hit source node.
+This guarantees that every source node that can achieve the maximum
+bandwidth has the chance to be selected, and
+reduces the probability of concentration during the latter period of
+scheduling.
+
+\textbf{Pre-Scheduling}:
+Usually, the shuffle task will have only one free fetcher at a time,
+and the shuffle needs to ask the BAShuffler caller
+to request a scheduled source every time (Fig.~\ref{fig:bashuffler}). 
+For every source request from the BAShuffler caller to the BAShuffler, 
+it takes two segments of remote call time, one segment of heartbeat
+interval time and two segments of thread scheduling time.
+In fact, the pending sources for fetching are known before the free
+fetcher asks for the source.
+The BAShuffler uses the \emph{pre-scheduling} strategy, which requests
+a few of the scheduled sources from the BAShuffler at a time,
+and when the shuffle task needs a source to fetch, the BAShuffler
+caller can return one source to the shuffle
+immediately. Although the actual flow pattern may lag slightly behind
+the scheduling pattern stored in the BAShuffler,
+the pattern will soon catch up when the scheduled sources in the cache of
+the BAShuffler caller are consumed.
+
+
+\section{Evaluation}\label{section:evaluation}
+To evaluate the performance of BAShuffler, 
+we conduct experiments in a physical cluster of heterogeneous
+network setting with realistic benchmarks and datasets.
+The performance improvement of BAShuffler will also be verified in an
+Amazon EC2 virtual cluster, whose underlying network setting is
+unknown to the users.
+Furthermore, we also evaluate the performance of BAShuffler in
+clusters of different scales and degrees of heterogeneity by simulation.
+
+
+%In this section, we first compare the performance of GSS and PGSS
+%against that of RSS using synthetic cluster settings and workloads. 
+%Following that
+%we show that BAShuffler has also remarkable improvement on the shuffle
+%performance in YARN
+%in both realistic physical and virtual clusters with
+%heterogeneous network settings.
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Benchmark Dataset Size (GB)}
+\label{table:benchmark}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{.4\textwidth}{c||c|c|c}
+\hline
+\textbf{Benchmark} & \textbf{Input} & \textbf{Shuffle} & \textbf{Output} \\
+\hline
+Terasort & 190 & 190 & 190\\
+\hline
+InvertedIndex & 200 & 42 & 34 \\
+\hline
+%SequenceCount & 200 & 190 & 150 \\
+SequenceCount & 300 & 180 & 150 \\
+\hline
+RankedInvertedIndex & 150 & 175 & 153\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
+
+\subsection{Physical Testbed}
+To verify the benefits of BAShuffler in scheduling the shuffle fetch
+flows with awareness of the network bandwidth allocation behavior,
+%we run BAShuffler in real testbeds, including a physical cluster and
+%a virtual cluster with heterogeneous networks.
+we run BAShuffler in a physical testbed, the
+Gideon-II cluster \cite{gideon} having a heterogeneous network.
+
+
+The physical cluster contains 18 computer nodes, where one node
+assumes the role of the name node of HDFS, and
+one node acts as the resource manager of YARN. 
+The remaining 16 nodes are configured as both the data nodes of HDFS
+and the node managers of YARN.
+Each node is equipped with 2 quad-core, 32 GB DDR3 memory and
+2 $\times$ 300 GB SAS hard disks running RAID-1. 
+All the 18 nodes run with Scientific Linux 5.3 and are connected to an internal non-blocking switch with GbE ports. 
+To create the heterogeneous network capacity, among 16 node managers, 
+the bandwidth capacities of the uplinks and downlinks of 8 nodes are
+manually limited to 160 Mbps,
+by using the traffic control tool ``\emph{tc}'', 
+and the remaining 8 nodes keep to their physical uplink and downlink
+bandwidth capacity, which is 320 Mbps.
+
+%We deploy the virtual cluster on Amazon EC2, with 9 c3.xlarge
+%instances and 10 c3.2xlarge instances running
+%Amazon Linux Image \cite{aws}. We refer to the c3.xlarge instance as the \emph{medium} instance 
+%and the c3.2xlarge instance as the \emph{large} instance below. 
+%The network topology and configuration of EC2 clusters are unclear, 
+%but the transfer rates of the access layer links are more or less stable. 
+%By our measure, the actual uplink and downlink bandwidth capacities of
+%the medium instance are both about 720Mbps, 
+%and those of the large instance are about 1000 Mbps. 
+%One large instance is set up as both the name node of HDFS and the
+%resource manager of YARN,
+%and each of the remaining 18 instances, no matter medium or large,
+%is set up as both a data node of HDFS and a node manager of YARN. 
+
+% \begin{figure}[!t]
+% \centering
+% %\subfloat[Physical Terasort]{
+% %\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_pterasort}
+% %\label{fig:r_pterasort}
+% %}
+% \subfloat[Terasort]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_terasort_cdf}
+% \label{fig:new_terasort_cdf}
+% }
+% \subfloat[InvertedIndex]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_inverted_cdf}
+% \label{fig:new_inverted_cdf}
+% }
+
+% \subfloat[SequenceCount]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_sequence_cdf}
+% \label{fig:new_sequence_cdf}
+% }
+% \subfloat[RankedInvertedIndex]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_ranked_cdf}
+% \label{fig:new_ranked_cdf}
+% }
+
+% \caption{Cumulative Completion Ratio (CR) of the Overall Shuffle Workload of RSS, GSS and PGSS in Various Benchmarks along the Time
+% in the Physical Cluster}
+% \label{fig:new_completion_ratio}
+% %\vspace{-0.2in}
+% \end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{figure5}
+\caption{Cumulative Completion Ratio (CR) of the Overall Shuffle Workload of RSS, GSS and PGSS in Various Benchmarks along the Time
+in the Physical Cluster} 
+\label{fig:new_completion_ratio}
+\end{figure}
+
+
+The benchmarks and datasets used are from a realistic MapReduce benchmark suite \cite{ahmad2012puma}. 
+We use mainly the shuffle-heavy applications because we want to evaluate the
+performance of BAShuffler when the shuffle workload can saturate the
+network most of the time,
+and ignore the other applications whose shuffle workloads are quite
+low. %regarding the input data size.
+The sizes of the datasets of the benchmarks are listed in Table \ref{table:benchmark}.
+
+BAShuffler is configured in advance to have the knowledge of
+the link bandwidth capacity of each node.
+%We run the typical shuffle-heavy MapReduce job, i.e., SequenceCount \cite{ahmad2012puma} on YARN, 
+%with both the original shuffle scheduler and BAShuffler. 
+Unless specified otherwise, %the input data size for each job is 200 GB, 
+in both the physical testbed and the virtual testbed introduced later, 
+the number of fetchers in each shuffle task is 5 (the default value), 
+and the number of reduce tasks of each job is configured to
+be the total number of node managers in the cluster.
+We compare GSS and PGSS with RSS, and RSS is the default and the only
+presently known application-level shuffle scheduler in YARN. 
+The following subsections report the overall shuffle throughput of
+the cluster, the shuffle rate of each shuffle task, the reduce phase
+completion time and the job overall completion time.
+We also measure the performance of BAShuffler with input data of
+different sizes
+and the performance in the shared environment with multiple concurrent jobs. 
+But the results will be introduced later together with the results of the virtual cluster. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\columnwidth,height=0.35\columnwidth]{figure6}
+\caption{GSS and PGSS Speedup of Average Shuffle Rate of Each Shuffle Task in comparison to RSS in Benchmarks Terasort (TS), InvertedIndex(II), SequenceCount (SC) and RankedInvertedIndex (RII) in the Physical Cluster} 
+\label{fig:new_shuffle_rate}
+\end{figure}
+
+\subsubsection{Shuffle Throughput}
+The throughput performance of GSS and PGSS can be measured by the overall shuffle
+throughput of the cluster
+and the average shuffle rate of each individual shuffle task, respectively. 
+We use the metric of the overall shuffle throughput because it
+reflects the cluster overall bandwidth utilization along the time axis.
+The start time and finish time of the shuffle tasks are usually different from each other during the shuffle phase, but can also overlap. 
+The average shuffle rate of each shuffle task, on the other hand, reflects how each individual shuffle task can benefit from the throughput increase of the the cluster.
+
+The overall shuffle throughput is depicted as the cumulative
+completion ratio of the overall shuffle workload.
+Fig.~\ref{fig:new_completion_ratio} shows the results of RSS, GSS
+and PGSS in various benchmarks in the physical cluster.
+GSS and PGSS outperform RSS in all benchmarks, 
+and PGSS even performs better than GSS in most cases. 
+In the SequenceCount benchmark, GSS and PGSS have similar shuffle
+throughputs, %along the time,
+which shows that the simple greedy method can also maximize the
+bandwidth utilization in some cases,
+as long as that it selects the fetch source node based on the estimation of the bandwidth allocation status. 
+The overall shuffle throughput improvement is the result of maximizing
+the overall bandwidth utilization.
+
+One thing to notice is that we can see the slightly longer tails in the shuffle CR line (e.g., RSS and GSS in Terasort and RSS in SequenceCount). 
+It is because a few of the shuffle tasks would likely gain lower throughput at the beginning, and when some other tasks finish shuffling, they become stragglers. The largest throughput these remaining stragglers can attain depends on the bandwidth of the working links, but not the bandwidth of the whole cluster. As a result, the transfer rate slows down and we see the tails.
+
+The comparison of average shuffle rates of the shuffle tasks between GSS, PGSS and RSS is made based on the speedup factor. 
+The speedup is calculated by the average shuffle rate difference between GSS (or PGSS) and RSS over that of RSS. 
+The results are shown in Fig.~\ref{fig:new_shuffle_rate}.
+GSS and PGSS gain relatively high shuffle rate speedups as compared to
+RSS in all benchmarks, which are as high as 7\% and 12\% in the
+Terasort benchmark.
+The speedups of PGSS are a bit higher than GSS, e.g., in Terasort and RankedInvertedIndex. 
+
+
+
+\subsubsection{Completion Time}
+We also measure how much the job completion time can be decreased by maximizing the network bandwidth utilization with GSS and PGSS. 
+The reduce completion time is the duration from the time when all the
+map tasks have finished to the time the job finishes.
+During the reduce completion time, no map task is running, and most of
+the tasks are doing the shuffle work at the first half of the time and
+doing the reduce work at the second half of the time.
+We did not observe the metrics of ``shuffle completion time'' because
+the tasks finish the shuffle work at different times and it is hard to
+define the endpoint of the shuffle completion time.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{figure7}
+\caption{Reduce Completion Time of RSS, GSS and PGSS in Various Benchmarks with Different Numbers of Fetchers in Each Shuffle Task
+in the Physical Clusters} 
+\label{fig:new_reduce_completion}
+\end{figure}
+
+% \begin{figure}[!t]
+% \centering
+% %\subfloat[Physical Terasort]{
+% %\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_pterasort}
+% %\label{fig:r_pterasort}
+% %}
+% \subfloat[Terasort]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_terasort_reduce}
+% \label{fig:new_terasort_reduce}
+% }
+% \subfloat[InvertedIndex]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_inverted_reduce}
+% \label{fig:new_inverted_reduce}
+% }
+
+% \subfloat[SequenceCount]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_sequence_reduce}
+% \label{fig:new_sequence_reduce}
+% }
+% \subfloat[RankedInvertedIndex]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_ranked_reduce}
+% \label{fig:new_ranked_reduce}
+% }
+
+% \caption{Reduce Completion Time of RSS, GSS and PGSS in Various Benchmarks with Different Numbers of Fetchers in Each Shuffle Task
+% in the Physical Clusters}
+% \label{fig:new_reduce_completion}
+% %\vspace{-0.2in}
+% \end{figure}
+
+The reduce completion time of RSS, GSS and PGSS in various benchmarks with different numbers of fetchers in the shuffle tasks are shown in Fig.~\ref{fig:new_reduce_completion}. 
+Different numbers of fetchers will create different degrees of traffic
+congestion in the network. 
+The case of only one fetch in each shuffle task is skipped because the
+sparse communication pattern will leave some of the links idle.
+The results show that PGSS takes significantly less
+time to complete the reduce than RSS.
+The reduce completion time of RSS with different numbers of fetchers
+deviates from each other over a large value range without obeying following an obvious pattern,
+which indicates that the random source selection method cannot fully
+utilize the network bandwidth for different levels of network traffic
+congestions.
+It is not our work to obtain such an ``optimal'' fetcher number that generates the least reduce time because it seems unpredictable from the results of different benchmarks or just may not be unique 
+(e.g., 4 fetchers and 6 fetchers in RankedInvertedIndex generate almost the same reduce time, and it is hard to tell the fetch number is an important impact factor for the same reduce time), which indicates that the obtaining the ``optimal'' fetcher number may be a false proposition.
+Besides, even if there is such an ``optimal'' fetcher number for RSS, it requires users multiple runs to obtain such number, and the ``best'' reduce completion time is narrowly shorter than the worst one with PGSS in the Terasort Case. 
+While in the other benchmarks, PGSS always outperforms (or performs no worse than) RSS with the ``optimal'' fetcher number. 
+Nevertheless, the reduce completion time of GSS and PGSS (especially PGSS) is more flat
+with different numbers of fetchers in all benchmarks.
+It shows that BAShuffler can be applied to various traffic congestion statuses.
+
+
+Fig.~\ref{fig:new_speedup} depicts the reduce completion time speedup
+and the job overall completion time speedup of GSS and PGSS as
+compared to RSS with different numbers of fetchers in each shuffle
+task.
+The completion time speedup is calculated based on the time difference between GSS (or PGSS) and RSS over that of RSS. 
+As the benchmarks are reduce-heavy, where the shuffle phase can occupy
+a major portion of the overall workload, in most cases, BAShuffler not
+only improves the reduce phase, but also the overall
+completion time of the jobs by a remarkable margin.
+For example, in the RankedInvertedIndex benchmark with 5 fetchers, 
+GSS and PGSS decrease the reduce completion time by 26\% and 29\%, respectively, 
+and decrease the overall completion time by 19\% and 21\%, respectively.  
+In some cases, the speedups of GSS and PGSS are not obvious (e.g.,
+Terasort with 6 fetchers and RankedInvertedIndex with 4 fetchers) when
+the reduce completion time of RSS is already the minimum among all the
+fetcher settings.
+
+
+% \begin{figure}[!t]
+% \centering
+% %\subfloat[Physical Terasort]{
+% %\includegraphics[width=0.46\columnwidth,height=0.25\columnwidth]{r_pterasort}
+% %\label{fig:r_pterasort}
+% %}
+% \subfloat[Terasort]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_terasort_speedup}
+% \label{fig:new_terasort_speedup}
+% }
+% \subfloat[InvertedIndex]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_inverted_speedup}
+% \label{fig:new_inverted_speedup}
+% }
+
+% \subfloat[SequenceCount]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_sequence_speedup}
+% \label{fig:new_sequence_speedup}
+% }
+% \subfloat[RankedInvertedIndex]{
+% \includegraphics[width=0.48\columnwidth,height=0.3\columnwidth]{new_ranked_speedup}
+% \label{fig:new_ranked_speedup}
+% }
+
+% \caption{Reduce Completion Time Speedup (Suffixed with \_R) and Job Overall Completion time Speedup (Suffixed with \_O) of GSS and PGSS as Compared to RSS in Various Benchmarks with Different Fetcher Numbers
+% in the Physical Clusters}
+% \label{fig:new_speedup}
+% %\vspace{-0.2in}
+% \end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{figure8}
+\caption{Reduce Completion Time Speedup (Suffixed with \_R) and Job Overall Completion time Speedup (Suffixed with \_O) of GSS and PGSS as Compared to RSS in Various Benchmarks with Different Fetcher Numbers
+in the Physical Clusters}
+\label{fig:new_speedup}
+%\vspace{-0.22in}
+\end{figure}
+
+\subsection{Virtual Testbed}
+The virtual cluster is meant to evaluate the performance of BAShuffler in the environment when the network settings are unclear. 
+
+We deploy the virtual cluster on Amazon EC2, with 9 c3.xlarge
+instances and 10 c3.2xlarge instances running
+Amazon Linux Image \cite{aws}. The c3.xlarge instance is referred to as the \emph{medium} instance 
+and the c3.2xlarge instance the \emph{large} instance below. 
+The network topology and configuration of EC2 clusters are unclear, 
+but the transfer rates of the access layer links are more or less stable. 
+By our measure, the actual uplink and downlink bandwidth capacities of
+the medium instance are both about 720Mbps, 
+and those of the large instance are about 1000 Mbps. 
+One large instance is set up as both the name node of HDFS and the
+resource manager of YARN,
+and each of the remaining 18 instances, whether medium or large,
+is set up as both a data node of HDFS and a node manager of YARN. 
+
+As the performance of BAShuffler in various benchmarks has been
+evaluated in the physical cluster
+and BAShuffler has similar performance in these benchmarks, in the virtual cluster, 
+we use only one benchmark (i.e., SequenceCount, which has the largest
+input data size ) for the evaluation for the reason of simplicity and avoiding redundancy.
+
+\subsubsection{Cluster Overall Shuffle Throughput}
+Similarly, the overall shuffle throughput of the cluster is described by the cumulative completion ratio of the overall shuffle workload. 
+Fig.~\ref{fig:r_vshuffle_timeline} depicts the results of the
+SequenceCount benchmark being executed in the virtual cluster, 
+where BAShuffler delivers much higher shuffle throughput than RSS. 
+A different observation from the physical cluster is witnessed: GSS is faster than PGSS in the virtual case. 
+The reason is discussed as follows. 
+The network bandwidth capacities of the links in the virtual cluster are much higher than those of in the physical one, with similar CPU rates. 
+With the higher shuffle throughput, the length of the list of the pending fetch sources is smaller in the virtual cluster, as the fetch tasks finish faster. 
+Although PGSS is designed to prevent the worse
+case that some heavy-loaded nodes are starved in the long period, which GSS may encounter, 
+GSS is good enough to handle the scheduling of the pending sources of short length. 
+
+It leads us to the thought of the choice between GSS and PGSS. 
+GSS performs well when the pending source list is of short length, which is either because the network throughput is high as compared to the data size that the CPU can generate, or because the shuffle size is relatively low (shuffle-trivial). With the setting that the network would be bottleneck for the job and the workload type is shuffle-heavy, by further considering the lower scheduling overhead in the large-scale cluster (which will be evaluated in Section~\ref{section:eva_overhead}, PGSS is preferred. 
+
+% 2) The throughput improvement in the virtual cluster is even a bit higher
+% than that in the physical cluster
+% (Fig.~\ref{fig:new_completion_ratio}).
+% It is probably because of the mismatch of CPU speed and the network speed in the physical cluster.  
+% In the physical cluster,
+% the map output speed of the specific running job is low most of the time 
+% when the map tasks and the shuffle task are running in parallel, 
+% which limits the shuffle speed increase that BAShuffler is capable of
+% achieving. 
+
+Although the underlying network settings are unclear, the experiment
+results show that BAShuffler can also improve the bandwidth
+utilization in the EC2 virtual cluster by regarding the virtual
+network as a non-blocking switch.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.7\columnwidth,height=0.4\columnwidth]{figure9}
+\caption{Cumulative Completion Ratio of Shuffle Workload in the SequenceCount Benchmark along the Time in the Virtual Cluster}
+\label{fig:r_vshuffle_timeline}
+%\vspace{-0.22in}
+\end{figure}
+
+\subsubsection{Completion Time}
+The reduce completion of the SequenceCount benchmark with different fetcher numbers in the virtual cluster is shown in Fig.~\ref{fig:r_vsequence}. 
+% The reduce completion time speedup and the job overall completion time
+% speedup of BAShuffler as compared to RSS with different fetchers
+% numbers in the virtual cluster are shown in
+% Fig.~\ref{fig:r_vspeedup}.
+%Generally, the performance benefit of BAShuffler is greater when the number of fetchers is smaller, 
+%because RSS has a greater probability to underutilize the bandwidth in the sparse flow pattern. 
+%With only two fetchers in each shuffle, 
+Similar to the situation of the physical cluster,
+BAShuffler decreases the reduce
+completion time in different fetcher number settings.
+When the fetcher number is 2, GSS and PGSS decrease the reduce
+completion time by 26\% and 8\%, respectively.
+The curve of PGSS is more flat than the other scheduling algorithms and is always below that of RSS, 
+which indicates that PGSS guarantees high shuffle performance regardless of the network congestion status.
+With 6 fetchers, GSS gives merely the same reduce completion time as RSS, but PGSS
+decreases the time by about 11\% as compared to RSS. 
+%, and decrease the job
+% overall completion time by as much as 38\% and 18\%, respectively.
+% In the cases that the job overall completion speedup is even higher
+% than the reduce completion time speedup,
+% the map tasks also benefit from the higher bandwidth utilization of
+% BAShuffler. 
+% During the phase when the map tasks and shuffle tasks are executing
+% concurrently, if the fetch flows finish at a faster rate,
+% the cluster can leave more CPU time slides for the map tasks. 
+
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.7\columnwidth,height=0.4\columnwidth]{figure10}
+\caption{Reduce Completion Time of the SequenceCount Benchmark with Different Fetcher Numbers
+in the Virtual Cluster}
+\label{fig:r_vsequence}
+%\vspace{-0.22in}
+\end{figure}
+
+% \begin{figure}[!t]
+% \centering
+% \includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{r_vspeedup}
+% \caption{Reduce Completion Time Speedup (Suffixed with \_R) and Job Overall Completion time Speedup (Suffixed with \_O) of GSS and PGSS as Compared to RSS in the SequenceCount Benchmark with Different Fetcher Numbers
+% in the Virtual Cluster}
+% \label{fig:r_vspeedup}
+% %\vspace{-0.22in}
+% \end{figure}
+
+
+
+\subsubsection{Different Input Data Sizes}
+To evaluate the scalability of BAShuffler in processing large datasets, 
+we run BAShuffler against different sizes of input data for the jobs.
+Fig.~\ref{fig:r_sizes} shows the RSS and PGSS reduce completion time of the
+SequenceCount Job with different input data sizes
+in both the physical and the virtual testbeds. 
+Note that the total numbers of nodes of the physical and virtual testbeds are different.
+PGSS performs better than RSS in both the testbeds regardless of the input data size. 
+The completion time improvements range from 8\% to 13\% in the physical testbed
+and from 2\% to 17\% in the virtual one. 
+The influence of the application-level shuffle scheduling is contributed more by 
+the characteristics of the jobs and the varieties in the resource configurations
+(e.g., CPU, memory and network) of the cluster, rather than the size of the input data. 
+% When the data size is relatively small, i.e., 100 GB, 
+% the data to transfer in each shuffle are small in size and the benefit of BAShuffler is not that obvious 
+% because the pattern of the fetch flows changes more frequently, which
+% may amplify the scheduling overhead.
+% When the shuffle size becomes large, the system overhead can be ignored, 
+% and BAShuffler can achieve a higher shuffle throughput. 
+% When the size of the input data is 200 GB, GSS and PGSS can decrease
+% the reduce completion time by about 15\% and 13\%
+% in the physical testbed, and about 25\% and 8\% in the virtual testbed. 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{figure11}
+\caption{Reduce Completion Time of SequenceCount with Different Input Data Sizes in the Physical and Virtual Testbeds}
+\label{fig:r_sizes}
+\end{figure}
+
+
+
+\subsubsection{Multiple Concurrent Jobs}
+BAShuffler improves the concurrent job execution time by increasing
+the throughput of the concurrent shuffle tasks.
+We evaluate how BAShuffler can improve the job completion time when
+multiple jobs run concurrently in the shared cluster.
+%Finally, we conduct the experiments with multiple concurrent jobs in the cluster. 
+We submit totally three SequenceCount jobs to the clusters at the same time.
+%and we submit each job 15 seconds after the previous is submitted. 
+The container scheduler is the default Capacity Scheduler in YARN. 
+Fig.~\ref{fig:r_concurrent} shows the average job completion time and
+the last job completion time of the concurrent jobs.
+Note that the times for the physical testbed and the virtual testbed
+are in different scales in the figure.
+PGSS decreases the average completion time and the last job
+completion time by about 6\% and 15\% in the physical testbed 
+and by about 7\% and 2\% in the virtual testbed, respectively. 
+In the virtual testbed, the second job completion time of PGSS is still 13\% higher than that of RSS, but the final results at ``2\%''.
+It may be because PGSS has the chance of pending the shuffle tasks of the third job as a penalty of achieving a maximum MMF allocation, 
+while RSS is more fair for different jobs but gains poorer average completion time. 
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.9\columnwidth,height=0.4\columnwidth]{figure12}
+\caption{Job Completion Time of Multiple Concurrent Jobs in the Physical and Virtual Testbeds}
+\label{fig:r_concurrent}
+\end{figure}
+
+
+\subsection{Simulation}
+It is hard to measure the performance of BAShuffler in real
+testbeds of different scales; we rely on
+simulations to provide some insight of algorithmic benefits and
+overheads, and the results are convincing.  %with convincing results. 
+The different scheduling algorithms will generate scheduling decisions
+of the source nodes,
+and the bandwidth utilization of these scheduling
+decisions is calculated based on the MMF mechanism.
+
+We classify the synthetic nodes into low-bandwidth nodes and
+high-bandwidth nodes.
+The bandwidth capacity of the uplink and the downlink of the
+low-bandwidth nodes is 512 Mbps %respectively,
+and it is 1024 Mbps for the high-bandwidth nodes. Unless specified, 
+otherwise, there is one shuffle task running on each node, 
+and each shuffle task has 5 fetchers in total. Each shuffle needs to fetch data from all the other nodes in the cluster.
+One shuffle of the node will request to schedule all its fetches first 
+before the next shuffle on another node requests to schedule its fetches. 
+
+All the tests about PGSS and the online optimal algorithm are executed
+10 times, and 100 times for
+the tests about RSS due to its property of total randomness.
+The bandwidth utilization value is obtained as the mean value of all the runs.
+There is one shuffle task with 5 fetchers in each node.  
+During the workload, at every time interval, 
+the shuffle on a node will request to schedule the source nodes for
+its free fetchers
+before it is the turn for the shuffle on the next node in the sequence.
+When there is no free fetcher in a shuffle, the shuffle will assume
+that a random working fetcher has finished the
+fetch, release the corresponding fetch flow, and schedule a new pending
+source node for the new free fetcher.
+When the shuffle finishes fetching data from all the pending source
+nodes, a new shuffle will start on the same node to start to fetch
+data from all the other nodes again if it has free fetchers.
+Simulation results show that PGSS performs much better than RSS
+in bandwidth utilization
+with different numbers of nodes and different degrees of network heterogeneity. 
+%and continuous workloads in the long term. 
+%GSS and PGSS can make use the most of the bandwidth capacity.
+
+% \begin{figure}[!t]
+% \centering
+
+% \subfloat[Homogeneous]{
+% \includegraphics[width=0.8\columnwidth,height=0.45\columnwidth]{s_nodes_homo}
+% \label{fig:s_nodes_homo}
+% }
+
+% \subfloat[Heterogeneous]{
+% \includegraphics[width=0.8\columnwidth,height=0.45\columnwidth]{s_nodes}
+% \label{fig:s_nodes_hete}
+% }
+
+% \caption{Bandwidth Utilization with Different Amount of Nodes in the Homogeneous Settings and the Heterogeneous Settings}
+% \label{fig:s_nodes}
+% %\vspace{-0.2in}
+% \end{figure}
+
+\begin{figure}[!t]
+\centering
+
+\includegraphics[width=1\columnwidth]{figure13}
+
+\caption{Bandwidth Utilization and Improvement (Suffixed with   IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Amount of Nodes in the Homogeneous Settings and the Heterogeneous Settings}
+\label{fig:s_nodes}
+\end{figure}
+
+\subsubsection{Different Numbers of Nodes}\label{section:differentNodeNumber}
+We first evaluate the performance of PGSS and the online optimal algorithm in clusters of
+different scales, i.e., different numbers of nodes.
+Both the homogeneous and heterogeneous network modes are tested. 
+In the homogeneous mode, all the nodes are high-bandwidth nodes, 
+while in the heterogeneous mode, half of them are low-bandwidth nodes
+and the other half are high-bandwidth nodes.
+Fig.~\ref{fig:s_nodes} shows the bandwidth utilization of the homogeneous and
+heterogeneous modes,
+respectively. 
+% The solid line represents the total bandwidth capacities of the links in the cluster in different cases.
+The online optimal scheduling solution (Opt) is the maximum online result by traversing every possible permutation of the pending requests that have already seen by the scheduler. 
+The total bar represents the bandwidth capacities of all the links in the cluster. Two solid curves stand for the improvement of PGSS and Opt as compared to RSS, respectively.
+The bandwidth utilizations of both PGSS and Opt 
+are about 3.9\% to 7.3\% higher than RSS in the homogeneous mode
+and about 5.0\% to 10.9\% in the heterogeneous mode. 
+% The improvement in bandwidth utilization of GSS and PGSS is higher 
+% in the heterogeneous mode, which is about 5.0\% to 11.0\%. 
+% This is because RSS is unaware of the bandwidth allocation status when
+% trying to make a scheduling decision. 
+An interesting result is that PGSS performs even slightly better than the online optimal algorithm in the homogeneous mode, which is possible as the online optimal algorithm only optimize the bandwidth utilization without considering the pattern of the future fetch flows, while PGSS labels the future fetch flows with the load count. 
+In all cases, the bandwidth utilizations of PGSS are close to the total bandwidth capacities.
+%In general, the RSS algorithm wastes more proportion of available bandwidths when the total amount of nodes is larger.
+
+\begin{figure}[!t]
+\centering
+
+\includegraphics[width=1\columnwidth,height=0.5\columnwidth]{figure14}
+
+\caption{Bandwidth Utilization and Improvement (Suffixed with   IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Degrees of Network Heterogeneity}
+\label{fig:s_lowbandwidth}
+\end{figure}
+
+\subsubsection{Different Degrees of Network Heterogeneity}
+We also evaluate the bandwidth utilization of different source scheduling algorithms 
+with different degrees of network heterogeneity, 
+i.e., different ratios of low-bandwidth nodes to high-bandwidth ones. 
+We run the scheduling algorithms with totally 20 synthetic nodes, 
+some of which are low-bandwidth nodes and the rest are high-bandwidth nodes. 
+The result is shown in Fig.~\ref{fig:s_lowbandwidth}, 
+where the left and the right ends of the horizontal axis stand for the higher
+degree in homogeneity
+and the middle part of the figure stands for the higher degree in heterogeneity. 
+PGSS performs better than RSS in various heterogeneous networks, 
+especially with higher degrees in heterogeneity, 
+With higher degrees in heterogeneity, the PGSS bandwidth utilization
+increase can be as high as about 7\%. 
+This means that the application-level bandwidth-aware source selecting algorithm
+performs better in the heterogeneous networks.
+
+\begin{figure}[!t]
+\centering
+
+\includegraphics[width=0.7\columnwidth,height=0.4\columnwidth]{figure15}
+
+\caption{Scheduling Overhead Time per Flow of the RSS, GSS, PGSS and Online Optimal (Opt) Algorithms with Different Number of Nodes in the Cluster}
+\label{fig:s_overhead}
+%\vspace{-0.2in}
+\end{figure}
+
+\subsubsection{Scheduling Overhead}\label{section:eva_overhead}
+The scheduling overhead of BAShuffler is the time to figure out the source scheduling decision, is related to the number of total nodes and existing flows (whose number generally grows as the the number of nodes grows) in the cluster. 
+Fig.~\ref{fig:s_overhead} depicts the overhead time of RSS, GSS, PGSS as well as the online optimal scheduling algorithm
+with different numbers of nodes in the cluster.
+The scheduling overhead of RSS is taken for granted the lowest, which is not related to the number of nodes in the cluster. 
+PGSS scales much better than GSS, as PGSS only considers the heaviest loaded nodes when estimating the network bandwidth utilization. 
+Nevertheless, the scheduling overhead of BAShuffler is quite low comparing to the execution time of the jobs and the throughput improvement it can bring. 
+While the overhead online optimal algorithm grows dramatically as the number of nodes increases, which is totally impractical in the real-life datacenters. 
+
+
+
+%\subsubsection{Different Numbers of Fetchers in Each Shuffle}
+%The number of fetch flows somehow decides the level of workloads in the cluster.
+%We change the number of fetchers in each shuffle to simulate various workloads. 
+%The total node number is 20 in the heterogeneous mode. The result is shown
+%in Fig.~\ref{fig:s_fetchers}.
+%When the number of fetchers of each shuffle is small, say, 1 or 2, RSS
+%uses only about 58\% to 74\% of the capacity,
+%while the bandwidth utilizations of GSS and PGSS are about 81\% to
+%96\% of the capacity.
+%When the number of fetchers increases, the bandwidth utilization of
+%RSS gradually increases,
+%but it is still much smaller than those of GSS and PGSS, which are very
+%close to the total bandwidth capacity.
+
+
+%\subsubsection{Continuous Workloads}
+%From the results above, we see that GSS generally performs slightly better than
+%PGSS with short-term workloads.
+%To verify the benefit of PGSS in the long run, we run continuous workloads on the cluster with 20 nodes 
+%in the heterogeneous mode. In this workload, there is one shuffle task with 5 fetchers in each node. 
+%During the workload, at every time interval, 
+%the shuffle on a node will request to schedule the source nodes for
+%its free fetchers
+%before it is the turn for the shuffle on the next node in sequence.
+%When there is no free fetcher in a shuffle, the shuffle will assume
+%that a random working fetcher has finished the
+%fetch, release the corresponding fetch flow, and schedule a new pending
+%source node for the new free fetcher.
+%When the shuffle finishes fetching data from all the pending source
+%nodes, a new shuffle will start on the same node to start to fetch
+%data from all the other nodes again if it has free fetchers.
+%Fig.~\ref{fig:s_longrun} shows the bandwidth utilization of different
+%source selection algorithms for about 2000 time intervals.
+%At first, the bandwidth utilization of GSS grows faster than that of PGSS. 
+%However, as time goes on, PGSS maintains high bandwidth utilization stably, 
+%while GSS fluctuates below PGSS sometimes, as shown in figure by the
+%highlighting rectangles.
+%Generally, RSS cannot keep fully utilizing the bandwidth, and its
+%performance fluctuates a lot.
+%
+%\begin{figure}
+%\centering
+%
+%\includegraphics[width=1\columnwidth,height=0.5\columnwidth]{s_longrun}
+%
+%\caption{Bandwidth Utilization with Continuous Workloads in the Long Run}
+%\label{fig:s_longrun}
+%%\vspace{-0.2in}
+%\end{figure}
+
+
+
+
+
+\section{Related Work}\label{section:relatedwork}
+\textbf{Distributed Resource Management}:
+Existing resource managing platforms for clusters, like YARN
+\cite{vavilapalli2013apache} and Mesos \cite{hindman2011mesos},
+allow distributed computing frameworks run on the cluster with
+fine-grained control of computation and storage resources.
+However, they do not have control over network resources in the cluster for
+%traffic-required tasks.
+tasks that produce a fair amount of traffic.
+A few scheduling techniques operate in the granularity of a task to improve
+resource scheduling by maintaining fairness across tasks
+\cite{zaharia2010delay, isard2009quincy},
+or by achieving data locality (thus reducing the traffic workload)
+\cite{dean2008mapreduce, zaharia2008improving,faraz2014shufflewatcher}.
+BAShuffler considers the network bandwidth utilization of the shuffle
+flows and schedules the source nodes of the flows to achieve a better
+utilization of the overall bandwidth.
+
+\textbf{Network Bandwidth Scheduling}:
+Much work has been done on
+improving network performance and the fair share of network bandwidth
+in datacenter networks at the network level, 
+either by individual flow scheduling \cite{greenberg2009vl2, popa2012faircloud, shieh2011sharing,ballani2011towards} 
+or by scheduling the flows in terms of ``coflow'' \cite{dogar2014decentralized, chowdhury2014efficient, Qiu:2015:MTW, chowdhury2015efficient, zhao2015rapier, chen2016coflow}. 
+Specially, Chen et al. \cite{chen2016coflow} analyzed the max-min fairness utilization of the coflow algorithm. 
+In contrast to the network-leveled optimization, BAShuffler improves the shuffle performance at the application
+level by scheduling the sources
+of the TCP flows with GSS or PGSS and leave the sharing of bandwidth
+to the TCP natural behaviors.
+YARN with BAShuffler can easily be ported to any commercial cluster
+without changing the underlying network.
+
+
+A work closely related to this paper is Orchestra~\cite{chowdhury2011managing}, which reduces the shuffle completion
+time by assigning a weight to a set of flows
+depending on the data size at the application level. 
+More TCP flows will be created for the shuffle task that has a larger
+volume of data to transfer.
+It assumes that each TCP flow will get approximately the same bandwidth 
+in the congested network link due to the TCP fairness policy, 
+and thus the shuffle task will obtain a bandwidth proportional to
+its weight in this link.
+However, it is often not true that each TCP flow will have an equal share
+of the bandwidth in the network,
+especially in heterogeneous network environments. 
+The throughput of a shuffle task cannot simply be speculated based on the
+number of concurrent TCP flows in this case.
+BAShuffler applies the max-min fairness behavior of TCP communications
+to estimate the bandwidth share of the TCP flows,
+which is a better approximation of the overall bandwidth allocation
+than merely using the number of TCP flows.
+Sylvain et al. \cite{gault2014dynamic} proposes and compares several data transfer scheduling policies for the shuffle operation under bandwidth constrains, 
+which has the potential to be applied in the MapReduce-specific network. 
+
+% ShuffleWatcher \cite{faraz2014shufflewatcher} schedules the locality of the map tasks and the reduce tasks so that the shuffle traffic across nodes and racks can be decreased in the multi-tenant cluster environment. 
+% It also delays the reduce tasks when the network traffic is heavy.
+% The shuffle scheduling is roughly in the granular of tasks instead of in flows, and it does not consider maximizing the bandwidth utilization based on the bandwidth allocation status as BAShuffler does. 
+
+\textbf{Online Scheduling}:
+Compared to other online scheduling algorithms~\cite{wu2007scheduling,awerbuch1992competitive,borodin2005online,sgall1998line},
+BAShuffler can predict the approximate arrival pattern of the pending
+sources based on the semantic of the shuffle,
+and thus can apply the partially greedy source selection method to
+maintain the performance in the long term.
+
+\section{Conclusion}\label{section:conclusion}
+In this paper, we demonstrate the underutilization problem of network
+bandwidth by the shuffle phase in both homogeneous and the heterogeneous
+network settings, by analyzing the max-min fairness behavior of the
+underlying TCP network.
+We present BAShuffler in YARN to improve the shuffle performance by
+selecting the source nodes of the shuffle flows that can
+maximize the overall bandwidth utilization in the cluster. 
+GSS and PGSS are proposed to maintain the high bandwidth utilization. 
+BAShuffler significantly increases the shuffle performance in both
+physical and virtual clusters, especially where the network is
+heterogeneous.
+
+
+
+
+%TODO future work
+
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+% However, the Computer Society has been known to put floats at the bottom.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+%\appendices
+%\section{Proof of the First Zonklar Equation}
+%Appendix one text goes here.
+%
+%% you can choose not to have a title for an appendix
+%% if you want by leaving the argument blank
+%\section{}
+%Appendix two text goes here.
+%
+%
+%% use section* for acknowledgment
+%\ifCLASSOPTIONcompsoc
+%  % The Computer Society usually uses the plural form
+%  \section*{Acknowledgments}
+%\else
+%  % regular IEEE prefers the singular form
+%  \section*{Acknowledgment}
+%\fi
+%
+%
+%The authors would like to thank...
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+%\ifCLASSOPTIONcaptionsoff
+%  \newpage
+%\fi
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{22}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{example_full}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%\begin{thebibliography}{1}
+%
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%
+%\end{thebibliography}
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+% \vspace{-6in}
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
+% is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interests are mainly on distributed file systems, distributed computing, and machine learning. He is recently undertaking the research project on improving the network performance of the iterative distributed operations.
+% \end{IEEEbiography}
+
+% % \vspace{-6in}
+
+% % if you will not have a photo at all:
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
+% received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
+% computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
+% \end{IEEEbiography}
+
+% insert where needed to balance the two columns on the last page with
+% biographies
+%\newpage
+
+
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
+
