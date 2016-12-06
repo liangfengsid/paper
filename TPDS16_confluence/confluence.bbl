@@ -150,7 +150,7 @@ H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
 \bibitem{multiAdjList}
 \BIBentryALTinterwordspacing
 ``Multiadjacentlist benchmark.'' [Online]. Available:
-  \url{http://i.cs.hku.hk/\%7Efliang/confluence/multiAdjList.html}
+  \url{https://github.com/liangfengsid/MultiAdjacentList}
 \BIBentrySTDinterwordspacing
 
 \bibitem{kmeans}

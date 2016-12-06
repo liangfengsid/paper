@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex confluence"] 1481025030 "confluence.aux" "confluence.bbl" "confluence" 1481025031
+["bibtex confluence"] 1481047436 "confluence.aux" "confluence.bbl" "confluence" 1481047438
   "/usr/local/texlive/2015/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1222816716 59506 016987d9be15acf51cdd7252d40ecec2 ""
-  "IEEELonger.bib" 1481024964 22433 ce6051ebc780d9e6ce173a5cffd1fa34 ""
-  "confluence.aux" 1481025031 8067 aa45bb2383dd916ec6dd13721478a36b ""
+  "IEEELonger.bib" 1481047426 22413 9d93c9a2eb8ddb2e0ad6cf1acd6d53c5 ""
+  "confluence.aux" 1481047438 8067 aa45bb2383dd916ec6dd13721478a36b ""
   "confluence.bcf" 0 -1 0 ""
   (generated)
   "confluence.bbl"
   "confluence.blg"
-["pdflatex"] 1481025030 "confluence.tex" "confluence.pdf" "confluence" 1481025031
+["pdflatex"] 1481047437 "confluence.tex" "confluence.pdf" "confluence" 1481047438
   "./figure/figure1.pdf" 1465462392 56127 7ce90a049a62e93ac220b39b67e0b5a1 ""
   "./figure/figure3.pdf" 1454741063 18430 d457728b3d78e4c99db4a02230719b52 ""
   "./figure/figure4.pdf" 1465474515 37467 e0f0247a9537efcef4bbe2701868284b ""
@@ -127,9 +127,9 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "IEEEtran.cls" 1410922780 282417 954051ae67e6fc3fdfba307b2233a8fe ""
-  "confluence.aux" 1481025031 8067 aa45bb2383dd916ec6dd13721478a36b ""
-  "confluence.bbl" 1481025030 11942 36486f0799db2351c0f49dd2cc6faf45 "bibtex confluence"
-  "confluence.tex" 1481025023 117278 5c93debbb5c1b4c5e77bd5214164dbba ""
+  "confluence.aux" 1481047438 8067 aa45bb2383dd916ec6dd13721478a36b ""
+  "confluence.bbl" 1481047437 11933 94042fd1797522731e34b066bce0d328 "bibtex confluence"
+  "confluence.tex" 1481027466 117287 82597554874f06c3b1d4508b5177ca46 ""
   "figure/figure1.pdf" 1465462392 56127 7ce90a049a62e93ac220b39b67e0b5a1 ""
   "figure/figure3.pdf" 1454741063 18430 d457728b3d78e4c99db4a02230719b52 ""
   "figure/figure4.pdf" 1465474515 37467 e0f0247a9537efcef4bbe2701868284b ""
@@ -137,6 +137,6 @@
   "figure/figure6.pdf" 1465469561 56852 3ee2a107ddec0cfa0ada4435577eacbe ""
   "figure/figure7.pdf" 1465470070 69564 4a2f904499625ea85af84a6591c3b953 ""
   (generated)
-  "confluence.log"
-  "confluence.pdf"
   "confluence.aux"
+  "confluence.pdf"
+  "confluence.log"

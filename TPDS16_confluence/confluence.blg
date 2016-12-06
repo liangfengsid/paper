@@ -23,7 +23,7 @@ Warning--entry type for "kmeans" isn't style-file defined
 Done.
 You've used 40 entries,
             4039 wiz_defined-function locations,
-            1028 strings with 16478 characters,
+            1028 strings with 16469 characters,
 and the built_in function-call counts, 34831 in all, are:
 = -- 2581
 > -- 1048
