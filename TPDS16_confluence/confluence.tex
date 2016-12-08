@@ -616,6 +616,8 @@ comparing to the input data size.
 The study based on the Yahoo! work trace has revealed as much as 70\% of the
 jobs are shuffle-heavy~\cite{chen2011case} and the shuffle completion
 time can account for as much as 33\% of overall completion time~\cite{chowdhury2011managing, al2010hedera}.
+The problem of significant shuffle workloads impedes the iterative distributed operations, 
+where the shuffle operations transfer large volumes of data between every two iterations.
 %Shuffle-heavy jobs are common in practice, and examples are matrix multiplication, \textcolor{red}{more examples here.}
 
 Several iterative distributed computing paradigms \cite{bu2010haloop,

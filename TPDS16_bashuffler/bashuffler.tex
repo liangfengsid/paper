@@ -654,9 +654,8 @@ different network speeds. %insurance.
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
 the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
-In this paper, instead, we tend to explore the application-level flow scheduling approach, 
-which owns the full information of the shuffle operation, 
-and leave the bandwidth allocation status to the natural behavior of network level. 
+In this paper, our key observation is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
+The application-level scheduling approach works by making use of both the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and network-level information (e.g., the bandwidth capacity of the network links).
 We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
 
 In this paper, 
