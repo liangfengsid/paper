@@ -599,16 +599,14 @@ interface that can suit most of these data analysis tasks.
 Generally, it saves the output data in the file system, such as HDFS~\cite{shvachko2010hadoop}. 
 This is inefficient for tasks of the iterative distributed operations, where one iteration reuses the data from the previous iterations. The sharing of data between iterations is usually done
 through a shuffle operation.
-%\textcolor{red}{applications of multiple iterations:machine learning}
-%Spark{zaharia2012resilient} improves distributed computing tasks of multiple iterations by computing and storing data in memory. 
 
+The problem of significant shuffle workloads greatly impacts the performance of shuffle operations. 
 Most of the distributed computing paradigms include the shuffle
 operation, which transfers the intermediate output data of the map
 operations to the computer nodes doing the reduce operations.
 The shuffle operation transfers data from a group of nodes to the other
 nodes in the same group, which follows a many-to-many communication
 pattern.
-%The intermediate data are used as the input data for the subsequent computing operations. 
 The shuffle operation may require a large amount of network bandwidth
 and sometimes even dominate the job completion time especially for the
 shuffle-heavy jobs, where the volume of data to shuffle is large
@@ -616,9 +614,9 @@ comparing to the input data size.
 The study based on the Yahoo! work trace has revealed as much as 70\% of the
 jobs are shuffle-heavy~\cite{chen2011case} and the shuffle completion
 time can account for as much as 33\% of overall completion time~\cite{chowdhury2011managing, al2010hedera}.
-The problem of significant shuffle workloads impedes the iterative distributed operations, 
-where the shuffle operations transfer large volumes of data between every two iterations.
-%Shuffle-heavy jobs are common in practice, and examples are matrix multiplication, \textcolor{red}{more examples here.}
+The heavy shuffle workload problem is pronounced in iterative distributed operations, 
+where the shuffle operations transfer large volumes of data between every two iterations. 
+
 
 Several iterative distributed computing paradigms \cite{bu2010haloop,
 zaharia2012resilient} have been developed to overcome the disk I/O

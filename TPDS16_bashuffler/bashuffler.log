@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  8 DEC 2016 17:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  9 DEC 2016 15:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -380,37 +380,37 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <11.04124> not available
 
 
 ]
-Underfull \hbox (badness 1924) in paragraph at lines 661--683
+Underfull \hbox (badness 1924) in paragraph at lines 662--684
 []\OT1/ppl/m/n/9.53561 In this pa-per, we present BAShuf-fler, a network-
  []
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9.53561> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 703.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 704.
 [2] [3]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9.53561> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 925.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 926.
  <./figure/figure1.pdf, id=18, 458.71375pt x 470.75874pt>
 File: ./figure/figure1.pdf Graphic file (type pdf)
 
 <use ./figure/figure1.pdf>
-Package pdftex.def Info: ./figure/figure1.pdf used on input line 968.
+Package pdftex.def Info: ./figure/figure1.pdf used on input line 969.
 (pdftex.def)             Requested size: 252.94499pt x 259.58615pt.
 
 Underfull \vbox (badness 1303) has occurred while \output is active []
 
  [4 <./figure/figure1.pdf>]
 LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 103
-1.
+2.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9.53561> on input line 1031.
+(Font)              <9.53561> on input line 1032.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6.6749> on input line 1031.
+(Font)              <6.6749> on input line 1032.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <4.7678> on input line 1031.
+(Font)              <4.7678> on input line 1032.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <6.62196> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1034.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1035.
 
-Overfull \hbox (1.16974pt too wide) in alignment at lines 1098--1098
+Overfull \hbox (1.16974pt too wide) in alignment at lines 1099--1099
 [][][][] 
  []
 
@@ -418,20 +418,20 @@ Overfull \hbox (1.16974pt too wide) in alignment at lines 1098--1098
 File: ./figure/figure3.pdf Graphic file (type pdf)
 
 <use ./figure/figure3.pdf>
-Package pdftex.def Info: ./figure/figure3.pdf used on input line 1181.
+Package pdftex.def Info: ./figure/figure3.pdf used on input line 1182.
 (pdftex.def)             Requested size: 252.94499pt x 102.65088pt.
 
-Underfull \hbox (badness 10000) in alignment at lines 1246--1246
+Underfull \hbox (badness 10000) in alignment at lines 1247--1247
 [][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 1270--1270
+Underfull \hbox (badness 10000) in alignment at lines 1271--1271
 [][][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 1322--1322
+Underfull \hbox (badness 10000) in alignment at lines 1323--1323
 [][][][][][] 
  []
 
@@ -440,15 +440,15 @@ Underfull \hbox (badness 10000) in alignment at lines 1322--1322
 File: ./figure/figure4.pdf Graphic file (type pdf)
 
 <use ./figure/figure4.pdf>
-Package pdftex.def Info: ./figure/figure4.pdf used on input line 1352.
+Package pdftex.def Info: ./figure/figure4.pdf used on input line 1353.
 (pdftex.def)             Requested size: 126.47452pt x 88.53123pt.
 
-Underfull \hbox (badness 10000) in alignment at lines 1389--1389
+Underfull \hbox (badness 10000) in alignment at lines 1390--1390
 [][][][][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 1474--1474
+Underfull \hbox (badness 10000) in alignment at lines 1475--1475
 [][][][] 
  []
 
@@ -457,77 +457,77 @@ Underfull \hbox (badness 10000) in alignment at lines 1474--1474
 File: ./figure/figure5.pdf Graphic file (type pdf)
 
 <use ./figure/figure5.pdf>
-Package pdftex.def Info: ./figure/figure5.pdf used on input line 1505.
+Package pdftex.def Info: ./figure/figure5.pdf used on input line 1506.
 (pdftex.def)             Requested size: 252.94499pt x 211.6972pt.
 
 <./figure/figure6.pdf, id=93, 275.0275pt x 137.51375pt>
 File: ./figure/figure6.pdf Graphic file (type pdf)
 
 <use ./figure/figure6.pdf>
-Package pdftex.def Info: ./figure/figure6.pdf used on input line 1541.
+Package pdftex.def Info: ./figure/figure6.pdf used on input line 1542.
 (pdftex.def)             Requested size: 177.06613pt x 88.53516pt.
  [8 <./figure/figure5.pdf> <./figure/figure6.pdf>]
 <./figure/figure7.pdf, id=146, 379.4175pt x 302.12875pt>
 File: ./figure/figure7.pdf Graphic file (type pdf)
 
 <use ./figure/figure7.pdf>
-Package pdftex.def Info: ./figure/figure7.pdf used on input line 1596.
+Package pdftex.def Info: ./figure/figure7.pdf used on input line 1597.
 (pdftex.def)             Requested size: 252.94499pt x 201.4202pt.
 
 <./figure/figure8.pdf, id=147, 429.605pt x 344.28625pt>
 File: ./figure/figure8.pdf Graphic file (type pdf)
 
 <use ./figure/figure8.pdf>
-Package pdftex.def Info: ./figure/figure8.pdf used on input line 1645.
+Package pdftex.def Info: ./figure/figure8.pdf used on input line 1646.
 (pdftex.def)             Requested size: 252.94499pt x 202.7121pt.
  [9 <./figure/figure7.pdf> <./figure/figure8.pdf>]
 <./figure/figure9.pdf, id=238, 254.9525pt x 180.675pt>
 File: ./figure/figure9.pdf Graphic file (type pdf)
 
 <use ./figure/figure9.pdf>
-Package pdftex.def Info: ./figure/figure9.pdf used on input line 1699.
+Package pdftex.def Info: ./figure/figure9.pdf used on input line 1700.
 (pdftex.def)             Requested size: 177.06891pt x 101.17729pt.
 
 <./figure/figure10.pdf, id=239, 241.90375pt x 148.555pt>
 File: ./figure/figure10.pdf Graphic file (type pdf)
 
 <use ./figure/figure10.pdf>
-Package pdftex.def Info: ./figure/figure10.pdf used on input line 1721.
+Package pdftex.def Info: ./figure/figure10.pdf used on input line 1722.
 (pdftex.def)             Requested size: 177.06812pt x 101.18152pt.
 
 <./figure/figure11.pdf, id=240, 335.2525pt x 178.6675pt>
 File: ./figure/figure11.pdf Graphic file (type pdf)
 
 <use ./figure/figure11.pdf>
-Package pdftex.def Info: ./figure/figure11.pdf used on input line 1746.
+Package pdftex.def Info: ./figure/figure11.pdf used on input line 1747.
 (pdftex.def)             Requested size: 202.3552pt x 101.17632pt.
  [10 <./figure/figure9.pdf> <./figure/figure10.pdf> <./figure/figure11.pdf>]
 <./figure/figure12.pdf, id=310, 373.395pt x 172.645pt>
 File: ./figure/figure12.pdf Graphic file (type pdf)
 
 <use ./figure/figure12.pdf>
-Package pdftex.def Info: ./figure/figure12.pdf used on input line 1776.
+Package pdftex.def Info: ./figure/figure12.pdf used on input line 1777.
 (pdftex.def)             Requested size: 227.65097pt x 101.17735pt.
 
 <./figure/figure13.pdf, id=311, 368.37625pt x 450.68375pt>
 File: ./figure/figure13.pdf Graphic file (type pdf)
 
 <use ./figure/figure13.pdf>
-Package pdftex.def Info: ./figure/figure13.pdf used on input line 1826.
+Package pdftex.def Info: ./figure/figure13.pdf used on input line 1827.
 (pdftex.def)             Requested size: 252.94499pt x 309.4592pt.
  [11 <./figure/figure12.pdf> <./figure/figure13.pdf>] <./figure/figure14.pdf, i
 d=407, 380.42125pt x 210.7875pt>
 File: ./figure/figure14.pdf Graphic file (type pdf)
 
 <use ./figure/figure14.pdf>
-Package pdftex.def Info: ./figure/figure14.pdf used on input line 1859.
+Package pdftex.def Info: ./figure/figure14.pdf used on input line 1860.
 (pdftex.def)             Requested size: 252.95372pt x 126.47346pt.
 
 <./figure/figure15.pdf, id=408, 294.09875pt x 161.60374pt>
 File: ./figure/figure15.pdf Graphic file (type pdf)
 
 <use ./figure/figure15.pdf>
-Package pdftex.def Info: ./figure/figure15.pdf used on input line 1885.
+Package pdftex.def Info: ./figure/figure15.pdf used on input line 1886.
 (pdftex.def)             Requested size: 177.06194pt x 101.17715pt.
  [12 <./figure/figure14.pdf> <./figure/figure15.pdf>] (./bashuffler.bbl [13]
 Underfull \hbox (badness 4328) in paragraph at lines 205--208
@@ -540,7 +540,7 @@ Underfull \hbox (badness 4328) in paragraph at lines 205--208
 Here is how much of TeX's memory you used:
  4923 strings out of 493089
  79046 string characters out of 6134842
- 171068 words of memory out of 5000000
+ 170068 words of memory out of 5000000
  8337 multiletter control sequences out of 15000+600000
  42855 words of font info for 91 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
@@ -562,7 +562,7 @@ dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fo
 nts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/typ
 e1/urw/palatino/uplri8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw
 /zapfding/uzdr.pfb>
-Output written on bashuffler.pdf (14 pages, 684280 bytes).
+Output written on bashuffler.pdf (14 pages, 684204 bytes).
 PDF statistics:
  513 PDF objects out of 1000 (max. 8388607)
  368 compressed objects within 4 object streams

@@ -613,49 +613,50 @@ the distributed platforms exercises a fine-grained control over the resources.
 If the performance of the distributed tasks is mainly decided by the
 memories and the CPU cores, which is true of
 many compute-intensive jobs, YARN can do very well in terms of resource
-utilization, assuming that the users are able to properly specify 
+utilization, assuming that the users are able to properly specify %configure
 %approximately proper
 the resource sizes for the tasks, either by experience or by estimation. 
 In reality, however, the shuffle-heavy tasks need to transfer 
 non-trivial amounts of data via the local area network among the tasks.
-The performance of these 
-communicative tasks can be largely
+The performance of these %network bandwidth required
+communicative tasks can be largely 
 affected by the network bandwidth and the scheduling of the communication flows. 
 Disk I/O, on the other hand, has less an effect on such communication time \cite{kavulya2010analysis}.
 
-Unfortunately, unlike memories and CPU cores, which can be encapsulated into containers on a node, the throughput
-of a communication flow is mainly determined by the available network bandwidth of 
-the network connection on both endpoints of the source and the destination.  
+Unfortunately, the throughput of a communication flow is mainly determined by the available network bandwidth of 
+the connection on both endpoints of the source and the destination. 
 The network is the shared resource of a pair of nodes even for one single task that transfers data between them. 
-For this reason, the network bandwidth cannot simply be encapsulated in the resource containers that stand for the isolation of the monopolistic resources.
+For this reason, unlike memories and CPU cores, the network bandwidth cannot simply be encapsulated in resource containers that stand for the isolation of the monopolistic resources.
 
 In the distributed platforms, the shuffle tasks by default
+%realizes the importance of better utilization of the cluster network bandwidth, and 
 would try to evenly distribute the workload of the network
 by randomly selecting the source to fetch the map output data. 
+%((Is this the default action of Yarn? Please indicate so if it is.))
 If the links connecting all the nodes in the cluster
 are more or less equal in terms of bandwidth
 and if the number of network connections is
-large, this random source selection policy could prevent the situation
-where some nodes would become a bottleneck.
+large, this random source selection policy could prevent some nodes becoming a bottleneck.
 Obviously, however, without monitoring the actual connection
 allocations %status in
 in the cluster, this simple random source scheduling approach cannot offer
 any bandwidth guarantee. 
 And it will likely lead to suboptimal performance
 if the network is a \emph{heterogeneous} one,
-i.e., the network bandwidth capacities of the links are different, 
-whose reason will be analyzed with examples in Section \ref{section:analysis}.
+i.e., the network bandwidth capacities of the links are different.
+The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment can be quite common in practice
-for distributed platform users, e.g., YARN users, as physical clusters comprising off-the-shelf
-machines could be fit with a variety of different network devices \cite{zaharia2008improving}, 
-or in a virtual cluster, EC2 virtual machines could be running at
-different network speeds. %insurance. 
+for distributed platform users.
+For example, the physical YARN clusters comprising off-the-shelf
+machines could be fit with a variety of different network devices \cite{zaharia2008improving}. 
+In a virtual cluster, EC2 virtual machines could be running at
+different network speeds. 
 
+Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
+The application-level scheduling approach works by making use of both the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links). 
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
 the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
-In this paper, our key observation is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
-The application-level scheduling approach works by making use of both the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and network-level information (e.g., the bandwidth capacity of the network links).
 We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
 
 In this paper, 

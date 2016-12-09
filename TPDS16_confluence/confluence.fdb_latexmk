@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex confluence"] 1481188699 "confluence.aux" "confluence.bbl" "confluence" 1481188700
+["bibtex confluence"] 1481269331 "confluence.aux" "confluence.bbl" "confluence" 1481269332
   "/usr/local/texlive/2015/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1222816716 59506 016987d9be15acf51cdd7252d40ecec2 ""
   "IEEELonger.bib" 1481047426 22413 9d93c9a2eb8ddb2e0ad6cf1acd6d53c5 ""
-  "confluence.aux" 1481188699 8066 b206e7e4bbf0aadea1ba729f79325aee ""
+  "confluence.aux" 1481269332 8067 407893e75ed001691e9895fc92cf3a9b ""
   "confluence.bcf" 0 -1 0 ""
   (generated)
   "confluence.bbl"
   "confluence.blg"
-["pdflatex"] 1481188699 "confluence.tex" "confluence.pdf" "confluence" 1481188700
+["pdflatex"] 1481269331 "confluence.tex" "confluence.pdf" "confluence" 1481269332
   "./figure/figure1.pdf" 1465462392 56127 7ce90a049a62e93ac220b39b67e0b5a1 ""
   "./figure/figure3.pdf" 1454741063 18430 d457728b3d78e4c99db4a02230719b52 ""
   "./figure/figure4.pdf" 1465474515 37467 e0f0247a9537efcef4bbe2701868284b ""
@@ -127,9 +127,9 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "IEEEtran.cls" 1410922780 282417 954051ae67e6fc3fdfba307b2233a8fe ""
-  "confluence.aux" 1481188699 8066 b206e7e4bbf0aadea1ba729f79325aee ""
-  "confluence.bbl" 1481188699 11933 94042fd1797522731e34b066bce0d328 "bibtex confluence"
-  "confluence.tex" 1481188695 101376 79eacbe255e4da90c90bc211853e7ca4 ""
+  "confluence.aux" 1481269332 8067 407893e75ed001691e9895fc92cf3a9b ""
+  "confluence.bbl" 1481269331 11933 94042fd1797522731e34b066bce0d328 "bibtex confluence"
+  "confluence.tex" 1481269317 101059 67fc415bf446b83971665d0333b4e4fd ""
   "figure/figure1.pdf" 1465462392 56127 7ce90a049a62e93ac220b39b67e0b5a1 ""
   "figure/figure3.pdf" 1454741063 18430 d457728b3d78e4c99db4a02230719b52 ""
   "figure/figure4.pdf" 1465474515 37467 e0f0247a9537efcef4bbe2701868284b ""

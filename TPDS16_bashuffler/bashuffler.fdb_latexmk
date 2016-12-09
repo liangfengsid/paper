@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex bashuffler"] 1481189819 "bashuffler.aux" "bashuffler.bbl" "bashuffler" 1481189820
+["bibtex bashuffler"] 1481189819 "bashuffler.aux" "bashuffler.bbl" "bashuffler" 1481269646
   "/usr/local/texlive/2015/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1222816716 59506 016987d9be15acf51cdd7252d40ecec2 ""
-  "bashuffler.aux" 1481189819 11208 16bb6ba5529ad30066748dd8ff7a89fe ""
+  "bashuffler.aux" 1481269646 11208 16bb6ba5529ad30066748dd8ff7a89fe ""
   "bashuffler.bcf" 0 -1 0 ""
   "example_full.bib" 1481024895 23496 2433ad62002dd77eab53bc4c1bfd6d32 ""
   (generated)
   "bashuffler.bbl"
   "bashuffler.blg"
-["pdflatex"] 1481189819 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1481189820
+["pdflatex"] 1481269645 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1481269646
   "./figure/figure1.pdf" 1464167099 21829 0a7acc92f6460dee6763dec23bfe64d0 ""
   "./figure/figure10.pdf" 1462386879 22514 377d38fa7e1249bba6391e229299b231 ""
   "./figure/figure11.pdf" 1462380058 21442 be7015e1778060fb7101ef0442836cc6 ""
@@ -109,9 +109,9 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "IEEEtran.cls" 1410922780 282417 954051ae67e6fc3fdfba307b2233a8fe ""
-  "bashuffler.aux" 1481189819 11208 16bb6ba5529ad30066748dd8ff7a89fe ""
+  "bashuffler.aux" 1481269646 11208 16bb6ba5529ad30066748dd8ff7a89fe ""
   "bashuffler.bbl" 1481189819 12986 295aef36bbe98d44e003c95e154dee76 "bibtex bashuffler"
-  "bashuffler.tex" 1481189816 108035 c74da3734e96663a45e198ccf4baad17 ""
+  "bashuffler.tex" 1481269599 108108 e1b981438504285dc4ee8bf4c624c21e ""
   "figure/figure1.pdf" 1464167099 21829 0a7acc92f6460dee6763dec23bfe64d0 ""
   "figure/figure10.pdf" 1462386879 22514 377d38fa7e1249bba6391e229299b231 ""
   "figure/figure11.pdf" 1462380058 21442 be7015e1778060fb7101ef0442836cc6 ""
@@ -127,6 +127,6 @@
   "figure/figure8.pdf" 1479045879 65108 ba97e4df92bc235078c63586884125eb ""
   "figure/figure9.pdf" 1462388239 28834 b3ff6c1397815c48812396bf795f54f2 ""
   (generated)
+  "bashuffler.aux"
   "bashuffler.log"
   "bashuffler.pdf"
-  "bashuffler.aux"
