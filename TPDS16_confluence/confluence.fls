@@ -150,8 +150,6 @@ INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/upzd.fd
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvbc7t.tfm
-INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 OUTPUT confluence.pdf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/palatino/pplr7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/palatino/pplr8r.tfm
@@ -169,6 +167,8 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/palatino/pplr7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/palatino/pplr8r.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/palatino/pplb7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT ./figure/figure1.pdf
 INPUT ./figure/figure1.pdf
 INPUT ./figure/figure1.pdf

@@ -627,7 +627,10 @@ to reuse data across iterations in the memory to avoid the overhead of transferr
 However, none of them proposes a useful method to minimize the size of
 the data to be transferred in multiple shuffle iterations.
 
-Our key insight is that dataset entries are generally in the format of key-value pairs. How the output data of the
+Our key insight is that we can exploit the dependency of keys across iterations
+and partition the data according to the key dependency to greatly decrease 
+the transferred data across shuffle iterations.
+The dataset entries are generally in the format of key-value pairs. How the output data of the
 previous shuffle iterations are partitioned across different locations
 can greatly affect the data are to be
 shuffled and its efficiency in the following computing iterations.

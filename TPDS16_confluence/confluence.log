@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  9 DEC 2016 15:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  10 DEC 2016 14:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -437,23 +437,24 @@ Underfull \hbox (badness 1817) in paragraph at lines 588--602
  dis-
  []
 
-LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 655
-.
 [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
+LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 658
+.
+
 <./figure/figure1.pdf, id=11, 278.03876pt x 494.84875pt>
 File: ./figure/figure1.pdf Graphic file (type pdf)
 
 <use ./figure/figure1.pdf>
-Package pdftex.def Info: ./figure/figure1.pdf used on input line 679.
+Package pdftex.def Info: ./figure/figure1.pdf used on input line 682.
 (pdftex.def)             Requested size: 252.94499pt x 450.19226pt.
  [2 <./figure/figure1.pdf>]
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9.53561> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 758.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 761.
  [3]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 911.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 914.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1pcr.fd
@@ -463,13 +464,13 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 File: ./figure/figure3.pdf Graphic file (type pdf)
 
 <use ./figure/figure3.pdf>
-Package pdftex.def Info: ./figure/figure3.pdf used on input line 988.
+Package pdftex.def Info: ./figure/figure3.pdf used on input line 991.
 (pdftex.def)             Requested size: 252.94499pt x 186.52022pt.
 \c@theorem=\count125
 \c@conduction=\count126
 \c@siTheorem=\count127
 
-Underfull \hbox (badness 1789) in paragraph at lines 1068--1070
+Underfull \hbox (badness 1789) in paragraph at lines 1071--1073
 []\OT1/ppl/b/it/9.53561 Theorem 2. []\OT1/ppl/m/n/9.53561 The data trans-fer si
 ze for col-lect-ing the
  []
@@ -478,31 +479,31 @@ ze for col-lect-ing the
 File: ./figure/figure4.pdf Graphic file (type pdf)
 
 <use ./figure/figure4.pdf>
-Package pdftex.def Info: ./figure/figure4.pdf used on input line 1166.
+Package pdftex.def Info: ./figure/figure4.pdf used on input line 1169.
 (pdftex.def)             Requested size: 505.88998pt x 349.40411pt.
  [6]
-Overfull \hbox (4.59415pt too wide) in alignment at lines 1220--1220
+Overfull \hbox (4.59415pt too wide) in alignment at lines 1223--1223
 [][] 
  []
 
 
-Overfull \hbox (6.0225pt too wide) in paragraph at lines 1220--1222
+Overfull \hbox (6.0225pt too wide) in paragraph at lines 1223--1225
  [][] 
  []
 
 [7 <./figure/figure4.pdf>]
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsppl.fd)
-Overfull \hbox (9.58527pt too wide) in alignment at lines 1309--1309
+Overfull \hbox (9.58527pt too wide) in alignment at lines 1312--1312
 [][][] 
  []
 
 [8]
-Underfull \hbox (badness 10000) in alignment at lines 1397--1397
+Underfull \hbox (badness 10000) in alignment at lines 1400--1400
 [][][] 
  []
 
 
-Underfull \hbox (badness 3930) in paragraph at lines 1425--1426
+Underfull \hbox (badness 3930) in paragraph at lines 1428--1429
 []\OT1/ppl/m/it/9.53561 data.shuffleOperation (new Con-flu-en-cePar-ti-tioner (
 num-
  []
@@ -511,21 +512,21 @@ num-
 File: ./figure/figure5.pdf Graphic file (type pdf)
 
 <use ./figure/figure5.pdf>
-Package pdftex.def Info: ./figure/figure5.pdf used on input line 1466.
+Package pdftex.def Info: ./figure/figure5.pdf used on input line 1469.
 (pdftex.def)             Requested size: 252.94499pt x 197.59543pt.
 
 <./figure/figure6.pdf, id=223, 463.7325pt x 361.35pt>
 File: ./figure/figure6.pdf Graphic file (type pdf)
 
 <use ./figure/figure6.pdf>
-Package pdftex.def Info: ./figure/figure6.pdf used on input line 1504.
+Package pdftex.def Info: ./figure/figure6.pdf used on input line 1507.
 (pdftex.def)             Requested size: 252.94499pt x 197.10002pt.
 
 <./figure/figure7.pdf, id=224, 457.71pt x 343.2825pt>
 File: ./figure/figure7.pdf Graphic file (type pdf)
 
 <use ./figure/figure7.pdf>
-Package pdftex.def Info: ./figure/figure7.pdf used on input line 1514.
+Package pdftex.def Info: ./figure/figure7.pdf used on input line 1517.
 (pdftex.def)             Requested size: 252.94499pt x 189.7069pt.
  [10 <./figure/figure5.pdf> <./figure/figure6.pdf>]
 [11 <./figure/figure7.pdf>] (./confluence.bbl
@@ -589,7 +590,7 @@ pe1/urw/palatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw
 ino/uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/upl
 ri8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
 
-Output written on confluence.pdf (13 pages, 663514 bytes).
+Output written on confluence.pdf (13 pages, 663591 bytes).
 PDF statistics:
  442 PDF objects out of 1000 (max. 8388607)
  304 compressed objects within 4 object streams
