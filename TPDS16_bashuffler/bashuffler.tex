@@ -371,6 +371,7 @@
 \usepackage[ruled,linesnumbered]{algorithm2e}
 \usepackage{tabularx}
 \usepackage{color}
+\newcommand{\blue}{\textcolor{blue}}
 % \usepackage{algpseudocode}
 \makeatletter
 \newcommand{\removelatexerror}{\let\@latex@error\@gobble}
@@ -509,7 +510,12 @@ cannot fully utilize the network bandwidth capacity in a max-min fair network,
 and present BAShuffler, a bandwidth-aware shuffle scheduler, that can
 maximize the overall network bandwidth utilization by using a greedy
 or a partially greedy method 
-when scheduling the source nodes of the fetch flows. 
+to schedule the source nodes of the shuffle flows. 
+\blue{
+Instead of working on the network level that schedules the bandwidth of flows or the routing of data packages, BAShuffler uses the application-level approach 
+that schedules flow source nodes based on the bandwidth allocation estimation
+without changing the underlying network. 
+}
 We evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
 comprising a physical cluster and an EC2 virtual cluster respectively. 
 Simulation is also used to evaluate the performance of BAShuffler in
@@ -517,8 +523,8 @@ clusters of different scales.
 Experiment results show that BAShuffler can significantly improve the
 cluster shuffle throughput
 and reduce the execution time of shuffle tasks by up to 29\% as compared to
-the original YARN, especially in heterogeneous network bandwidth
-environments.
+the original YARN, especially in the heterogeneous
+network bandwidth environment.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
@@ -647,13 +653,20 @@ i.e., the network bandwidth capacities of the links are different.
 The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment can be quite common in practice
 for distributed platform users.
-For example, the physical YARN clusters comprising off-the-shelf
-machines could be fit with a variety of different network devices \cite{zaharia2008improving}. 
+\blue{
+For example, Hadoop is designed as the general distributed processing platform for 
+clusters comprising off-the-shelf machines~\cite{dean2008mapreduce}. 
+The physical Hadoop clusters could be fit with a variety of servers and network devices of different configurations~\cite{zaharia2008improving}. 
+}
 In a virtual cluster, EC2 virtual machines could be running at
 different network speeds. 
 
 Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
-The application-level scheduling approach works by making use of both the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links). 
+The shuffle information includes the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links). 
+\blue{
+A central scheduler in the distributed resource management platform, e.g., the Resource Manager of YARN, makes use of the shuffle information 
+and schedules the flow source nodes for all the MapReduce-like programs running on this platform.
+}
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
 the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
@@ -758,6 +771,11 @@ approximately evenly distribute the network transfer workload
 over different source nodes, and reduce the probability of the traffic
 congesting in the uplink of a few source nodes.
 
+
+\blue{
+RSS is widely used in the popular distributed platforms as the only shuffle 
+source selection algorithm~\cite{zaharia2012resilient}. 
+}
 However, as we have commented,
 RSS cannot fully utilize the network bandwidth
 when the network bandwidth capacities of
@@ -803,9 +821,17 @@ fetch workers later.
 The network level (or coflow here) is only aware of the existence of
 the flows created, but not the potential flows of the same shuffle
 pending at the application level.
-Minimizing the completion time of the coflow is NOT the same thing as
-minimizing the shuffle completion time.
+\blue{
+With this limitation, the shuffle operation cannot exactly fit into the coflow model. 
+Minimizing the completion time of the coflow is not the same thing as
+minimizing the completion time of the shuffle operation.
+}
 
+\blue{
+The shuffle completion time is the execution time of the shuffle operation 
+from the time the first fetch flow is ready to start to the time the last fetch flow 
+finishes. 
+}
 To obtain the optimal scheduling solution that minimizes the shuffle
 completion time, the scheduler needs to consider both the
 application level runtime status (all the available map outputs and
@@ -823,11 +849,24 @@ level \cite{saltzer1984end}.
 
 Application-level shuffle scheduling has the advantage of knowing
 the true runtime status of the shuffle.
-Although it cannot make efforts to improve the underlying network, 
+\blue{
+``Application-level'' is the term relative to the network layers in 
+the OSI model, but is not limited to the distributed application (e.g., MapReduce programs). 
+The distributed resource management platforms like Mesos and Hadoop is also working at the application level. 
+}
+Although it does not make efforts to improve the underlying network, 
 it can observe and predict the behavior and performance of the network, 
 and then schedule the shuffle flows accordingly based on
 these observations and the predicted values (e.g., by using MMF in the TCP
 network) to obtain the near-optimal solution. 
+
+\blue{
+The benefits of application-level shuffle scheduling are: 1) Besides bandwidth capacities of the links, 
+it can make use of 
+the dynamic application-level shuffle information, including the pattern of the 
+arriving time of the flows and their sources and destinations; 
+2) The distributed platforms can work on the ordinary operation systems and network devices. 
+}
 
 
 \subsection{Max-Min Fairness in TCP Communication}\label{section:MMF}
@@ -924,7 +963,18 @@ in the presence of BAShuffler.
 
 \subsection{Design of BAShuffler}
 \subsubsection{Design Considerations}
-In order to improve the shuffle performance of MapReduce in YARN, 
+\blue{
+When improving the shuffle performance, it is not wise to sacrifice 
+the execution time of the other phases of the jobs. 
+BAShuffler should not negatively impact the resource allocation for the other map tasks
+and reduce tasks. 
+Also BAShuffler prefers not to change the task assignment policy of the existing system
+as changing it will cause chaoses in the issues of task locality and task dependency. 
+The only effect of BAShuffler shall be a faster shuffle operation. 
+With the other phases unaffected, the job execution time is improved with faster shuffle.
+}
+
+In order to improve the shuffle performance, 
 it is necessary for the system to schedule network bandwidth as a
 kind of resource.
 However, it is not appropriate to encapsulate network bandwidth
@@ -944,9 +994,19 @@ Instead, BAShuffler focuses on the shuffle phase of the reduce task,
 which is already running in an allocated container.
 
 %Even inside
-During the shuffle phase, there are several factors that can
+During the shuffle phase, there are many factors that can
 affect the throughput or the execution time of the shuffles.
-One factor is the number of fetchers of each shuffle fetching the data
+\blue{
+For example, the CPU time slices for source nodes to send the map outputs via the fetch flow and 
+the straggler of a map task that prevents the shuffle operation having all the map outputs ready. 
+These factors are related to the dynamic environment of the distributed management platform. 
+Some of them can be avoided by a better resource isolation mechanism. 
+For instance, a good resource isolation mechanism should make sure the CPU time slices guaranteed for
+sending the flow data will be stolen by other compute-intensive jobs.
+BAShuffler does not consider these factors.
+}
+
+One factor we want to discuss here is the number of fetchers of each shuffle fetching the data
 concurrently.
 This number directly decides the traffic workload in the cluster. Too many
 fetchers can jam the network (the TCP incast problem \cite{Phanishayee:2008:MAT}),
@@ -958,10 +1018,23 @@ Considering there can be multiple task containers in one node, we consider 2 to 
 For the experiments that evaluate the other factors than the fetcher number, such as different jobs and input sizes, we do not bother with the optimal fetcher number and simply used Hadoop's default number, which is 5. 
 
 Another important factor is the communication pattern of the fetch
-flows, where different communication patterns can lead to different bandwidth utilization status, which we will illustrate in the coming sections.
+flows. 
+\blue{The communication pattern mainly refers to the mapping from the the flow sources to the flow destinations.}
+Different communication patterns can lead to different bandwidth utilization status, which we will illustrate in the coming sections.
+\blue{
+BAShuffler focuses on this factor and schedules the communication pattern.
+}
 To schedule the communication pattern that can yield maximum bandwidth
 utilization, BAShuffler selects the source node of the fetch based on the MMF bandwidth estimation
 when a new fetcher is free.
+
+
+\subsubsection{Architecture of BAShuffler}
+The logical position where the BAShuffler components are embedded in YARN is shown in Fig.~\ref{fig:bashuffler}. 
+The solid arrow lines represent local signals or data communications
+between components by method calls in the same node,
+while the dashed arrow lines represent remote procedure calls (RPC)
+between components in different nodes.
 
 \begin{figure}
 \centering
@@ -972,13 +1045,6 @@ when a new fetcher is free.
 \label{fig:bashuffler}
 %\vspace{-0.2in}
 \end{figure}
-
-\subsubsection{Architecture of BAShuffler}
-The logical position where the BAShuffler components are embedded in YARN is shown in Fig.~\ref{fig:bashuffler}. 
-The solid arrow lines represent local signals or data communications
-between components by method calls in the same node,
-while the dashed arrow lines represent remote procedure calls (RPC)
-between components in different nodes.
 
 At startup, the node managers register the bandwidth capacities of the uplink
 and downlink of the node with BAShuffler. The users can obtain the
@@ -1482,7 +1548,7 @@ flows with awareness of the network bandwidth allocation behavior,
 %we run BAShuffler in real testbeds, including a physical cluster and
 %a virtual cluster with heterogeneous networks.
 we run BAShuffler in a physical testbed, the
-Gideon-II cluster \cite{gideon} having a heterogeneous network.
+Gideon-II cluster \cite{gideon} in the heterogeneous network configuration.
 
 
 The physical cluster contains 18 computer nodes, where one node
