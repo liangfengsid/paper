@@ -269,6 +269,8 @@
 \usepackage{amsmath}
 \usepackage{threeparttable}
 
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+
 \makeatletter
 \newcommand{\removelatexerror}{\let\@latex@error\@gobble}
 \makeatother
@@ -630,7 +632,21 @@ the data to be transferred in multiple shuffle iterations.
 Our key insight is that we can exploit the dependency of keys across iterations
 and partition the data according to the key dependency to greatly decrease 
 the transferred data across shuffle iterations.
-The dataset entries are generally in the format of key-value pairs. How the output data of the
+The dataset entries are generally in the format of key-value pairs. 
+\blue{The application semantics of iterative distributed operations, 
+also called \textbf{distributed operation semantics} in this paper (Section~\ref{section:semantics}), 
+reflects the logic of the program that decides, given a key-value data entry as the input, 
+what new key-value data entries will be generated as the output in every iteration
+of the distributed operation. 
+The key dependency relationship between different computing iterations 
+are derived from the distributed operation semantics.
+It represents the transformation process from key-value pairs to new key-value pairs in iterative distributed operations
+and it can be expressed to computer by means of the Key Dependency Graph (Section~\ref{section:kdg}).
+It is special to every iterative distributed operation
+and is decided by the logic of the code and the input dataset. 
+}
+
+How the output data of the
 previous shuffle iterations are partitioned across different locations
 can greatly affect the data are to be
 shuffled and its efficiency in the following computing iterations.
@@ -638,13 +654,14 @@ By the default hashed-by-key partitioning scheme, the shuffle size of
 each map-and-reduce iteration would be almost of the same size as the
 map output data. The total shuffle size of multiple iterations
 can be very large.
-In fact, following the semantics of the application,
-the key values of the data entries of the next computing iteration can
-usually be determined by the key values of the previous iteration.
-The \textbf{application semantics} refers to what new key-value data entries  
-a key-value data entry will generate in a distributed operation, based on the 
-logic of the program. 
-If we have a key partitioning scheme such that some data needed for the
+% In fact, following the application semantics,
+% the key values of the data entries of the next computing iteration can
+% usually be determined by the key values of the previous iteration.
+% \blue{The \textbf{application semantics} refers to what new key-value data entries  
+% a key-value data entry will generate in a distributed operation, based on the 
+% logic of the program.}
+With the knowledge of the application semantics,
+if we have a key partitioning scheme such that some data needed for the
 following computing iterations can be assigned to the same computing
 node after shuffling, we can reduce
 %we can avoid re-shuffling data in the following iterations and
@@ -900,6 +917,24 @@ by exploring the key dependency of different iterations.
 This section firstly describes the the construction process of the key dependency graphs, as well as its properties. 
 After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
 
+\blue{
+\subsection{Distributed Operation Semantics}\label{section:semantics}
+Given a key-value pair as the input to an iteration of the distributed operation,
+it will generate a (or a set of) new key-value pair(s) based on the logic of the program. 
+The distributed operation semantics
+represents such logic of the generation of key-value pairs from the input key-value pairs in every iteration
+of the distributed operation. 
+By saying that we know the distributed operation semantics for a specific application, 
+it means that we know what the output key-value pairs will be 
+for an input key-value pair in a computing iteration. 
+The programmer is supposed to be well acquainted with the distributed operation semantics. 
+We use the key dependency graph (introduced later) to portrait the distributed operation semantics
+so that it is comprehensible to the computer. 
+Every distributed operation has its own semantics
+and it relies on the programmer to understand the distributed operation semantics 
+and construct the key dependency graph.
+}
+
 \begin{figure}[!t]
 \removelatexerror
 
@@ -907,7 +942,7 @@ After that, we present Confluence Key Partitioning Scheme, which decreases the o
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 
- \Input{Key Set $K_i$, containing all the possible keys (or key patterns) of the output key-value pairs of any Iteration $i$;\\
+ \Input{Key Set $K_i$, containing all the possible keys (or usually, key patterns) of the output key-value pairs of any Iteration $i$;\\
  Key Dependency Set $D$, containing the key dependency of all iterations;
  }
  \Output{Key Dependency Graph $G=(V,E)$}
@@ -916,7 +951,7 @@ After that, we present Confluence Key Partitioning Scheme, which decreases the o
   \ForEach{$k \in K_i$}{
     add vertex $v_{i,k}$ to $V$
   }
-  \If{any possible key is unknown}{
+  \If{any possible key (key pattern) is unknown}{
     add vertex $v_{i,x}$ to $V$
   }
 }
@@ -936,19 +971,30 @@ After that, we present Confluence Key Partitioning Scheme, which decreases the o
 \end{figure}
 
 
-\subsection{Key Dependency Graph}
+\subsection{Key Dependency Graph}\label{section:kdg}
 
 The directed graph $G=(V,E)$, which is named as the \emph{key dependency graph} (KDG), addresses the key dependency status of the distributed operation iterations. 
 
-The \emph{key dependency} is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
-the output key-value pairs with key $k1$ 
-in Iteration $i$ can generate a key-value pair with key $k2$ in Iteration $i+1$.
+\blue{The key pattern is the symbol that represents a set of keys that match a specific pattern.}
+The \textbf{key dependency} is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
+the output key-value pairs with key \blue{matching pattern $k1$}
+in Iteration $i$ can generate a key-value pair with key \blue{matching pattern $k2$} in Iteration $i+1$.
 The key dependency is specific to the distributed operation semantics
 and the distributed operation semantics decides which graph node should point to which others. 
 The distributed operation semantics should be known prior by the programmers.
 
 The construction process of the key dependency graph G is shown as in Algorithm~\ref{algo:KDG}.
-Note that when constructing $E$, for the unknown keys, it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
+Note that when constructing $E$, for the unknown keys (or key patterns), it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
+\blue{
+The unknown key dependency is only raised when there are some key values (or key patterns) the programmer cannot make sure in a computing iteration. 
+}
+\blue{
+In practice, the input set $K_i$ in Algorithm~\ref{algo:KDG} is defined to contain the key patterns instead of the distinguished key values, so that a node in the KDG represents a key pattern. 
+Such practice limits the width of the KDG in each level
+and our algorithm introduced later can partition the key-value pairs based on their key pattern. 
+In the rest of this paper, unless specified, the input set $K_i$ is the key pattern set, 
+but for generality, we still refer to it as the key set. 
+}
 
 %The construction of the KDG $G=(V,E)$ is finished here. 
 This graph is a directed acyclic graph (DAG).
@@ -1188,8 +1234,8 @@ This operation is done in two iterations as shown in Fig.~\ref{fig:alsDivision}(
 No single key partitioning scheme can remove the shuffle data in order
 to generate both of these blocks from the user-item block, as the key
 dependency follows a many-to-many pattern.
-However, if the iterative distributed operation is regarded as two
-individual iterative operations and is divided as in
+However, if \blue{the programmer regards} the iterative distributed operation as two
+individual iterative operations and the operation is divided as in
 Fig.~\ref{fig:alsDivision}(b), the pure confluence subgraph can be found in
 the operation in the dashed box.
 CKP can then be applied on the key dependency $(userId, itemId) \Rightarrow
@@ -1238,7 +1284,7 @@ The evolution of the data of multiple iterations is shown as Fig.~\ref{fig:alsDi
 The key dependencies are $L_i \Rightarrow (heads, L_i)$ and $L_i \Rightarrow (L_i, tails)$. 
 We cannot use CKP to localize the keys $(heads, L_i)$ and $(L_i, tails)$ with $L_i$, 
 as the datasets corresponding to Key $(heads, L_i)$ and Key $(L'_i, tails)$ may overlap for different $L_i$ and $L'_i$.
-However, the iterative operations can be divided into several smaller iterative operations by dividing the dataset as in Fig.~\ref{fig:alsDivision}(d). 
+However, \blue{the programmer can divide} the iterative operations into several smaller iterative operations by dividing the dataset as in Fig.~\ref{fig:alsDivision}(d). 
 In the iterative operations in the dashed boxes, the pure confluence subgraphs exist 
 in their KDG's by the key dependency $L_i \Rightarrow (L_i, tails)$.
 Applying CKP to these operations and leaving the other iterative operations
@@ -1406,7 +1452,7 @@ KMeans & 64,534,480 wikipedia page visit records& 32 centers, 10 iterations \\
 Currently, programmers need to manually discover the pure confluence subgraphs of the iterative distributed applications from KDG and specify the key partitioning scheme in the program code if they apply CKP. 
 A system which automates this process before the runtime of the application and frees the programmers the extra work may sound attractive. 
 However, there are some difficulties implementing such a system because 
-it is hard for the machines to really \textbf{understand} the application semantics. 
+it is hard for the machines to really \textbf{understand} the application semantics to draw the KDG. 
 The reasons are as follows. 
 1) Difficulty in constructing the vertexes: 
 without the provision of the real meanings of the keys by the programmer, 
