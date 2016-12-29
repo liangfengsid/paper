@@ -269,7 +269,11 @@
 \usepackage{amsmath}
 \usepackage{threeparttable}
 
+\usepackage{soul}
+\usepackage[normalem]{ulem}
+
 \newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 \makeatletter
 \newcommand{\removelatexerror}{\let\@latex@error\@gobble}
@@ -415,16 +419,22 @@
 % journal papers have the author affiliations above the "Manuscript
 % received ..."  text while in non-compsoc journals this is reversed. Sigh.
 
-% \author{Feng~Liang,~\IEEEmembership{Member,~IEEE,}
-%         and~Francis~C.~M.~Lau,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
-% \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem F. Liang and F.C.M. Lau are with Department
-% of Computer Science, The University of Hong Kong, Hong Kong.\protect\\
-% % note need leading \protect in front of \\ to get a newline within \thanks as
-% % \\ is fragile and will error, could use \hfil\break instead.
-% E-mail: F. Liang- loengf@connect.hku.hk, %\protect\\
-% F.C.M. Lau- fcmlau@cs.hku.hk}%
-% %\thanks{Manuscript received April 19, 2005; revised September 17, 2014.}
-% }
+\author{
+Feng~Liang,~\IEEEmembership{Member,~IEEE},
+Francis~C.~M.~Lau,~\IEEEmembership{Senior Member,~IEEE},
+Heming~Cui,~\IEEEmembership{Member,~IEEE},
+and~Cho-Li~Wang,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem F. Liang, F.C.M. Lau,
+H. Cui and C.-L. Wang are with Department
+of Computer Science, The University of Hong Kong, Hong Kong SAR.\protect\\
+% note need leading \protect in front of \\ to get a newline within \thanks as
+% \\ is fragile and will error, could use \hfil\break instead.
+E-mail: F.~Liang- loengf@connect.hku.hk, %\protect\\
+F.C.M.~Lau- fcmlau@cs.hku.hk,
+H.~Cui- heming@cs.hku.hk,
+C.-L.~Wang- clwang@cs.hku.hk}%
+%\thanks{Manuscript received April 19, 2005; revised September 17, 2014.}
+}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -501,8 +511,8 @@ iterations can be decreased by partitioning the datasets based on a
 well-designed key partitioning scheme, %as is first proposed in this paper,
 which we call Confluence in this paper.
 
-Confluence constructs a key dependency graph based on the application
-semantics to reflect the key dependency relationship of the datasets of
+Confluence constructs a key dependency graph based on \st{the application
+semantics to reflect} the key dependency relationship of the datasets of
 adjacent computing iterations.
 After applying Confluence, the datasets needed by the multiple
 iterations will be partitioned and assigned to the nodes where they will
@@ -633,16 +643,27 @@ Our key insight is that we can exploit the dependency of keys across iterations
 and partition the data according to the key dependency to greatly decrease 
 the transferred data across shuffle iterations.
 The dataset entries are generally in the format of key-value pairs. 
-\blue{The application semantics of iterative distributed operations, 
-also called \textbf{distributed operation semantics} in this paper (Section~\ref{section:semantics}), 
-reflects the logic of the program that decides, given a key-value data entry as the input, 
+\blue{\st{The application semantics of iterative distributed operations, 
+also called \textbf{distributed operation semantics} in this paper %(Section~\ref{section:semantics})
+, reflects the logic of the program that decides, given a key-value data entry as the input, 
 what new key-value data entries will be generated as the output in every iteration
 of the distributed operation. 
 The key dependency relationship between different computing iterations 
 are derived from the distributed operation semantics.
 It represents the transformation process from key-value pairs to new key-value pairs in iterative distributed operations
-and it can be expressed to computer by means of the Key Dependency Graph (Section~\ref{section:kdg}).
+and it can be expressed to computer by means of the Key Dependency Graph %(Section~\ref{section:kdg})
+.
 It is special to every iterative distributed operation
+and is decided by the logic of the code and the input dataset. 
+}
+}
+\red{
+The iterative key dependency relationship reflects the logic of the program:
+given a key-value data entry as the input, 
+what new key-value data entries will be generated as the output in every iteration
+of the distributed operation. 
+It represents the transformation process from key-value pairs to new key-value pairs in iterative distributed operations
+and it can be expressed to computer by means of the Key Dependency Graph (Section~\ref{section:kdg}). It is special to every iterative distributed operation
 and is decided by the logic of the code and the input dataset. 
 }
 
@@ -660,7 +681,7 @@ can be very large.
 % \blue{The \textbf{application semantics} refers to what new key-value data entries  
 % a key-value data entry will generate in a distributed operation, based on the 
 % logic of the program.}
-With the knowledge of the application semantics,
+With the knowledge of the \st{application semantics} \red{key dependency},
 if we have a key partitioning scheme such that some data needed for the
 following computing iterations can be assigned to the same computing
 node after shuffling, we can reduce
@@ -739,7 +760,8 @@ We are not aware of any previous work
 %As far as we know, we are the first
 that also tried to decrease the overall
 shuffle traffic by a key partitioning scheme across multiple
-iterations based on the application semantics of the keys.
+iterations based on the \st{application semantics of the keys} 
+\red{key dependency relationship}.
 %\textcolor{red}{Performance}
 
 Our major contributions are listed as follows.
@@ -747,7 +769,7 @@ Our major contributions are listed as follows.
 \setlength{\itemsep}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
-\item We invented the new data structure Key Dependency Graph to depict the iterative application semantics 
+\item We invented the new data structure Key Dependency Graph to depict the iterative \st{application semantics} \red{key dependency} 
 and used the Confluence Key Partitioning (CKP) scheme to decrease the shuffle traffic
 across distributed computing iterations.
 
@@ -838,8 +860,8 @@ The data partition information is specific to the application running
 situation and the cluster environment.
 In the key dependency graph proposed in this paper, the construction of
 the graph does not use any data partitioning information, but considers
-the application semantics of the keys of the data, which depends on the
-application logic only.
+the \st{application semantics of the keys of the} \red{key dependency of} data, which depends on the
+application logic.
 
 \subsection{Iterative Shuffle Size}\label{section:model}
 We model the overall shuffle size of the iterative
@@ -910,7 +932,7 @@ In the rest of this paper, the shuffle size is used to refer to the data transfe
 
 \section{Confluence}\label{section:keyDependencyGraph}
 Even though it is hard to find the optimal partition solution to minimize the overall shuffle size,
-if the application semantics of the specific distributed operations (distributed operation semantics) is already known, 
+if the code logic of the specific distributed operations is already known, 
 the shuffle size can be reduced to the maximum extent %in polynomial time 
 by exploring the key dependency of different iterations. 
 
@@ -918,20 +940,20 @@ This section firstly describes the the construction process of the key dependenc
 After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
 
 \blue{
-\subsection{Distributed Operation Semantics}\label{section:semantics}
+\subsection{Key Dependency}\label{section:dependency}
 Given a key-value pair as the input to an iteration of the distributed operation,
 it will generate a (or a set of) new key-value pair(s) based on the logic of the program. 
-The distributed operation semantics
+The distributed key dependency
 represents such logic of the generation of key-value pairs from the input key-value pairs in every iteration
 of the distributed operation. 
-By saying that we know the distributed operation semantics for a specific application, 
+The programmer is supposed to be well acquainted with the distributed operation \st{semantics} \red{logic}. 
+By saying that we know the \st{distributed operation semantics} \red{key dependency} for a specific  \st{application} \red{iterative distributed operation},
 it means that we know what the output key-value pairs will be 
-for an input key-value pair in a computing iteration. 
-The programmer is supposed to be well acquainted with the distributed operation semantics. 
-We use the key dependency graph (introduced later) to portrait the distributed operation semantics
+for an input key-value pair in \st{a} \red{every} computing iteration. 
+We use the key dependency graph (introduced later) to portrait the \st{distributed operation semantics} \red{iterative key dependency}
 so that it is comprehensible to the computer. 
-Every distributed operation has its own semantics
-and it relies on the programmer to understand the distributed operation semantics 
+Every distributed operation has its own \st{semantics} \red{key dependency}
+and it relies on the programmer to understand the \st{distributed operation semantics} \red{iterative key dependency based on the application logic}
 and construct the key dependency graph.
 }
 
@@ -979,9 +1001,9 @@ The directed graph $G=(V,E)$, which is named as the \emph{key dependency graph} 
 The \textbf{key dependency} is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
 the output key-value pairs with key \blue{matching pattern $k1$}
 in Iteration $i$ can generate a key-value pair with key \blue{matching pattern $k2$} in Iteration $i+1$.
-The key dependency is specific to the distributed operation semantics
-and the distributed operation semantics decides which graph node should point to which others. 
-The distributed operation semantics should be known prior by the programmers.
+The key dependency is specific to the \red{code logic of the} distributed operation \st{semantics}
+and \st{the distributed operation semantics} \red{it} decides which graph node should point to which others. 
+The distributed operation \st{semantics} \red{code logic} should be known prior by the programmers.
 
 The construction process of the key dependency graph G is shown as in Algorithm~\ref{algo:KDG}.
 Note that when constructing $E$, for the unknown keys (or key patterns), it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
@@ -1000,7 +1022,8 @@ but for generality, we still refer to it as the key set.
 This graph is a directed acyclic graph (DAG).
 The time complexity to construct this graph is $O(\sum_{i=1}^m k_{i-1} k_i)$, 
 where $k_i$ is the number of keys (or key patterns) in iteration i and $m$ is the total number of iterations.
-Usually, $k_i$ is very small in value when it is referred as the key pattern (not the distinguished values of the keys), which is constrained by the application semantics. 
+Usually, $k_i$ is very small in value when it is referred as the key pattern (not the distinguished values of the keys).
+\st{, which is constrained by the application semantics. }
 For example, in the matrix multiplication application, the subgraph from the second level to the third (final level) of the KDG can be denoted as a one node to one node subgraph: $(a, b, [1, n]) \rightarrow (a, b)$, 
 where $a$ and $b$ stand for any row and any column index of the matrix, 
 and $[1, n]$ stands for the range from 1 to the the matrix dimension length $n$.
@@ -1095,7 +1118,7 @@ The reason is that the raw input dataset %which is considered as the output of i
 is always distributed across the cluster before the first iteration. 
 
 We analyze the expected overall data transfer size $S'$ of CKP
-in comparison with that $S''$ of the random key partitioning scheme (RKP), which is ignorant of the key semantics and partition the data entries randomly (e.g., partition by the hashed value of keys). 
+in comparison with that $S''$ of the random key partitioning scheme (RKP), which is ignorant of the key \st{semantics} \red{dependency} and partition the data entries randomly (e.g., partition by the hashed value of keys). 
 $S'_i$ and $S''_i$ denote the expected data transfer size of CKP and and RKP in the $i_{th}$ iteration, respectively.  
 % We assume that in every iteration, each key is expected 
 
@@ -1167,7 +1190,7 @@ When CKP is applied, as each output entry of the shuffle operation is the unifor
 Therefore, $L_{u+1}=0$.
 
 In Iterations from $u+2$ to $w+1$, 
-it can be divided into two phases based on the semantics of the distributed operations. 
+it can be divided into two phases based on the \st{semantics} \red{logic} of the distributed operations. 
 Suppose that Iteration $u' (u+1 \leq u' \leq w)$ is such an iteration that in every iteration from $u+1$ to $u'-1$, each input entry of the map primitive is expected to generate the same number of output entries of the shuffle operation, and in Iteration $u'$, the expected number of output entries of the shuffle operation generated by each map input entry is unknown or not the same. 
 Note that such Iteration $u'$ may not exist and in this case, we denote it as $u'=w+1$. 
 
@@ -1184,6 +1207,14 @@ including matrix multiplication and the other distributed applications (MovieLen
 In these applications, the expected workload skew level of CkP is 0, which is the same as that of RKP.
 In the distributed application where $u'$ does exist, the workload skew level may not be 0 and specific workload skew analysis is needed for this specific application.
 
+\red{
+\subsection{Affect of Inaccurate KDG}
+Note that the programmers do not need to change the original logic of programs 
+in order to apply CKP. 
+A wrong or inaccurate KDG will not impact the accuracy of the computation results, but only affect results of key partitioning locations. 
+Unpredictable workload skewness may exist, but as CKP randomly partitions the pure confluence subgraphs, the workloads tend to be balanced in all the nodes. 
+}
+
 
 %\textcolor{red}{TODO}
 
@@ -1198,7 +1229,8 @@ In the key dependency graph of the matrix multiplication algorithm,
 the pure confluence subgraphs are obvious in the second iteration, 
 whose keys follow the many-to-one mapping pattern.
 In some cases, CKP may not be applicable when
-the pure confluence subgraphs cannot be found%for the whole iterative distributed operations
+the pure confluence subgraphs cannot be found
+%for the whole iterative distributed operations
 in the straightforward way.
 In this case, if the iterative distributed operations can be divided into several smaller operations to fit the Confluence model, 
 CKP can be flexibly applied to some of the divided operations.
@@ -1343,7 +1375,7 @@ All the values of the CKP shuffle size improvement are figured out without consi
 % Some packages, such as MDW tools, offer better commands for making tables
 % than the plain LaTeX2e tabular which is used here.
 %\begin{tabular}{|c||c|c|}
-\begin{tabularx}{0.95\textwidth}{ c || c |c  }
+\begin{tabularx}{0.98\textwidth}{ c || c |c  }
 \hline
 \textbf{Distributed Operations} & \textbf{Key Dependency} & \textbf{User-Defined Function} \\
 \hline
@@ -1353,12 +1385,12 @@ MovieLensALS  &$(user,item) \Rightarrow user$ & (a:Any) $=>$ a match \{case (\_ 
 \hline
 MultiAdjacentList  & $list \Rightarrow (list, tails)$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
 \hline
-KMeans & $points \Rightarrow cluster$ & (a:Any) $=>$ a match \{case p:Vector[Double] $=>$ closestPoint(point, cluster\_centers)\tnote{1}\\
+KMeans & $points \Rightarrow cluster$ & (a:Any) $=>$ a match \{case point:Vector[Double] $=>$ closestPoint(point, cluster\_centers)\tnote{1}\\
 \hline
 \end{tabularx}
 %\end{tabular}
 \begin{tablenotes}
-    \item[1] closestPoint(point, cluster\_centers) is the function which returns the index of the point in ``cluster\_centers'' that is in the shortest Euclidean distance with ``point''.
+    \item[1] closestPoint(point, cluster\_centers) is the function which returns the index of the point in ``cluster\_centers'' that is in the shortest Euclidean distance with ``point''. The ``cluster\_centers'' are the cluster centers of a fixed iteration, e.g., the first iteration. 
   \end{tablenotes}
 \end{threeparttable}
 \end{table*}
@@ -1452,7 +1484,7 @@ KMeans & 64,534,480 wikipedia page visit records& 32 centers, 10 iterations \\
 Currently, programmers need to manually discover the pure confluence subgraphs of the iterative distributed applications from KDG and specify the key partitioning scheme in the program code if they apply CKP. 
 A system which automates this process before the runtime of the application and frees the programmers the extra work may sound attractive. 
 However, there are some difficulties implementing such a system because 
-it is hard for the machines to really \textbf{understand} the application semantics to draw the KDG. 
+it is hard for the machines to really \textbf{understand} the application \st{semantics} \red{logic} to draw the KDG. 
 The reasons are as follows. 
 1) Difficulty in constructing the vertexes: 
 without the provision of the real meanings of the keys by the programmer, 
@@ -1499,7 +1531,8 @@ Unless further specified, the input data sizes and the running setting of the be
 Pure confluence subgraphs can be found based on the key dependency relationship indicated in the table, and CKP is applied on these pure confluence subgraphs. 
 CKP is compared with RKP as the baseline as RKP is the default and generally used key partitioning scheme for the distributed operations. 
 Other key partitioning scheme are sometimes used to balance the workload of the executors for specific datasets. 
-These key partitioning schemes rely not only on application semantics but also on the distribution of the datasets, we do not compare CKP with them here. 
+These key partitioning schemes rely not only on \st{application semantics} 
+\red{the application logic} but also on the distribution of datasets, we do not compare CKP with them here. 
 
 \subsection{Metrics}
 We measure the shuffle size of each distributed computing iteration (or alternately, stage) of benchmarks. 
@@ -1631,7 +1664,8 @@ The difference is, in terms of the goal, that the DAG task scheduling algorithms
 We have presented Confluence Key Partitioning scheme, the first work on decreasing the shuffle size of
 iterative distributed operations leveraging the key dependency. 
 Confluence guides the data partitioning across different iterations based on the key dependency graph, 
-which is constructed with the application semantics.
+which is constructed \st{with the application semantics} 
+\red{based on the iterative key dependency relationship}.
 %We use Confluence to partition the datasets to avoid undesired network traffic across multiple iterations during the shuffle operations. 
 Confluence greatly decreases the overall shuffle size while not introducing the workload skew side effect for a variety of distributed operations
 in the fields of scientific computing, machine learning, data
@@ -1797,14 +1831,264 @@ analysis, etc.
 % http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-\bibliography{IEEELonger}
+% \bibliographystyle{IEEEtran}
+% % argument is your BibTeX string definitions and bibliography database(s)
+% \bibliography{IEEELonger}
 %
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
 %\begin{thebibliography}{1}
+% Generated by IEEEtran.bst, version: 1.13 (2008/09/30)
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+\bibitem{Malewicz:2010:PSL}
+G.~Malewicz et al., ``Pregel: A system for large-scale graph processing,'' in
+  \emph{Proceedings of the ACM SIGMOD International Conference on Management of
+  Data}, New York, NY, USA, 2010, pp. 135--146.
+
+\bibitem{Lu:2014:LDG}
+Y.~Lu et al., ``Large-scale distributed graph computing
+  systems: An experimental evaluation,'' \emph{Proceedings of the VLDB
+  Endowment}, vol.~8, no.~3, pp. 281--292, Nov. 2014.
+
+\bibitem{thusoo2009hive}
+A.~Thusoo et al., ``Hive: A warehousing solution over a map-reduce
+  framework,'' \emph{Proceeding of VLDB Endowment}, vol.~2, no.~2, pp.
+  1626--1629, 2009.
+
+\bibitem{Yu:2008:DSG}
+Y.~Yu et al., ``Dryadlinq: A system for general-purpose distributed
+  data-parallel computing using a high-level language,'' in \emph{Proceedings
+  of the 8th USENIX Symposium on Operating Systems Design and Implementation},
+  2008, pp. 1--14.
+
+\bibitem{Armbrust:2015:SSR}
+M.~Armbrust et al., ``Spark sql: Relational
+  data processing in spark,'' in \emph{Proceedings of the 2015 ACM SIGMOD
+  International Conference on Management of Data}, ser. SIGMOD '15.\hskip 1em
+  plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2015, pp. 1383--1394.
+
+\bibitem{low2012distributed}
+Y.~Low et al.,
+  ``Distributed graphlab: A framework for machine learning and data mining in
+  the cloud,'' \emph{Proceedings of the VLDB Endowment}, vol.~5, no.~8, pp.
+  716--727, 2012.
+
+\bibitem{kraska2013mlbase}
+T.~Kraska et al., ``Mlbase: A distributed machine-learning system,'' in
+  \emph{Conference on Innovative Data Systems Research (CIDR)}, vol.~1, 2013,
+  pp. 2--1.
+
+\bibitem{vavilapalli2013apache}
+V.~K. Vavilapalli et al., ``Apache hadoop yarn: Yet another
+  resource negotiator,'' in \emph{Proceedings of the 4th ACM Annual Symposium
+  on Cloud Computing}, New York, NY, USA, 2013, pp. 5:1--5:16.
+
+\bibitem{hindman2011mesos}
+B.~Hindman et al., ``Mesos: A platform for fine-grained resource
+  sharing in the data center.'' in \emph{Proceedings of the 8th USENIX
+  Symposium on Networked Systems Design and Implementation}, vol.~11, 2011, pp.
+  22--22.
+
+\bibitem{isard2007dryad}
+M.~Isard et al., ``Dryad: Distributed
+  data-parallel programs from sequential building blocks,'' in
+  \emph{Proceedings of the 2nd ACM SIGOPS/EuroSys European Conference on
+  Computer Systems}, New York, NY, USA, 2007, pp. 59--72.
+
+\bibitem{dean2008mapreduce}
+J.~Dean and S.~Ghemawat, ``Mapreduce: Simplified data processing on large
+  clusters,'' \emph{Communications of the ACM}, vol.~51, no.~1, pp. 107--113,
+  2008.
+
+\bibitem{shvachko2010hadoop}
+K.~Shvachko et al., ``The hadoop distributed file
+  system,'' in \emph{Proceedings of the IEEE 26th Symposium on Mass Storage
+  Systems and Technologies}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2010,
+  pp. 1--10.
+
+\bibitem{chen2011case}
+Y.~Chen et al., ``The case for evaluating
+  mapreduce performance using workload suites,'' in \emph{IEEE 19th
+  International Symposium on Modeling, Analysis \& Simulation of Computer and
+  Telecommunication Systems}, 2011, pp. 390--399.
+
+\bibitem{chowdhury2011managing}
+M.~Chowdhury et al., ``Managing data
+  transfers in computer clusters with orchestra,'' in \emph{Proceedings of the
+  ACM SIGCOMM Conference}.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY,
+  USA: ACM, 2011, pp. 98--109.
+
+\bibitem{al2010hedera}
+M.~Al-Fares et al., ``Hedera:
+  Dynamic flow scheduling for data center networks.'' in \emph{Proceedings of
+  the 7th USENIX conference on Networked Systems Design and Implementation},
+  vol.~10, 2010, pp. 19--19.
+
+\bibitem{bu2010haloop}
+Y.~Bu et al., ``Haloop: efficient iterative
+  data processing on large clusters,'' \emph{Proceedings of the VLDB
+  Endowment}, vol.~3, no. 1-2, pp. 285--296, 2010.
+
+\bibitem{zaharia2012resilient}
+M.~Zaharia et al., ``Resilient distributed datasets: A fault-tolerant
+  abstraction for in-memory cluster computing,'' in \emph{Proceedings of the
+  9th USENIX conference on Networked Systems Design and Implementation}, 2012,
+  pp. 2--2.
+
+\bibitem{ekanayake2010twister}
+J.~Ekanayake et al.,
+  ``Twister: a runtime for iterative mapreduce,'' in \emph{Proceedings of the
+  19th ACM International Symposium on High Performance Distributed Computing},
+  2010, pp. 810--818.
+
+\bibitem{sakellariou2004hybrid}
+R.~Sakellariou and H.~Zhao, ``A hybrid heuristic for dag scheduling on
+  heterogeneous systems,'' in \emph{Proceedings of 18th IEEE International
+  Parallel and Distributed Processing Symposium}, 2004, pp. 111--.
+
+\bibitem{zhao2006scheduling}
+H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
+  systems,'' in \emph{Proceedings of 20th IEEE International Parallel and
+  Distributed Processing Symposium}, 2006, pp. 14--.
+
+\bibitem{movielensals}
+\BIBentryALTinterwordspacing
+``Movielensals spark submit 2014.'' [Online]. Available:
+  \url{https://databricks-training.s3.amazonaws.com/movie-recommendation-with-mllib.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{multiAdjList}
+\BIBentryALTinterwordspacing
+``Multiadjacentlist benchmark.'' [Online]. Available:
+  \url{https://github.com/liangfengsid/MultiAdjacentList}
+\BIBentrySTDinterwordspacing
+
+\bibitem{kmeans}
+\BIBentryALTinterwordspacing
+``Spark kmeans benchmark.'' [Online]. Available:
+  \url{http://spark.apache.org/docs/latest/mllib-clustering.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{gideon}
+\BIBentryALTinterwordspacing
+``Hku gideon-ii cluster.'' [Online]. Available:
+  \url{http://i.cs.hku.hk/\%7Eclwang/Gideon-II/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{gunarathne2013scalable}
+T.~Gunarathne et al., ``Scalable parallel computing on
+  clouds using twister4azure iterative mapreduce,'' \emph{Future Generation
+  Computer Systems}, vol.~29, no.~4, pp. 1035--1048, 2013.
+
+\bibitem{bekkerman2011scaling}
+R.~Bekkerman, M.~Bilenko, and J.~Langford, \emph{Scaling up machine learning:
+  Parallel and distributed approaches}.\hskip 1em plus 0.5em minus 0.4em\relax
+  Cambridge University Press, 2011.
+
+\bibitem{kiran2013verification}
+M.~Kiran, A.~Kumar, and B.~Prathap, ``Verification and validation of parallel
+  support vector machine algorithm based on mapreduce program model on hadoop
+  cluster,'' in \emph{IEEE International Conference on Advanced Computing and
+  Communication Systems}, 2013, pp. 1--6.
+
+\bibitem{mensink2012metric}
+T.~Mensink et al., ``Metric learning for
+  large scale image classification: Generalizing to new classes at near-zero
+  cost,'' in \emph{Computer Vision--ECCV 2012}.\hskip 1em plus 0.5em minus
+  0.4em\relax Springer, 2012, pp. 488--501.
+
+\bibitem{buluc2012parallel}
+A.~Buluc and J.~R. Gilbert, ``Parallel sparse matrix-matrix multiplication and
+  indexing: Implementation and experiments,'' \emph{SIAM Journal on Scientific
+  Computing}, vol.~34, no.~4, pp. C170--C191, 2012.
+
+\bibitem{ballard2012communication}
+G.~Ballard et al.,
+  ``Communication-optimal parallel algorithm for strassen's matrix
+  multiplication,'' in \emph{Proceedings of the 24th annual ACM Symposium on
+  Parallelism in Algorithms and Architectures}, 2012, pp. 193--204.
+
+\bibitem{Sarma:2013:ULB}
+A.~D. Sarma et al., ``Upper and lower
+  bounds on the cost of a map-reduce computation,'' \emph{Proceedings of the
+  VLDB Endowment}, vol.~6, no.~4, pp. 277--288, 2013.
+
+\bibitem{faraz2014shufflewatcher}
+F.~Ahmad et al.,
+  ``Shufflewatcher: Shuffle-aware scheduling in multi-tenant mapreduce
+  clusters,'' in \emph{2014 USENIX Annual Technical Conference (USENIX ATC
+  14)}.\hskip 1em plus 0.5em minus 0.4em\relax Philadelphia, PA: USENIX
+  Association, Jun. 2014, pp. 1--13.
+
+\bibitem{greenberg2009vl2}
+A.~Greenberg et al., ``Vl2: a scalable and flexible data center
+  network,'' in \emph{Communication of the ACM}, vol.~54, no.~3, 2011, pp.
+  95--104.
+
+\bibitem{popa2012faircloud}
+L.~Popa et al.,
+  ``Faircloud: sharing the network in cloud computing,'' in \emph{Proceedings
+  of the ACM SIGCOMM conference on Applications, technologies, architectures,
+  and protocols for computer communication}, 2012, pp. 187--198.
+
+\bibitem{shieh2011sharing}
+A.~Shieh et al., ``Sharing the data
+  center network,'' in \emph{Proceedings of the 8th USENIX Symposium on
+  Networked Systems Design and Implementation}, 2011, pp. 309--322.
+
+\bibitem{zaharia2008improving}
+M.~Zaharia et al., ``Improving
+  mapreduce performance in heterogeneous environments,'' in \emph{Proceedings
+  of the 8th USENIX Symposium on Operating Systems Design and Implementation},
+  2008, pp. 29--42.
+
+\bibitem{kwon2010skew}
+Y.~Kwon et al., ``Skew-resistant parallel
+  processing of feature-extracting scientific user-defined functions,'' in
+  \emph{Proceedings of the 1st ACM Symposium on Cloud Computing}.\hskip 1em
+  plus 0.5em minus 0.4em\relax ACM, 2010, pp. 75--86.
+
+\bibitem{kwon2012skewtune}
+Y.~Kwon et al., ``Skewtune: mitigating skew in mapreduce applications,'' in
+  \emph{Proceedings of the ACM SIGMOD International Conference on Management of
+  Data}, 2012, pp. 25--36.
+
+\bibitem{Harlap:2016:ASP}
+A.~Harlap et al., ``Addressing the straggler problem for iterative convergent
+  parallel ml,'' in \emph{Proceedings of the Seventh ACM Symposium on Cloud
+  Computing}, ser. SoCC '16.\hskip 1em plus 0.5em minus 0.4em\relax New York,
+  NY, USA: ACM, 2016, pp. 98--111.
+
+\bibitem{spark-dagscheduler}
+\BIBentryALTinterwordspacing
+Spark job scheduling: Dagscheduler. [Online]. Available:
+  \url{https://spark.apache.org/docs/1.4.0/job-scheduling.html}
+\BIBentrySTDinterwordspacing
+
+\end{thebibliography}
+
 %
 %\bibitem{IEEEhowto:kopka}
 %H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
@@ -1824,18 +2108,37 @@ analysis, etc.
 % or if you just want to reserve a space for a photo:
 
 
-% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fengliang}}]{Feng Liang}
-% is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interest mainly includes distributed file systems, distributed computing, and data center resource management. He is recently undertaking the research project on improving the network performance of MapReduce.
-% \end{IEEEbiography}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
+is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interests are mainly on distributed file systems, distributed computing, and machine learning. He is recently undertaking the research project on distributed deep learning.
+[homepage] i.cs.hku.hk/\%7Efliang
+\end{IEEEbiography}
 
-% % \vspace{-.8in}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
+received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
+computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
+[homepage] i.cs.hku.hk/\%7Efcmlau
+\end{IEEEbiography}
 
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author3}}]{Heming Cui}
+is an assistant professor in Computer Science of HKU. His research interests are in operating systems, programming languages, distributed systems, and cloud computing, with a particular focus on building software infrastructures and tools to improve reliability and security of real-world software. 
+[homepage] i.cs.hku.hk/\%7Eheming
+\end{IEEEbiography}
 
-% % if you will not have a photo at all:
-% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fcmlau}}]{Francis C.M. Lau}
-% received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
-% computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
-% \end{IEEEbiography}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author4}}]{Cho-Li Wang}
+is currently a Professor in the Department of Computer Science at The
+University of Hong Kong. He graduated with a B.S. degree in Computer Science and
+Information Engineering from National Taiwan University in 1985 and a Ph.D.
+degree in Computer Engineering from University of Southern California in 1995. Prof.
+Wang’s research is broadly in the areas of parallel architecture, software systems for
+Cluster computing, and virtualization techniques for Cloud computing. His recent
+research projects involve the development of parallel software systems for
+multicore/GPU computing and multi-kernel operating systems for future manycore
+processor. Prof. Wang has published more than 150 papers in various peer reviewed
+journals and conference proceedings. He is/was on the editorial boards of several scholarly
+journals, including IEEE Transactions on Cloud Computing (2013-), IEEE
+Transactions on Computers (2006-2010).
+[homepage] i.cs.hku.hk/\%7Eclwang
+\end{IEEEbiography}
 
 % insert where needed to balance the two columns on the last page with
 % biographies

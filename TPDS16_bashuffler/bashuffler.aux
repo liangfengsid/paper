@@ -9,11 +9,11 @@
 \citation{kavulya2010analysis}
 \citation{dean2008mapreduce}
 \citation{zaharia2008improving}
-\citation{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \newlabel{sec:introduction}{{1}{1}}
+\citation{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}
 \citation{Delimitrou:2014:QRQ,smapreduce}
-\citation{zaharia2012resilient}
+\citation{zaharia2012resilient,vavilapalli2013apache}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background, Motivation and Discussion}{2}}
 \newlabel{section:background}{{2}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Resource Management and Shuffle in YARN}{2}}
@@ -23,12 +23,12 @@
 \citation{saltzer1984end}
 \citation{jacobson1988congestion}
 \citation{bertsekas1992data,chiu1989analysis,kelly1998rate,vojnovic2000global}
-\citation{greenberg2009vl2,alizadeh2014conga,niranjan2009portland}
-\citation{ballani2011towards,chowdhury2011managing,alizadeh2013pfabric,kang2013optimizing,chowdhury2014efficient,chowdhury2015efficient}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Application-Level Shuffle Scheduling}{3}}
 \newlabel{section:application_level}{{2.2}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Max-Min Fairness in TCP Communication}{3}}
 \newlabel{section:MMF}{{2.3}{3}}
+\citation{greenberg2009vl2,alizadeh2014conga,niranjan2009portland}
+\citation{ballani2011towards,chowdhury2011managing,alizadeh2013pfabric,kang2013optimizing,chowdhury2014efficient,chowdhury2015efficient}
 \citation{Phanishayee:2008:MAT}
 \citation{white2015hadoop}
 \@writefile{toc}{\contentsline {section}{\numberline {3}BAShuffler}{4}}
@@ -43,10 +43,10 @@
 \newlabel{algo:PGSS}{{1}{5}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Pseudo Code of the Partially Greedy Source Selection Algorithm}}{5}}
 \newlabel{fig:PGSS}{{2}{5}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Time Complexity of Different Scheduling Algorithms for Scheduling Each Request}}{5}}
-\newlabel{table:complexity}{{1}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Greedy Source Selection}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Partially Greedy Source Selection}{5}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Time Complexity of Different Scheduling Algorithms for Scheduling Each Request}}{6}}
+\newlabel{table:complexity}{{1}{6}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Scenarios of Selecting the Source in Uneven Flow Pattern}}{6}}
 \newlabel{fig:network}{{3}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Applying PGSS}{6}}
@@ -56,30 +56,30 @@
 \newlabel{table:homoSparse}{{2}{7}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Max-Min Fairness Bandwidth Allocation of Flows of the Intensive Case in the Homogeneous Network}}{7}}
 \newlabel{table:homoIntensive}{{3}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Max-Min Fairness Bandwidth Allocation of Flows of Uneven Flow Pattern in Heterogeneous Network Setting}}{7}}
-\newlabel{table:heteUneven}{{4}{7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Homogeneous Network}{7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Heterogeneous Network}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Max-Min Fairness Bandwidth Allocation of Flows of Uneven Flow Pattern in Heterogeneous Network Setting}}{7}}
+\newlabel{table:heteUneven}{{4}{7}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Selecting the Source in the Even Flow Pattern}}{7}}
 \newlabel{fig:network3}{{4}{7}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Max-Min Fairness Bandwidth Allocation of Flows of Even Flow Pattern in Heterogeneous Network Setting}}{7}}
 \newlabel{table:heteEven}{{5}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementation Details}{7}}
 \citation{gideon}
 \citation{ahmad2012puma}
 \@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Benchmark Dataset Size (GB)}}{8}}
 \newlabel{table:benchmark}{{6}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementation Details}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Evaluation}{8}}
 \newlabel{section:evaluation}{{4}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Physical Testbed}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Cumulative Completion Ratio (CR) of the Overall Shuffle Workload of RSS, GSS and PGSS in Various Benchmarks along the Time in the Physical Cluster}}{8}}
 \newlabel{fig:new_completion_ratio}{{5}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Shuffle Throughput}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces GSS and PGSS Speedup of Average Shuffle Rate of Each Shuffle Task in comparison to RSS in Benchmarks Terasort (TS), InvertedIndex(II), SequenceCount (SC) and RankedInvertedIndex (RII) in the Physical Cluster}}{9}}
 \newlabel{fig:new_shuffle_rate}{{6}{9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Completion Time}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Shuffle Throughput}{9}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Reduce Completion Time of RSS, GSS and PGSS in Various Benchmarks with Different Numbers of Fetchers in Each Shuffle Task in the Physical Clusters}}{9}}
 \newlabel{fig:new_reduce_completion}{{7}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Completion Time}{9}}
 \citation{aws}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Reduce Completion Time Speedup (Suffixed with \_R) and Job Overall Completion time Speedup (Suffixed with \_O) of GSS and PGSS as Compared to RSS in Various Benchmarks with Different Fetcher Numbers in the Physical Clusters}}{10}}
 \newlabel{fig:new_speedup}{{8}{10}}
@@ -87,11 +87,11 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Cumulative Completion Ratio of Shuffle Workload in the SequenceCount Benchmark along the Time in the Virtual Cluster}}{10}}
 \newlabel{fig:r_vshuffle_timeline}{{9}{10}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Cluster Overall Shuffle Throughput}{10}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Completion Time}{10}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Reduce Completion Time of the SequenceCount Benchmark with Different Fetcher Numbers in the Virtual Cluster}}{11}}
 \newlabel{fig:r_vsequence}{{10}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Reduce Completion Time of SequenceCount with Different Input Data Sizes in the Physical and Virtual Testbeds}}{11}}
 \newlabel{fig:r_sizes}{{11}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Completion Time}{11}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Different Input Data Sizes}{11}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}Multiple Concurrent Jobs}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Job Completion Time of Multiple Concurrent Jobs in the Physical and Virtual Testbeds}}{11}}
@@ -118,55 +118,53 @@
 \citation{chowdhury2011managing}
 \citation{gault2014dynamic}
 \citation{wu2007scheduling,awerbuch1992competitive,borodin2005online,sgall1998line}
-\bibstyle{IEEEtran}
-\bibdata{example_full}
-\bibcite{dean2008mapreduce}{1}
-\bibcite{thusoo2009hive}{2}
-\bibcite{Yu:2008:DSG}{3}
-\bibcite{Armbrust:2015:SSR}{4}
-\bibcite{vavilapalli2013apache}{5}
-\bibcite{zaharia2012resilient}{6}
-\bibcite{white2015hadoop}{7}
-\bibcite{hindman2011mesos}{8}
-\bibcite{kavulya2010analysis}{9}
-\bibcite{zaharia2008improving}{10}
-\bibcite{shieh2011sharing}{11}
-\bibcite{chowdhury2011managing}{12}
-\bibcite{chowdhury2014efficient}{13}
-\bibcite{chowdhury2015efficient}{14}
+\bibcite{Malewicz:2010:PSL}{1}
+\bibcite{Lu:2014:LDG}{2}
+\bibcite{thusoo2009hive}{3}
+\bibcite{Yu:2008:DSG}{4}
+\bibcite{Armbrust:2015:SSR}{5}
+\bibcite{low2012distributed}{6}
+\bibcite{kraska2013mlbase}{7}
+\bibcite{vavilapalli2013apache}{8}
+\bibcite{hindman2011mesos}{9}
+\bibcite{isard2007dryad}{10}
+\bibcite{dean2008mapreduce}{11}
+\bibcite{shvachko2010hadoop}{12}
+\bibcite{chen2011case}{13}
+\bibcite{chowdhury2011managing}{14}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Related Work}{13}}
 \newlabel{section:relatedwork}{{5}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}}
 \newlabel{section:conclusion}{{6}{13}}
 \@writefile{toc}{\contentsline {section}{References}{13}}
-\bibcite{Delimitrou:2014:QRQ}{15}
-\bibcite{smapreduce}{16}
-\bibcite{greenberg2009vl2}{17}
-\bibcite{popa2012faircloud}{18}
-\bibcite{saltzer1984end}{19}
-\bibcite{jacobson1988congestion}{20}
-\bibcite{bertsekas1992data}{21}
-\bibcite{chiu1989analysis}{22}
-\bibcite{kelly1998rate}{23}
-\bibcite{vojnovic2000global}{24}
-\bibcite{alizadeh2014conga}{25}
-\bibcite{niranjan2009portland}{26}
-\bibcite{ballani2011towards}{27}
-\bibcite{alizadeh2013pfabric}{28}
-\bibcite{kang2013optimizing}{29}
-\bibcite{Phanishayee:2008:MAT}{30}
-\bibcite{wu2007scheduling}{31}
-\bibcite{sgall1998line}{32}
-\bibcite{gideon}{33}
-\bibcite{ahmad2012puma}{34}
-\bibcite{aws}{35}
-\bibcite{zaharia2010delay}{36}
-\bibcite{isard2009quincy}{37}
-\bibcite{faraz2014shufflewatcher}{38}
-\bibcite{dogar2014decentralized}{39}
-\bibcite{Qiu:2015:MTW}{40}
-\bibcite{zhao2015rapier}{41}
-\bibcite{chen2016coflow}{42}
-\bibcite{gault2014dynamic}{43}
-\bibcite{awerbuch1992competitive}{44}
-\bibcite{borodin2005online}{45}
+\bibcite{al2010hedera}{15}
+\bibcite{bu2010haloop}{16}
+\bibcite{zaharia2012resilient}{17}
+\bibcite{ekanayake2010twister}{18}
+\bibcite{sakellariou2004hybrid}{19}
+\bibcite{zhao2006scheduling}{20}
+\bibcite{movielensals}{21}
+\bibcite{multiAdjList}{22}
+\bibcite{kmeans}{23}
+\bibcite{gideon}{24}
+\bibcite{gunarathne2013scalable}{25}
+\bibcite{bekkerman2011scaling}{26}
+\bibcite{kiran2013verification}{27}
+\bibcite{mensink2012metric}{28}
+\bibcite{buluc2012parallel}{29}
+\bibcite{ballard2012communication}{30}
+\bibcite{Sarma:2013:ULB}{31}
+\bibcite{faraz2014shufflewatcher}{32}
+\bibcite{greenberg2009vl2}{33}
+\bibcite{popa2012faircloud}{34}
+\bibcite{shieh2011sharing}{35}
+\bibcite{zaharia2008improving}{36}
+\bibcite{kwon2010skew}{37}
+\bibcite{kwon2012skewtune}{38}
+\bibcite{Harlap:2016:ASP}{39}
+\bibcite{spark-dagscheduler}{40}
+\@writefile{toc}{\contentsline {section}{Biographies}{14}}
+\@writefile{toc}{\contentsline {subsection}{Feng Liang}{14}}
+\@writefile{toc}{\contentsline {subsection}{Francis C.M. Lau}{14}}
+\@writefile{toc}{\contentsline {subsection}{Heming Cui}{14}}
+\@writefile{toc}{\contentsline {subsection}{Cho-Li Wang}{15}}
