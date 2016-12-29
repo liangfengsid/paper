@@ -424,7 +424,7 @@ Heming~Cui,~\IEEEmembership{Member,~IEEE},
 and~Cho-Li~Wang,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
 \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem F. Liang, F.C.M. Lau,
 H. Cui and C.-L. Wang are with Department
-of Computer Science, The University of Hong Kong, Hong Kong SAR.\protect\\
+of Computer Science, The University of Hong Kong.\protect\\
 % note need leading \protect in front of \\ to get a newline within \thanks as
 % \\ is fragile and will error, could use \hfil\break instead.
 E-mail: F.~Liang- loengf@connect.hku.hk, %\protect\\
@@ -495,45 +495,56 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-The shuffle operation, which relies on the network bandwidth to transfer data across computer nodes in the cluster, is pervasive in the distributed applications.
-However, unlike the node-monopolistic resource such as memories and CPU cores, the existing distributed resource management platforms does not offer a fine-grained resource allocation mechanism for the network bandwidth.
+\red{
+The shuffle operation is pervasive in distributed applications and consists of many network flows across computer nodes in datacenters. 
+}
+\st{The shuffle operation, which relies on the network bandwidth to transfer data across computer nodes in the cluster, is pervasive in the distributed applications.
+However, unlike the node-monopolistic resource such as memories and CPU cores, the existing distributed resource management platforms does not offer a fine-grained resource allocation mechanism for the network bandwidth.}
 The problem of underutilization of the network bandwidth can
-greatly affect the completion time of those tasks
+greatly affect the completion time of shuffle tasks
 having large volumes of data to transfer within the cluster,
 the shuffle-heavy MapReduce jobs being a typical one. 
-%Unlike tasks that rely on the memory and the CPU,  whose execution time 
-%only depends on the resource on the single node, the performance of the shuffle task is determined by 
-%the available I/O bandwidth on both ends of the source and the destination nodes. 
-%The influence of the bottleneck of bandwidth in one endpoint of a communication flow is more usual especially 
 Unfortunately, the impact of bandwidth underutilization is more pronounced
-if the network bandwidth capacities of the nodes in the cluster are
-varied.
+if the network bandwidth capacities of the nodes \st{in the cluster} are
+varied. 
+\red{
+\st{
+This heterogeneous network bandwidth environment widely exists in commodity 
+clusters and enterprise data centers during upgrading periods.
+}
+}
 
 
 %In this paper, we demonstrate how the data transfer rates of the randomly scheduled communication flows 
 %can be limited by the bottleneck network links and are thus lower than the network bandwidth capacity,
-In this paper, we demonstrate how the communication flows with
+In this paper, we demonstrate how \st{the communication flows with
 randomly selected source nodes in the shuffle phase
-cannot fully utilize the network bandwidth capacity in a max-min fair network,
+cannot fully utilize} \red{shuffle flows can significantly under-utilize} the network bandwidth capacity in a max-min fair network.
 %propose an algorithm to calculate the network throughput of the max-min fair network, 
-and present BAShuffler, a bandwidth-aware shuffle scheduler, that can
-maximize the overall network bandwidth utilization by using a greedy
+We present BAShuffler, a bandwidth-aware shuffle scheduler, that \st{can
+maximize} maximizes the overall network bandwidth utilization \st{by using a greedy
 or a partially greedy method 
-to schedule the source nodes of the shuffle flows. 
+to schedule the source nodes of the shuffle flows} in shuffle operations. 
 \blue{
-Instead of working on the network level that schedules the bandwidth of flows or the routing of data packages, BAShuffler uses the application-level approach 
+\st{Instead of working on the network level that schedules the bandwidth of flows or the routing of data packages, BAShuffler uses the application-level approach 
+that schedules flow source nodes based on the precise bandwidth allocation estimation
+without changing the underlying network. 
+}
+}
+\red{Compared to the existing network-level solutions, 
+BAShuffler takes the first step to adopt the application-level approach 
 that schedules flow source nodes based on the bandwidth allocation estimation
 without changing the underlying network. 
 }
-We evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
+\red{Besides simulations,} we evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
 comprising a physical cluster and an EC2 virtual cluster respectively. 
-Simulation is also used to evaluate the performance of BAShuffler in
-clusters of different scales.
+\st{Simulation is also used to evaluate the performance of BAShuffler in
+clusters of different scales.}
 Experiment results show that BAShuffler can significantly improve the
 cluster shuffle throughput
 and reduce the execution time of shuffle tasks by up to 29\% as compared to
-the original YARN, especially in the heterogeneous
-network bandwidth environment.
+the original Hadoop, especially in \st{the} heterogeneous
+networks. \st{bandwidth environment.}
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
@@ -668,20 +679,28 @@ clusters comprising off-the-shelf machines~\cite{dean2008mapreduce}.
 The physical Hadoop clusters could be fit with a variety of servers and network devices of different configurations~\cite{zaharia2008improving}. 
 }
 \red{
-Even in enterprise data centers, heterogeneity exists during the long period of devices upgrading.
+Even in enterprise data centers, heterogeneity exists during the long period of devices upgrading~\cite{kant2009data}.
 }
 \st{In a virtual cluster, EC2 virtual machines could be running at
 different network speeds. }
 
 Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
-The shuffle information includes the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links). 
+\st{
+The shuffle information includes the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links).
+}
 \blue{
+\st{
 A central scheduler in the distributed resource management platform, e.g., the Resource Manager of YARN, makes use of the shuffle information 
 and schedules the flow source nodes for all the MapReduce-like programs running on this platform.
+}
 }
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
 the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
+\red{
+A central scheduler at the application level has the potential to achieve the scheduling results based on both the dynamic shuffle-oriented  information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links).
+Moreover, the application-level shuffle scheduler enables the distributed platforms to work on unmodified operating systems and general network devices.
+}
 We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
 
 In this paper, 
@@ -877,7 +896,7 @@ The benefits of application-level shuffle scheduling are: 1) Besides bandwidth c
 it can make use of 
 the dynamic application-level shuffle information, including the pattern of the 
 arriving time of the flows and their sources and destinations; 
-2) The distributed platforms can work on unmodified operation systems and general network devices. 
+2) The distributed platforms can work on unmodified operating systems and general network devices. 
 }
 
 
@@ -2222,9 +2241,8 @@ heterogeneous.
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-%\begin{thebibliography}{1}
 
-% Generated by IEEEtran.bst, version: 1.13 (2008/09/30)
+
 \begin{thebibliography}{10}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
@@ -2247,20 +2265,14 @@ heterogeneous.
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{Malewicz:2010:PSL}
-G.~Malewicz et al., ``Pregel: A system for large-scale graph processing,'' in
-  \emph{Proceedings of the ACM SIGMOD International Conference on Management of
-  Data}, New York, NY, USA, 2010, pp. 135--146.
-
-\bibitem{Lu:2014:LDG}
-Y.~Lu et al., ``Large-scale distributed graph computing
-  systems: An experimental evaluation,'' \emph{Proceedings of the VLDB
-  Endowment}, vol.~8, no.~3, pp. 281--292, Nov. 2014.
+\bibitem{dean2008mapreduce}
+J.~Dean and S.~Ghemawat, ``Mapreduce: simplified data processing on large
+  clusters,'' \emph{Communications of the ACM}, vol.~51, no.~1, pp. 107--113,
+  2008.
 
 \bibitem{thusoo2009hive}
-A.~Thusoo et al., ``Hive: A warehousing solution over a map-reduce
-  framework,'' \emph{Proceeding of VLDB Endowment}, vol.~2, no.~2, pp.
-  1626--1629, 2009.
+A.~Thusoo et al., ``Hive: a warehousing solution over a map-reduce
+  framework,'' \emph{Proceedings of VLDB}, vol.~2, no.~2, pp. 1626--1629, 2009.
 
 \bibitem{Yu:2008:DSG}
 Y.~Yu et al., ``Dryadlinq: A system for general-purpose distributed
@@ -2274,212 +2286,237 @@ M.~Armbrust et al., ``Spark sql: Relational
   International Conference on Management of Data}, ser. SIGMOD '15.\hskip 1em
   plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2015, pp. 1383--1394.
 
-\bibitem{low2012distributed}
-Y.~Low et al.,
-  ``Distributed graphlab: A framework for machine learning and data mining in
-  the cloud,'' \emph{Proceedings of the VLDB Endowment}, vol.~5, no.~8, pp.
-  716--727, 2012.
-
-\bibitem{kraska2013mlbase}
-T.~Kraska et al., ``Mlbase: A distributed machine-learning system,'' in
-  \emph{Conference on Innovative Data Systems Research (CIDR)}, vol.~1, 2013,
-  pp. 2--1.
-
 \bibitem{vavilapalli2013apache}
-V.~K. Vavilapalli et al., ``Apache hadoop yarn: Yet another
-  resource negotiator,'' in \emph{Proceedings of the 4th ACM Annual Symposium
-  on Cloud Computing}, New York, NY, USA, 2013, pp. 5:1--5:16.
-
-\bibitem{hindman2011mesos}
-B.~Hindman et al., ``Mesos: A platform for fine-grained resource
-  sharing in the data center.'' in \emph{Proceedings of the 8th USENIX
-  Symposium on Networked Systems Design and Implementation}, vol.~11, 2011, pp.
-  22--22.
-
-\bibitem{isard2007dryad}
-M.~Isard et al., ``Dryad: Distributed
-  data-parallel programs from sequential building blocks,'' in
-  \emph{Proceedings of the 2nd ACM SIGOPS/EuroSys European Conference on
-  Computer Systems}, New York, NY, USA, 2007, pp. 59--72.
-
-\bibitem{dean2008mapreduce}
-J.~Dean and S.~Ghemawat, ``Mapreduce: Simplified data processing on large
-  clusters,'' \emph{Communications of the ACM}, vol.~51, no.~1, pp. 107--113,
-  2008.
-
-\bibitem{shvachko2010hadoop}
-K.~Shvachko et al., ``The hadoop distributed file
-  system,'' in \emph{Proceedings of the IEEE 26th Symposium on Mass Storage
-  Systems and Technologies}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2010,
-  pp. 1--10.
-
-\bibitem{chen2011case}
-Y.~Chen et al., ``The case for evaluating
-  mapreduce performance using workload suites,'' in \emph{IEEE 19th
-  International Symposium on Modeling, Analysis \& Simulation of Computer and
-  Telecommunication Systems}, 2011, pp. 390--399.
-
-\bibitem{chowdhury2011managing}
-M.~Chowdhury et al., ``Managing data
-  transfers in computer clusters with orchestra,'' in \emph{Proceedings of the
-  ACM SIGCOMM Conference}.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY,
-  USA: ACM, 2011, pp. 98--109.
-
-\bibitem{al2010hedera}
-M.~Al-Fares et al., ``Hedera:
-  Dynamic flow scheduling for data center networks.'' in \emph{Proceedings of
-  the 7th USENIX conference on Networked Systems Design and Implementation},
-  vol.~10, 2010, pp. 19--19.
-
-\bibitem{bu2010haloop}
-Y.~Bu et al., ``Haloop: efficient iterative
-  data processing on large clusters,'' \emph{Proceedings of the VLDB
-  Endowment}, vol.~3, no. 1-2, pp. 285--296, 2010.
+V.~K. Vavilapalli et al., ``Apache hadoop yarn: Yet
+  another resource negotiator,'' in \emph{SOCC}.\hskip 1em plus 0.5em minus
+  0.4em\relax ACM, 2013, p.~5.
 
 \bibitem{zaharia2012resilient}
 M.~Zaharia et al., ``Resilient distributed datasets: A fault-tolerant
   abstraction for in-memory cluster computing,'' in \emph{Proceedings of the
-  9th USENIX conference on Networked Systems Design and Implementation}, 2012,
-  pp. 2--2.
+  9th USENIX Conference on Networked Systems Design and Implementation (NSDI)},
+  2012, pp. 2--2.
 
-\bibitem{ekanayake2010twister}
-J.~Ekanayake et al.,
-  ``Twister: a runtime for iterative mapreduce,'' in \emph{Proceedings of the
-  19th ACM International Symposium on High Performance Distributed Computing},
-  2010, pp. 810--818.
+\bibitem{white2015hadoop}
+T.~White, \emph{Hadoop: The Definitive Guide, 4th Edition}.\hskip 1em plus
+  0.5em minus 0.4em\relax "O'Reilly Media, Inc.", 2015.
 
-\bibitem{sakellariou2004hybrid}
-R.~Sakellariou and H.~Zhao, ``A hybrid heuristic for dag scheduling on
-  heterogeneous systems,'' in \emph{Proceedings of 18th IEEE International
-  Parallel and Distributed Processing Symposium}, 2004, pp. 111--.
+\bibitem{hindman2011mesos}
+B.~Hindman et al., ``Mesos: A platform for fine-grained resource
+  sharing in the data center,'' in \emph{Proceedings of the 8th USENIX
+  Conference on Networked Systems Design and Implementation (NSDI)}.\hskip 1em
+  plus 0.5em minus 0.4em\relax Berkeley, CA, USA: USENIX Association, 2011, pp.
+  295--308.
 
-\bibitem{zhao2006scheduling}
-H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
-  systems,'' in \emph{Proceedings of 20th IEEE International Parallel and
-  Distributed Processing Symposium}, 2006, pp. 14--.
+\bibitem{kavulya2010analysis}
+S.~Kavulya et al., ``An analysis of traces from
+  a production mapreduce cluster,'' in \emph{The 10th IEEE/ACM International
+  Conference on Cluster, Cloud and Grid Computing (CCGrid)}, May 2010, pp.
+  94--103.
 
-\bibitem{movielensals}
-\BIBentryALTinterwordspacing
-``Movielensals spark submit 2014.'' [Online]. Available:
-  \url{https://databricks-training.s3.amazonaws.com/movie-recommendation-with-mllib.html}
-\BIBentrySTDinterwordspacing
+\bibitem{zaharia2008improving}
+M.~Zaharia et al., ``Improving
+  mapreduce performance in heterogeneous environments,'' in \emph{8th USENIX
+  Symposium on Operating Systems Design and Implementation (OSDI)}, vol.~8,
+  no.~4, 2008, p.~7.
 
-\bibitem{multiAdjList}
-\BIBentryALTinterwordspacing
-``Multiadjacentlist benchmark.'' [Online]. Available:
-  \url{https://github.com/liangfengsid/MultiAdjacentList}
-\BIBentrySTDinterwordspacing
+\bibitem{kant2009data}
+K.~Kant, ``Data center evolution: A tutorial on state of the art, issues, and
+  challenges,'' \emph{Computer Networks}, vol.~53, no.~17, pp. 2939--2965,
+  2009.
 
-\bibitem{kmeans}
-\BIBentryALTinterwordspacing
-``Spark kmeans benchmark.'' [Online]. Available:
-  \url{http://spark.apache.org/docs/latest/mllib-clustering.html}
-\BIBentrySTDinterwordspacing
+\bibitem{shieh2011sharing}
+A.~Shieh et al., ``Sharing the data
+  center network,'' in \emph{Proceedings of the 8th USENIX Conference on
+  Networked Systems Design and Implementation (NSDI)}, 2011, pp. 309--322.
 
-\bibitem{gideon}
-\BIBentryALTinterwordspacing
-``Hku gideon-ii cluster.'' [Online]. Available:
-  \url{http://i.cs.hku.hk/\%7Eclwang/Gideon-II/}
-\BIBentrySTDinterwordspacing
+\bibitem{chowdhury2011managing}
+M.~Chowdhury et al., ``Managing data
+  transfers in computer clusters with orchestra,'' \emph{Proceedings of the ACM
+  Conference on SIGCOMM}, vol.~41, no.~4, pp. 98--109, 2011.
 
-\bibitem{gunarathne2013scalable}
-T.~Gunarathne et al., ``Scalable parallel computing on
-  clouds using twister4azure iterative mapreduce,'' \emph{Future Generation
-  Computer Systems}, vol.~29, no.~4, pp. 1035--1048, 2013.
+\bibitem{chowdhury2014efficient}
+M.~Chowdhury, Y.~Zhong, and I.~Stoica, ``Efficient coflow scheduling with
+  varys,'' in \emph{Proceedings of the ACM Conference on SIGCOMM}, New York,
+  NY, USA, 2014, pp. 443--454.
 
-\bibitem{bekkerman2011scaling}
-R.~Bekkerman, M.~Bilenko, and J.~Langford, \emph{Scaling up machine learning:
-  Parallel and distributed approaches}.\hskip 1em plus 0.5em minus 0.4em\relax
-  Cambridge University Press, 2011.
+\bibitem{chowdhury2015efficient}
+M.~Chowdhury and I.~Stoica, ``Efficient coflow scheduling without prior
+  knowledge,'' in \emph{Proceedings of the ACM Conference on SIGCOMM}, New
+  York, NY, USA, 2015, pp. 393--406.
 
-\bibitem{kiran2013verification}
-M.~Kiran, A.~Kumar, and B.~Prathap, ``Verification and validation of parallel
-  support vector machine algorithm based on mapreduce program model on hadoop
-  cluster,'' in \emph{IEEE International Conference on Advanced Computing and
-  Communication Systems}, 2013, pp. 1--6.
+\bibitem{Delimitrou:2014:QRQ}
+C.~Delimitrou and C.~Kozyrakis, ``Quasar: Resource-efficient and qos-aware
+  cluster management,'' in \emph{Proceedings of the 19th International
+  Conference on Architectural Support for Programming Languages and Operating
+  Systems (ASPLOS)}, New York, NY, USA, 2014, pp. 127--144.
 
-\bibitem{mensink2012metric}
-T.~Mensink et al., ``Metric learning for
-  large scale image classification: Generalizing to new classes at near-zero
-  cost,'' in \emph{Computer Vision--ECCV 2012}.\hskip 1em plus 0.5em minus
-  0.4em\relax Springer, 2012, pp. 488--501.
-
-\bibitem{buluc2012parallel}
-A.~Buluc and J.~R. Gilbert, ``Parallel sparse matrix-matrix multiplication and
-  indexing: Implementation and experiments,'' \emph{SIAM Journal on Scientific
-  Computing}, vol.~34, no.~4, pp. C170--C191, 2012.
-
-\bibitem{ballard2012communication}
-G.~Ballard et al.,
-  ``Communication-optimal parallel algorithm for strassen's matrix
-  multiplication,'' in \emph{Proceedings of the 24th annual ACM Symposium on
-  Parallelism in Algorithms and Architectures}, 2012, pp. 193--204.
-
-\bibitem{Sarma:2013:ULB}
-A.~D. Sarma et al., ``Upper and lower
-  bounds on the cost of a map-reduce computation,'' \emph{Proceedings of the
-  VLDB Endowment}, vol.~6, no.~4, pp. 277--288, 2013.
-
-\bibitem{faraz2014shufflewatcher}
-F.~Ahmad et al.,
-  ``Shufflewatcher: Shuffle-aware scheduling in multi-tenant mapreduce
-  clusters,'' in \emph{2014 USENIX Annual Technical Conference (USENIX ATC
-  14)}.\hskip 1em plus 0.5em minus 0.4em\relax Philadelphia, PA: USENIX
-  Association, Jun. 2014, pp. 1--13.
+\bibitem{smapreduce}
+F.~Liang and F.~C.~M. Lau, ``Smapreduce: Optimising resource allocation by
+  managing working slots at runtime,'' in \emph{IEEE International Parallel and
+  Distributed Processing Symposium (IPDPS)}, May 2015, pp. 281--290.
 
 \bibitem{greenberg2009vl2}
 A.~Greenberg et al., ``Vl2: a scalable and flexible data center
-  network,'' in \emph{Communication of the ACM}, vol.~54, no.~3, 2011, pp.
-  95--104.
+  network,'' in \emph{Proceedings of the ACM Conference on SIGCOMM}, vol.~39,
+  2009, pp. 51--62.
 
 \bibitem{popa2012faircloud}
 L.~Popa et al.,
   ``Faircloud: sharing the network in cloud computing,'' in \emph{Proceedings
-  of the ACM SIGCOMM conference on Applications, technologies, architectures,
-  and protocols for computer communication}, 2012, pp. 187--198.
+  of the ACM Conference on SIGCOMM}, 2012, pp. 187--198.
 
-\bibitem{shieh2011sharing}
-A.~Shieh et al., ``Sharing the data
-  center network,'' in \emph{Proceedings of the 8th USENIX Symposium on
-  Networked Systems Design and Implementation}, 2011, pp. 309--322.
+\bibitem{saltzer1984end}
+J.~H. Saltzer, D.~P. Reed, and D.~D. Clark, ``End-to-end arguments in system
+  design,'' \emph{ACM Transactions on Computer Systems (TOCS)}, vol.~2, no.~4,
+  pp. 277--288, Nov. 1984.
 
-\bibitem{zaharia2008improving}
-M.~Zaharia et al., ``Improving
-  mapreduce performance in heterogeneous environments,'' in \emph{Proceedings
-  of the 8th USENIX Symposium on Operating Systems Design and Implementation},
-  2008, pp. 29--42.
+\bibitem{jacobson1988congestion}
+V.~Jacobson, ``Congestion avoidance and control,'' in \emph{Symposium
+  Proceedings on Communications Architectures and Protocols}, ser. SIGCOMM
+  '88.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 1988, pp.
+  314--329.
 
-\bibitem{kwon2010skew}
-Y.~Kwon et al., ``Skew-resistant parallel
-  processing of feature-extracting scientific user-defined functions,'' in
-  \emph{Proceedings of the 1st ACM Symposium on Cloud Computing}.\hskip 1em
-  plus 0.5em minus 0.4em\relax ACM, 2010, pp. 75--86.
+\bibitem{bertsekas1992data}
+D.~P. Bertsekas and R.~G. Gallager, \emph{Data networks}.\hskip 1em plus 0.5em
+  minus 0.4em\relax Prentice-Hall International, 1992, vol.~2.
 
-\bibitem{kwon2012skewtune}
-Y.~Kwon et al., ``Skewtune: mitigating skew in mapreduce applications,'' in
-  \emph{Proceedings of the ACM SIGMOD International Conference on Management of
-  Data}, 2012, pp. 25--36.
+\bibitem{chiu1989analysis}
+D.-M. Chiu and R.~Jain, ``Analysis of the increase and decrease algorithms for
+  congestion avoidance in computer networks,'' \emph{Computer Networks and ISDN
+  systems}, vol.~17, no.~1, pp. 1--14, 1989.
 
-\bibitem{Harlap:2016:ASP}
-A.~Harlap et al., ``Addressing the straggler problem for iterative convergent
-  parallel ml,'' in \emph{Proceedings of the Seventh ACM Symposium on Cloud
-  Computing}, ser. SoCC '16.\hskip 1em plus 0.5em minus 0.4em\relax New York,
-  NY, USA: ACM, 2016, pp. 98--111.
+\bibitem{kelly1998rate}
+F.~P. Kelly, A.~K. Maulloo, and D.~K. Tan, ``Rate control for communication
+  networks: shadow prices, proportional fairness and stability,'' \emph{Journal
+  of the Operational Research society}, pp. 237--252, 1998.
 
-\bibitem{spark-dagscheduler}
+\bibitem{vojnovic2000global}
+M.~Vojnovi{\'c}, J.-Y. Le~Boudec, and C.~Boutremans, ``Global fairness of
+  additive-increase and multiplicative-decrease with heterogeneous round-trip
+  times,'' in \emph{INFOCOM}, vol.~3, 2000, pp. 1303--1312.
+
+\bibitem{alizadeh2014conga}
+M.~Alizadeh et al.,
+  ``Conga: Distributed congestion-aware load balancing for datacenters,'' in
+  \emph{Proceedings of the ACM Conference on SIGCOMM}, New York, NY, USA, 2014,
+  pp. 503--514.
+
+\bibitem{niranjan2009portland}
+R.~Niranjan~Mysore et al., ``Portland: A scalable
+  fault-tolerant layer 2 data center network fabric,'' in \emph{Proceedings of
+  the ACM Conference on SIGCOMM}, New York, NY, USA, 2009, pp. 39--50.
+
+\bibitem{ballani2011towards}
+H.~Ballani et al., ``Towards predictable
+  datacenter networks,'' in \emph{Proceedings of the ACM Conference on
+  SIGCOMM}, vol.~41.\hskip 1em plus 0.5em minus 0.4em\relax ACM, 2011, pp.
+  242--253.
+
+\bibitem{alizadeh2013pfabric}
+M.~Alizadeh et al., ``pfabric: Minimal near-optimal datacenter transport,'' in
+  \emph{Proceedings of the ACM Conference on SIGCOMM}, New York, NY, USA, 2013,
+  pp. 435--446.
+
+\bibitem{kang2013optimizing}
+N.~Kang et al., ``Optimizing the "one big switch"
+  abstraction in software-defined networks,'' in \emph{Proceedings of the Ninth
+  ACM Conference on Emerging Networking Experiments and Technologies (CoNEXT)},
+  New York, NY, USA, 2013, pp. 13--24.
+
+\bibitem{Phanishayee:2008:MAT}
+A.~Phanishayee et al., ``Measurement and analysis of tcp throughput collapse
+  in cluster-based storage systems,'' in \emph{6th USENIX Conference on File
+  and Storage Technologies (FAST)}, 2008, pp. 175--188.
+
+\bibitem{wu2007scheduling}
+X.~Wu, R.~Srikant, and J.~R. Perkins, ``Scheduling efficiency of distributed
+  greedy scheduling algorithms in wireless networks,'' \emph{Transactions on
+  Mobile Computing}, vol.~6, no.~6, pp. 595--605, 2007.
+
+\bibitem{sgall1998line}
+J.~Sgall, ``On-line scheduling,'' in \emph{Online algorithms}.\hskip 1em plus
+  0.5em minus 0.4em\relax Springer, 1998, pp. 196--231.
+
+\bibitem{gideon}
 \BIBentryALTinterwordspacing
-Spark job scheduling: Dagscheduler. [Online]. Available:
-  \url{https://spark.apache.org/docs/1.4.0/job-scheduling.html}
+Hku gideon-ii cluster. [Online]. Available:
+  \url{http://i.cs.hku.hk/\%7Eclwang/Gideon-II/}
 \BIBentrySTDinterwordspacing
+
+\bibitem{ahmad2012puma}
+F.~Ahmad et al., ``Puma: Purdue mapreduce
+  benchmarks suite,'' 2012.
+
+\bibitem{aws}
+\BIBentryALTinterwordspacing
+``Amazon ec2 instance types.'' [Online]. Available:
+  \url{http://aws.amazon.com/ec2/instance-types/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{zaharia2010delay}
+M.~Zaharia et al., ``Delay scheduling: A simple technique for achieving locality and
+  fairness in cluster scheduling,'' in \emph{Proceedings of the 5th European
+  Conference on Computer Systems (EuroSys)}.\hskip 1em plus 0.5em minus
+  0.4em\relax New York, NY, USA: ACM, 2010, pp. 265--278.
+
+\bibitem{isard2009quincy}
+M.~Isard et al.,
+  ``Quincy: Fair scheduling for distributed computing clusters,'' in
+  \emph{Proceedings of the ACM SIGOPS 22Nd Symposium on Operating Systems
+  Principles (SOSP)}, New York, NY, USA, 2009, pp. 261--276.
+
+\bibitem{faraz2014shufflewatcher}
+\BIBentryALTinterwordspacing
+F.~Ahmad et al.,
+  ``Shufflewatcher: Shuffle-aware scheduling in multi-tenant mapreduce
+  clusters,'' in \emph{2014 USENIX Annual Technical Conference (USENIX ATC
+  14)}.\hskip 1em plus 0.5em minus 0.4em\relax Philadelphia, PA: USENIX
+  Association, Jun. 2014, pp. 1--13. [Online]. Available:
+  \url{https://www.usenix.org/conference/atc14/technical-sessions/presentation/ahmad}
+\BIBentrySTDinterwordspacing
+
+\bibitem{dogar2014decentralized}
+F.~R. Dogar et al., ``Decentralized
+  task-aware scheduling for data center networks,'' in \emph{Proceedings of the
+  ACM Conference on SIGCOMM}, New York, NY, USA, 2014, pp. 431--442.
+
+\bibitem{Qiu:2015:MTW}
+Z.~Qiu, C.~Stein, and Y.~Zhong, ``Minimizing the total weighted completion time
+  of coflows in datacenter networks,'' in \emph{Proceedings of the 27th ACM
+  Symposium on Parallelism in Algorithms and Architectures (SPAA)}, New York,
+  NY, USA, 2015, pp. 294--303.
+
+\bibitem{zhao2015rapier}
+Y.~Zhao et al., ``Rapier: Integrating routing and scheduling for coflow-aware data
+  center networks,'' in \emph{IEEE Conference on Computer Communications
+  (INFOCOM)}, April 2015, pp. 424--432.
+
+\bibitem{chen2016coflow}
+L.~Chen et al., ``Optimizing coflow completion times with
+  utility max-min fairness,'' in \emph{IEEE INFOCOM 2016 - The 35th Annual IEEE
+  International Conference on Computer Communications}, April 2016, pp. 1--9.
+
+\bibitem{gault2014dynamic}
+S.~Gault and C.~Perez, ``Dynamic scheduling of mapreduce shuffle under
+  bandwidth constraints,'' in \emph{European Conference on Parallel
+  Processing}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2014, pp.
+  117--128.
+
+\bibitem{awerbuch1992competitive}
+B.~Awerbuch, S.~Kutten, and D.~Peleg, ``Competitive distributed job scheduling
+  (extended abstract),'' in \emph{Proceedings of the Twenty-fourth Annual ACM
+  Symposium on Theory of Computing (STOC)}, New York, NY, USA, 1992, pp.
+  571--580.
+
+\bibitem{borodin2005online}
+A.~Borodin and R.~El-Yaniv, \emph{Online computation and competitive
+  analysis}.\hskip 1em plus 0.5em minus 0.4em\relax cambridge university press,
+  2005.
 
 \end{thebibliography}
 
-%
-%\bibitem{IEEEhowto:kopka}
-%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-%
-%\end{thebibliography}
+
 
 % biography section
 % 
