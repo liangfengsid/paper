@@ -509,8 +509,11 @@ because each iteration will invoke a shuffle operation.
 % % and thus greatly reduce the amount of key-value pairs.
 Our key observation is that keys are relevant between iterations and 
 key-value pairs of a specific key pattern can be localized in an iteration to avoid shuffling data between nodes in other iterations. 
-% For instance, TBD.
-If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same machine, 
+For instance, in MatrixMultiplication, vector entries are multiplied, respective, to be addends for the following add operation, 
+and the input vector entries for the same result entry can be organized in the same node 
+so that the multiply and the add operation for one result entry can be finished
+in one node without shuffling. 
+If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
 we can greatly reduce the network traffic. 
 
 
@@ -546,7 +549,7 @@ We demonstrate the practicality  of Confluence on diverse applications
 %is widely applicable to distributed computing applications in the fields of
 %scientific computing, machine learning, data analysis, etc.
 \st{The experimental results on a Spark cluster} \red{and} show that Confluence can
-greatly decrease the shuffle size for the typical iterative distributed applications by up to 50\%
+greatly decrease the shuffle size for the typical iterative distributed applications by up to 50\%.
 % while not affecting %increasing the skewness of the workload. 
 \end{abstract}
 
@@ -662,7 +665,7 @@ However, none of them proposes a useful method to minimize the size of
 the data to be transferred in multiple shuffle iterations.
 
 Our key insight is that we can exploit the dependency of keys across iterations
-and partition the data according to the key dependency to greatly decrease 
+and partition the data according to the relation between keys of different iterations to greatly decrease 
 the transferred data across shuffle iterations.
 \st{The dataset entries are generally in the format of key-value pairs. }
 \st{

@@ -501,11 +501,17 @@ greatly affect the completion time of shuffle tasks
 having large volumes of data to transfer within the cluster,
 the shuffle-heavy MapReduce jobs being a typical one. 
 }
-\red{The random source selection policy in shuffle operations 
-largely under-utilize the network bandwidth and greatly affect the completion time
-of shuffle tasks having large volumes of data to transfer within the cluster,
-the shuffle-heavy MapReduce jobs being a typical one. 
+\red{\st{
+The random source selection policy in shuffle operations 
+largely under-utilizes the network bandwidth and greatly affect the completion time
+of shuffle tasks having large volumes of data to transfer. 
 }
+}
+\red{The network bandwidth is usually largely under-utilized because 
+the existing flow source selection policy does not consider the 
+bandwidth utilization.
+It greatly affects the shuffle completion time
+when transferring large volumes of data}
 Unfortunately, the impact of bandwidth underutilization is more pronounced
 if the network bandwidth capacities of the nodes are
 varied. 
@@ -527,8 +533,7 @@ BAShuffler takes the first step to adopt the application-level approach
 that has the full picture of shuffle operations and schedules flow source nodes based on the precise bandwidth allocation estimation.
 }
 We evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
-comprising a physical cluster and an EC2 virtual cluster respectively,
-as well as with simulations. 
+comprising a physical cluster and an EC2 virtual cluster respectively.. 
 \st{Simulation is also used to evaluate the performance of BAShuffler in
 clusters of different scales.}
 Experiment results show that BAShuffler can significantly improve the
