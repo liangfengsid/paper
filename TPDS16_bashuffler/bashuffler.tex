@@ -496,10 +496,8 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 \IEEEtitleabstractindextext{%
 \begin{abstract}
 \red{
-The shuffle operation is pervasive in distributed applications and consists of many network flows across computer nodes in datacenters. 
+The shuffle operation is pervasive in distributed applications and consists of many network flows across computer nodes. \st{in datacenters} 
 }
-\st{The shuffle operation, which relies on the network bandwidth to transfer data across computer nodes in the cluster, is pervasive in the distributed applications.
-However, unlike the node-monopolistic resource such as memories and CPU cores, the existing distributed resource management platforms does not offer a fine-grained resource allocation mechanism for the network bandwidth.}
 The problem of underutilization of the network bandwidth can
 greatly affect the completion time of shuffle tasks
 having large volumes of data to transfer within the cluster,
@@ -521,19 +519,12 @@ In this paper, we demonstrate how \st{the communication flows with
 randomly selected source nodes in the shuffle phase
 cannot fully utilize} \red{shuffle flows can significantly under-utilize} the network bandwidth capacity in a max-min fair network.
 %propose an algorithm to calculate the network throughput of the max-min fair network, 
-We present BAShuffler, a bandwidth-aware shuffle scheduler, that \st{can
-maximize} maximizes the overall network bandwidth utilization \st{by using a greedy
-or a partially greedy method 
-to schedule the source nodes of the shuffle flows} in shuffle operations. 
-\blue{
-\st{Instead of working on the network level that schedules the bandwidth of flows or the routing of data packages, BAShuffler uses the application-level approach 
-that schedules flow source nodes based on the precise bandwidth allocation estimation
-without changing the underlying network. 
-}
-}
+We present BAShuffler, a bandwidth-aware shuffle scheduler, that maximizes the overall network bandwidth utilization 
+% \st{by using a greedy or a partially greedy method to schedule the source nodes of the shuffle flows} 
+in shuffle operations. 
 \red{Compared to the existing network-level solutions, 
 BAShuffler takes the first step to adopt the application-level approach 
-that schedules flow source nodes based on the bandwidth allocation estimation
+that schedules flow source nodes based on the precise bandwidth allocation estimation
 without changing the underlying network. 
 }
 \red{Besides simulations,} we evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
@@ -543,8 +534,8 @@ clusters of different scales.}
 Experiment results show that BAShuffler can significantly improve the
 cluster shuffle throughput
 and reduce the execution time of shuffle tasks by up to 29\% as compared to
-the original Hadoop, especially in \st{the} heterogeneous
-networks. \st{bandwidth environment.}
+the original Hadoop, especially in heterogeneous
+networks.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
@@ -673,27 +664,12 @@ i.e., the network bandwidth capacities of the links are different.
 The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment can be quite common in practice
 for distributed platform users.
-\blue{
 For example, Hadoop is designed as the general distributed processing platform for 
 clusters comprising off-the-shelf machines~\cite{dean2008mapreduce}. 
 The physical Hadoop clusters could be fit with a variety of servers and network devices of different configurations~\cite{zaharia2008improving}. 
-}
-\red{
 Even in enterprise data centers, heterogeneity exists during the long period of devices upgrading~\cite{kant2009data}.
-}
-\st{In a virtual cluster, EC2 virtual machines could be running at
-different network speeds. }
 
 Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
-\st{
-The shuffle information includes the shuffle-related information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links).
-}
-\blue{
-\st{
-A central scheduler in the distributed resource management platform, e.g., the Resource Manager of YARN, makes use of the shuffle information 
-and schedules the flow source nodes for all the MapReduce-like programs running on this platform.
-}
-}
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
 the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
@@ -803,10 +779,8 @@ over different source nodes, and reduce the probability of the traffic
 congesting in the uplink of a few source nodes.
 
 
-\blue{
 RSS is widely used in the popular distributed platforms as the major shuffle 
 source selection algorithm~\cite{zaharia2012resilient, vavilapalli2013apache}. 
-}
 However, as we have commented,
 RSS cannot fully utilize the network bandwidth
 when the network bandwidth capacities of
@@ -852,17 +826,15 @@ fetch workers later.
 The network level (or coflow here) is only aware of the existence of
 the flows created, but not the potential flows of the same shuffle
 pending at the application level.
-\blue{
 With this limitation, the shuffle operation cannot exactly fit into the coflow model. 
 Minimizing the completion time of the coflow is not the same thing as
 minimizing the completion time of the shuffle operation.
-}
 
-\blue{
+
+
 The shuffle completion time is the execution time of the shuffle operation 
 from the time the first fetch flow is ready to start to the time the last fetch flow 
 finishes. 
-}
 To obtain the optimal scheduling solution that minimizes the shuffle
 completion time, the scheduler needs to consider both the
 application level runtime status (all the available map outputs and
@@ -880,24 +852,21 @@ level \cite{saltzer1984end}.
 
 Application-level shuffle scheduling has the advantage of knowing
 the true runtime status of the shuffle.
-\blue{
 ``Application-level'' is the term relative to the network layers in 
 the OSI model, but is not limited to the distributed application (e.g., MapReduce programs). 
-\st{The distributed resource management platforms like Mesos and Hadoop is also working at the application level. }
-}
 Although it does not make efforts to improve the underlying network, 
 it can observe and predict the behavior and performance of the network, 
 and then schedule the shuffle flows accordingly based on
 these observations and the predicted values (e.g., by using MMF in the TCP
 network) to obtain the near-optimal solution. 
 
-\blue{
+
 The benefits of application-level shuffle scheduling are: 1) Besides bandwidth capacities of the links, 
 it can make use of 
 the dynamic application-level shuffle information, including the pattern of the 
 arriving time of the flows and their sources and destinations; 
 2) The distributed platforms can work on unmodified operating systems and general network devices. 
-}
+
 
 
 \subsection{Max-Min Fairness in TCP Communication}\label{section:MMF}
@@ -994,7 +963,6 @@ in the presence of BAShuffler.
 
 \subsection{Design of BAShuffler}
 \subsubsection{Design Considerations}
-\blue{
 When improving the shuffle performance, it is not wise to sacrifice 
 the execution time of the other phases of the jobs. 
 BAShuffler should not negatively impact the resource allocation for the other map tasks
@@ -1003,7 +971,7 @@ Also BAShuffler prefers not to change the task assignment policy of the existing
 as changing it will cause chaoses in the issues of task locality and task dependency. 
 The only effect of BAShuffler shall be a faster shuffle operation. 
 With the other phases unaffected, the job execution time is improved with faster shuffle.
-}
+
 
 In order to improve the shuffle performance, 
 it is necessary for the system to schedule network bandwidth as a
@@ -1027,7 +995,6 @@ which is already running in an allocated container.
 %Even inside
 During the shuffle phase, there are many factors that can
 affect the throughput or the execution time of the shuffles.
-\blue{
 For example, the CPU time slices for source nodes to send the map outputs via the fetch flow and 
 the straggler of a map task that prevents the shuffle operation having all the map outputs ready. 
 These factors are related to the dynamic environment of the distributed management platform. 
@@ -1035,7 +1002,7 @@ Some of them can be avoided by a better resource isolation mechanism.
 For instance, a good resource isolation mechanism should make sure the CPU time slices guaranteed for
 sending the flow data will be stolen by other compute-intensive jobs.
 BAShuffler does not consider these factors.
-}
+
 
 One factor we want to discuss here is the number of fetchers of each shuffle fetching the data
 concurrently.
@@ -1050,11 +1017,9 @@ For the experiments that evaluate the other factors than the fetcher number, suc
 
 Another important factor is the communication pattern of the fetch
 flows. 
-\blue{The communication pattern mainly refers to the mapping from the the flow sources to the flow destinations.}
+The communication pattern mainly refers to the mapping from the the flow sources to the flow destinations.
 Different communication patterns can lead to different bandwidth utilization status, which we will illustrate in the coming sections.
-\blue{
 BAShuffler focuses on this factor and schedules the communication pattern.
-}
 To schedule the communication pattern that can yield maximum bandwidth
 utilization, BAShuffler selects the source node of the fetch based on the MMF bandwidth estimation
 when a new fetcher is free.
