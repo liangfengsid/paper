@@ -505,16 +505,17 @@ which generates significant network traffic and often dominates completion time.
 This traffic is
 particularly pronounced in iterative distributed applications
 because each iteration will invoke a shuffle operation. 
-\st{Our key observation is that many iterations can aggregate and thus greatly reduce  key-value pairs based on some specific keys.}
 % % and thus greatly reduce the amount of key-value pairs.
-Our key observation is that keys are relevant between iterations and 
-key-value pairs of a specific key pattern can be localized in an iteration to avoid shuffling data between nodes in other iterations. 
-For instance, in MatrixMultiplication, vector entries are multiplied, respective, to be addends for the following add operation, 
-and the input vector entries for the same result entry can be organized in the same node 
-so that the multiply and the add operation for one result entry can be finished
-in one node without shuffling. 
-If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
-we can greatly reduce the network traffic. 
+Our key observation is that 
+some iterations often process different types of key-value pairs according to 
+relevant keys among these types, 
+and we can partition key-value pairs on local machines by exploiting this relevance, greatly reducing shuffle traffic for following iterations. 
+% keys of different types of key-values are often relevant between iterations,
+% and we can localize 
+% key-value pairs with relevant keys in an iteration to avoid shuffling data between nodes in other iterations. 
+\red{For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, \emph{join} operations in the next iteration can incur no shuffle traffic.}
+% If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
+% we can greatly reduce the network traffic. 
 
 
 % If the shuffle inputs needed to generate a shuffle output key-value are already localized in one node,
@@ -535,21 +536,14 @@ we can greatly reduce the network traffic.
 % adjacent computing iterations.
 
 % In this paper, we define these specific keys as dependent keys for an iteration, 
-In this paper, we define these relevant keys as key dependencies, 
-and we present a new data structure called Key Dependency Graph (KDG) to keep track of them for all iterations. 
+In this paper, we present a new data structure called Key Dependency Graph (KDG) to keep track of relevant keys for general iterative distributed applications. 
 We implement a system called Confluence, where developers construct a KDG for a distributed application, 
 and Confluence automatically generates an efficient key partitioning scheme from the KDG.
-\st{
-After applying Confluence, the datasets needed by the multiple
-iterations will be partitioned and assigned to the nodes where they will
-be needed so that network traffic is eliminated and the overall shuffle workload is decreased.
-}
-\st{, while keeping the workloads in a balanced state.}
-We demonstrate the practicality  of Confluence on diverse applications
+We apply Confluence on diverse applications
 %is widely applicable to distributed computing applications in the fields of
 %scientific computing, machine learning, data analysis, etc.
-\st{The experimental results on a Spark cluster} \red{and} show that Confluence can
-greatly decrease the shuffle size for the typical iterative distributed applications by up to 50\%.
+and show that Confluence
+greatly decreases the shuffle network traffic by up to 50\%.
 % while not affecting %increasing the skewness of the workload. 
 \end{abstract}
 
@@ -637,7 +631,7 @@ Generally, it saves the output data in the file system, such as HDFS~\cite{shvac
 This is inefficient for tasks of the iterative distributed operations, where one iteration reuses the data from the previous iterations. The sharing of data between iterations is usually done
 through a shuffle operation.
 
-The problem of significant shuffle workloads greatly impacts the performance of \st{shuffle} \red{distributed} operations. 
+The problem of \st{significant} \red{heavy} shuffle \st{workloads} \red{network traffic} greatly impacts the performance of \st{shuffle} \red{distributed} operations. 
 Most of the distributed computing paradigms include the shuffle
 operation, which transfers the intermediate output data of the map
 operations to the computer nodes doing the reduce operations.
@@ -661,10 +655,10 @@ overheads of the computing tasks that include multiple iterations of
 distributed operations and thus multiple shuffle operations.
 For instance, Spark~\cite{zaharia2012resilient} adopts the in-memory approach 
 to reuse data across iterations in the memory to avoid the overhead of transferring the intermediate data into and out of the disk. 
-However, none of them proposes a useful method to minimize the size of
+However, none of them proposes a \st{useful} method to minimize the size of
 the data to be transferred in multiple shuffle iterations.
 
-Our key insight is that we can exploit the dependency of keys across iterations
+Our key observation is that we can exploit the dependency of keys across iterations
 and partition the data according to the relation between keys of different iterations to greatly decrease 
 the transferred data across shuffle iterations.
 \st{The dataset entries are generally in the format of key-value pairs. }
@@ -693,7 +687,7 @@ node after shuffling, we can reduce
 %we can avoid re-shuffling data in the following iterations and
 the data volume of the shuffle operations (we call that the
 ``shuffle size'' in the rest of this paper). 
-But by the default hashed-by-key partitioning scheme, the shuffle size of
+\st{But} By the default hashed-by-key partitioning scheme, the shuffle size of
 each map-and-reduce iteration would be almost of the same size as the
 map output data. The total shuffle size of multiple iterations
 can be very large.
@@ -754,16 +748,24 @@ The KDG is a directed acyclic graph which depicts how the keys of the
 dataset entries of each iteration are generated from the previous iteration.
 From the KDG, we can identify the subgraphs in which the dataset
 entries with the keys in the source nodes will only generate the dataset
-entries with keys in the downstream nodes. We call such a subgraph
+entries with keys in the downstream nodes. We \st{call} \red{define} such a subgraph
 the \emph{pure confluence subgraph}.
 Within a pure confluence subgraph, if all the dataset entries matching
 the source keys are assigned to the same node, all the generated
 datasets can be computed locally in the node without shuffling.
 
-To make use of the confluence key partitioning scheme (CKP), the
-programs need to add the corresponding user-defined partitioner
-%for each specific distributed program
+To make use of the confluence key partitioning scheme (CKP) in iterative distributed operations, 
+\st{
+the programs need to add the corresponding user-defined partitioner
 to guide the assignment of data entries to their desired locations.
+}
+\red{
+programmers need to construct a KDG for a distributed operation. 
+Confluence automatically generates an efficient key partitioning 
+scheme from the KDG. 
+This user-defined key partitioning scheme guides the assignment of data entries 
+to their designated nodes. 
+}
 Most distributed computing paradigms, such as Spark~\cite{zaharia2012resilient} and Twister~\cite{ekanayake2010twister},
 provide an interface for adding a user-defined partitioner for the shuffle
 operation.
@@ -790,7 +792,7 @@ Our major contributions are listed as follows.
 and used the Confluence Key Partitioning (CKP) scheme to decrease the shuffle traffic
 across distributed computing iterations.
 
-\item We gave the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
+\item We \st{gave} \red{created} the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
 
 \item We implemented CKP in Spark and illustrated the use of CKP with several typical iterative distributed applications from different fields. 
 The experiment on the medium-size Spark cluster demonstrates that CKP could decrease the overall shuffle traffic workload by as much as 50\%.  

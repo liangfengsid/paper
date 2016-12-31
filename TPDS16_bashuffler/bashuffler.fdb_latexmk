@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1483165139 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1483169364
+["pdflatex"] 1483212989 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1483212990
   "./figure/author1.png" 1482915206 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "./figure/author2.png" 1461158019 54334 12d054f3372da35bf7bba7b9d835779c ""
   "./figure/author3.png" 1482915167 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -53,6 +53,7 @@
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb" 1248133631 32587 1788b0c1c5b39540c96f5e42ccd6dae8 ""
+  "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1248133631 32626 4f5c1b83753b1dd3a97d1b399a005b4b ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb" 1136849748 35941 f27169cc74234d5bd5e4cca5abafaabb ""
   "/usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb" 1136849748 44648 23115b2a545ebfe2c526c3ca99db8b95 ""
@@ -107,8 +108,8 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "IEEEtran.cls" 1410922780 282417 954051ae67e6fc3fdfba307b2233a8fe ""
-  "bashuffler.aux" 1483165140 11612 ac404c9654a7a4468cc5a842630ae289 ""
-  "bashuffler.tex" 1483165136 123919 932f41a8b8fcc49e78f5de865af6d90f ""
+  "bashuffler.aux" 1483212990 11667 c426b4afe78535a6afe00ec2bff88a02 ""
+  "bashuffler.tex" 1483212988 125232 136bd31f8786f3ffa44968a43e733c71 ""
   "figure/author1.png" 1482915206 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "figure/author2.png" 1461158019 54334 12d054f3372da35bf7bba7b9d835779c ""
   "figure/author3.png" 1482915167 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -128,6 +129,6 @@
   "figure/figure8.pdf" 1479045879 65108 ba97e4df92bc235078c63586884125eb ""
   "figure/figure9.pdf" 1462388239 28834 b3ff6c1397815c48812396bf795f54f2 ""
   (generated)
-  "bashuffler.pdf"
-  "bashuffler.aux"
   "bashuffler.log"
+  "bashuffler.aux"
+  "bashuffler.pdf"

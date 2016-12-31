@@ -140,6 +140,7 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvr7t.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvro7t.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvr7t.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvro7t.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
@@ -174,6 +175,8 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/helvetic/phvb7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/helvetic/phvr7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/helvetic/phvro7t.vf
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/helvetic/phvbc7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm

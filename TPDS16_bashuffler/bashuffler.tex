@@ -495,53 +495,26 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Shuffle operations are pervasive in distributed applications and consist of many network flows across computer nodes.
-\st{The problem of underutilization of the network bandwidth can
-greatly affect the completion time of shuffle tasks
-having large volumes of data to transfer within the cluster,
-the shuffle-heavy MapReduce jobs being a typical one. 
-}
-\red{\st{
-The random source selection policy in shuffle operations 
-largely under-utilizes the network bandwidth and greatly affect the completion time
-of shuffle tasks having large volumes of data to transfer. 
-}
-}
-\red{The network bandwidth is usually largely under-utilized because 
-the existing flow source selection policy does not consider the 
-bandwidth utilization.
-It greatly affects the shuffle completion time
-when transferring large volumes of data}
-Unfortunately, the impact of bandwidth underutilization is more pronounced
-if the network bandwidth capacities of the nodes are
-varied. 
-\red{
-This heterogeneous network setting widely exists in practice.
-}
+Shuffle operations invoke many network flows across computer nodes and 
+consume significant network bandwidth.
+Because existing works mainly focus on optimizing CPU and memory utilization, network bandwidth is usually largely under-utilized.
+This problem aggravates the shuffle completion time especially for shuffle-heavy MapReduce applications.
+When the network bandwidth capacities of computer nodes are varied, 
+which widely exists in practice, 
+ this under-utilization problem is more pronounced. 
 
 
-\st{In this paper, we demonstrate how shuffle flows can significantly under-utilize the network bandwidth capacity in a max-min fair network.
-We present BAShuffler, a bandwidth-aware shuffle scheduler, that maximizes the overall network bandwidth utilization 
-in shuffle operations.}
-\red{
-In this paper, we first present BAShuffler, a bandwidth-aware shuffle scheduler, that maximizes the overall network bandwidth utilization 
+In this paper, we first present BAShuffler, a bandwidth-aware shuffle scheduler that can maximize the overall network bandwidth utilization 
 in shuffle operations.
 We then demonstrate how BAShuffler can fully utilize the network bandwidth capacity in max-min fair networks.
-} 
-\red{Compared to the existing network-level solutions, 
+Compared to existing network-level approaches, 
 BAShuffler takes the first step to adopt the application-level approach 
-that has the full picture of shuffle operations and schedules flow source nodes based on the precise bandwidth allocation estimation.
-}
+that has the full picture of shuffle operations and schedules flow source nodes with a precise bandwidth allocation estimation.
 We evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
-comprising a physical cluster and an EC2 virtual cluster respectively.. 
-\st{Simulation is also used to evaluate the performance of BAShuffler in
-clusters of different scales.}
-Experiment results show that BAShuffler can significantly improve the
-cluster shuffle throughput
-and reduce the execution time of shuffle tasks by up to 29\% as compared to
-the original Hadoop.
-\st{, especially in heterogeneous
-networks.}
+comprising a physical, heterogeneous cluster and an EC2 virtual cluster, respectively. 
+Experiment results show that BAShuffler significantly improves Hadoop shuffle throughput
+and decrease shuffle completion time by up to 29\%.
+% \st{, especially in heterogeneous networks.}
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
@@ -639,7 +612,7 @@ many compute-intensive jobs, YARN can do very well in terms of resource
 utilization, assuming that the users are able to properly specify %configure
 %approximately proper
 the resource sizes for the tasks, either by experience or by estimation. 
-In reality, however, the shuffle-heavy tasks need to transfer 
+\st{In reality, however,} \red{However, in reality,} the shuffle-heavy tasks need to transfer 
 non-trivial amounts of data via the local area network among the tasks.
 The performance of these %network bandwidth required
 communicative tasks can be largely 
@@ -651,7 +624,7 @@ the connection on both endpoints of the source and the destination.
 The network is the shared resource of a pair of nodes even for one single task that transfers data between them. 
 For this reason, unlike memories and CPU cores, the network bandwidth cannot simply be encapsulated in resource containers that stand for the isolation of the monopolistic resources.
 
-In the distributed platforms, the shuffle tasks by default
+In \st{the} distributed platforms, the shuffle tasks by default
 %realizes the importance of better utilization of the cluster network bandwidth, and 
 would try to evenly distribute the workload of the network
 by randomly selecting the source to fetch the map output data. 
@@ -660,20 +633,20 @@ If the links connecting all the nodes in the cluster
 are more or less equal in terms of bandwidth
 and if the number of network connections is
 large, this random source selection policy could prevent some nodes becoming a bottleneck.
-Obviously, however, without monitoring the actual connection
+\st{Obviously, however,} \red{However, obviously,} without monitoring the actual connection
 allocations %status in
 in the cluster, this simple random source scheduling approach cannot offer
 any bandwidth guarantee. 
-And it will likely lead to worse performance
+\st{And} \red{It} will likely lead to \red {much} worse performance
 if the network is a \emph{heterogeneous} one,
 i.e., the network bandwidth capacities of the links are different.
 The reason will be analyzed with examples in Section \ref{section:analysis}.
-A heterogeneous network environment can be quite common in practice
+A heterogeneous network environment \st{can be quite} \red{is} common in practice
 for distributed platform users.
 For example, Hadoop is designed as the general distributed processing platform for 
 clusters comprising off-the-shelf machines~\cite{dean2008mapreduce}. 
 The physical Hadoop clusters could be fit with a variety of servers and network devices of different configurations~\cite{zaharia2008improving}. 
-Even in enterprise data centers, heterogeneity exists during the long period of devices upgrading~\cite{kant2009data}.
+Even in enterprise data centers, heterogeneity exists during the long period of \st{devices} \red{machine} upgrading~\cite{kant2009data}.
 
 Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
 \red{
@@ -682,7 +655,7 @@ A central scheduler at the application level sees the full picture of the shuffl
 % Moreover, the application-level shuffle scheduler enables the distributed platforms to work on unmodified operating systems and general network devices.
 % }
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
-the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
+the \st{well-defined} network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
 We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
 
@@ -696,18 +669,53 @@ to select the appropriate source nodes of the TCP fetch flow so that
 the the network bandwidth utilization is maximized. 
 We implement BAShuffler based on YARN and apply it in
 several benchmarks.
-We conduct experiments on both a physical cluster and an EC2
+
+% \st{We conduct experiments on both a physical cluster and an EC2
+% virtual cluster to evaluate the real performance of BAShuffler. 
+% Experiment results show that BAShuffler can significantly increase the
+% shuffle throughput
+% and reduce the total job completion time, by up to 29\% for
+% shuffle-heavy jobs in the physical and the virtual clusters
+% as compared to the original YARN. 
+% We also use simulations to mimic the clusters of different scales. 
+% The simulation results show that comparing to the
+% random-source-selection method adopted by YARN, 
+% PGSS can improve the cluster network bandwidth
+% utilization especially in a heterogeneous network environment, with low scheduling overheads.}
+
+
+\red{We have done some initiatory work that shows how the proper source selection policy can improve the bandwidth utilization in shuffle operations~\cite{Liang:2016:BMN}. We extend the work in this paper with the following contributions:}
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+\item \red{We discussed in detail the difficulty of managing the network bandwidth in 
+current distributed resource management platforms, and explored benefits 
+of improving the shuffle bandwidth utilization by scheduling the flow source nodes at the application level.}
+
+\item \red{We proposed the greedy source selection (GSS) algorithm 
+and the partially greedy source selection (PGSS) algorithm that 
+maximize the network bandwidth utilization based on the precise 
+max-min fair estimation on the bandwidth utilization. 
+We demonstrated that these proposed algorithms are efficient in shuffle operations.} 
+
+\item \red{We presented BAShuffler ,which is implemented seamlessly in YARN,  
+to schedule the flow source nodes at the application level based on GSS or PGSS.
+Existing MapReduce-like applications can run on BAShuffler in full bandwidth utilization without any modification.}
+
+\item \red{We conducted experiments on both a physical cluster and an EC2
 virtual cluster to evaluate the real performance of BAShuffler. 
-Experiment results show that BAShuffler can significantly increase the
+Experiment results show that BAShuffler significantly increases the
 shuffle throughput
 and reduce the total job completion time, by up to 29\% for
-shuffle-heavy jobs in the physical and the virtual clusters
+shuffle-heavy jobs in both clusters
 as compared to the original YARN. 
-We also use simulations to mimic the clusters of different scales. 
-The simulation results show that comparing to the
-random-source-selection method adopted by YARN, 
-PGSS can improve the cluster network bandwidth
-utilization especially in a heterogeneous network environment, without low scheduling overhead.
+We also used simulations to mimic the clusters of different scales. 
+The simulation results  
+PGSS can greatly improve the cluster network bandwidth
+utilization especially in a heterogeneous network environment, with low scheduling overheads.
+}
+\end{itemize}
 
 
 The rest of the paper is organized as follows.
@@ -2207,7 +2215,6 @@ heterogeneous.
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
 % \bibliographystyle{IEEEtran}
-% % argument is your BibTeX string definitions and bibliography database(s)
 % \bibliography{example_full}
 %
 % <OR> manually copy in the resultant .bbl file
@@ -2215,7 +2222,7 @@ heterogeneous.
 % (used to reserve space for the reference number labels box)
 
 
-\begin{thebibliography}{10}
+\begin{thebibliography}{47}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
 \providecommand{\newblock}{\relax}
@@ -2316,6 +2323,13 @@ M.~Chowdhury, Y.~Zhong, and I.~Stoica, ``Efficient coflow scheduling with
 M.~Chowdhury and I.~Stoica, ``Efficient coflow scheduling without prior
   knowledge,'' in \emph{Proceedings of the ACM Conference on SIGCOMM}, New
   York, NY, USA, 2015, pp. 393--406.
+
+\bibitem{Liang:2016:BMN}
+F.~Liang and F.~C.~M.~Lau, ``Bashuffler: Maximizing network bandwidth utilization
+  in the shuffle of yarn,'' in \emph{Proceedings of the 25th ACM International
+  Symposium on High-Performance Parallel and Distributed Computing}, ser. HPDC
+  '16.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2016, pp.
+  281--284.
 
 \bibitem{Delimitrou:2014:QRQ}
 C.~Delimitrou and C.~Kozyrakis, ``Quasar: Resource-efficient and qos-aware

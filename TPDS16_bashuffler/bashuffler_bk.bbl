@@ -101,6 +101,13 @@ M.~Chowdhury and I.~Stoica, ``Efficient coflow scheduling without prior
   knowledge,'' in \emph{Proceedings of the ACM Conference on SIGCOMM}, New
   York, NY, USA, 2015, pp. 393--406.
 
+\bibitem{Liang:2016:BMN}
+F.~Liang and F.~C.~M.~Lau, ``Bashuffler: Maximizing network bandwidth utilization
+  in the shuffle of yarn,'' in \emph{Proceedings of the 25th ACM International
+  Symposium on High-Performance Parallel and Distributed Computing}, ser. HPDC
+  '16.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2016, pp.
+  281--284.
+
 \bibitem{Delimitrou:2014:QRQ}
 C.~Delimitrou and C.~Kozyrakis, ``Quasar: Resource-efficient and qos-aware
   cluster management,'' in \emph{Proceedings of the 19th International
