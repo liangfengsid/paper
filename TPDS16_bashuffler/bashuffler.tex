@@ -495,47 +495,48 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-\red{
-The shuffle operation is pervasive in distributed applications and consists of many network flows across computer nodes. \st{in datacenters} 
-}
-The problem of underutilization of the network bandwidth can
+Shuffle operations are pervasive in distributed applications and consist of many network flows across computer nodes.
+\st{The problem of underutilization of the network bandwidth can
 greatly affect the completion time of shuffle tasks
 having large volumes of data to transfer within the cluster,
 the shuffle-heavy MapReduce jobs being a typical one. 
+}
+\red{The random source selection policy in shuffle operations 
+largely under-utilize the network bandwidth and greatly affect the completion time
+of shuffle tasks having large volumes of data to transfer within the cluster,
+the shuffle-heavy MapReduce jobs being a typical one. 
+}
 Unfortunately, the impact of bandwidth underutilization is more pronounced
-if the network bandwidth capacities of the nodes \st{in the cluster} are
+if the network bandwidth capacities of the nodes are
 varied. 
 \red{
-\st{
-This heterogeneous network bandwidth environment widely exists in commodity 
-clusters and enterprise data centers during upgrading periods.
-}
+This heterogeneous network setting widely exists in practice.
 }
 
 
-%In this paper, we demonstrate how the data transfer rates of the randomly scheduled communication flows 
-%can be limited by the bottleneck network links and are thus lower than the network bandwidth capacity,
-In this paper, we demonstrate how \st{the communication flows with
-randomly selected source nodes in the shuffle phase
-cannot fully utilize} \red{shuffle flows can significantly under-utilize} the network bandwidth capacity in a max-min fair network.
-%propose an algorithm to calculate the network throughput of the max-min fair network, 
+\st{In this paper, we demonstrate how shuffle flows can significantly under-utilize the network bandwidth capacity in a max-min fair network.
 We present BAShuffler, a bandwidth-aware shuffle scheduler, that maximizes the overall network bandwidth utilization 
-% \st{by using a greedy or a partially greedy method to schedule the source nodes of the shuffle flows} 
-in shuffle operations. 
+in shuffle operations.}
+\red{
+In this paper, we first present BAShuffler, a bandwidth-aware shuffle scheduler, that maximizes the overall network bandwidth utilization 
+in shuffle operations.
+We then demonstrate how BAShuffler can fully utilize the network bandwidth capacity in max-min fair networks.
+} 
 \red{Compared to the existing network-level solutions, 
 BAShuffler takes the first step to adopt the application-level approach 
-that schedules flow source nodes based on the precise bandwidth allocation estimation
-without changing the underlying network. 
+that has the full picture of shuffle operations and schedules flow source nodes based on the precise bandwidth allocation estimation.
 }
-\red{Besides simulations,} we evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
-comprising a physical cluster and an EC2 virtual cluster respectively. 
+We evaluate BAShuffler with a variety of realistic benchmarks in testbeds 
+comprising a physical cluster and an EC2 virtual cluster respectively,
+as well as with simulations. 
 \st{Simulation is also used to evaluate the performance of BAShuffler in
 clusters of different scales.}
 Experiment results show that BAShuffler can significantly improve the
 cluster shuffle throughput
 and reduce the execution time of shuffle tasks by up to 29\% as compared to
-the original Hadoop, especially in heterogeneous
-networks.
+the original Hadoop.
+\st{, especially in heterogeneous
+networks.}
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
@@ -670,13 +671,14 @@ The physical Hadoop clusters could be fit with a variety of servers and network 
 Even in enterprise data centers, heterogeneity exists during the long period of devices upgrading~\cite{kant2009data}.
 
 Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
+\red{
+A central scheduler at the application level sees the full picture of the shuffle operation and has the potential to achieve the optimal scheduling results based on precise estimations of the network bandwidth allocation.}
+% both the dynamic shuffle-oriented  information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links).
+% Moreover, the application-level shuffle scheduler enables the distributed platforms to work on unmodified operating systems and general network devices.
+% }
 Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
 the well-defined network level model cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
-\red{
-A central scheduler at the application level has the potential to achieve the scheduling results based on both the dynamic shuffle-oriented  information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links).
-Moreover, the application-level shuffle scheduler enables the distributed platforms to work on unmodified operating systems and general network devices.
-}
 We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
 
 In this paper, 
