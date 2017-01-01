@@ -10,9 +10,9 @@
 \citation{dean2008mapreduce}
 \citation{zaharia2008improving}
 \citation{kant2009data}
+\citation{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \newlabel{sec:introduction}{{1}{1}}
-\citation{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}
 \citation{Liang:2016:BMN}
 \citation{Delimitrou:2014:QRQ,smapreduce}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background, Motivation and Discussion}{2}}
@@ -37,6 +37,7 @@
 \newlabel{section:bashuffler}{{3}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Design of BAShuffler}{4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Design Considerations}{4}}
+\citation{wu2007scheduling,sgall1998line}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Architecture Design of BAShuffler}}{5}}
 \newlabel{fig:bashuffler}{{1}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Architecture of BAShuffler}{5}}
@@ -45,7 +46,6 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Pseudo Code of the Partially Greedy Source Selection Algorithm}}{5}}
 \newlabel{fig:PGSS}{{2}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Greedy Source Selection}{5}}
-\citation{wu2007scheduling,sgall1998line}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Time Complexity of Different Scheduling Algorithms for Scheduling Each Request}}{6}}
 \newlabel{table:complexity}{{1}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Partially Greedy Source Selection}{6}}
@@ -73,9 +73,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Implementation Details}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Evaluation}{8}}
 \newlabel{section:evaluation}{{4}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Physical Testbed}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Cumulative Completion Ratio (CR) of the Overall Shuffle Workload of RSS, GSS and PGSS in Various Benchmarks along the Time in the Physical Cluster}}{8}}
 \newlabel{fig:new_completion_ratio}{{5}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Physical Testbed}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces GSS and PGSS Speedup of Average Shuffle Rate of Each Shuffle Task in comparison to RSS in Benchmarks Terasort (TS), InvertedIndex(II), SequenceCount (SC) and RankedInvertedIndex (RII) in the Physical Cluster}}{9}}
 \newlabel{fig:new_shuffle_rate}{{6}{9}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Shuffle Throughput}{9}}
@@ -92,12 +92,12 @@
 \newlabel{fig:r_vshuffle_timeline}{{9}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Reduce Completion Time of the SequenceCount Benchmark with Different Fetcher Numbers in the Virtual Cluster}}{11}}
 \newlabel{fig:r_vsequence}{{10}{11}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Different Input Data Sizes}{11}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}Multiple Concurrent Jobs}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Reduce Completion Time of SequenceCount with Different Input Data Sizes in the Physical and Virtual Testbeds}}{11}}
 \newlabel{fig:r_sizes}{{11}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Different Input Data Sizes}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Job Completion Time of Multiple Concurrent Jobs in the Physical and Virtual Testbeds}}{11}}
 \newlabel{fig:r_concurrent}{{12}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}Multiple Concurrent Jobs}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Simulation}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Bandwidth Utilization and Improvement (Suffixed with IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Amount of Nodes in the Homogeneous Settings and the Heterogeneous Settings}}{12}}
 \newlabel{fig:s_nodes}{{13}{12}}
@@ -105,9 +105,9 @@
 \newlabel{section:differentNodeNumber}{{4.3.1}{12}}
 \@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Bandwidth Utilization and Improvement (Suffixed with IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Degrees of Network Heterogeneity}}{12}}
 \newlabel{fig:s_lowbandwidth}{{14}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Scheduling Overhead Time per Flow of the RSS, GSS, PGSS and Online Optimal (Opt) Algorithms with Different Number of Nodes in the Cluster}}{12}}
+\newlabel{fig:s_overhead}{{15}{12}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Different Degrees of Network Heterogeneity}{12}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Scheduling Overhead}{12}}
-\newlabel{section:eva_overhead}{{4.3.3}{12}}
 \citation{vavilapalli2013apache}
 \citation{hindman2011mesos}
 \citation{zaharia2010delay,isard2009quincy}
@@ -130,14 +130,14 @@
 \bibcite{zaharia2008improving}{10}
 \bibcite{kant2009data}{11}
 \bibcite{shieh2011sharing}{12}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Scheduling Overhead Time per Flow of the RSS, GSS, PGSS and Online Optimal (Opt) Algorithms with Different Number of Nodes in the Cluster}}{13}}
-\newlabel{fig:s_overhead}{{15}{13}}
+\bibcite{chowdhury2011managing}{13}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Scheduling Overhead}{13}}
+\newlabel{section:eva_overhead}{{4.3.3}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Related Work}{13}}
 \newlabel{section:relatedwork}{{5}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}}
 \newlabel{section:conclusion}{{6}{13}}
 \@writefile{toc}{\contentsline {section}{References}{13}}
-\bibcite{chowdhury2011managing}{13}
 \bibcite{chowdhury2014efficient}{14}
 \bibcite{chowdhury2015efficient}{15}
 \bibcite{Liang:2016:BMN}{16}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  1 JAN 2017 03:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  1 JAN 2017 15:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -352,63 +352,67 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 527.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 526.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <11.04124> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 527.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 526.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8.03> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 527.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 526.
 LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 52
-7.
+6.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <11.04124> on input line 527.
+(Font)              <11.04124> on input line 526.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7.72884> on input line 527.
+(Font)              <7.72884> on input line 526.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.52061> on input line 527.
-LaTeX Font Info:    Try loading font information for U+pzd on input line 527.
+(Font)              <5.52061> on input line 526.
+LaTeX Font Info:    Try loading font information for U+pzd on input line 526.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
-LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 527.
+LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 526.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8.03> on input line 527.
+(Font)              <8.03> on input line 526.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.62097> on input line 527.
+(Font)              <5.62097> on input line 526.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <4.015> on input line 527.
+(Font)              <4.015> on input line 526.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <11.04124> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 555.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 554.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <11.04124> not available
 
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 555.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 554.
  [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Underfull \hbox (badness 1924) in paragraph at lines 662--672
+Underfull \hbox (badness 1924) in paragraph at lines 660--670
 []\OT1/ppl/m/n/9.53561 In this pa-per, we present BAShuf-fler, a network-
  []
 
-LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 689
+LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 686
 .
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9.53561> on input line 689.
+(Font)              <9.53561> on input line 686.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6.6749> on input line 689.
+(Font)              <6.6749> on input line 686.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <4.7678> on input line 689.
+(Font)              <4.7678> on input line 686.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9.53561> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 739.
 [2] [3]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9.53561> not available
 (Font)              Font shape `OT1/phv/m/sl' tried instead on input line 980.
- [4] <./figure/figure1.pdf, id=24, 458.71375pt x 470.75874pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]
+<./figure/figure1.pdf, id=24, 458.71375pt x 470.75874pt>
 File: ./figure/figure1.pdf Graphic file (type pdf)
 
 <use ./figure/figure1.pdf>
@@ -416,11 +420,12 @@ Package pdftex.def Info: ./figure/figure1.pdf used on input line 1053.
 (pdftex.def)             Requested size: 252.94499pt x 259.58615pt.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <6.62196> not available
 (Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1112.
- [5 <./figure/figure1.pdf>]
+
 Overfull \hbox (1.16974pt too wide) in alignment at lines 1176--1176
 [][][][] 
  []
 
+[5 <./figure/figure1.pdf>]
 <./figure/figure3.pdf, id=46, 516.93124pt x 209.78375pt>
 File: ./figure/figure3.pdf Graphic file (type pdf)
 
@@ -535,8 +540,8 @@ File: ./figure/figure15.pdf Graphic file (type pdf)
 <use ./figure/figure15.pdf>
 Package pdftex.def Info: ./figure/figure15.pdf used on input line 1963.
 (pdftex.def)             Requested size: 177.06194pt x 101.17715pt.
- [12 <./figure/figure13.pdf> <./figure/figure14.pdf>] [13 <./figure/figure15.pd
-f>]
+ [12 <./figure/figure13.pdf> <./figure/figure14.pdf> <./figure/figure15.pdf>] [
+13]
 Underfull \hbox (badness 4328) in paragraph at lines 2429--2432
 []\OT1/ppl/m/n/8.03 Hku gideon-ii clus-ter. [On-line]. Avail-able:
  []
@@ -620,7 +625,7 @@ elvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helvetic
 a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><
 /usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></usr/l
 ocal/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on bashuffler.pdf (15 pages, 1566241 bytes).
+Output written on bashuffler.pdf (15 pages, 1574832 bytes).
 PDF statistics:
  541 PDF objects out of 1000 (max. 8388607)
  378 compressed objects within 4 object streams

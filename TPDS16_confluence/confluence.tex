@@ -513,7 +513,7 @@ and we can partition key-value pairs on local machines by exploiting this releva
 % keys of different types of key-values are often relevant between iterations,
 % and we can localize 
 % key-value pairs with relevant keys in an iteration to avoid shuffling data between nodes in other iterations. 
-\red{For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, \emph{join} operations in the next iteration can incur no shuffle traffic.}
+For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, \emph{join} operations in the next iteration can incur no shuffle traffic.
 % If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
 % we can greatly reduce the network traffic. 
 
@@ -531,8 +531,7 @@ and we can partition key-value pairs on local machines by exploiting this releva
 % well-designed key partitioning scheme, %as is first proposed in this paper,
 % which we call Confluence in this paper.
 
-% Confluence constructs a key dependency graph based on \st{the application
-% semantics to reflect} the key dependency relationship of the datasets of
+% Confluence constructs a key dependency graph based on the key dependency relationship of the datasets of
 % adjacent computing iterations.
 
 % In this paper, we define these specific keys as dependent keys for an iteration, 
@@ -624,14 +623,14 @@ Mesos~\cite{hindman2011mesos} and Dryad~\cite{isard2007dryad} are often used.
 Several distributed computing paradigms have been developed on top of
 these frameworks to match various styles and
 scenarios of computing on large-scale data~\cite{thusoo2009hive, Yu:2008:DSG}.
-MapReduce~\cite{dean2008mapreduce}, \st{being} one of the most popular
-distributed paradigms, provides \st{the} users a simple map-and-reduce
+MapReduce~\cite{dean2008mapreduce}, one of the most popular
+distributed paradigms, provides users a simple map-and-reduce
 interface that can suit most of these data analysis tasks.
 Generally, it saves the output data in the file system, such as HDFS~\cite{shvachko2010hadoop}. 
 This is inefficient for tasks of the iterative distributed operations, where one iteration reuses the data from the previous iterations. The sharing of data between iterations is usually done
 through a shuffle operation.
 
-The problem of \st{significant} \red{heavy} shuffle \st{workloads} \red{network traffic} greatly impacts the performance of \st{shuffle} \red{distributed} operations. 
+The problem of heavy shuffle network traffic greatly impacts the performance of distributed operations. 
 Most of the distributed computing paradigms include the shuffle
 operation, which transfers the intermediate output data of the map
 operations to the computer nodes doing the reduce operations.
@@ -655,31 +654,16 @@ overheads of the computing tasks that include multiple iterations of
 distributed operations and thus multiple shuffle operations.
 For instance, Spark~\cite{zaharia2012resilient} adopts the in-memory approach 
 to reuse data across iterations in the memory to avoid the overhead of transferring the intermediate data into and out of the disk. 
-However, none of them proposes a \st{useful} method to minimize the size of
+However, none of them proposes a method to minimize the size of
 the data to be transferred in multiple shuffle iterations.
 
 Our key observation is that we can exploit the dependency of keys across iterations
 and partition the data according to the relation between keys of different iterations to greatly decrease 
 the transferred data across shuffle iterations.
-\st{The dataset entries are generally in the format of key-value pairs. }
-\st{
-The iterative key dependency relationship reflects the logic of the program:
-given a key-value data entry as the input, 
-what new key-value data entries will be generated as the output in every iteration
-of the distributed operation. 
-It represents the transformation process from key-value pairs to new key-value pairs in iterative distributed operations
-and it can be expressed to computer by means of the Key Dependency Graph 
-% (Section~\ref{section:kdg})
-. 
-It is special to every iterative distributed operation
-and is decided by the logic of the code and the input dataset. 
-}
 How the output data of the
 previous shuffle iterations are partitioned across different locations
 can greatly affect the data are to be
 shuffled and its efficiency in the following computing iterations.
-\st{With the knowledge of the key dependency,}
-\red{
 Keys are relevant between different iterations.
 If we have a key partitioning scheme such that some data needed for the
 following computing iterations can be assigned to the same computing
@@ -687,11 +671,10 @@ node after shuffling, we can reduce
 %we can avoid re-shuffling data in the following iterations and
 the data volume of the shuffle operations (we call that the
 ``shuffle size'' in the rest of this paper). 
-\st{But} By the default hashed-by-key partitioning scheme, the shuffle size of
+By the default hashed-by-key partitioning scheme, the shuffle size of
 each map-and-reduce iteration would be almost of the same size as the
 map output data. The total shuffle size of multiple iterations
 can be very large.
-}
 % In fact, following the application semantics,
 % the key values of the data entries of the next computing iteration can
 % usually be determined by the key values of the previous iteration.
@@ -748,24 +731,18 @@ The KDG is a directed acyclic graph which depicts how the keys of the
 dataset entries of each iteration are generated from the previous iteration.
 From the KDG, we can identify the subgraphs in which the dataset
 entries with the keys in the source nodes will only generate the dataset
-entries with keys in the downstream nodes. We \st{call} \red{define} such a subgraph
+entries with keys in the downstream nodes. We define such a subgraph
 the \emph{pure confluence subgraph}.
 Within a pure confluence subgraph, if all the dataset entries matching
 the source keys are assigned to the same node, all the generated
 datasets can be computed locally in the node without shuffling.
 
 To make use of the confluence key partitioning scheme (CKP) in iterative distributed operations, 
-\st{
-the programs need to add the corresponding user-defined partitioner
-to guide the assignment of data entries to their desired locations.
-}
-\red{
 programmers need to construct a KDG for a distributed operation. 
 Confluence automatically generates an efficient key partitioning 
 scheme from the KDG. 
 This user-defined key partitioning scheme guides the assignment of data entries 
 to their designated nodes. 
-}
 Most distributed computing paradigms, such as Spark~\cite{zaharia2012resilient} and Twister~\cite{ekanayake2010twister},
 provide an interface for adding a user-defined partitioner for the shuffle
 operation.
@@ -792,7 +769,7 @@ Our major contributions are listed as follows.
 and used the Confluence Key Partitioning (CKP) scheme to decrease the shuffle traffic
 across distributed computing iterations.
 
-\item We \st{gave} \red{created} the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
+\item We created the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
 
 \item We implemented CKP in Spark and illustrated the use of CKP with several typical iterative distributed applications from different fields. 
 The experiment on the medium-size Spark cluster demonstrates that CKP could decrease the overall shuffle traffic workload by as much as 50\%.  
@@ -1204,7 +1181,7 @@ When CKP is applied, as each output entry of the shuffle operation is the unifor
 Therefore, $L_{u+1}=0$.
 
 In Iterations from $u+2$ to $w+1$, 
-it can be divided into two phases based on the \st{semantics} logic of the distributed operations. 
+it can be divided into two phases based on the logic of the distributed operations. 
 Suppose that Iteration $u' (u+1 \leq u' \leq w)$ is such an iteration that in every iteration from $u+1$ to $u'-1$, each input entry of the map primitive is expected to generate the same number of output entries of the shuffle operation, and in Iteration $u'$, the expected number of output entries of the shuffle operation generated by each map input entry is unknown or not the same. 
 Note that such Iteration $u'$ may not exist and in this case, we denote it as $u'=w+1$. 
 
