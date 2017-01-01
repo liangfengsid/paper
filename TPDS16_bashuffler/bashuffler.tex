@@ -688,22 +688,21 @@ We have done some initiatory work that shows how the application-level source se
 \setlength{\itemsep}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
-\item \red{We 
+\item We 
 % discussed in detail the difficulty of managing the network bandwidth in 
 % current distributed resource management platforms, and 
 explored in detail the rationality and benefits 
-of improving the shuffle bandwidth utilization by scheduling flow source nodes at the application level.}
+of improving the shuffle bandwidth utilization by scheduling flow source nodes at the application level.
 
-\item \red{We proposed efficient source selection algorithms, GSS and PGSS,
+\item We proposed efficient source selection algorithms, GSS and PGSS,
 which maximize the network bandwidth utilization based on a precise 
 max-min fair estimation on the bandwidth allocation. 
 % We demonstrated that these proposed algorithms are efficient in shuffle operations.
-} 
 
-\item \red{We presented BAShuffler, implemented seamlessly in YARN,  
+\item We presented BAShuffler, implemented seamlessly in YARN,  
 % to schedule the flow source nodes at the application level based on GSS or PGSS.
 which applies GSS or PGSS to maximize the shuffle bandwidth utilization. 
-Existing MapReduce-like applications run on BAShuffler in full bandwidth utilization without any modification.}
+Existing MapReduce-like applications run on BAShuffler in full bandwidth utilization without any modification.
 
 % \item We conducted experiments on both a physical cluster and an EC2
 % virtual cluster to evaluate the real performance of BAShuffler. 
