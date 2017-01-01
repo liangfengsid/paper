@@ -611,6 +611,7 @@ many compute-intensive jobs, YARN can do very well in terms of resource
 utilization, assuming that the users are able to properly specify %configure
 %approximately proper
 the resource sizes for the tasks, either by experience or by estimation. 
+
 However, in reality, the shuffle-heavy tasks need to transfer 
 non-trivial amounts of data via the local area network among the tasks.
 The performance of these %network bandwidth required
@@ -636,7 +637,8 @@ However, obviously, without monitoring the actual connection
 allocations %status in
 in the cluster, this simple random source scheduling approach cannot offer
 any bandwidth guarantee. 
-It will likely lead to much worse performance
+
+The deeper problem is that the bandwidth-ignorant source selection policies will likely lead to even worse performance
 if the network is a \emph{heterogeneous} one,
 i.e., the network bandwidth capacities of the links are different.
 The reason will be analyzed with examples in Section \ref{section:analysis}.
