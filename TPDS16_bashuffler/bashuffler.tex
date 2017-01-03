@@ -588,7 +588,7 @@ YARN, MapReduce, Shuffle, Network Scheduling.
 
  
 
-The shuffle operation is pervasive in the MapReduce-like~\cite{dean2008mapreduce} distributed operations, 
+The shuffle operation is pervasive in the MapReduce-like distributed platforms~\cite{dean2008mapreduce,hindman2011mesos}, 
 such as the ``\emph{join}'' operation in the distributed database systems~\cite{thusoo2009hive, Yu:2008:DSG,Armbrust:2015:SSR}, 
 the ``\emph{reduce}'' tasks in the MapReduce systems~\cite{dean2008mapreduce,vavilapalli2013apache}
 and the ``\emph{aggregateByKey}'' operation in Spark~\cite{zaharia2012resilient}.
@@ -601,22 +601,20 @@ High network bandwidth utilization is critical for improving the performance of
 % Optimizing the shuffle performance is critical for these
 shuffle-heavy jobs.
 
-Unfortunately, managing the network bandwidth is difficult, 
-and existing distributed resource management platforms, such as YARN~\cite{vavilapalli2013apache}
-and Mesos~\cite{hindman2011mesos}, focus on
-managing node-monopolize resources (e.g., CPU cores and memories). 
+Unfortunately, existing distributed platforms (e.g., YARN~\cite{vavilapalli2013apache}) mainly focus on
+managing node-monopolize resources (e.g., CPU cores and memories),
+and network bandwidth utilization is often ignored. 
 % Many popular distributed resource management platforms such as
 % For example, YARN~\cite{vavilapalli2013apache} (the latest Hadoop~\cite{white2015hadoop}) and Mesos~\cite{hindman2011mesos} 
 % % are developed to cope with the 
 % % MapReduce-like applications with shuffle operations. 
 % encapsulate the computing resources (usually memories and CPU cores) of the cluster via the abstraction of containers.
 % the distributed platforms exercises a fine-grained control over the resources. 
-If the performance of the distributed tasks is mainly decided by the
-memories and the CPU cores, which is true of
-many compute-intensive jobs, these distributed platforms can do very well in terms of resource
-utilization, assuming that the users are able to properly specify %configure
-%approximately proper
-the resource sizes for the tasks.
+These distributed platforms provides good performance for compute-intensive jobs , whose performance is mainly decided by
+memories and CPU cores.
+% these distributed platforms can do very well in terms of resource
+% utilization, assuming that the users are able to properly specify 
+% the resource sizes for the tasks.
 % , either by experience or by estimation. 
 % However, in reality, the shuffle-heavy tasks need to transfer 
 % non-trivial amounts of data via the local area network among the tasks.
@@ -625,32 +623,37 @@ the resource sizes for the tasks.
 % affected by the network bandwidth and the scheduling of the communication flows. 
 % Disk I/O, on the other hand, has less an effect on such communication time \cite{kavulya2010analysis}.
 % Unfortunately, managing the network bandwidth is difficult. 
-However, the network bandwidth is the shared resource of a pair of computer nodes even for one single task that transfers data between them. 
-The throughput of a communication flow is mainly determined by the available network bandwidth of
+There are many tasks that are shuffle-heavy, which are communication-intensive.
+Their performance is heavy 
+affected by the throughput of network flows, which is
+% throughput of a communication flow is 
+mainly determined by the available network bandwidth of
 the connection on both endpoints of the source and the destination. 
+However, managing the network bandwidth is difficult because it is the shared resource for a group of computer nodes even for one single task that transfers data between them. 
 For this reason, unlike memories and CPU cores, the network bandwidth cannot simply be encapsulated in resource containers that stand for the isolation of the monopolistic resources.
 
-To address this bandwidth management problem, existing distributed platforms adopts
-the random flow source node selection policy. 
-But the random policy is bandwidth-ignorant 
-and is very likely to under-utilize the network bandwidth. 
-Shuffle tasks by default
-%realizes the importance of better utilization of the cluster network bandwidth, and 
-would try to evenly distribute the workload of the network
+To improve the network bandwidth utilization, existing distributed platforms~\cite{zaharia2012resilient,vavilapalli2013apache} adopt
+a random flow source node selection policy. 
+The random policy do not consider the diverse network bandwidth usage of flows, but
+% and is very likely to under-utilize the network bandwidth. 
+% Shuffle tasks by default would 
+only try to evenly distribute the workload of the network
 by randomly selecting the source to fetch the map output data. 
 %((Is this the default action of Yarn? Please indicate so if it is.))
 If the links connecting all the nodes in the cluster
 are more or less equal in terms of bandwidth
 and if the number of network connections is
 large, this random source selection policy could prevent some nodes becoming a bottleneck.
-However, obviously, without monitoring the actual connection
-allocations %status in
-in the cluster, this simple random source scheduling approach cannot offer
-any bandwidth guarantee. 
+However, 
+% the pattern of network flows can be dynamic and complicated. 
+% Obviously, 
+without monitoring the actual bandwidth usage of network flows,
+this random source scheduling approach often under-utilizes the network bandwidth when some nodes are congested by unpredictable flow jams. 
+% cannot offer any bandwidth guarantee. 
 
-Worse, the bandwidth-ignorant source selection policies will cause significant bandwidth under-utilization problem
-if the network is a heterogeneous one.
-In heterogeneous network, the network bandwidth capacities of the links are different.
+Worse, when the network bandwidth capacities of the links are heterogeneous, 
+the bandwidth under-utilization problem is more pronounced. 
+% ssthe bandwidth-ignorant source selection policies will cause significant bandwidth .
 The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment is common in practice
 for distributed platform users.
