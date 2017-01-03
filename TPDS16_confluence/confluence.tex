@@ -499,7 +499,7 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 \begin{abstract}
 A typical shuffle operation randomly partitions 
 key-value pairs on many computer nodes,
-which generates significant network traffic and often dominates completion time.
+thus it generates significant network traffic and often dominates completion time.
 % and take up a substantial portion of the overall I/O workloads 
 % for many MapReduce-like distributed operations. 
 This traffic is
@@ -513,7 +513,7 @@ and we can partition key-value pairs on local machines by exploiting this releva
 % keys of different types of key-values are often relevant between iterations,
 % and we can localize 
 % key-value pairs with relevant keys in an iteration to avoid shuffling data between nodes in other iterations. 
-For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, \emph{join} operations in the next iteration can incur no shuffle
+For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, PageRank's \emph{join} operations in the next iteration can incur no shuffle
 network traffic.
 % If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
 % we can greatly reduce the network traffic. 
@@ -635,13 +635,14 @@ The problem of heavy shuffle network traffic greatly impacts the performance of 
 Most distributed computing paradigms include the shuffle
 operation, which transfers intermediate output data of map
 operations to the computer nodes doing reduce operations.
-The shuffle operation transfers data from a group of nodes to the other
-nodes in the same group, which follows a many-to-many communication
-pattern.
-The shuffle operation may require a large amount of network bandwidth
-and sometimes even dominate the job completion time especially for
-shuffle-heavy jobs, where the volume of data to shuffle is large
-comparing to the input data size.
+The intermediate data are stored in disks in some traditional distributed paradigms. 
+% The shuffle operation transfers data from a group of nodes to the other
+% nodes in the same group, which follows a many-to-many communication
+% pattern.
+The shuffle operation may invoke a large amount of network traffic and disk I/O, 
+and sometimes even dominate the job completion time. 
+For instance, 
+shuffle-heavy jobs generate a large volume of network traffic.
 The study based on the Yahoo! work trace has revealed as much as 70\% of 
 jobs are shuffle-heavy~\cite{chen2011case} and the shuffle completion
 time can account for as much as 33\% of overall completion time~\cite{chowdhury2011managing, al2010hedera}.
@@ -649,18 +650,22 @@ The heavy shuffle workload problem is pronounced in iterative distributed operat
 where shuffle operations transfer large volumes of data between every two iterations. 
 
 
-Several iterative distributed computing paradigms \cite{bu2010haloop,
-zaharia2012resilient} have been developed to overcome disk I/O
-overheads of the computing tasks that include multiple iterations of
-distributed operations and thus multiple shuffle operations.
-For instance, Spark~\cite{zaharia2012resilient} adopts the in-memory approach 
-to reuse data across iterations in the memory to avoid the overhead of transferring intermediate data into and out of the disk. 
-However, none of them proposes a method to minimize the size of
-the data to be transferred in multiple shuffle iterations.
+To improve shuffle performance,  
+% disk I/O
+% overheads of the computing tasks that include multiple iterations of
+% distributed operations, 
+several iterative distributed computing paradigms (e.g., Spark~~\cite{zaharia2012resilient}) 
+% For instance, Spark~\cite{zaharia2012resilient} %adopts the in-memory approach 
+reuses intermediate data across iterations in memory.
+% to avoid the overhead of transferring intermediate data into and out of the disk.
+However, the volume of intermediate data and their network traffic is still enormous.  
+% However, none of them proposes a method to minimize the size of
+% the data to be transferred in multiple shuffle iterations.
 
 Our key observation is that we can exploit the dependency of keys across iterations
 and partition the data according to the relation between keys of different iterations to greatly decrease 
-the transferred data across shuffle iterations.
+the network traffic.
+% the transferred data across shuffle iterations.
 How the output data of the
 previous shuffle iterations are partitioned across different locations
 can greatly affect the data that are to be
@@ -722,7 +727,7 @@ the result entry $(1,1) \rightarrow 19$ can be obtained locally in Node
 
 
 In the above simple example, obviously, there is a dependency between
-the keys $(i,j,p)$ and the key $(i,j)$. Knowing and leverage this
+the keys $(i,j,p)$ and the key $(i,j)$. Knowing and leveraging this
 dependency, partitioning the data entries to decrease/minimize the shuffle
 would become possible.
 
@@ -739,7 +744,8 @@ the source keys are assigned to the same node, all the generated
 datasets can be computed locally in the node without shuffling.
 
 To make use of the confluence key partitioning scheme (CKP) in iterative distributed operations, 
-programmers need to construct a KDG for a distributed operation. 
+Confluence allows programmers to construct a KDG for a distributed operation. 
+KDG is easy to construct and it does not have to be accurate (Section~\ref{section:inaccurate}). 
 Confluence automatically generates an efficient key partitioning 
 scheme from the KDG. 
 This user-defined key partitioning scheme guides the assignment of data entries 
@@ -1200,7 +1206,7 @@ In these applications, the expected workload skew level of CkP is 0, which is th
 In the distributed application where $u'$ does exist, the workload skew level may not be 0 and specific workload skew analysis is needed for this specific application.
 
 
-\subsection{Affect of Inaccurate KDG}
+\subsection{Affect of Inaccurate KDG}\label{section:inaccurate}
 Note that the programmers do not need to change the original logic of programs 
 in order to apply CKP. 
 A wrong or inaccurate KDG will not impact the accuracy of the computation results, but only affect results of key partitioning locations. 
