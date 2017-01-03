@@ -113,11 +113,6 @@ M.~Al-Fares, S.~Radhakrishnan, B.~Raghavan, N.~Huang, and A.~Vahdat, ``Hedera:
   the 7th USENIX conference on Networked Systems Design and Implementation},
   vol.~10, 2010, pp. 19--19.
 
-\bibitem{bu2010haloop}
-Y.~Bu, B.~Howe, M.~Balazinska, and M.~D. Ernst, ``Haloop: efficient iterative
-  data processing on large clusters,'' \emph{Proceedings of the VLDB
-  Endowment}, vol.~3, no. 1-2, pp. 285--296, 2010.
-
 \bibitem{zaharia2012resilient}
 M.~Zaharia, M.~Chowdhury, T.~Das, A.~Dave, J.~Ma, M.~McCauley, M.~J. Franklin,
   S.~Shenker, and I.~Stoica, ``Resilient distributed datasets: A fault-tolerant
@@ -169,6 +164,11 @@ H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
 T.~Gunarathne, B.~Zhang, T.-L. Wu, and J.~Qiu, ``Scalable parallel computing on
   clouds using twister4azure iterative mapreduce,'' \emph{Future Generation
   Computer Systems}, vol.~29, no.~4, pp. 1035--1048, 2013.
+
+\bibitem{bu2010haloop}
+Y.~Bu, B.~Howe, M.~Balazinska, and M.~D. Ernst, ``Haloop: efficient iterative
+  data processing on large clusters,'' \emph{Proceedings of the VLDB
+  Endowment}, vol.~3, no. 1-2, pp. 285--296, 2010.
 
 \bibitem{bekkerman2011scaling}
 R.~Bekkerman, M.~Bilenko, and J.~Langford, \emph{Scaling up machine learning:

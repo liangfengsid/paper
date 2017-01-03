@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  3 JAN 2017 20:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  3 JAN 2017 20:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -549,7 +549,7 @@ Package pdftex.def Info: ./figure/figure15.pdf used on input line 1938.
 (pdftex.def)             Requested size: 177.06194pt x 101.17715pt.
  [12 <./figure/figure13.pdf> <./figure/figure14.pdf> <./figure/figure15.pdf>] [
 13]
-Underfull \hbox (badness 4328) in paragraph at lines 2404--2407
+Underfull \hbox (badness 4328) in paragraph at lines 2398--2401
 []\OT1/ppl/m/n/8.03 Hku gideon-ii clus-ter. [On-line]. Avail-able:
  []
 
@@ -557,36 +557,36 @@ Underfull \hbox (badness 4328) in paragraph at lines 2404--2407
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2494.
+Package pdftex.def Info: ./figure/author1.png used on input line 2487.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2494.
+Package pdftex.def Info: ./figure/author1.png used on input line 2487.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
 <./figure/author2.png, id=463, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2499.
+Package pdftex.def Info: ./figure/author2.png used on input line 2492.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2499.
+Package pdftex.def Info: ./figure/author2.png used on input line 2492.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
 <./figure/author3.png, id=466, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2505.
+Package pdftex.def Info: ./figure/author3.png used on input line 2498.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2505.
+Package pdftex.def Info: ./figure/author3.png used on input line 2498.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2505--2508
+Underfull \hbox (badness 1400) in paragraph at lines 2498--2501
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
@@ -595,11 +595,11 @@ Underfull \hbox (badness 1400) in paragraph at lines 2505--2508
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2510.
+Package pdftex.def Info: ./figure/author4.png used on input line 2503.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2510.
+Package pdftex.def Info: ./figure/author4.png used on input line 2503.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no â in font phvr7t!
 Missing character: There is no € in font phvr7t!
@@ -608,10 +608,10 @@ Missing character: There is no ™ in font phvr7t!
 
  <./figure/author4.png>] (./bashuffler.aux) ) 
 Here is how much of TeX's memory you used:
- 5119 strings out of 493089
- 81658 string characters out of 6134842
- 174577 words of memory out of 5000000
- 8523 multiletter control sequences out of 15000+600000
+ 5118 strings out of 493089
+ 81637 string characters out of 6134842
+ 173573 words of memory out of 5000000
+ 8522 multiletter control sequences out of 15000+600000
  46208 words of font info for 95 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
  38i,17n,43p,551b,476s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -633,7 +633,7 @@ l/texlive/2015/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texli
 ve/2015/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2015
 /texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></usr/local/texlive/2015/texmf
 -dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on bashuffler.pdf (15 pages, 1571529 bytes).
+Output written on bashuffler.pdf (15 pages, 1562631 bytes).
 PDF statistics:
  541 PDF objects out of 1000 (max. 8388607)
  378 compressed objects within 4 object streams

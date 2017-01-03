@@ -26,6 +26,14 @@ J.~Dean and S.~Ghemawat, ``Mapreduce: simplified data processing on large
   clusters,'' \emph{Communications of the ACM}, vol.~51, no.~1, pp. 107--113,
   2008.
 
+\bibitem{hindman2011mesos}
+B.~Hindman, A.~Konwinski, M.~Zaharia, A.~Ghodsi, A.~D. Joseph, R.~Katz,
+  S.~Shenker, and I.~Stoica, ``Mesos: A platform for fine-grained resource
+  sharing in the data center,'' in \emph{Proceedings of the 8th USENIX
+  Conference on Networked Systems Design and Implementation (NSDI)}.\hskip 1em
+  plus 0.5em minus 0.4em\relax Berkeley, CA, USA: USENIX Association, 2011, pp.
+  295--308.
+
 \bibitem{thusoo2009hive}
 A.~Thusoo, J.~S. Sarma, N.~Jain, Z.~Shao, P.~Chakka, S.~Anthony, H.~Liu,
   P.~Wyckoff, and R.~Murthy, ``Hive: a warehousing solution over a map-reduce
@@ -57,24 +65,6 @@ M.~Zaharia, M.~Chowdhury, T.~Das, A.~Dave, J.~Ma, M.~McCauley, M.~J. Franklin,
   abstraction for in-memory cluster computing,'' in \emph{Proceedings of the
   9th USENIX Conference on Networked Systems Design and Implementation (NSDI)},
   2012, pp. 2--2.
-
-\bibitem{white2015hadoop}
-T.~White, \emph{Hadoop: The Definitive Guide, 4th Edition}.\hskip 1em plus
-  0.5em minus 0.4em\relax "O'Reilly Media, Inc.", 2015.
-
-\bibitem{hindman2011mesos}
-B.~Hindman, A.~Konwinski, M.~Zaharia, A.~Ghodsi, A.~D. Joseph, R.~Katz,
-  S.~Shenker, and I.~Stoica, ``Mesos: A platform for fine-grained resource
-  sharing in the data center,'' in \emph{Proceedings of the 8th USENIX
-  Conference on Networked Systems Design and Implementation (NSDI)}.\hskip 1em
-  plus 0.5em minus 0.4em\relax Berkeley, CA, USA: USENIX Association, 2011, pp.
-  295--308.
-
-\bibitem{kavulya2010analysis}
-S.~Kavulya, J.~Tan, R.~Gandhi, and P.~Narasimhan, ``An analysis of traces from
-  a production mapreduce cluster,'' in \emph{The 10th IEEE/ACM International
-  Conference on Cluster, Cloud and Grid Computing (CCGrid)}, May 2010, pp.
-  94--103.
 
 \bibitem{zaharia2008improving}
 M.~Zaharia, A.~Konwinski, A.~D. Joseph, R.~H. Katz, and I.~Stoica, ``Improving
@@ -113,6 +103,10 @@ F.~Liang and F.~C. Lau, ``Bashuffler: Maximizing network bandwidth utilization
   Symposium on High-Performance Parallel and Distributed Computing}, ser. HPDC
   '16.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2016, pp.
   281--284.
+
+\bibitem{white2015hadoop}
+T.~White, \emph{Hadoop: The Definitive Guide, 4th Edition}.\hskip 1em plus
+  0.5em minus 0.4em\relax "O'Reilly Media, Inc.", 2015.
 
 \bibitem{Delimitrou:2014:QRQ}
 C.~Delimitrou and C.~Kozyrakis, ``Quasar: Resource-efficient and qos-aware
