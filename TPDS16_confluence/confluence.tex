@@ -636,9 +636,6 @@ Most distributed computing paradigms include the shuffle
 operation, which transfers intermediate output data of map
 operations to the computer nodes doing reduce operations.
 The intermediate data are stored in disks in some traditional distributed paradigms. 
-% The shuffle operation transfers data from a group of nodes to the other
-% nodes in the same group, which follows a many-to-many communication
-% pattern.
 The shuffle operation may invoke a large amount of network traffic and disk I/O, 
 and sometimes even dominate the job completion time. 
 For instance, 
