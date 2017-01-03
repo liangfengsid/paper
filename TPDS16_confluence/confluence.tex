@@ -513,7 +513,8 @@ and we can partition key-value pairs on local machines by exploiting this releva
 % keys of different types of key-values are often relevant between iterations,
 % and we can localize 
 % key-value pairs with relevant keys in an iteration to avoid shuffling data between nodes in other iterations. 
-For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, \emph{join} operations in the next iteration can incur no shuffle traffic.
+For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, \emph{join} operations in the next iteration can incur no shuffle
+network traffic.
 % If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
 % we can greatly reduce the network traffic. 
 
@@ -631,29 +632,29 @@ This is inefficient for tasks of the iterative distributed operations, where one
 through a shuffle operation.
 
 The problem of heavy shuffle network traffic greatly impacts the performance of distributed operations. 
-Most of the distributed computing paradigms include the shuffle
-operation, which transfers the intermediate output data of the map
-operations to the computer nodes doing the reduce operations.
+Most distributed computing paradigms include the shuffle
+operation, which transfers intermediate output data of map
+operations to the computer nodes doing reduce operations.
 The shuffle operation transfers data from a group of nodes to the other
 nodes in the same group, which follows a many-to-many communication
 pattern.
 The shuffle operation may require a large amount of network bandwidth
-and sometimes even dominate the job completion time especially for the
+and sometimes even dominate the job completion time especially for
 shuffle-heavy jobs, where the volume of data to shuffle is large
 comparing to the input data size.
-The study based on the Yahoo! work trace has revealed as much as 70\% of the
+The study based on the Yahoo! work trace has revealed as much as 70\% of 
 jobs are shuffle-heavy~\cite{chen2011case} and the shuffle completion
 time can account for as much as 33\% of overall completion time~\cite{chowdhury2011managing, al2010hedera}.
 The heavy shuffle workload problem is pronounced in iterative distributed operations, 
-where the shuffle operations transfer large volumes of data between every two iterations. 
+where shuffle operations transfer large volumes of data between every two iterations. 
 
 
 Several iterative distributed computing paradigms \cite{bu2010haloop,
-zaharia2012resilient} have been developed to overcome the disk I/O
+zaharia2012resilient} have been developed to overcome disk I/O
 overheads of the computing tasks that include multiple iterations of
 distributed operations and thus multiple shuffle operations.
 For instance, Spark~\cite{zaharia2012resilient} adopts the in-memory approach 
-to reuse data across iterations in the memory to avoid the overhead of transferring the intermediate data into and out of the disk. 
+to reuse data across iterations in the memory to avoid the overhead of transferring intermediate data into and out of the disk. 
 However, none of them proposes a method to minimize the size of
 the data to be transferred in multiple shuffle iterations.
 
@@ -662,16 +663,16 @@ and partition the data according to the relation between keys of different itera
 the transferred data across shuffle iterations.
 How the output data of the
 previous shuffle iterations are partitioned across different locations
-can greatly affect the data are to be
+can greatly affect the data that are to be
 shuffled and its efficiency in the following computing iterations.
 Keys are relevant between different iterations.
 If we have a key partitioning scheme such that some data needed for the
 following computing iterations can be assigned to the same computing
 node after shuffling, we can reduce
 %we can avoid re-shuffling data in the following iterations and
-the data volume of the shuffle operations (we call that the
+the data volume of shuffle operations (we call that the
 ``shuffle size'' in the rest of this paper). 
-By the default hashed-by-key partitioning scheme, the shuffle size of
+With the default hashed-by-key partitioning scheme, the shuffle size of
 each map-and-reduce iteration would be almost of the same size as the
 map output data. The total shuffle size of multiple iterations
 can be very large.
@@ -681,8 +682,8 @@ can be very large.
 % \blue{The \textbf{application semantics} refers to what new key-value data entries  
 % a key-value data entry will generate in a distributed operation, based on the 
 % logic of the program.}
-We use a simple example to
-illustrate this idea.
+% We use a simple example to
+% illustrate this idea.
 
 For instance, the MapReduce-style matrix multiplication algorithm is a two-iteration
 (stage) operation whose shuffle size can be minimized with a ``better''
@@ -727,9 +728,9 @@ would become possible.
 
 We present a new data structure called the \emph{key dependency graph} (KDG) for this purpose.
 %to extract the semantics of the computing paradigm.
-The KDG is a directed acyclic graph which depicts how the keys of the
+The KDG is a directed acyclic graph which depicts how the keys of
 dataset entries of each iteration are generated from the previous iteration.
-From the KDG, we can identify the subgraphs in which the dataset
+From the KDG, we can identify the subgraphs in which dataset
 entries with the keys in the source nodes will only generate the dataset
 entries with keys in the downstream nodes. We define such a subgraph
 the \emph{pure confluence subgraph}.

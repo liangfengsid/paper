@@ -597,7 +597,8 @@ and is observed to dominate the job completion time in the datacenter.
 A study on the Yahoo! datacenter work trace suggests that as many as 70\% of 
 the jobs are shuffle-heavy and other studies show that the shuffle completion time
 can account for 33\% of the overall completion time.
-Optimizing the shuffle performance is critical for these
+High bandwidth utilization is critical for improving the performance of 
+% Optimizing the shuffle performance is critical for these
 shuffle-heavy jobs.
 
 
@@ -612,19 +613,24 @@ utilization, assuming that the users are able to properly specify %configure
 %approximately proper
 the resource sizes for the tasks, either by experience or by estimation. 
 
-However, in reality, the shuffle-heavy tasks need to transfer 
-non-trivial amounts of data via the local area network among the tasks.
-The performance of these %network bandwidth required
-communicative tasks can be largely 
-affected by the network bandwidth and the scheduling of the communication flows. 
-Disk I/O, on the other hand, has less an effect on such communication time \cite{kavulya2010analysis}.
+% However, in reality, the shuffle-heavy tasks need to transfer 
+% non-trivial amounts of data via the local area network among the tasks.
+% The performance of these %network bandwidth required
+% communicative tasks can be largely 
+% affected by the network bandwidth and the scheduling of the communication flows. 
+% Disk I/O, on the other hand, has less an effect on such communication time \cite{kavulya2010analysis}.
 
-Unfortunately, the throughput of a communication flow is mainly determined by the available network bandwidth of 
+Unfortunately, managing the network bandwidth is difficult. 
+The throughput of a communication flow is mainly determined by the available network bandwidth of 
 the connection on both endpoints of the source and the destination. 
 The network is the shared resource of a pair of nodes even for one single task that transfers data between them. 
 For this reason, unlike memories and CPU cores, the network bandwidth cannot simply be encapsulated in resource containers that stand for the isolation of the monopolistic resources.
 
-In distributed platforms, the shuffle tasks by default
+To address this problem, existing distributed platforms adopts
+the random flow source node selection policy. 
+But the random policy is bandwidth-ignorant 
+and is very likely to under-utilize the network bandwidth. 
+Shuffle tasks by default
 %realizes the importance of better utilization of the cluster network bandwidth, and 
 would try to evenly distribute the workload of the network
 by randomly selecting the source to fetch the map output data. 
@@ -638,9 +644,9 @@ allocations %status in
 in the cluster, this simple random source scheduling approach cannot offer
 any bandwidth guarantee. 
 
-The deeper problem is that the bandwidth-ignorant source selection policies will likely lead to even worse performance
-if the network is a \emph{heterogeneous} one,
-i.e., the network bandwidth capacities of the links are different.
+Worse, the bandwidth-ignorant source selection policies will cause significant bandwidth under-utilization problem
+if the network is a \emph{heterogeneous} one.
+In heterogeneous network, the network bandwidth capacities of the links are different.
 The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment is common in practice
 for distributed platform users.
@@ -688,18 +694,18 @@ We have done some initiatory work that shows how the application-level source se
 \setlength{\itemsep}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
+\item We presented efficient source selection algorithms, GSS and PGSS,
+which maximize the network bandwidth utilization based on a precise 
+max-min fair estimation on the bandwidth allocation. 
+
 \item We 
-% discussed in detail the difficulty of managing the network bandwidth in 
-% current distributed resource management platforms, and 
 explored in detail the rationality and benefits 
 of improving the shuffle bandwidth utilization by scheduling flow source nodes at the application level.
 
-\item We proposed efficient source selection algorithms, GSS and PGSS,
-which maximize the network bandwidth utilization based on a precise 
-max-min fair estimation on the bandwidth allocation. 
+
 % We demonstrated that these proposed algorithms are efficient in shuffle operations.
 
-\item We presented BAShuffler, implemented seamlessly in YARN,  
+\item We implemented BAShuffler, implemented seamlessly in YARN,  
 % to schedule the flow source nodes at the application level based on GSS or PGSS.
 which applies GSS or PGSS to maximize the shuffle bandwidth utilization. 
 Existing MapReduce-like applications run on BAShuffler in full bandwidth utilization without any modification.
