@@ -597,36 +597,40 @@ and is observed to dominate the job completion time in the datacenter.
 A study on the Yahoo! datacenter work trace suggests that as many as 70\% of 
 the jobs are shuffle-heavy and other studies show that the shuffle completion time
 can account for 33\% of the overall completion time.
-High bandwidth utilization is critical for improving the performance of 
+High network bandwidth utilization is critical for improving the performance of 
 % Optimizing the shuffle performance is critical for these
 shuffle-heavy jobs.
 
-
-Many popular distributed resource management platforms such as YARN~\cite{vavilapalli2013apache} (the latest Hadoop~\cite{white2015hadoop}) and Mesos~\cite{hindman2011mesos} are developed to cope with the 
-MapReduce-like applications with shuffle operations. 
-By encapsulating the computing resources (usually memories and CPU cores) of the cluster via the abstraction of containers, 
-the distributed platforms exercises a fine-grained control over the resources. 
+Unfortunately, managing the network bandwidth is difficult, 
+and existing distributed resource management platforms, such as YARN~\cite{vavilapalli2013apache}
+and Mesos~\cite{hindman2011mesos}, focus on
+managing node-monopolize resources (e.g., CPU cores and memories). 
+% Many popular distributed resource management platforms such as
+% For example, YARN~\cite{vavilapalli2013apache} (the latest Hadoop~\cite{white2015hadoop}) and Mesos~\cite{hindman2011mesos} 
+% % are developed to cope with the 
+% % MapReduce-like applications with shuffle operations. 
+% encapsulate the computing resources (usually memories and CPU cores) of the cluster via the abstraction of containers.
+% the distributed platforms exercises a fine-grained control over the resources. 
 If the performance of the distributed tasks is mainly decided by the
 memories and the CPU cores, which is true of
-many compute-intensive jobs, YARN can do very well in terms of resource
+many compute-intensive jobs, these distributed platforms can do very well in terms of resource
 utilization, assuming that the users are able to properly specify %configure
 %approximately proper
-the resource sizes for the tasks, either by experience or by estimation. 
-
+the resource sizes for the tasks.
+% , either by experience or by estimation. 
 % However, in reality, the shuffle-heavy tasks need to transfer 
 % non-trivial amounts of data via the local area network among the tasks.
 % The performance of these %network bandwidth required
 % communicative tasks can be largely 
 % affected by the network bandwidth and the scheduling of the communication flows. 
 % Disk I/O, on the other hand, has less an effect on such communication time \cite{kavulya2010analysis}.
-
-Unfortunately, managing the network bandwidth is difficult. 
-The throughput of a communication flow is mainly determined by the available network bandwidth of 
+% Unfortunately, managing the network bandwidth is difficult. 
+However, the network bandwidth is the shared resource of a pair of computer nodes even for one single task that transfers data between them. 
+The throughput of a communication flow is mainly determined by the available network bandwidth of
 the connection on both endpoints of the source and the destination. 
-The network is the shared resource of a pair of nodes even for one single task that transfers data between them. 
 For this reason, unlike memories and CPU cores, the network bandwidth cannot simply be encapsulated in resource containers that stand for the isolation of the monopolistic resources.
 
-To address this problem, existing distributed platforms adopts
+To address this bandwidth management problem, existing distributed platforms adopts
 the random flow source node selection policy. 
 But the random policy is bandwidth-ignorant 
 and is very likely to under-utilize the network bandwidth. 
@@ -645,7 +649,7 @@ in the cluster, this simple random source scheduling approach cannot offer
 any bandwidth guarantee. 
 
 Worse, the bandwidth-ignorant source selection policies will cause significant bandwidth under-utilization problem
-if the network is a \emph{heterogeneous} one.
+if the network is a heterogeneous one.
 In heterogeneous network, the network bandwidth capacities of the links are different.
 The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment is common in practice
@@ -745,7 +749,7 @@ a convenient bandwidth allocation estimation tool used by BAShuffler.
 
 \subsection{Resource Management and Shuffle in YARN}
 
-YARN manages the computing resources in the cluster as a collection
+YARN, the latest Hadoop~\cite{white2015hadoop}, manages the computing resources in the cluster as a collection
 of containers, each of which consists of memories and CPU cores. The
 jobs are sub-divided into tasks according to a certain specific
 computing paradigm, which are then assigned to their respective allocated

@@ -176,11 +176,11 @@ INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/palatino/pplb7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm
-INPUT ./figure/figure3.pdf
-INPUT ./figure/figure3.pdf
-INPUT ./figure/figure3.pdf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/vf/adobe/palatino/pplb7t.vf
 INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm
+INPUT ./figure/figure3.pdf
+INPUT ./figure/figure3.pdf
+INPUT ./figure/figure3.pdf
 INPUT ./figure/figure4.pdf
 INPUT ./figure/figure4.pdf
 INPUT ./figure/figure4.pdf
