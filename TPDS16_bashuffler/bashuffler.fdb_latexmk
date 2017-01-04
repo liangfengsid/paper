@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1483540859 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1483540860
+["pdflatex"] 1483547403 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1483547406
   "./figure/author1.png" 1482915206 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "./figure/author2.png" 1461158019 54334 12d054f3372da35bf7bba7b9d835779c ""
   "./figure/author3.png" 1482915167 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -107,9 +107,9 @@
   "/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1432479641 1764542 91654ba72bdb667e84ea24f076ae16d8 ""
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
-  "IEEEtran.cls" 1410922780 282417 954051ae67e6fc3fdfba307b2233a8fe ""
-  "bashuffler.aux" 1483540860 11645 7fd99b351f49bf5a7a7cc4d7eeba635e ""
-  "bashuffler.tex" 1483540854 123397 a2c25f548059758e8cc817ccd543bf8c ""
+  "IEEEtran.cls" 1440607676 288304 b67b6fc6c2abb39f9b461923f5199343 ""
+  "bashuffler.aux" 1483547406 11589 2da31e9862aa6111da11cd9d87a73b96 ""
+  "bashuffler.tex" 1483547392 122827 337809ac04a12deb2948057a99038064 ""
   "figure/author1.png" 1482915206 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "figure/author2.png" 1461158019 54334 12d054f3372da35bf7bba7b9d835779c ""
   "figure/author3.png" 1482915167 232491 a5aea025547ca0d75c39e15525ff54b4 ""

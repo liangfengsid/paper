@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  4 JAN 2017 23:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  5 JAN 2017 00:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -7,7 +7,7 @@ entering extended mode
 LaTeX2e <2015/01/01>
 Babel <3.9l> and hyphenation patterns for 79 languages loaded.
 (./IEEEtran.cls
-Document Class: IEEEtran 2014/09/17 V1.8a by Michael Shell
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
 \@IEEEtrantmpdimenA=\dimen102
@@ -17,12 +17,12 @@ Document Class: IEEEtran 2014/09/17 V1.8a by Michael Shell
 \@IEEEtrantmpcountB=\count80
 \@IEEEtrantmpcountC=\count81
 \@IEEEtrantmptoksA=\toks14
--- Using IEEE Computer Society mode.
-LaTeX Font Info:    Try loading font information for OT1+ppl on input line 458.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 503.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
+-- Using IEEE Computer Society mode.
 -- Using 8.5in x 11in (letter) paper.
 -- Using PDF output.
 \@IEEEnormalsizeunitybaselineskip=\dimen105
@@ -31,56 +31,56 @@ File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 \CLASSINFOnormalsizeunitybaselineskip=\dimen107
 \IEEEnormaljot=\dimen108
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <5.01874> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <5.01874> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <7.02625> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <7.02625> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <8.03> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <8.03> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <9.03374> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <9.03374> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <9.53561> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <9.53561> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <11.04124> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <11.04124> not available
 
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12.045> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <12.045> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <17.06374> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <17.06374> not available
 
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <20.075> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <20.075> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <24.09> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1090.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <24.09> not available
-(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1039.
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 1090.
 
 \IEEEquantizedlength=\dimen109
 \IEEEquantizedlengthdiff=\dimen110
@@ -113,6 +113,7 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <24.09> not available
 \@IEEEquantizemultiple=\count92
 \@IEEEquantizeboxA=\box26
 \@IEEEtmpitemindent=\dimen124
+\IEEEPARstartletwidth=\dimen125
 \c@IEEEbiography=\count93
 \@IEEEtranrubishbin=\box27
 ) (/usr/local/texlive/2015/texmf-dist/tex/latex/cite/cite.sty
@@ -149,8 +150,8 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count94
 ))
-\Gin@req@height=\dimen125
-\Gin@req@width=\dimen126
+\Gin@req@height=\dimen126
+\Gin@req@width=\dimen127
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
@@ -158,19 +159,19 @@ Package: subfig 2005/06/28 ver: 1.3 subfig package
 (/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 57.
-\captionmargin=\dimen127
-\captionmargin@=\dimen128
-\captionwidth=\dimen129
-\caption@tempdima=\dimen130
-\caption@indent=\dimen131
-\caption@parindent=\dimen132
-\caption@hangindent=\dimen133
+\captionmargin=\dimen128
+\captionmargin@=\dimen129
+\captionwidth=\dimen130
+\caption@tempdima=\dimen131
+\caption@indent=\dimen132
+\caption@parindent=\dimen133
+\caption@hangindent=\dimen134
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
 \c@KVtest=\count95
 \sf@farskip=\skip44
-\sf@captopadj=\dimen134
+\sf@captopadj=\dimen135
 \sf@capskip=\skip45
 \sf@nearskip=\skip46
 \c@subfigure=\count96
@@ -187,17 +188,17 @@ Package: tabularx 2014/10/28 v2.10 `tabularx' package (DPC)
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/tools/array.sty
 Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen135
-\extrarowheight=\dimen136
+\col@sep=\dimen136
+\extrarowheight=\dimen137
 \NC@list=\toks16
 \extratabsurround=\skip49
 \backup@length=\skip50
 )
-\TX@col@width=\dimen137
-\TX@old@table=\dimen138
-\TX@old@col=\dimen139
-\TX@target=\dimen140
-\TX@delta=\dimen141
+\TX@col@width=\dimen138
+\TX@old@table=\dimen139
+\TX@old@col=\dimen140
+\TX@target=\dimen141
+\TX@delta=\dimen142
 \TX@cols=\count102
 \TX@ftn=\toks17
 )
@@ -237,12 +238,12 @@ subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
 \skiplength=\skip56
 \algomargin=\skip57
 \skipalgocfslide=\skip58
-\algowidth=\dimen142
-\inoutsize=\dimen143
-\inoutindent=\dimen144
-\interspacetitleruled=\dimen145
-\interspacealgoruled=\dimen146
-\interspacetitleboxruled=\dimen147
+\algowidth=\dimen143
+\inoutsize=\dimen144
+\inoutindent=\dimen145
+\interspacetitleruled=\dimen146
+\interspacealgoruled=\dimen147
+\interspacetitleboxruled=\dimen148
 \algocf@inoutbox=\box28
 \algocf@inputbox=\box29
 \AlCapSkip=\skip59
@@ -273,11 +274,11 @@ Package: amstext 2000/06/29 v2.01
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks18
-\ex@=\dimen148
+\ex@=\dimen149
 ))
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen149
+\pmbraise@=\dimen150
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
@@ -294,7 +295,7 @@ LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
 \Mathstrutbox@=\box36
 \strutbox@=\box37
-\big@size=\dimen150
+\big@size=\dimen151
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \macc@depth=\count112
@@ -307,12 +308,12 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \column@=\count117
 \maxfields@=\count118
 \andhelp@=\toks20
-\eqnshift@=\dimen151
-\alignsep@=\dimen152
-\tagshift@=\dimen153
-\tagwidth@=\dimen154
-\totwidth@=\dimen155
-\lineht@=\dimen156
+\eqnshift@=\dimen152
+\alignsep@=\dimen153
+\tagshift@=\dimen154
+\tagwidth@=\dimen155
+\totwidth@=\dimen156
+\lineht@=\dimen157
 \@envbody=\toks21
 \multlinegap=\skip68
 \multlinetaggap=\skip69
@@ -331,21 +332,21 @@ Package: soul 2003/11/17 v2.4 letterspacing/underlining (mf)
 \SOUL@buffer=\toks26
 \SOUL@token=\toks27
 \SOUL@spaceskip=\skip70
-\SOUL@ttwidth=\dimen157
-\SOUL@uldp=\dimen158
-\SOUL@ulht=\dimen159
+\SOUL@ttwidth=\dimen158
+\SOUL@uldp=\dimen159
+\SOUL@ulht=\dimen160
 )
 (/usr/local/texlive/2015/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box39
 \UL@hyphenbox=\box40
 \UL@skip=\skip71
 \UL@hook=\toks28
-\UL@height=\dimen160
+\UL@height=\dimen161
 \UL@pe=\count119
-\UL@pixel=\dimen161
+\UL@pixel=\dimen162
 \ULC@box=\box41
 Package: ulem 2012/05/18
-\ULdepth=\dimen162
+\ULdepth=\dimen163
 )
 (./confluence.aux)
 \openout1 = `confluence.aux'.
@@ -367,13 +368,13 @@ LaTeX Font Info:    ... okay on input line 390.
 (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count120
-\scratchdimen=\dimen163
+\scratchdimen=\dimen164
 \scratchbox=\box42
 \nofMPsegments=\count121
 \nofMParguments=\count122
 \everyMPshowfont=\toks29
 \MPscratchCnt=\count123
-\MPscratchDim=\dimen164
+\MPscratchDim=\dimen165
 \MPnumerator=\count124
 \makeMPintoPDFobject=\count125
 \everyMPtoPDFconversion=\toks30
@@ -575,36 +576,36 @@ Underfull \hbox (badness 3219) in paragraph at lines 1992--1995
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2107.
+Package pdftex.def Info: ./figure/author1.png used on input line 2109.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2107.
+Package pdftex.def Info: ./figure/author1.png used on input line 2109.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
 <./figure/author2.png, id=357, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2112.
+Package pdftex.def Info: ./figure/author2.png used on input line 2115.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2112.
+Package pdftex.def Info: ./figure/author2.png used on input line 2115.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
 <./figure/author3.png, id=360, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2118.
+Package pdftex.def Info: ./figure/author3.png used on input line 2122.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2118.
+Package pdftex.def Info: ./figure/author3.png used on input line 2122.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2118--2121
+Underfull \hbox (badness 1400) in paragraph at lines 2122--2125
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
@@ -612,11 +613,11 @@ Underfull \hbox (badness 1400) in paragraph at lines 2118--2121
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2123.
+Package pdftex.def Info: ./figure/author4.png used on input line 2128.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2123.
+Package pdftex.def Info: ./figure/author4.png used on input line 2128.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no â in font phvr7t!
 Missing character: There is no € in font phvr7t!
@@ -625,11 +626,11 @@ Missing character: There is no ™ in font phvr7t!
 gure/author4.png>]
 (./confluence.aux) ) 
 Here is how much of TeX's memory you used:
- 5881 strings out of 493089
- 90096 string characters out of 6134842
- 184856 words of memory out of 5000000
- 9257 multiletter control sequences out of 15000+600000
- 49424 words of font info for 107 fonts, out of 8000000 for 9000
+ 5911 strings out of 493089
+ 90662 string characters out of 6134842
+ 185880 words of memory out of 5000000
+ 9287 multiletter control sequences out of 15000+600000
+ 50509 words of font info for 108 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
  38i,16n,43p,498b,466s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r
@@ -662,7 +663,7 @@ palatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatin
 o/uplbi8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/uplr
 8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on confluence.pdf (13 pages, 1536570 bytes).
+Output written on confluence.pdf (13 pages, 1542307 bytes).
 PDF statistics:
  467 PDF objects out of 1000 (max. 8388607)
  312 compressed objects within 4 object streams

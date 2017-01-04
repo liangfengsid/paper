@@ -373,8 +373,6 @@
 \usepackage{color}
 \usepackage{soul}
 
-\newcommand{\blue}{\textcolor{blue}}
-\newcommand{\red}{\textcolor{red}}
 % \usepackage{algpseudocode}
 \makeatletter
 \newcommand{\removelatexerror}{\let\@latex@error\@gobble}
@@ -431,7 +429,7 @@ E-mail: F.~Liang- loengf@connect.hku.hk, %\protect\\
 F.C.M.~Lau- fcmlau@cs.hku.hk,
 H.~Cui- heming@cs.hku.hk,
 C.-L.~Wang- clwang@cs.hku.hk}%
-%\thanks{Manuscript received April 19, 2005; revised September 17, 2014.}
+\thanks{Manuscript received January 7, 2017.}
 }
 
 % note the % following the last \IEEEmembership and also \thanks - 
@@ -455,8 +453,8 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 
 
 % The paper headers
-%\markboth{IEEE Transactions on Parallel and Distributed Systems,~Vol.~26, No.~9, September~2015}%
-%{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Computer Society Journals}
+\markboth{IEEE Transactions on Computers}%
+{}
 % The only time the second header will appear is for the odd numbered pages
 % after the title page when using the twoside option.
 % 
@@ -1995,10 +1993,10 @@ It assumes that each TCP flow will get approximately the same bandwidth
 in the congested network link due to the TCP fairness policy, 
 and thus the shuffle task will obtain a bandwidth proportional to
 its weight in this link.
-However, it is often not true that each TCP flow will have an equal share
+However, each TCP flow often does not have an equal share
 of the bandwidth in the network,
 especially in heterogeneous network environments. 
-The throughput of a shuffle task cannot simply be speculated based on the
+The throughput of a shuffle task cannot be speculated based on the
 number of concurrent TCP flows in this case.
 BAShuffler applies the max-min fairness behavior of TCP communications
 to estimate the bandwidth share of the TCP flows,
@@ -2009,7 +2007,7 @@ which has the potential to be applied in the MapReduce-specific network.
 
 
 \textbf{Online Scheduling}:
-Compared to other online scheduling algorithms~\cite{wu2007scheduling,awerbuch1992competitive,borodin2005online,sgall1998line},
+Compared to other online scheduling algorithms~\cite{wu2007scheduling,awerbuch1992competitive,sgall1998line},
 BAShuffler can predict the approximate arrival pattern of the pending
 sources based on the semantic of the shuffle,
 and thus can apply the partially greedy source selection method to
@@ -2196,7 +2194,7 @@ heterogeneous.
 % (used to reserve space for the reference number labels box)
 
 
-\begin{thebibliography}{47}
+\begin{thebibliography}{45}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
 \providecommand{\newblock}{\relax}
@@ -2456,12 +2454,6 @@ S.~Gault and C.~Perez, ``Dynamic scheduling of mapreduce shuffle under
   Processing}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2014, pp.
   117--128.
 
-\bibitem{awerbuch1992competitive}
-B.~Awerbuch, S.~Kutten, and D.~Peleg, ``Competitive distributed job scheduling
-  (extended abstract),'' in \emph{Proceedings of the Twenty-fourth Annual ACM
-  Symposium on Theory of Computing (STOC)}, New York, NY, USA, 1992, pp.
-  571--580.
-
 \bibitem{borodin2005online}
 A.~Borodin and R.~El-Yaniv, \emph{Online computation and competitive
   analysis}.\hskip 1em plus 0.5em minus 0.4em\relax cambridge university press,
@@ -2489,7 +2481,7 @@ is currently a PhD candidate in Department of Computer Science, The University o
 \end{IEEEbiography}
 
 \vspace{-0.5in}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.5in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
 received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
 computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
 [homepage] i.cs.hku.hk/\%7Efcmlau

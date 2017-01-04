@@ -1,5 +1,5 @@
 %%
-%% IEEEtran.cls 2014/09/17 version V1.8a
+%% IEEEtran.cls 2015/08/26 version V1.8b
 %% 
 %% This is the IEEEtran LaTeX class for authors of the Institute of 
 %% Electrical and Electronics Engineers (IEEE) Transactions journals and
@@ -7,7 +7,7 @@
 %% 
 %% Support sites:
 %% http://www.michaelshell.org/tex/ieeetran/
-%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% http://www.ctan.org/pkg/ieeetran
 %% and
 %% http://www.ieee.org/
 %%
@@ -25,9 +25,9 @@
 %%                         Jon Dixon, Peter N"uchter,
 %%                         Juergen von Hagen
 %%                         and
-%% Copyright (c) 2001-2014 by Michael Shell
+%% Copyright (c) 2001-2015 by Michael Shell
 %%
-%% Current maintainer (V1.3 to V1.8a): Michael Shell
+%% Current maintainer (V1.3 to V1.8b): Michael Shell
 %%                                     See:
 %%                                     http://www.michaelshell.org/
 %%                                     for current contact information.
@@ -42,7 +42,7 @@
 %% implied; without even the implied warranty of MERCHANTABILITY or
 %% FITNESS FOR A PARTICULAR PURPOSE! 
 %% User assumes all risk.
-%% In no event shall IEEE or any contributor to this code be liable for
+%% In no event shall the IEEE or any contributor to this code be liable for
 %% any damages or losses, including, but not limited to, incidental,
 %% consequential, or any other damages, resulting from the use or misuse
 %% of any information contained here.
@@ -152,8 +152,9 @@
 %    column mode is usually used only with draft papers.
 %    The default is twocolumn.
 %
-% compsoc, transmag
-%    Use the format of the IEEE Computer Society or IEEE Transactions on Magnetics
+% comsoc, compsoc, transmag
+%    Use the format of the IEEE Communications Society, IEEE Computer Society
+%    or IEEE Transactions on Magnetics, respectively.
 %
 % romanappendices
 %    Use the "Appendix I" convention when numbering appendices. IEEEtran.cls
@@ -202,7 +203,7 @@
 
 
 
-\ProvidesClass{IEEEtran}[2014/09/17 V1.8a by Michael Shell]
+\ProvidesClass{IEEEtran}[2015/08/26 V1.8b by Michael Shell]
 \typeout{-- See the "IEEEtran_HOWTO" manual for usage information.}
 \typeout{-- http://www.michaelshell.org/tex/ieeetran/}
 \NeedsTeXFormat{LaTeX2e}
@@ -250,6 +251,7 @@
 
 \newif\ifCLASSOPTIONcaptionsoff     \CLASSOPTIONcaptionsofffalse
 
+\newif\ifCLASSOPTIONcomsoc          \CLASSOPTIONcomsocfalse
 \newif\ifCLASSOPTIONcompsoc         \CLASSOPTIONcompsocfalse
 \newif\ifCLASSOPTIONtransmag        \CLASSOPTIONtransmagfalse
 
@@ -359,9 +361,11 @@
 
 \DeclareOption{captionsoff}{\CLASSOPTIONcaptionsofftrue}
 
-\DeclareOption{compsoc}{\CLASSOPTIONcompsoctrue\CLASSOPTIONtransmagfalse}
+\DeclareOption{comsoc}{\CLASSOPTIONcomsoctrue\CLASSOPTIONcompsocfalse\CLASSOPTIONtransmagfalse}
 
-\DeclareOption{transmag}{\CLASSOPTIONtransmagtrue\CLASSOPTIONcompsocfalse}
+\DeclareOption{compsoc}{\CLASSOPTIONcomsocfalse\CLASSOPTIONcompsoctrue\CLASSOPTIONtransmagfalse}
+
+\DeclareOption{transmag}{\CLASSOPTIONtransmagtrue\CLASSOPTIONcomsocfalse\CLASSOPTIONcompsocfalse}
 
 \DeclareOption{romanappendices}{\CLASSOPTIONromanappendicestrue}
 
@@ -374,7 +378,23 @@
 
 
 %% -- Command Argument Scanning Support Functions --
-% 
+
+% Sets the category codes for punctuation to their normal values.
+% For local use with argument scanning.
+\def\IEEEnormalcatcodespunct{\catcode`\!=12 \catcode`\,=12 \catcode`\:=12
+\catcode`\;=12 \catcode`\`=12 \catcode`\'=12 \catcode`\"=12 \catcode`\.=12
+\catcode`\/=12 \catcode`\?=12 \catcode`\*=12 \catcode`\+=12 \catcode`\-=12
+\catcode`\<=12 \catcode`\>=12 \catcode`\(=12 \catcode`\)=12 \catcode`\[=12
+\catcode`\]=12 \catcode`\==12 \catcode`\|=12}
+% Sets the category codes for numbers to their normal values.
+% For local use with argument scanning.
+\def\IEEEnormalcatcodesnum{\catcode`\0=12 \catcode`\1=12 \catcode`\2=12
+\catcode`\3=12 \catcode`\4=12 \catcode`\5=12 \catcode`\6=12 \catcode`\7=12
+\catcode`\8=12 \catcode`\9=12}
+% combined action of \IEEEnormalcatcodespunct and \IEEEnormalcatcodesnum
+\def\IEEEnormalcatcodes{\IEEEnormalcatcodespunct\IEEEnormalcatcodesnum}
+
+
 % usage: \@IEEEextracttoken*{}
 % \@IEEEextracttoken fully expands its argument (which it then stores in
 % \@IEEEextracttokenarg) via \edef and then the meaning of the first
@@ -442,23 +462,54 @@
 \long\def\@IEEEcompsocnotconfonly#1{\relax\ifCLASSOPTIONcompsoc\ifCLASSOPTIONconference\else\relax#1\relax\fi\fi\relax}
 
 
-% IEEE uses Times Roman font, so we'll default to Times.
+% comsoc verify that newtxmath, mtpro2, mt11p or mathtime has been loaded
+\def\@IEEEcomsocverifymathfont{\typeout{-- Verifying Times compatible math font.}\relax
+  \@ifpackageloaded{newtxmath}{\typeout{-- newtxmath loaded, OK.}}{\@@IEEEcomsocverifymathfont}}
+\def\@@IEEEcomsocverifymathfont{\@ifpackageloaded{mtpro2}{\typeout{-- mtpro2 loaded, OK.}}{\@@@IEEEcomsocverifymathfont}}
+\def\@@@IEEEcomsocverifymathfont{\@ifpackageloaded{mt11p}{\typeout{-- mt11p2 loaded, OK.}}{\@@@@IEEEcomsocverifymathfont}}
+\def\@@@@IEEEcomsocverifymathfont{\@ifpackageloaded{mathtime}{\typeout{-- mathtime loaded, OK.}}{\@IEEEcomsocenforcemathfont}}
+
+% comsoc, if a Times math font was not loaded by user, enforce it
+\def\@IEEEcomsocenforcemathfont{\typeout{** Times compatible math font not found, forcing.}\relax
+\IfFileExists{newtxmath.sty}{\typeout{-- Found newtxmath, loading.}\RequirePackage{newtxmath}}{\@@IEEEcomsocenforcemathfont}}
+\def\@@IEEEcomsocenforcemathfont{\IfFileExists{mtpro2.sty}{\typeout{-- Found mtpro2, loading.}\RequirePackage{mtpro2}}{\@@@IEEEcomsocenforcemathfont}}
+\def\@@@IEEEcomsocenforcemathfont{\IfFileExists{mt11p.sty}{\typeout{-- Found mt11p, loading.}\RequirePackage{mt11p}}{\@@@@IEEEcomsocenforcemathfont}}
+\def\@@@@IEEEcomsocenforcemathfont{\IfFileExists{mathtime.sty}{\typeout{-- Found mathtime, loading.}\RequirePackage{mathtime}}{\@@@@@IEEEcomsocenforcemathfont}}
+% if no acceptable Times math font package found, error with newtxmath requirement
+\def\@@@@@IEEEcomsocenforcemathfont{\typeout{** No Times compatible math font package found. newtxmath is required.}\RequirePackage{newtxmath}}
+
+
+\ifCLASSOPTIONcomsoc
+  % ensure that if newtxmath is used, the cmintegrals option is also invoked
+  \PassOptionsToPackage{cmintegrals}{newtxmath}
+  % comsoc requires a Times like math font
+  % ensure this requirement is satisfied at document start
+  \AtBeginDocument{\@IEEEcomsocverifymathfont}
+\fi
+
+
+
+% The IEEE uses Times Roman font, so we'll default to Times.
 % These three commands make up the entire times.sty package.
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{ptm}
 \renewcommand{\ttdefault}{pcr}
 
-\@IEEEcompsoconly{\typeout{-- Using IEEE Computer Society mode.}}
-
 % V1.7 compsoc nonconference papers, use Palatino/Palladio as the main text font,
 % not Times Roman.
 \@IEEEcompsocnotconfonly{\renewcommand{\rmdefault}{ppl}}
 
-% enable Times/Palatino main text font
+% enable the selected main text font
 \normalfont\selectfont
 
 
+\ifCLASSOPTIONcomsoc
+  \typeout{-- Using IEEE Communications Society mode.}
+\fi
 
+\ifCLASSOPTIONcompsoc
+  \typeout{-- Using IEEE Computer Society mode.}
+\fi
 
 
 % V1.7 conference notice message hook
@@ -941,16 +992,16 @@
 % 
 % 2.5pt plus 1.49998pt minus 0.59998pt
 % 
-% However, IEEE allows for a more generous range which reduces the need
-% for hyphenation, especially for two column text. Furthermore, IEEE
+% However, the IEEE allows for a more generous range which reduces the need
+% for hyphenation, especially for two column text. Furthermore, the IEEE
 % tends to use a little bit more nominal space between the words.
-% IEEE's interword spacing percentages appear to be:
+% The IEEE's interword spacing percentages appear to be:
 % 35% nominal
 % 23% minimum
 % 50% maximum
 % (They may even be using a tad more for the largest fonts such as 24pt.)
 % 
-% for bold text, IEEE increases the spacing a little more:
+% for bold text, the IEEE increases the spacing a little more:
 % 37.5% nominal
 % 23% minimum
 % 55% maximum
@@ -1008,7 +1059,7 @@
 
 % revise the interword spacing for each font shape
 % \slshape is not often used for IEEE work and is not altered here. The \scshape caps are
-% already a tad too large in the free LaTeX fonts (as compared to what IEEE uses) so we
+% already a tad too large in the free LaTeX fonts (as compared to what the IEEE uses) so we
 % won't alter these either.
 \def\@IEEEsetfontdimens{{%
 \normalfont
@@ -1621,7 +1672,7 @@
 % If we didn't adjust the interword spacing, 2200 might be better.
 % The TeX default is 1000
 \hbadness=1350
-% IEEE does not use extra spacing after punctuation
+% The IEEE does not use extra spacing after punctuation
 \frenchspacing
 
 % V1.7 increase this a tad to discourage equation breaks
@@ -1867,20 +1918,20 @@
 \topsep           0.5\baselineskip
 
 % Controls the additional spacing around lists preceded
-% or followed by blank lines. IEEE does not increase
+% or followed by blank lines. the IEEE does not increase
 % spacing before or after paragraphs so it is set to zero.
 % \z@ is the same as zero, but faster.
 \partopsep          \z@
 
 % Controls the spacing between paragraphs in lists. 
-% IEEE does not increase spacing before or after paragraphs
+% The IEEE does not increase spacing before or after paragraphs
 % so this is also zero. 
 % With IEEEtran.cls, global changes to
 % this value DO affect lists (but not IED lists).
 \parsep             \z@
 
 % Controls the extra spacing between list items. 
-% IEEE does not put extra spacing between items.
+% The IEEE does not put extra spacing between items.
 % With IEEEtran.cls, global changes to this value DO affect
 % lists (but not IED lists).
 \itemsep            \z@
@@ -1888,7 +1939,7 @@
 % \itemindent is the amount to indent the FIRST line of a list
 % item. It is auto set to zero within the \list environment. To alter
 % it, you have to do so when you call the \list.
-% However, IEEE uses this for the theorem environment
+% However, the IEEE uses this for the theorem environment
 % There is an alternative value for this near \leftmargini below
 \itemindent         -1em
 
@@ -1918,7 +1969,7 @@
 % However, the new V1.3 IED list environments override all the
 % @list stuff (\@listX is called within \list for the
 % appropriate level just before the user's list_decl is called). 
-% \topsep is now 2pt as IEEE puts a little extra space around
+% \topsep is now 2pt as the IEEE puts a little extra space around
 % lists - used by those non-IED macros that depend on \list.
 % Note that \parsep and \itemsep are not redefined as in 
 % the sizexx.clo \@listX (which article.cls uses) so global changes
@@ -1938,16 +1989,16 @@
     \advance\labelwidth-\labelsep \topsep 2pt}
 
 
-% IEEE uses 5) not 5.
+% The IEEE uses 5) not 5.
 \def\labelenumi{\theenumi)}     \def\theenumi{\arabic{enumi}}
 
-% IEEE uses a) not (a)
+% The IEEE uses a) not (a)
 \def\labelenumii{\theenumii)}  \def\theenumii{\alph{enumii}}
 
-% IEEE uses iii) not iii.
+% The IEEE uses iii) not iii.
 \def\labelenumiii{\theenumiii)} \def\theenumiii{\roman{enumiii}}
 
-% IEEE uses A) not A.
+% The IEEE uses A) not A.
 \def\labelenumiv{\theenumiv)}   \def\theenumiv{\Alph{enumiv}}
 
 % exactly the same as in article.cls
@@ -1968,7 +2019,7 @@
 % ***************************
 % 
 % 
-% IEEE seems to use at least two different values by
+% The IEEE seems to use at least two different values by
 % which ITEMIZED list labels are indented to the right
 % For The Journal of Lightwave Technology (JLT) and The Journal
 % on Selected Areas in Communications (JSAC), they tend to use
@@ -2014,7 +2065,7 @@
 % alter the effective \IEEElabelindent for deeper
 % levels
 % There may not be such a thing as correct "standard IEEE"
-% values. What IEEE actually does may depend on the specific
+% values. What the IEEE actually does may depend on the specific
 % circumstances.
 % The first list level almost always has full indention.
 % The second levels I've seen have only 75% of the normal indentation
@@ -2043,13 +2094,13 @@
 
 % This controls the default spacing between the end of the IED
 % list labels and the list text, when math symbols are used for
-% the labels (nomenclature lists). IEEE usually increases the 
+% the labels (nomenclature lists). The IEEE usually increases the 
 % spacing in these cases
 \newdimen\IEEEiedmathlabelsep
 \IEEEiedmathlabelsep 1.2em
 
 % This controls the extra vertical separation put above and
-% below each IED list. IEEE usually puts a little extra spacing
+% below each IED list. the IEEE usually puts a little extra spacing
 % around each list. However, this spacing is barely noticeable.
 % compsoc uses a larger value here, but we'll set that later
 % in the class so that this code block area can be extracted
@@ -2119,7 +2170,7 @@
 % label justifications. Use these commands within
 % the IED environment option or in the \IEEEiedlistdecl
 % Note that changing the normal list justifications
-% is nonstandard and IEEE may not like it if you do so!
+% is nonstandard and the IEEE may not like it if you do so!
 % I include these commands as they may be helpful to
 % those who are using these enhanced list controls for
 % other non-IEEE related LaTeX work.
@@ -2422,7 +2473,7 @@
 % LaTeX considers the space for characters to be 0.7\baselineskip
 % above the baseline and 0.3\baselineskip below it, we need to
 % use 0.7\baselineskip as a \footnotesep to maintain equal spacing
-% between all the lines of the footnotes. IEEE often uses a tad
+% between all the lines of the footnotes. The IEEE often uses a tad
 % more, so use 0.8\baselineskip. This slightly larger value also helps
 % the text to clear the footnote marks. Note that \thanks in IEEEtran
 % uses its own value of \footnotesep which is set in \maketitle.
@@ -2434,7 +2485,7 @@
 \fboxsep = 3pt
 \fboxrule = .4pt
 % V1.6 use 1em, then use LaTeX2e's \@makefnmark
-% Note that IEEE normally *left* aligns the footnote marks, so we don't need
+% Note that the IEEE normally *left* aligns the footnote marks, so we don't need
 % box resizing tricks here.
 \long\def\@makefntext#1{\parindent 1em\indent\hbox{\@makefnmark}#1}% V1.6 use 1em
 % V1.7 compsoc does not use superscipts for footnote marks
@@ -2443,10 +2494,10 @@
 \long\def\@makefntext#1{\parindent 1em\indent\hbox{\@IEEEcompsocmakefnmark}#1}
 \fi
 
-% IEEE does not use footnote rules
+% The IEEE does not use footnote rules
 \def\footnoterule{}
 
-% V1.7 for compsoc, IEEE uses a footnote rule only for \thanks. We devise a "one-shot"
+% V1.7 for compsoc, the IEEE uses a footnote rule only for \thanks. We devise a "one-shot"
 % system to implement this.
 \newif\if@IEEEenableoneshotfootnoterule
 \@IEEEenableoneshotfootnoterulefalse
@@ -2502,7 +2553,7 @@
 \def\thesection{\Roman{section}}                             % I
 % V1.7, \mbox prevents breaks around - 
 \def\thesubsection{\mbox{\thesection-\Alph{subsection}}}     % I-A
-% V1.7 use I-A1 format used by IEEE rather than I-A.1
+% V1.7 use I-A1 format used by the IEEE rather than I-A.1
 \def\thesubsubsection{\thesubsection\arabic{subsubsection}}  % I-A1
 \def\theparagraph{\thesubsubsection\alph{paragraph}}         % I-A1a
 \fi
@@ -2782,7 +2833,7 @@
 \def\ftype@table{2}
 \def\ext@table{lot}
 \def\fnum@table{\tablename\nobreakspace\thetable}
-% V1.6 IEEE uses 8pt text for tables
+% V1.6 The IEEE uses 8pt text for tables
 % within tables alter LaTeX2e's \@floatboxreset to use \footnotesize
 \def\table{\def\@floatboxreset{\reset@font\footnotesize\@setminipage}\@float{table}}
 \def\endtable{\end@float}
@@ -3578,7 +3629,11 @@ Using a default centering column instead}%
 % The star form defaults to not putting equation numbers at the end of each row.
 % usage: \IEEEeqnarray[decl]{cols}
 \def\@IEEEeqnarray{\relax\@ifnextchar[{\@@IEEEeqnarray}{\@@IEEEeqnarray[\relax]}}
-\def\@@IEEEeqnarray[#1]#2{%
+% We have to be careful here to normalize catcodes just before acquiring the
+% cols as that specification may contain punctuation which could be subject
+% to document catcode changes.
+\def\@@IEEEeqnarray[#1]{\begingroup\IEEEnormalcatcodes\@@@IEEEeqnarray[#1]}
+\def\@@@IEEEeqnarray[#1]#2{\endgroup
    % default to showing the equation number or not based on whether or not
    % the star form was involked
    \if@IEEEeqnumpersist\global\@eqnswtrue
@@ -3790,11 +3845,14 @@ $$\@ignoretrue}
 \@IEEEeqnarrayboxHBOXSWfalse
 
 \def\@IEEEeqnarraybox{\relax\@ifnextchar[{\@@IEEEeqnarraybox}{\@@IEEEeqnarraybox[\relax]}}
-\def\@@IEEEeqnarraybox[#1]{\relax\@ifnextchar[{\@@@IEEEeqnarraybox[#1]}{\@@@IEEEeqnarraybox[#1][b]}}
+% We have to be careful here to normalize catcodes just before acquiring the
+% cols as that specification may contain punctuation which could be subject
+% to document catcode changes.
+\def\@@IEEEeqnarraybox[#1]{\relax\begingroup\IEEEnormalcatcodes\@ifnextchar[{\@@@IEEEeqnarraybox[#1]}{\@@@IEEEeqnarraybox[#1][b]}}
 \def\@@@IEEEeqnarraybox[#1][#2]{\relax\@ifnextchar[{\@@@@IEEEeqnarraybox[#1][#2]}{\@@@@IEEEeqnarraybox[#1][#2][\relax]}}
 
 % #1 = decl; #2 = t,b,c; #3 = width, #4 = col specs
-\def\@@@@IEEEeqnarraybox[#1][#2][#3]#4{\@IEEEeqnarrayISinnerfalse % not yet within the lines of the halign
+\def\@@@@IEEEeqnarraybox[#1][#2][#3]#4{\endgroup\@IEEEeqnarrayISinnerfalse % not yet within the lines of the halign
    \@IEEEeqnarraymasterstrutsave% save current master strut values
    \@IEEEeqnarraystrutsize{0pt}{0pt}[\relax]% turn off struts by default
    \@IEEEeqnarrayusemasterstruttrue% use master strut till user asks otherwise
@@ -4168,143 +4226,139 @@ between column types.}%
 
 
 
-% set up the running headings, this complex because of all the different
-% modes IEEEtran supports
-\if@twoside
- \ifCLASSOPTIONtechnote
-   \def\ps@headings{%
-       \def\@oddhead{\hbox{}\scriptsize\leftmark \hfil \thepage}
-       \def\@evenhead{\scriptsize\thepage \hfil \leftmark\hbox{}}
-       \ifCLASSOPTIONdraftcls
-            \ifCLASSOPTIONdraftclsnofoot
-               \def\@oddfoot{}\def\@evenfoot{}%
-            \else
-               \def\@oddfoot{\scriptsize\@date\hfil DRAFT}
-               \def\@evenfoot{\scriptsize DRAFT\hfil\@date}
-            \fi
-       \else
-            \def\@oddfoot{}\def\@evenfoot{}
-       \fi}
- \else % not a technote
-   \def\ps@headings{%
-       \ifCLASSOPTIONconference
-        \def\@oddhead{}
-        \def\@evenhead{}
-       \else
-        \def\@oddhead{\hbox{}\scriptsize\rightmark \hfil \thepage}
-        \def\@evenhead{\scriptsize\thepage \hfil \leftmark\hbox{}}
-       \fi
-       \ifCLASSOPTIONdraftcls
-            \def\@oddhead{\hbox{}\scriptsize\rightmark \hfil \thepage}
-            \def\@evenhead{\scriptsize\thepage \hfil \leftmark\hbox{}}
-            \ifCLASSOPTIONdraftclsnofoot
-               \def\@oddfoot{}\def\@evenfoot{}%
-            \else
-               \def\@oddfoot{\scriptsize\@date\hfil DRAFT}
-               \def\@evenfoot{\scriptsize DRAFT\hfil\@date}
-            \fi
-       \else
-            \def\@oddfoot{}\def\@evenfoot{}%
-       \fi}
- \fi
-\else % single side
-\def\ps@headings{%
-    \ifCLASSOPTIONconference
-     \def\@oddhead{}
-     \def\@evenhead{}
-    \else
-     \def\@oddhead{\hbox{}\scriptsize\leftmark \hfil \thepage}
-     \def\@evenhead{}
-    \fi
-    \ifCLASSOPTIONdraftcls
-          \def\@oddhead{\hbox{}\scriptsize\leftmark \hfil \thepage}
-          \def\@evenhead{}
-          \ifCLASSOPTIONdraftclsnofoot
-             \def\@oddfoot{}
-          \else
-             \def\@oddfoot{\scriptsize \@date \hfil DRAFT}
-          \fi
-    \else
-         \def\@oddfoot{}
-    \fi
-    \def\@evenfoot{}}
+
+% set up the running headers and footers
+%
+% header and footer font and size specifications
+\def\@IEEEheaderstyle{\normalfont\scriptsize}
+\def\@IEEEfooterstyle{\normalfont\scriptsize}
+%
+% compsoc uses sans-serif headers and footers
+\ifCLASSOPTIONcompsoc
+  \def\@IEEEheaderstyle{\normalfont\sffamily\scriptsize}
+  \def\@IEEEfooterstyle{\normalfont\sffamily\scriptsize}
 \fi
 
 
-% title page style
-\def\ps@IEEEtitlepagestyle{\def\@oddfoot{}\def\@evenfoot{}%
+% standard page style, ps@headings
+\def\ps@headings{% default to standard twoside headers, no footers
+% will change later if the mode requires otherwise
+\def\@oddhead{\hbox{}\@IEEEheaderstyle\rightmark\hfil\thepage}\relax
+\def\@evenhead{\@IEEEheaderstyle\thepage\hfil\leftmark\hbox{}}\relax
+\let\@oddfoot\@empty
+\let\@evenfoot\@empty
+\ifCLASSOPTIONtechnote
+  % technote twoside
+  \def\@oddhead{\hbox{}\@IEEEheaderstyle\leftmark\hfil\thepage}\relax
+  \def\@evenhead{\@IEEEheaderstyle\thepage\hfil\leftmark\hbox{}}\relax
+\fi
+\ifCLASSOPTIONdraftcls
+  % draft footers
+  \def\@oddfoot{\@IEEEfooterstyle\@date\hfil DRAFT}\relax
+  \def\@evenfoot{\@IEEEfooterstyle DRAFT\hfil\@date}\relax
+\fi
+% oneside
+\if@twoside\else
+  % standard one side headers
+  \def\@oddhead{\hbox{}\@IEEEheaderstyle\leftmark\hfil\thepage}\relax
+  \let\@evenhead\@empty
+  \ifCLASSOPTIONdraftcls
+    % oneside draft footers
+    \def\@oddfoot{\@IEEEfooterstyle\@date\hfil DRAFT}\relax
+    \let\@evenfoot\@empty
+  \fi
+\fi
+% turn off headers for conferences
 \ifCLASSOPTIONconference
-   \def\@oddhead{}%
-   \def\@evenhead{}%
-\else
-   \def\@oddhead{\hbox{}\scriptsize\leftmark \hfil \thepage}%
-   \def\@evenhead{\scriptsize\thepage \hfil \leftmark\hbox{}}%
+  \let\@oddhead\@empty
+  \let\@evenhead\@empty
 \fi
-\ifCLASSOPTIONdraftcls
-   \def\@oddhead{\hbox{}\scriptsize\leftmark \hfil \thepage}%
-   \def\@evenhead{\scriptsize\thepage \hfil \leftmark\hbox{}}%
-   \ifCLASSOPTIONdraftclsnofoot\else
-      \def\@oddfoot{\scriptsize \@date\hfil DRAFT}%
-      \def\@evenfoot{\scriptsize DRAFT\hfil \@date}%
-   \fi
-\else
-   % all non-draft mode footers
-   \if@IEEEusingpubid
-      % for title pages that are using a pubid
-      % do not repeat pubid if using peer review option
-      \ifCLASSOPTIONpeerreview
-      \else
-         \ifCLASSOPTIONcompsoc
-           \def\@oddfoot{\hss\normalfont\scriptsize\raisebox{0ex}[0ex][0ex]{\@IEEEpubid}\hss}%
-           \def\@evenfoot{\hss\normalfont\scriptsize\raisebox{0ex}[0ex][0ex]{\@IEEEpubid}\hss}%
-         \else
-           \footskip 0pt%
-           \def\@oddfoot{\hss\normalfont\footnotesize\raisebox{1.5ex}[1.5ex]{\@IEEEpubid}\hss}%
-           \def\@evenfoot{\hss\normalfont\footnotesize\raisebox{1.5ex}[1.5ex]{\@IEEEpubid}\hss}%
-         \fi
-      \fi
-   \fi
+% turn off footers for draftclsnofoot
+\ifCLASSOPTIONdraftclsnofoot
+  \let\@oddfoot\@empty
+  \let\@evenfoot\@empty
 \fi}
 
 
-% peer review cover page style
-\def\ps@IEEEpeerreviewcoverpagestyle{%
-\def\@oddhead{}\def\@evenhead{}%
-\def\@oddfoot{}\def\@evenfoot{}%
+% title page style, ps@IEEEtitlepagestyle
+\def\ps@IEEEtitlepagestyle{% default title page headers, no footers
+\def\@oddhead{\hbox{}\@IEEEheaderstyle\leftmark\hfil\thepage}\relax
+\def\@evenhead{\@IEEEheaderstyle\thepage\hfil\leftmark\hbox{}}\relax
+\let\@oddfoot\@empty
+\let\@evenfoot\@empty
+% will change later if the mode requires otherwise
 \ifCLASSOPTIONdraftcls
-   \ifCLASSOPTIONdraftclsnofoot\else
-      \def\@oddfoot{\scriptsize \@date\hfil DRAFT}%
-      \def\@evenfoot{\scriptsize DRAFT\hfil \@date}%
-   \fi
+  % draft footers
+  \ifCLASSOPTIONdraftclsnofoot\else
+    % but only if not draftclsnofoot
+    \def\@oddfoot{\@IEEEfooterstyle\@date\hfil DRAFT}\relax
+    \def\@evenfoot{\@IEEEfooterstyle DRAFT\hfil\@date}\relax
+  \fi
 \else
-   % non-draft mode footers
-   \if@IEEEusingpubid
+  % all nondraft mode footers
+  \if@IEEEusingpubid
+    % for title pages that are using a pubid
+    % do not repeat pubid on the title page if using a peer review cover page
+    \ifCLASSOPTIONpeerreview\else
+      % for noncompsoc papers, the pubid uses footnotesize and
+      % is at the same vertical position as where the last baseline would normally be
+      \def\@oddfoot{\hbox{}\hss\@IEEEfooterstyle\footnotesize\raisebox{\footskip}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
+      \def\@evenfoot{\hbox{}\hss\@IEEEfooterstyle\footnotesize\raisebox{\footskip}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
       \ifCLASSOPTIONcompsoc
-        \def\@oddfoot{\hss\normalfont\scriptsize\raisebox{0ex}[0ex][0ex]{\@IEEEpubid}\hss}%
-        \def\@evenfoot{\hss\normalfont\scriptsize\raisebox{0ex}[0ex][0ex]{\@IEEEpubid}\hss}%
-      \else
-        \footskip 0pt%
-        \def\@oddfoot{\hss\normalfont\footnotesize\raisebox{1.5ex}[1.5ex]{\@IEEEpubid}\hss}%
-        \def\@evenfoot{\hss\normalfont\footnotesize\raisebox{1.5ex}[1.5ex]{\@IEEEpubid}\hss}%
+        % for compsoc papers, the pubid is at the same vertical position as the normal footer
+        \def\@oddfoot{\hbox{}\hss\@IEEEfooterstyle\raisebox{0pt}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
+        \def\@evenfoot{\hbox{}\hss\@IEEEfooterstyle\raisebox{0pt}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
       \fi
-   \fi
+    \fi
+  \fi
+\fi
+% turn off headers for conferences
+\ifCLASSOPTIONconference
+  \let\@oddhead\@empty
+  \let\@evenhead\@empty
 \fi}
 
 
-% start with empty headings
-\def\rightmark{}\def\leftmark{}
+% peer review cover page style, ps@IEEEpeerreviewcoverpagestyle
+\def\ps@IEEEpeerreviewcoverpagestyle{% default peer review cover no headers, no footers
+\let\@oddhead\@empty
+\let\@evenhead\@empty
+\let\@oddfoot\@empty
+\let\@evenfoot\@empty
+% will change later if the mode requires otherwise
+\ifCLASSOPTIONdraftcls
+  % draft footers
+  \ifCLASSOPTIONdraftclsnofoot\else
+    % but only if not draftclsnofoot
+    \def\@oddfoot{\@IEEEfooterstyle\@date\hfil DRAFT}\relax
+    \def\@evenfoot{\@IEEEfooterstyle DRAFT\hfil\@date}\relax
+  \fi
+\else
+  % all nondraft mode footers
+  \if@IEEEusingpubid
+    % for peer review cover pages that are using a pubid
+    % for noncompsoc papers, the pubid uses footnotesize and
+    % is at the same vertical position as where the last baseline would normally be
+    \def\@oddfoot{\hbox{}\hss\@IEEEfooterstyle\footnotesize\raisebox{\footskip}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
+    \def\@evenfoot{\hbox{}\hss\@IEEEfooterstyle\footnotesize\raisebox{\footskip}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
+    \ifCLASSOPTIONcompsoc
+      % for compsoc papers, the pubid is at the same vertical position as the normal footer
+      \def\@oddfoot{\hbox{}\hss\@IEEEfooterstyle\raisebox{0pt}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
+      \def\@evenfoot{\hbox{}\hss\@IEEEfooterstyle\raisebox{0pt}[0pt][0pt]{\@IEEEpubid}\hss\hbox{}}\relax
+    \fi
+  \fi
+\fi}
 
 
-%% Defines the command for putting the header. \footernote{TEXT} is the same
-%% as \markboth{TEXT}{TEXT}. 
+
+%% Defines the command for putting the header.
 %% Note that all the text is forced into uppercase, if you have some text
 %% that needs to be in lower case, for instance et. al., then either manually
 %% set \leftmark and \rightmark or use \MakeLowercase{et. al.} within the
 %% arguments to \markboth.
 %% V1.7b add \protect to work with Babel
-\def\markboth#1#2{\def\leftmark{\@IEEEcompsoconly{\sffamily}\MakeUppercase{\protect#1}}%
-\def\rightmark{\@IEEEcompsoconly{\sffamily}\MakeUppercase{\protect#2}}}
-\def\footernote#1{\markboth{#1}{#1}}
+\def\markboth#1#2{\def\leftmark{\MakeUppercase{\protect#1}}%
+\def\rightmark{\MakeUppercase{\protect#2}}}
 
 \def\today{\ifcase\month\or
     January\or February\or March\or April\or May\or June\or
@@ -4354,6 +4408,26 @@ between column types.}%
 % V1.6 class files should always provide these
 \def\newblock{\hskip .11em\@plus.33em\@minus.07em}
 \let\@openbib@code\@empty
+% V1.8b article.cls is now providing these too
+% we do not use \@mkboth, nor alter the page style
+\newenvironment{theindex}
+               {\if@twocolumn
+                  \@restonecolfalse
+                \else
+                  \@restonecoltrue
+                \fi
+                \twocolumn[\section*{\indexname}]%
+                \parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \columnseprule \z@
+                \columnsep 35\p@
+                \let\item\@idxitem}
+               {\if@restonecol\onecolumn\else\clearpage\fi}
+\newcommand\@idxitem{\par\hangindent 40\p@}
+\newcommand\subitem{\@idxitem \hspace*{20\p@}}
+\newcommand\subsubitem{\@idxitem \hspace*{30\p@}}
+\newcommand\indexspace{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
+
 
 
 % Provide support for the control entries of IEEEtran.bst V1.00 and later.
@@ -4367,6 +4441,18 @@ between column types.}%
     \edef\@citeb{\expandafter\@firstofone\@citeb}%
     \if@filesw\immediate\write\csname #1\endcsname{\string\citation{\@citeb}}\fi}%
   \@esphack}
+
+% \IEEEnoauxwrite{} allows for citations that do not add to or affect
+% the order of the existing citation list. Can be useful for \cite
+% within \thanks{}.
+\DeclareRobustCommand{\IEEEnoauxwrite}[1]{\relax
+\if@filesw
+\@fileswfalse
+#1\relax\relax\relax\relax\relax
+\@fileswtrue
+\else
+#1\relax\relax\relax\relax\relax
+\fi}
 
 % V1.6 provide a way for a user to execute a command just before 
 % a given reference number - used to insert a \newpage to balance
@@ -4419,9 +4505,9 @@ between column types.}%
 %   \sloppy\clubpenalty4000\widowpenalty4000%
 % by adding the \interlinepenalty here, we make it more
 % difficult, but not impossible, for LaTeX to break within a reference.
-% IEEE almost never breaks a reference (but they do it more often with
+% The IEEE almost never breaks a reference (but they do it more often with
 % technotes). You may get an underfull vbox warning around the bibliography, 
-% but the final result will be much more like what IEEE will publish. 
+% but the final result will be much more like what the IEEE will publish. 
 % MDS 11/2000
 \ifCLASSOPTIONtechnote\sloppy\clubpenalty4000\widowpenalty4000\interlinepenalty100%
 \else\sloppy\clubpenalty4000\widowpenalty4000\interlinepenalty500\fi%
@@ -4476,7 +4562,7 @@ between column types.}%
 
 % spacing between name and affiliation blocks (confmode)
 % This can be negative.
-% IEEE doesn't want any added spacing here, but I will leave these
+% The IEEE doesn't want any added spacing here, but I will leave these
 % controls in place in case they ever change their mind.
 % Personally, I like 0.75ex.
 %\def\@IEEEauthorblockNtopspace{0.75ex}
@@ -4658,8 +4744,10 @@ between column types.}%
 \def\@IEEEcleardoublepage#1{\clearpage\if@twoside\ifodd\c@page\else
 \hbox{}\thispagestyle{#1}\newpage\if@twocolumn\hbox{}\thispagestyle{#1}\newpage\fi\fi\fi}
 
-
-
+% V1.8b hooks to allow adjustment of space above title
+\def\IEEEtitletopspace{0.5\baselineskip}
+% an added extra amount to allow for adjustment/offset
+\def\IEEEtitletopspaceextra{0pt}
 
 % user command to invoke the title page
 \def\maketitle{\par%
@@ -4712,7 +4800,7 @@ between column types.}%
 % THIS IS A CONTROLLED SPACING COMMAND! Do not allow blank lines or unintentional
 % spaces to enter the definition - use % at the end of each line
 \def\@maketitle{\newpage
-\bgroup\par\addvspace{0.5\baselineskip}\centering%
+\bgroup\par\vskip\IEEEtitletopspace\vskip\IEEEtitletopspaceextra\centering%
 \ifCLASSOPTIONtechnote% technotes, V1.8a abstract and index terms are not treated differently for compsoc technotes
    {\bfseries\large\@IEEEcompsoconly{\Large\sffamily}\@title\par}\vskip 1.3em{\lineskip .5em\@IEEEcompsoconly{\large\sffamily}\@author
    \@IEEEspecialpapernotice\par}\relax
@@ -5190,7 +5278,7 @@ between column types.}%
     \else
       \bgroup\par\addvspace{0.5\baselineskip}\centering\vspace{-1.78ex}\@IEEEabskeysecsize\textbf{\abstractname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize
     \fi\@IEEEgobbleleadPARNLSP}
-% V1.6 IEEE wants only 1 pica from end of abstract to introduction heading when in 
+% V1.6 The IEEE wants only 1 pica from end of abstract to introduction heading when in 
 % conference mode (the heading already has this much above it)
 \def\endabstract{\relax\ifCLASSOPTIONconference\vspace{0ex}\else\vspace{1.34ex}\fi\par\if@twocolumn\else\endquotation\fi
     \normalfont\normalsize}
@@ -5329,7 +5417,7 @@ between column types.}%
      \begingroup #6{\relax% or low level heading
       \noindent % subsections are NOT indented
        % print top level headings. \@svsec is label, #8 is heading title
-       % IEEE does not block indent the section title text, it flows like normal
+       % The IEEE does not block indent the section title text, it flows like normal
        {\hskip #3\relax\@svsec}{\interlinepenalty \@M #8\@@par}}%
      \endgroup
      \addcontentsline{toc}{#1}{\ifnum #2>\c@secnumdepth\relax\else
@@ -5350,7 +5438,7 @@ between column types.}%
 \def\@ssect#1#2#3#4#5{\@tempskipa #3\relax
   \ifdim \@tempskipa>\z@
      %\begingroup #4\@hangfrom{\hskip #1}{\interlinepenalty \@M #5\par}\endgroup
-     % IEEE does not block indent the section title text, it flows like normal
+     % The IEEE does not block indent the section title text, it flows like normal
      \begingroup \noindent #4{\relax{\hskip #1}{\interlinepenalty \@M #5\@@par}}\endgroup
   % svsechd swallows the trailing space, protect it with \mbox{}
   \else \def\@svsechd{#4{\hskip #1\relax #5\@IEEEsectpunct\mbox{}}}\fi
@@ -5371,11 +5459,11 @@ between column types.}%
 % You've got to have \normalfont\normalsize in the font specs below to prevent
 % trouble when you do something like:
 % \section{Note}{\ttfamily TT-TEXT} is known to ... 
-% IEEE sometimes REALLY stretches the area before a section
+% The IEEE sometimes REALLY stretches the area before a section
 % heading by up to about 0.5in. However, it may not be a good
 % idea to let LaTeX have quite this much rubber.
 \ifCLASSOPTIONconference%
-% IEEE wants section heading spacing to decrease for conference mode
+% The IEEE wants section heading spacing to decrease for conference mode
 \def\section{\@startsection{section}{1}{\z@}{1.5ex plus 1.5ex minus 0.5ex}%
 {0.7ex plus 1ex minus 0ex}{\normalfont\normalsize\centering\scshape}}%
 \def\subsection{\@startsection{subsection}{2}{\z@}{1.5ex plus 1.5ex minus 0.5ex}%
@@ -5482,7 +5570,7 @@ between column types.}%
 \def\@opargbegintheorem#1#2#3{\@IEEEtmpitemindent\itemindent\relax
 \topsep 0.2\@IEEEnormalsizeunitybaselineskip plus 0.26\@IEEEnormalsizeunitybaselineskip minus 0.05\@IEEEnormalsizeunitybaselineskip
 \rmfamily\trivlist\hangindent\parindent%
-% V1.6 IEEE is back to using () around theorem names which are also in italics
+% V1.6 The IEEE is back to using () around theorem names which are also in italics
 % Thanks to Christian Peel for reporting this.
     \item[]\textit{\bfseries\noindent #1\ #2\ (#3).} \itemindent\@IEEEtmpitemindent\relax}
 % V1.7 remove bogus \unskip that caused equations in theorems to collide with
@@ -5497,7 +5585,7 @@ between column types.}%
 \def\@begintheorem#1#2{\@IEEEtmpitemindent\itemindent\relax\topsep 0pt\rmfamily\trivlist%
     \item[]\textit{\indent #1\ #2:} \itemindent\@IEEEtmpitemindent\relax}
 \def\@opargbegintheorem#1#2#3{\@IEEEtmpitemindent\itemindent\relax\topsep 0pt\rmfamily \trivlist%
-% V1.6 IEEE is back to using () around theorem names which are also in italics
+% V1.6 The IEEE is back to using () around theorem names which are also in italics
 % Thanks to Christian Peel for reporting this.
     \item[]\textit{\indent #1\ #2\ (#3):} \itemindent\@IEEEtmpitemindent\relax}
 % V1.7 remove bogus \unskip that caused equations in theorems to collide with
@@ -5541,7 +5629,7 @@ between column types.}%
 
 
 %% SET UP THE DEFAULT PAGESTYLE
-\ps@headings
+\pagestyle{headings}
 \pagenumbering{arabic}
 
 % normally the page counter starts at 1
@@ -5696,6 +5784,14 @@ between column types.}%
 
 
 
+% V1.7 compoc uses nonbold drop cap and small caps word style
+\ifCLASSOPTIONcompsoc
+  \def\IEEEPARstartFONTSTYLE{\mdseries}
+  \def\IEEEPARstartWORDFONTSTYLE{\scshape}
+  \def\IEEEPARstartWORDCAPSTYLE{\relax}
+\fi
+%
+%
 % \IEEEPARstart
 % Definition for the big two line drop cap letter at the beginning of the
 % first paragraph of journal papers. The first argument is the first letter
@@ -5717,47 +5813,45 @@ between column types.}%
 % 
 % the number of lines that are indented to clear it
 % may need to increase if using decenders
-\def\@IEEEPARstartDROPLINES{2}
+\providecommand{\IEEEPARstartDROPLINES}{2}
 % minimum number of lines left on a page to allow a \@IEEEPARstart
 % Does not take into consideration rubber shrink, so it tends to
 % be overly cautious
-\def\@IEEEPARstartMINPAGELINES{2}
+\providecommand{\IEEEPARstartMINPAGELINES}{2}
 % V1.7 the height of the drop cap is adjusted to match the height of this text
 % in the current font (when \IEEEPARstart is called).
-\def\@IEEEPARstartHEIGHTTEXT{T}
+\providecommand{\IEEEPARstartHEIGHTTEXT}{T}
 % the depth the letter is lowered below the baseline
 % the height (and size) of the letter is determined by the sum
-% of this value and the height of the \@IEEEPARstartHEIGHTTEXT in the current
+% of this value and the height of the \IEEEPARstartHEIGHTTEXT in the current
 % font. It is a good idea to set this value in terms of the baselineskip
 % so that it can respond to changes therein.
-\def\@IEEEPARstartDROPDEPTH{1.1\baselineskip}
+\providecommand{\IEEEPARstartDROPDEPTH}{1.1\baselineskip}
 % V1.7 the font the drop cap will be rendered in,
 % can take zero or one argument.
-\def\@IEEEPARstartFONTSTYLE{\bfseries}
+\providecommand{\IEEEPARstartFONTSTYLE}{\bfseries}
 % V1.7 any additional, non-font related commands needed to modify
 % the drop cap letter, can take zero or one argument.
-\def\@IEEEPARstartCAPSTYLE{\MakeUppercase}
+\providecommand{\IEEEPARstartCAPSTYLE}{\MakeUppercase}
 % V1.7 the font that will be used to render the rest of the word,
 % can take zero or one argument.
-\def\@IEEEPARstartWORDFONTSTYLE{\relax}
+\providecommand{\IEEEPARstartWORDFONTSTYLE}{\relax}
 % V1.7 any additional, non-font related commands needed to modify
 % the rest of the word, can take zero or one argument.
-\def\@IEEEPARstartWORDCAPSTYLE{\MakeUppercase}
+\providecommand{\IEEEPARstartWORDCAPSTYLE}{\MakeUppercase}
 % This is the horizontal separation distance from the drop letter to the main text.
 % Lengths that depend on the font (e.g., ex, em, etc.) will be referenced
 % to the font that is active when \IEEEPARstart is called. 
-\def\@IEEEPARstartSEP{0.15em}
+\providecommand{\IEEEPARstartSEP}{0.15em}
 % V1.7 horizontal offset applied to the left of the drop cap.
-\def\@IEEEPARstartHOFFSET{0em}
+\providecommand{\IEEEPARstartHOFFSET}{0em}
 % V1.7 Italic correction command applied at the end of the drop cap.
-\def\@IEEEPARstartITLCORRECT{\/}
+\providecommand{\IEEEPARstartITLCORRECT}{\/}
 
-% V1.7 compoc uses nonbold drop cap and small caps word style
-\ifCLASSOPTIONcompsoc
-\def\@IEEEPARstartFONTSTYLE{\mdseries}
-\def\@IEEEPARstartWORDFONTSTYLE{\scshape}
-\def\@IEEEPARstartWORDCAPSTYLE{\relax}
-\fi
+% width of the letter output, set globally. Can be used in \IEEEPARstartSEP
+% or \IEEEPARstartHOFFSET, but not the height lengths.
+\newdimen\IEEEPARstartletwidth
+\IEEEPARstartletwidth 0pt\relax
 
 % definition of \IEEEPARstart
 % THIS IS A CONTROLLED SPACING AREA, DO NOT ALLOW SPACES WITHIN THESE LINES
@@ -5769,19 +5863,19 @@ between column types.}%
 \def\IEEEPARstart#1#2{\par{%
 % if this page does not have enough space, break it and lets start
 % on a new one
-\@IEEEtranneedspace{\@IEEEPARstartMINPAGELINES\baselineskip}{\relax}%
-% V1.7 move this up here in case user uses \textbf for \@IEEEPARstartFONTSTYLE
+\@IEEEtranneedspace{\IEEEPARstartMINPAGELINES\baselineskip}{\relax}%
+% V1.7 move this up here in case user uses \textbf for \IEEEPARstartFONTSTYLE
 % which uses command \leavevmode which causes an unwanted \indent to be issued
 \noindent
 % calculate the desired height of the big letter
-% it extends from the top of \@IEEEPARstartHEIGHTTEXT in the current font
-% down to \@IEEEPARstartDROPDEPTH below the current baseline
-\settoheight{\@IEEEtrantmpdimenA}{\@IEEEPARstartHEIGHTTEXT}%
-\addtolength{\@IEEEtrantmpdimenA}{\@IEEEPARstartDROPDEPTH}%
+% it extends from the top of \IEEEPARstartHEIGHTTEXT in the current font
+% down to \IEEEPARstartDROPDEPTH below the current baseline
+\settoheight{\@IEEEtrantmpdimenA}{\IEEEPARstartHEIGHTTEXT}%
+\addtolength{\@IEEEtrantmpdimenA}{\IEEEPARstartDROPDEPTH}%
 % extract the name of the current font in bold
 % and place it in \@IEEEPARstartFONTNAME
 \def\@IEEEPARstartGETFIRSTWORD##1 ##2\relax{##1}%
-{\@IEEEPARstartFONTSTYLE{\selectfont\edef\@IEEEPARstartFONTNAMESPACE{\fontname\font\space}%
+{\IEEEPARstartFONTSTYLE{\selectfont\edef\@IEEEPARstartFONTNAMESPACE{\fontname\font\space}%
 \xdef\@IEEEPARstartFONTNAME{\expandafter\@IEEEPARstartGETFIRSTWORD\@IEEEPARstartFONTNAMESPACE\relax}}}%
 % define a font based on this name with a point size equal to the desired
 % height of the drop letter
@@ -5789,7 +5883,7 @@ between column types.}%
 % save this value as a counter (integer) value (sp points)
 \@IEEEtrantmpcountA=\@IEEEtrantmpdimenA%
 % now get the height of the actual letter produced by this font size
-\settoheight{\@IEEEtrantmpdimenB}{\@IEEEPARstartsubfont\@IEEEPARstartCAPSTYLE{#1}}%
+\settoheight{\@IEEEtrantmpdimenB}{\@IEEEPARstartsubfont\IEEEPARstartCAPSTYLE{#1}}%
 % If something bogus happens like the first argument is empty or the
 % current font is strange, do not allow a zero height.
 \ifdim\@IEEEtrantmpdimenB=0pt\relax%
@@ -5822,12 +5916,13 @@ between column types.}%
 % We need to carry this out of the local calculation area to set the
 % hanging indent
 \settowidth{\global\@IEEEtrantmpdimenA}{\@IEEEPARstartfont
-\@IEEEPARstartCAPSTYLE{#1\@IEEEPARstartITLCORRECT}}}%
+\IEEEPARstartCAPSTYLE{#1\IEEEPARstartITLCORRECT}}}%
 % end of the isolated calculation environment
+\global\IEEEPARstartletwidth\@IEEEtrantmpdimenA\relax%
 % add in the extra clearance we want
-\advance\@IEEEtrantmpdimenA by \@IEEEPARstartSEP\relax%
+\advance\@IEEEtrantmpdimenA by \IEEEPARstartSEP\relax%
 % add in the optional offset
-\advance\@IEEEtrantmpdimenA by \@IEEEPARstartHOFFSET\relax%
+\advance\@IEEEtrantmpdimenA by \IEEEPARstartHOFFSET\relax%
 % V1.7 don't allow negative offsets to produce negative hanging indents
 \@IEEEtrantmpdimenB\@IEEEtrantmpdimenA
 \ifnum\@IEEEtrantmpdimenB < 0 \@IEEEtrantmpdimenB 0pt\fi
@@ -5836,14 +5931,12 @@ between column types.}%
 % Now, we make the letter and issue the hanging indent command
 % The letter is placed in a box of zero width and height so that other
 % text won't be displaced by it.
-\hangindent\@IEEEtrantmpdimenB\hangafter=-\@IEEEPARstartDROPLINES%
+\hangindent\@IEEEtrantmpdimenB\hangafter=-\IEEEPARstartDROPLINES%
 \makebox[0pt][l]{\hspace{-\@IEEEtrantmpdimenA}%
-\raisebox{-\@IEEEPARstartDROPDEPTH}[0pt][0pt]{\hspace{\@IEEEPARstartHOFFSET}%
-\@IEEEPARstartfont\@IEEEPARstartCAPSTYLE{#1\@IEEEPARstartITLCORRECT}%
-\hspace{\@IEEEPARstartSEP}}}%
-{\@IEEEPARstartWORDFONTSTYLE{\@IEEEPARstartWORDCAPSTYLE{\selectfont#2}}}}
-
-
+\raisebox{-\IEEEPARstartDROPDEPTH}[0pt][0pt]{\hspace{\IEEEPARstartHOFFSET}%
+\@IEEEPARstartfont\IEEEPARstartCAPSTYLE{#1\IEEEPARstartITLCORRECT}%
+\hspace{\IEEEPARstartSEP}}}%
+{\IEEEPARstartWORDFONTSTYLE{\IEEEPARstartWORDCAPSTYLE{\selectfont#2}}}}
 
 
 
@@ -6029,7 +6122,7 @@ between column types.}%
 %
 % the amount the main text is pulled up to make room for the
 % publisher's ID footer
-% IEEE uses about 1.3\baselineskip for journals, 
+% The IEEE uses about 1.3\baselineskip for journals, 
 % dynamic title spacing will clean up the fraction
 \def\@IEEEpubidpullup{1.3\baselineskip}
 \ifCLASSOPTIONtechnote
@@ -6038,7 +6131,7 @@ between column types.}%
 % in first column) and we should maintain an integer number of lines in the
 % second column
 % There are some examples (such as older issues of "Transactions on
-% Information Theory") in which IEEE really pulls the text off the ID for
+% Information Theory") in which the IEEE really pulls the text off the ID for
 % technotes - about 0.55in (or 4\baselineskip). We'll use 2\baselineskip
 % and call it even.
 \def\@IEEEpubidpullup{2\baselineskip}
