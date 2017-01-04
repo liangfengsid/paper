@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  4 JAN 2017 22:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  4 JAN 2017 22:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -488,74 +488,74 @@ Package pdftex.def Info: ./figure/figure5.pdf used on input line 1558.
 File: ./figure/figure6.pdf Graphic file (type pdf)
 
 <use ./figure/figure6.pdf>
-Package pdftex.def Info: ./figure/figure6.pdf used on input line 1594.
+Package pdftex.def Info: ./figure/figure6.pdf used on input line 1593.
 (pdftex.def)             Requested size: 177.06613pt x 88.53516pt.
  [8 <./figure/figure5.pdf>]
 <./figure/figure7.pdf, id=135, 379.4175pt x 302.12875pt>
 File: ./figure/figure7.pdf Graphic file (type pdf)
 
 <use ./figure/figure7.pdf>
-Package pdftex.def Info: ./figure/figure7.pdf used on input line 1649.
+Package pdftex.def Info: ./figure/figure7.pdf used on input line 1648.
 (pdftex.def)             Requested size: 252.94499pt x 201.4202pt.
  [9 <./figure/figure6.pdf> <./figure/figure7.pdf>]
 <./figure/figure8.pdf, id=195, 429.605pt x 344.28625pt>
 File: ./figure/figure8.pdf Graphic file (type pdf)
 
 <use ./figure/figure8.pdf>
-Package pdftex.def Info: ./figure/figure8.pdf used on input line 1698.
+Package pdftex.def Info: ./figure/figure8.pdf used on input line 1697.
 (pdftex.def)             Requested size: 252.94499pt x 202.7121pt.
 
 <./figure/figure9.pdf, id=196, 254.9525pt x 180.675pt>
 File: ./figure/figure9.pdf Graphic file (type pdf)
 
 <use ./figure/figure9.pdf>
-Package pdftex.def Info: ./figure/figure9.pdf used on input line 1752.
+Package pdftex.def Info: ./figure/figure9.pdf used on input line 1751.
 (pdftex.def)             Requested size: 177.06891pt x 101.17729pt.
  [10 <./figure/figure8.pdf> <./figure/figure9.pdf>]
 <./figure/figure10.pdf, id=255, 241.90375pt x 148.555pt>
 File: ./figure/figure10.pdf Graphic file (type pdf)
 
 <use ./figure/figure10.pdf>
-Package pdftex.def Info: ./figure/figure10.pdf used on input line 1774.
+Package pdftex.def Info: ./figure/figure10.pdf used on input line 1773.
 (pdftex.def)             Requested size: 177.06812pt x 101.18152pt.
 
 <./figure/figure11.pdf, id=256, 335.2525pt x 178.6675pt>
 File: ./figure/figure11.pdf Graphic file (type pdf)
 
 <use ./figure/figure11.pdf>
-Package pdftex.def Info: ./figure/figure11.pdf used on input line 1799.
+Package pdftex.def Info: ./figure/figure11.pdf used on input line 1798.
 (pdftex.def)             Requested size: 202.3552pt x 101.17632pt.
 
 <./figure/figure12.pdf, id=257, 373.395pt x 172.645pt>
 File: ./figure/figure12.pdf Graphic file (type pdf)
 
 <use ./figure/figure12.pdf>
-Package pdftex.def Info: ./figure/figure12.pdf used on input line 1829.
+Package pdftex.def Info: ./figure/figure12.pdf used on input line 1828.
 (pdftex.def)             Requested size: 227.65097pt x 101.17735pt.
  [11 <./figure/figure10.pdf> <./figure/figure11.pdf> <./figure/figure12.pdf>]
 <./figure/figure13.pdf, id=356, 368.37625pt x 450.68375pt>
 File: ./figure/figure13.pdf Graphic file (type pdf)
 
 <use ./figure/figure13.pdf>
-Package pdftex.def Info: ./figure/figure13.pdf used on input line 1879.
+Package pdftex.def Info: ./figure/figure13.pdf used on input line 1878.
 (pdftex.def)             Requested size: 252.94499pt x 309.4592pt.
 
 <./figure/figure14.pdf, id=357, 380.42125pt x 210.7875pt>
 File: ./figure/figure14.pdf Graphic file (type pdf)
 
 <use ./figure/figure14.pdf>
-Package pdftex.def Info: ./figure/figure14.pdf used on input line 1912.
-(pdftex.def)             Requested size: 252.95372pt x 126.47346pt.
+Package pdftex.def Info: ./figure/figure14.pdf used on input line 1911.
+(pdftex.def)             Requested size: 202.3595pt x 101.17685pt.
 
 <./figure/figure15.pdf, id=358, 294.09875pt x 161.60374pt>
 File: ./figure/figure15.pdf Graphic file (type pdf)
 
 <use ./figure/figure15.pdf>
-Package pdftex.def Info: ./figure/figure15.pdf used on input line 1938.
+Package pdftex.def Info: ./figure/figure15.pdf used on input line 1937.
 (pdftex.def)             Requested size: 177.06194pt x 101.17715pt.
  [12 <./figure/figure13.pdf> <./figure/figure14.pdf> <./figure/figure15.pdf>] [
 13]
-Underfull \hbox (badness 4328) in paragraph at lines 2398--2401
+Underfull \hbox (badness 4328) in paragraph at lines 2397--2400
 []\OT1/ppl/m/n/8.03 Hku gideon-ii clus-ter. [On-line]. Avail-able:
  []
 
@@ -563,36 +563,36 @@ Underfull \hbox (badness 4328) in paragraph at lines 2398--2401
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2487.
+Package pdftex.def Info: ./figure/author1.png used on input line 2486.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2487.
+Package pdftex.def Info: ./figure/author1.png used on input line 2486.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
 <./figure/author2.png, id=463, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2493.
+Package pdftex.def Info: ./figure/author2.png used on input line 2492.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2493.
+Package pdftex.def Info: ./figure/author2.png used on input line 2492.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
 <./figure/author3.png, id=466, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2500.
+Package pdftex.def Info: ./figure/author3.png used on input line 2499.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2500.
+Package pdftex.def Info: ./figure/author3.png used on input line 2499.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2500--2503
+Underfull \hbox (badness 1400) in paragraph at lines 2499--2502
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
@@ -600,18 +600,17 @@ Underfull \hbox (badness 1400) in paragraph at lines 2500--2503
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2506.
+Package pdftex.def Info: ./figure/author4.png used on input line 2505.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2506.
+Package pdftex.def Info: ./figure/author4.png used on input line 2505.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no â in font phvr7t!
 Missing character: There is no € in font phvr7t!
 Missing character: There is no ™ in font phvr7t!
- [14 <./figure/author1.png> <./figure/author2.png> <./figure/author3.png>] [15
-
- <./figure/author4.png>]
+ [14 <./figure/author1.png> <./figure/author2.png> <./figure/author3.png> <./fi
+gure/author4.png>]
 (./bashuffler.aux) ) 
 Here is how much of TeX's memory you used:
  5118 strings out of 493089
@@ -639,10 +638,10 @@ f-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/local/texlive/2015/texmf-dist
 type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/u
 rw/palatino/uplri8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zap
 fding/uzdr.pfb>
-Output written on bashuffler.pdf (15 pages, 1565790 bytes).
+Output written on bashuffler.pdf (14 pages, 1559847 bytes).
 PDF statistics:
- 541 PDF objects out of 1000 (max. 8388607)
- 378 compressed objects within 4 object streams
+ 538 PDF objects out of 1000 (max. 8388607)
+ 376 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  139 words of extra memory for PDF output out of 10000 (max. 10000000)
 

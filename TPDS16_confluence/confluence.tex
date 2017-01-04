@@ -498,22 +498,24 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 \IEEEtitleabstractindextext{%
 \begin{abstract}
 A typical shuffle operation randomly partitions 
-key-value pairs on many computer nodes,
-thus it generates significant network traffic and often dominates completion time.
+key-value pairs on many computers,
+and thus generates significant network traffic and often dominates completion time.
 % and take up a substantial portion of the overall I/O workloads 
 % for many MapReduce-like distributed operations. 
 This traffic is
-particularly pronounced in iterative distributed applications
-because each iteration will invoke a shuffle operation. 
+% particularly 
+pronounced in iterative distributed applications
+where each iteration invokes a shuffle operation. 
 % % and thus greatly reduce the amount of key-value pairs.
 Our key observation is that 
-some iterations often process different types of key-value pairs according to 
+some iterations process different types of key-value pairs according to 
 relevant keys among these types, 
-and we can partition key-value pairs on local machines by exploiting this relevance, greatly reducing shuffle traffic for following iterations. 
+and we can partition key-value pairs on local machines by exploiting this relevance, greatly reducing shuffle traffic for the following iterations. 
 % keys of different types of key-values are often relevant between iterations,
 % and we can localize 
 % key-value pairs with relevant keys in an iteration to avoid shuffling data between nodes in other iterations. 
-For instance, PageRank contains two types of key-value pairs: the URL key and webpage link pair, and the URL key and the webpage rank pair. The URL keys of these two pairs are relevant because if we partition them with the same URL on the same node, PageRank's \emph{join} operations in the next iteration can incur no shuffle
+For instance, PageRank involves two types of key-value pairs: the URL key and webpage links pair, and the URL key and webpage rank pair. These two pairs'
+URL keys are relevant because if we partition them with the same URL on the same node, PageRank's \emph{join} operations in the next iteration incur no shuffle
 network traffic.
 % If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
 % we can greatly reduce the network traffic. 
@@ -536,8 +538,8 @@ network traffic.
 % adjacent computing iterations.
 
 % In this paper, we define these specific keys as dependent keys for an iteration, 
-We present a new data structure called Key Dependency Graph (KDG) to keep track of relevant keys for general iterative distributed applications. 
-We implement a system called Confluence, where developers construct a KDG for a distributed application, 
+We present a new data structure called Key Dependency Graph (KDG) to capture relevant keys for general iterative distributed applications. 
+We implement the Confluence system, where developers construct a KDG for a distributed application, 
 and Confluence automatically generates an efficient key partitioning scheme from the KDG.
 We apply Confluence on diverse applications
 %is widely applicable to distributed computing applications in the fields of

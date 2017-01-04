@@ -1563,8 +1563,7 @@ in the Physical Cluster}
 
 
 The benchmarks and datasets used are from a realistic MapReduce benchmark suite \cite{ahmad2012puma}. 
-We use mainly the shuffle-heavy applications because we want to evaluate the
-performance of BAShuffler when the shuffle workload can saturate the
+We use mainly the shuffle-heavy applications because we want to evaluate  BAShuffler when the shuffle workload can saturate the
 network most of the time,
 and ignore the other applications whose shuffle workloads are quite
 low. %regarding the input data size.
@@ -1587,7 +1586,7 @@ completion time and the job overall completion time.
 We also measure the performance of BAShuffler with input data of
 different sizes
 and the performance in the shared environment with multiple concurrent jobs. 
-But the results will be introduced later together with the results of the virtual cluster. 
+The results will be introduced later together with the those of the virtual cluster. 
 
 \begin{figure}
 \centering
@@ -1909,7 +1908,7 @@ In all cases, the bandwidth utilizations of PGSS are close to the total bandwidt
 \begin{figure}[!t]
 \centering
 
-\includegraphics[width=1\columnwidth,height=0.5\columnwidth]{figure14}
+\includegraphics[width=0.8\columnwidth,height=0.4\columnwidth]{figure14}
 
 \caption{Bandwidth Utilization and Improvement (Suffixed with   IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Degrees of Network Heterogeneity}
 \label{fig:s_lowbandwidth}
