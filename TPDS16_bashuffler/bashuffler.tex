@@ -497,14 +497,14 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 \begin{abstract}
 Shuffle operations invoke many network flows across computer nodes and 
 consume significant network bandwidth.
-Because existing works mainly focus on optimizing CPU and memory utilization, network bandwidth is usually largely under-utilized.
+Because existing works mainly concentrate on optimizing CPU and memory utilization, network bandwidth is usually largely under-utilized.
 This problem aggravates the shuffle completion time especially for shuffle-heavy MapReduce applications.
 When the network bandwidth capacities of computer nodes are varied, 
 which widely exists in practice, 
  this under-utilization problem is more pronounced. 
 
 
-In this paper, we first present BAShuffler, a bandwidth-aware shuffle scheduler that can maximize the overall network bandwidth utilization 
+We first present BAShuffler, a bandwidth-aware shuffle scheduler that can maximize the overall network bandwidth utilization 
 in shuffle operations.
 We then demonstrate how BAShuffler can fully utilize the network bandwidth capacity in max-min fair networks.
 Compared to existing network-level approaches, 
@@ -600,7 +600,7 @@ can account for 33\% of the overall completion time.
 High network bandwidth utilization is critical for improving the performance of 
 shuffle-heavy jobs.
 
-Unfortunately, existing distributed platforms (e.g., YARN~\cite{vavilapalli2013apache}) mainly focus on
+Unfortunately, existing distributed platforms (e.g., YARN~\cite{vavilapalli2013apache}) mainly concentrate on
 managing node-monopolize resources (e.g., CPU cores and memories),
 and network bandwidth utilization is often ignored.  
 These distributed platforms provides good performance for compute-intensive jobs , whose performance is mainly decided by
@@ -641,8 +641,8 @@ A central scheduler at the application level sees the full picture of the shuffl
 % both the dynamic shuffle-oriented  information (e.g., the arriving patterns and the source/destination pairs of the flows) and the network-level information (e.g., the bandwidth capacity of the network links).
 % Moreover, the application-level shuffle scheduler enables the distributed platforms to work on unmodified operating systems and general network devices.
 % }
-Although some work focuses on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
-the network level models cannot fully capture the the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
+Although some work concentrates on the network level~\cite{shieh2011sharing,chowdhury2011managing,chowdhury2014efficient,chowdhury2015efficient}, 
+the network level models cannot fully capture the behavior of the shuffle operation, e.g., the dynamic and casual arriving time of the fetch flows
 when a map task finishes. 
 We will discuss in detail the rationality of improving the shuffle performance by scheduling the sources of the fetch flows at the application level in Section~\ref{section:application_level}.
 
@@ -653,7 +653,7 @@ without changing the underlying network and the existing MapReduce-like interfac
 BAShuffler applies the partially
 greedy source selection (PGSS) algorithm
 to select the appropriate source nodes of the TCP fetch flow so that 
-the the network bandwidth utilization is maximized. 
+the network bandwidth utilization is maximized. 
 We implement BAShuffler based on YARN and apply it in
 several benchmarks.
 
@@ -1007,9 +1007,9 @@ For the experiments that evaluate the other factors than the fetcher number, suc
 
 Another important factor is the communication pattern of the fetch
 flows. 
-The communication pattern mainly refers to the mapping from the the flow sources to the flow destinations.
+The communication pattern mainly refers to the mapping from flow sources to flow destinations.
 Different communication patterns can lead to different bandwidth utilization status, which we will illustrate in the coming sections.
-BAShuffler focuses on this factor and schedules the communication pattern.
+BAShuffler works on this factor and schedules the communication pattern.
 To schedule the communication pattern that can yield maximum bandwidth
 utilization, BAShuffler selects the source node of the fetch based on the MMF bandwidth estimation
 when a new fetcher is free.
@@ -1121,7 +1121,7 @@ scheduling policy Greedy Source Selection, or GSS.
 
 GSS is an effective method as long as it is not the
 worst case:
-the selections of the shuffles focus on a part of the pool of the
+the selections of the shuffles concentrate on a part of the pool of the
 nodes too much
 so that later on, the selection of the remaining source nodes of all
 the shuffles can only be concentrated in the other part of the pool.
@@ -1603,7 +1603,7 @@ and the average shuffle rate of each individual shuffle task, respectively.
 We use the metric of the overall shuffle throughput because it
 reflects the cluster overall bandwidth utilization along the time axis.
 The start time and finish time of the shuffle tasks are usually different from each other during the shuffle phase, but can also overlap. 
-The average shuffle rate of each shuffle task, on the other hand, reflects how each individual shuffle task can benefit from the throughput increase of the the cluster.
+The average shuffle rate of each shuffle task, on the other hand, reflects how each individual shuffle task can benefit from the throughput increase of the cluster.
 
 The overall shuffle throughput is depicted as the cumulative
 completion ratio of the overall shuffle workload.
@@ -1943,7 +1943,7 @@ performs better in the heterogeneous networks.
 \end{figure}
 
 \subsubsection{Scheduling Overhead}\label{section:eva_overhead}
-The scheduling overhead of BAShuffler is the time to figure out the source scheduling decision, is related to the number of total nodes and existing flows (whose number generally grows as the the number of nodes grows) in the cluster. 
+The scheduling overhead of BAShuffler is the time to figure out the source scheduling decision, is related to the number of total nodes and existing flows (whose number generally grows as the number of nodes grows) in the cluster. 
 Fig.~\ref{fig:s_overhead} depicts the overhead time of RSS, GSS, PGSS as well as the online optimal scheduling algorithm
 with different numbers of nodes in the cluster.
 The scheduling overhead of RSS is taken for granted the lowest, which is not related to the number of nodes in the cluster. 
@@ -2483,23 +2483,26 @@ A.~Borodin and R.~El-Yaniv, \emph{Online computation and competitive
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
-% \vspace{-6in}
+\vspace{-0.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
 is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interests are mainly on distributed file systems, distributed computing, and machine learning. He is recently undertaking the research project on distributed deep learning.
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 
+\vspace{-0.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
 received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
 computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
 [homepage] i.cs.hku.hk/\%7Efcmlau
 \end{IEEEbiography}
 
+\vspace{-0.45in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author3}}]{Heming Cui}
 is an assistant professor in Computer Science of HKU. His research interests are in operating systems, programming languages, distributed systems, and cloud computing, with a particular focus on building software infrastructures and tools to improve reliability and security of real-world software. 
 [homepage] i.cs.hku.hk/\%7Eheming
 \end{IEEEbiography}
 
+\vspace{-0.6in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author4}}]{Cho-Li Wang}
 is currently a Professor in the Department of Computer Science at The
 University of Hong Kong. He graduated with a B.S. degree in Computer Science and

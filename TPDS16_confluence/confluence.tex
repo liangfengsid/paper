@@ -536,7 +536,7 @@ network traffic.
 % adjacent computing iterations.
 
 % In this paper, we define these specific keys as dependent keys for an iteration, 
-In this paper, we present a new data structure called Key Dependency Graph (KDG) to keep track of relevant keys for general iterative distributed applications. 
+We present a new data structure called Key Dependency Graph (KDG) to keep track of relevant keys for general iterative distributed applications. 
 We implement a system called Confluence, where developers construct a KDG for a distributed application, 
 and Confluence automatically generates an efficient key partitioning scheme from the KDG.
 We apply Confluence on diverse applications
@@ -937,7 +937,7 @@ if the code logic of the specific distributed operations is already known,
 the shuffle size can be reduced to the maximum extent %in polynomial time 
 by exploring the key dependency of different iterations. 
 
-This section firstly describes the the construction process of the key dependency graphs, as well as its properties. 
+This section firstly describes the construction process of the key dependency graphs, as well as its properties. 
 After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
 
 
@@ -1022,7 +1022,7 @@ where $k_i$ is the number of keys (or key patterns) in iteration i and $m$ is th
 Usually, $k_i$ is very small in value when it is referred as the key pattern (not the distinguished values of the keys).
 For example, in the matrix multiplication application, the subgraph from the second level to the third (final level) of the KDG can be denoted as a one node to one node subgraph: $(a, b, [1, n]) \rightarrow (a, b)$, 
 where $a$ and $b$ stand for any row and any column index of the matrix, 
-and $[1, n]$ stands for the range from 1 to the the matrix dimension length $n$.
+and $[1, n]$ stands for the range from 1 to the matrix dimension length $n$.
 
 The subgraph $C=(V', E')$ of $G=(V,E)$ is called a \emph{confluence subgraph} if it satisfies the following
 \emph{outward exclusive} requirements: 
@@ -1176,7 +1176,7 @@ The workload of a node is the number of data entries of the map primitive in tha
 The workload skew level of Iteration $i$ is the standard deviation of the expected workloads of different nodes in that iteration, which is denoted as $L_i$. 
 The math symbols in Section~\ref{section:CKP} are reused here without duplicated definition. 
 Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and CKP and will not affect the standard deviation of the workloads.
-And we only consider the workload skew levels of the iterations that the pure confluence subgraphs affects (Iteration $u+1$ to $w+1$).
+We only consider the workload skew levels of the iterations that the pure confluence subgraphs affects (Iteration $u+1$ to $w+1$).
 The reason is that both RKP and CKP use the same key partitioning policy in the CKP-not-affected iterations and the workload skew levels of these iterations will be the same in both schemes.
 
 
