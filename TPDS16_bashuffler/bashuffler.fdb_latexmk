@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1483547403 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1483547406
+["pdflatex"] 1483597918 "bashuffler.tex" "bashuffler.pdf" "bashuffler" 1483597922
   "./figure/author1.png" 1482915206 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "./figure/author2.png" 1461158019 54334 12d054f3372da35bf7bba7b9d835779c ""
   "./figure/author3.png" 1482915167 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -108,8 +108,8 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "IEEEtran.cls" 1440607676 288304 b67b6fc6c2abb39f9b461923f5199343 ""
-  "bashuffler.aux" 1483547406 11589 2da31e9862aa6111da11cd9d87a73b96 ""
-  "bashuffler.tex" 1483547392 122827 337809ac04a12deb2948057a99038064 ""
+  "bashuffler.aux" 1483597921 11589 9e3133c9889729e197d86584436a1a4c ""
+  "bashuffler.tex" 1483597917 123117 694d38dbb232e5c5fc484e4e9210b7da ""
   "figure/author1.png" 1482915206 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "figure/author2.png" 1461158019 54334 12d054f3372da35bf7bba7b9d835779c ""
   "figure/author3.png" 1482915167 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -130,5 +130,5 @@
   "figure/figure9.pdf" 1462388239 28834 b3ff6c1397815c48812396bf795f54f2 ""
   (generated)
   "bashuffler.log"
-  "bashuffler.aux"
   "bashuffler.pdf"
+  "bashuffler.aux"

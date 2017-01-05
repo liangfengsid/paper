@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  5 JAN 2017 00:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  5 JAN 2017 14:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -560,7 +560,7 @@ LaTeX Warning: Citation `awerbuch1992competitive' on page 13 undefined on input
  line 2010.
 
 [13]
-Underfull \hbox (badness 4328) in paragraph at lines 2395--2398
+Underfull \hbox (badness 4328) in paragraph at lines 2406--2409
 []\OT1/ppl/m/n/8.03 Hku gideon-ii clus-ter. [On-line]. Avail-able:
  []
 
@@ -568,36 +568,36 @@ Underfull \hbox (badness 4328) in paragraph at lines 2395--2398
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2478.
+Package pdftex.def Info: ./figure/author1.png used on input line 2489.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2478.
+Package pdftex.def Info: ./figure/author1.png used on input line 2489.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
 <./figure/author2.png, id=463, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2484.
+Package pdftex.def Info: ./figure/author2.png used on input line 2495.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2484.
+Package pdftex.def Info: ./figure/author2.png used on input line 2495.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
 <./figure/author3.png, id=466, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2491.
+Package pdftex.def Info: ./figure/author3.png used on input line 2502.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2491.
+Package pdftex.def Info: ./figure/author3.png used on input line 2502.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2491--2494
+Underfull \hbox (badness 1400) in paragraph at lines 2502--2505
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
@@ -605,11 +605,11 @@ Underfull \hbox (badness 1400) in paragraph at lines 2491--2494
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2497.
+Package pdftex.def Info: ./figure/author4.png used on input line 2508.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2497.
+Package pdftex.def Info: ./figure/author4.png used on input line 2508.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no â in font phvr7t!
 Missing character: There is no € in font phvr7t!
@@ -624,7 +624,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  5146 strings out of 493089
  82196 string characters out of 6134842
- 175576 words of memory out of 5000000
+ 176576 words of memory out of 5000000
  8550 multiletter control sequences out of 15000+600000
  47293 words of font info for 96 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
@@ -646,7 +646,7 @@ s/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
 alatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino
 /uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/uplri8
 a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on bashuffler.pdf (14 pages, 1566244 bytes).
+Output written on bashuffler.pdf (14 pages, 1560795 bytes).
 PDF statistics:
  538 PDF objects out of 1000 (max. 8388607)
  376 compressed objects within 4 object streams

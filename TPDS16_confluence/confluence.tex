@@ -1664,9 +1664,34 @@ Confluence guides the data partitioning across different iterations based on the
 which is constructed based on the iterative key dependency.
 %We use Confluence to partition the datasets to avoid undesired network traffic across multiple iterations during the shuffle operations. 
 Confluence greatly decreases the overall shuffle size while not introducing the workload skew side effect for a variety of distributed operations
-in the fields of scientific computing, machine learning, data
-analysis, etc.
+in fields of scientific computing, machine learning, data
+analysis.
 
+In the future, we will try to explore methods to automatically discover the key dependency of data among different iterations. 
+A potential feasible solution is data flow tracking. 
+With a set of sample data, we can keep track of how data are flowing between nodes across different iterations, and thus find out the key dependency of these sample data. 
+The challenge is that how to expand key dependency of the sample data to the whole dataset. 
+If the data flow tracking generates the dependency of specific keys, 
+there can be difficulties to generalize it to the dependency of key patterns.  
+Even when we have the key pattern dependency of the sample data, 
+we need to consider whether the key pattern dependency is applicable to the whole dataset, or how to refine the key pattern dependency for the whole dataset if necessary. 
+
+% \bigskip
+% \noindent
+% {\bf Acknowledgement}
+% This work is supported in part by a Hong Kong RGC CRF grant
+% (C7036-15G).
+
+%% use section* for acknowledgment
+\ifCLASSOPTIONcompsoc
+ % The Computer Society usually uses the plural form
+ \section*{Acknowledgments}
+\else
+ % regular IEEE prefers the singular form
+ \section*{Acknowledgment}
+\fi
+This work is supported in part by a Hong Kong RGC CRF grant
+(C7036-15G).
 
 
 % An example of a floating figure using the graphicx package.
@@ -1791,14 +1816,8 @@ analysis, etc.
 %Appendix two text goes here.
 %
 %
-%% use section* for acknowledgment
-%\ifCLASSOPTIONcompsoc
-%  % The Computer Society usually uses the plural form
-%  \section*{Acknowledgments}
-%\else
-%  % regular IEEE prefers the singular form
-%  \section*{Acknowledgment}
-%\fi
+
+
 %
 %
 %The authors would like to thank...
@@ -2071,7 +2090,6 @@ Y.~Kwon et al., ``Skewtune: mitigating skew in mapreduce applications,'' in
   \emph{Proceedings of the ACM SIGMOD International Conference on Management of
   Data}, 2012, pp. 25--36.
 
-\newpage
 
 \bibitem{Harlap:2016:ASP}
 A.~Harlap et al., ``Addressing the straggler problem for iterative convergent
@@ -2105,26 +2123,26 @@ Spark job scheduling: Dagscheduler. [Online]. Available:
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
-\vspace{-1.5in}
+\vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
 is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interests are mainly on distributed file systems, distributed computing, and machine learning. He is recently undertaking the research project on distributed deep learning.
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 
-\vspace{-1.5in}
+\vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
 received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
 computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
 [homepage] i.cs.hku.hk/\%7Efcmlau
 \end{IEEEbiography}
 
-\vspace{-1.5in}
+\vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author3}}]{Heming Cui}
 is an assistant professor in Computer Science of HKU. His research interests are in operating systems, programming languages, distributed systems, and cloud computing, with a particular focus on building software infrastructures and tools to improve reliability and security of real-world software. 
 [homepage] i.cs.hku.hk/\%7Eheming
 \end{IEEEbiography}
 
-\vspace{-1.5in}
+\vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author4}}]{Cho-Li Wang}
 is currently a Professor in the Department of Computer Science at The
 University of Hong Kong. He graduated with a B.S. degree in Computer Science and
