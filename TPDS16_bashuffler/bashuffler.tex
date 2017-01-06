@@ -599,7 +599,7 @@ High network bandwidth utilization is critical for improving the performance of
 shuffle-heavy jobs.
 
 Unfortunately, existing distributed platforms (e.g., YARN~\cite{vavilapalli2013apache}) mainly concentrate on
-managing node-monopolize resources (e.g., CPU cores and memories),
+managing node-monopolized resources (e.g., CPU cores and memories),
 and network bandwidth utilization is often ignored.  
 These distributed platforms provides good performance for compute-intensive jobs , whose performance is mainly decided by
 memories and CPU cores.
@@ -830,8 +830,8 @@ destinations) and the network level information (the network fabric,
 the routing, the bandwidth allocation, etc.).
 However, it is too costly %and impractical
 to implement such a scheduler
-because it will need to gather/distribute a large amount of information
-from/to both the application level and the network level.
+because it will need to gather (or distribute) a large amount of information
+from (or to) both the application level and the network level.
 The overhead of communication between the application level and the
 network level could be prohibitive.
 What is more important is that such a cross-layer approach would violate the
@@ -2007,7 +2007,7 @@ which has the potential to be applied in the MapReduce-specific network.
 
 
 \textbf{Online Scheduling}:
-Compared to other online scheduling algorithms~\cite{wu2007scheduling,awerbuch1992competitive,sgall1998line},
+Compared to other online scheduling algorithms~\cite{wu2007scheduling,sgall1998line},
 BAShuffler can predict the approximate arrival pattern of the pending
 sources based on the semantic of the shuffle,
 and thus can apply the partially greedy source selection method to
