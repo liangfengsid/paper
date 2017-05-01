@@ -646,25 +646,30 @@ In this paper,
 we present BAShuffler, a network-bandwidth-aware shuffle scheduler, 
 that can maximize the network bandwidth utilization of the shuffle operation
 without changing the underlying network and the existing MapReduce-like interfaces. 
-BAShuffler applies the partially
-greedy source selection (PGSS) algorithm
-to select the appropriate source nodes of the TCP fetch flow so that 
+BAShuffler 
+% applies the partially
+% greedy source selection (PGSS) algorithm
+makes use of the max-min fairness behavior of TCP communication
+and selects the appropriate source nodes of the TCP fetch flow so that 
 the network bandwidth utilization is maximized. 
 We implement BAShuffler based on YARN and apply it in
-several benchmarks.
+a variety of benchmarks.
 
-We conduct experiments on both a physical cluster and an EC2
-virtual cluster to evaluate the real performance of BAShuffler. 
-Experiment results show that BAShuffler can significantly increase the
+We thoroughly evaluate BAShuffler
+and demonstrate that BAShuffler significantly increases the
+shuffle performance. 
+Experiment results on a physical cluster and an EC2
+virtual cluster show that BAShuffler can increase the
 shuffle throughput
-and reduce the total job completion time, by up to 29\% for
-shuffle-heavy jobs in the physical and the virtual clusters
-as compared to the original YARN. 
-We also use simulations to mimic the clusters of different scales. 
+and reduce the total job completion time by as much as about 30\%
+as compared to the original YARN,
+especially for
+shuffle-heavy jobs. 
+We also use simulations to mimic clusters of various scales. 
 The simulation results show that comparing to the
 random-source-selection method adopted by YARN, 
-PGSS can improve the cluster network bandwidth
-utilization especially in a heterogeneous network environment, with low scheduling overheads.
+BAShuffler greatly improves the heterogeneous network bandwidth
+utilization, with low scheduling overheads.
 
 We have done some initiatory work that shows how the application-level source selection policy can improve the bandwidth utilization in shuffle operations~\cite{Liang:2016:BMN}. We extend the work in this paper with three major contributions:
 \begin{itemize}
