@@ -453,7 +453,7 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 
 
 % The paper headers
-\markboth{IEEE Transactions on Computers}%
+\markboth{ACM/IEEE Transactions on Networking}%
 {}
 % The only time the second header will appear is for the odd numbered pages
 % after the title page when using the twoside option.
@@ -500,8 +500,6 @@ This problem aggravates the shuffle completion time especially for shuffle-heavy
 When the network bandwidth capacities of computer nodes are varied, 
 which widely exists in practice, 
  this under-utilization problem is more pronounced. 
-
-
 We first present BAShuffler, a bandwidth-aware shuffle scheduler that can maximize the overall network bandwidth utilization 
 in shuffle operations.
 We then demonstrate how BAShuffler can fully utilize the network bandwidth capacity in max-min fair networks.
@@ -586,12 +584,12 @@ YARN, MapReduce, Shuffle, Network Scheduling.
 
  
 
-The shuffle operation is pervasive in the MapReduce-like distributed platforms~\cite{dean2008mapreduce,hindman2011mesos}, 
-such as the ``\emph{join}'' operation in the distributed database systems~\cite{thusoo2009hive, Yu:2008:DSG,Armbrust:2015:SSR}, 
-the ``\emph{reduce}'' tasks in the MapReduce systems~\cite{dean2008mapreduce,vavilapalli2013apache}
+The shuffle operation is pervasive in MapReduce-like distributed platforms~\cite{dean2008mapreduce,hindman2011mesos}, 
+such as the ``\emph{join}'' operation in distributed database systems~\cite{thusoo2009hive, Yu:2008:DSG,Armbrust:2015:SSR}, 
+the ``\emph{reduce}'' task in MapReduce systems~\cite{dean2008mapreduce,vavilapalli2013apache}
 and the ``\emph{aggregateByKey}'' operation in Spark~\cite{zaharia2012resilient}.
 The shuffle operation may require a large amount of network bandwidth 
-and is observed to dominate the job completion time in the datacenter.
+and is observed to dominate the job completion time in datacenters.
 A study on the Yahoo! datacenter work trace suggests that as many as 70\% of 
 the jobs are shuffle-heavy and other studies show that the shuffle completion time
 can account for 33\% of the overall completion time.
@@ -601,9 +599,9 @@ shuffle-heavy jobs.
 Unfortunately, existing distributed platforms (e.g., YARN~\cite{vavilapalli2013apache}) mainly concentrate on
 managing node-monopolized resources (e.g., CPU cores and memories),
 and network bandwidth utilization is often ignored.  
-These distributed platforms provides good performance for compute-intensive jobs , whose performance is mainly decided by
+These distributed platforms provides good performance for compute-intensive jobs, whose performance is mainly decided by
 memories and CPU cores.
-There are many tasks that are shuffle-heavy, which are communication-intensive.
+Many tasks are shuffle-heavy, which are communication-intensive.
 Their performance is heavily 
 affected by the throughput of network flows, which is
 mainly determined by the available network bandwidth of
@@ -614,11 +612,11 @@ For this reason, unlike memories and CPU cores, the network bandwidth cannot sim
 To improve the network bandwidth utilization, existing distributed platforms~\cite{zaharia2012resilient,vavilapalli2013apache} adopt a random flow source node selection policy. 
 The random policy do not consider the diverse network bandwidth usage of flows, but
 only try to evenly distribute the workload of the network
-by randomly selecting the source to fetch the map output data.
-If the links connecting all the nodes in the cluster
-are more or less equal in terms of bandwidth
+by randomly selecting a source to fetch the map output data.
+If links connecting all the nodes in the cluster
+are more or less equal in terms of bandwidth capacity
 and if the number of network connections is
-large, this random source selection policy could prevent some nodes becoming a bottleneck.
+large, this random source selection policy would prevent some nodes becoming a bottleneck.
 However, 
 without monitoring the actual bandwidth usage of network flows,
 this random source scheduling approach often under-utilizes the network bandwidth when some nodes are congested by unpredictable flow jams. 
@@ -628,11 +626,11 @@ the bandwidth under-utilization problem is more pronounced.
 % ssthe bandwidth-ignorant source selection policies will cause significant bandwidth .
 The reason will be analyzed with examples in Section \ref{section:analysis}.
 A heterogeneous network environment is common in practice
-for distributed platform users.
-For example, Hadoop is designed as the general distributed processing platform for 
+for distributed platform users. 
+For example, Hadoop is designed as a general distributed processing platform for 
 clusters comprising off-the-shelf machines~\cite{dean2008mapreduce}. 
-The physical Hadoop clusters could be fit with a variety of servers and network devices of different configurations~\cite{zaharia2008improving}. 
-Even in enterprise data centers, heterogeneity exists during the long period of machine upgrading~\cite{kant2009data}.
+Physical Hadoop clusters could be fit with a variety of servers and network devices of different configurations~\cite{zaharia2008improving}. 
+Even in enterprise datacenters, heterogeneity exists during the long period of machine upgrading~\cite{kant2009data}.
 
 Our key insight is that the application-level scheduling of the source nodes of the shuffle flows can leverage the sufficient shuffle information to maximize the network bandwidth utilization. 
 A central scheduler at the application level sees the full picture of the shuffle operation and has the potential to achieve the optimal scheduling results based on precise estimations of the network bandwidth allocation.
@@ -702,29 +700,28 @@ conclude the paper in Section \ref{section:conclusion}.
 
 
 
-\section{Background, Motivation and Discussion}\label{section:background}
-In this section, we give an overview of the resource management mechanism
-and the shuffle policy of YARN and discuss the drawbacks of the current design. 
+\section{Motivation and Discussion}\label{section:background}
+In this section, we present an overview of the shuffle policy of YARN and discuss the drawbacks of the current design. 
 We discuss the motivation of scheduling the shuffle flows at the application level
 and introduce the max-min fairness behavior in TCP communication, which is
 a convenient bandwidth allocation estimation tool used by BAShuffler. 
 
-\subsection{Resource Management and Shuffle in YARN}
+\subsection{Shuffle in YARN}
 
 YARN, the latest Hadoop~\cite{white2015hadoop}, manages the computing resources in the cluster as a collection
-of containers, each of which consists of memories and CPU cores. The
-jobs are sub-divided into tasks according to a certain specific
+of containers, each of which consists of memories and CPU cores. 
+Jobs are sub-divided into tasks according to a certain
 computing paradigm, which are then assigned to their respective allocated
 containers
-having the required amounts of memories and CPU cores.
+owning a required amount of memories and CPU cores.
 
  
-The resource management mechanism of YARN requires the users to
-estimate the amounts of memories and CPU cores that the tasks will use.
-An underestimation would result in a container being too small for the task
-to run, while too large a container may deprive other tasks of their
-resources and may even prevent them from running. Either way
-will impact the cluster's overall performance. 
+%The resource management mechanism of YARN requires the users to
+%estimate the amounts of memories and CPU cores that the tasks will use.
+%An underestimation would result in a container being too small for the task
+%to run, while too large a container may deprive other tasks of their
+%resources and may even prevent them from running. Either way
+%will impact the cluster's overall performance. 
 Although much work~\cite{Delimitrou:2014:QRQ, smapreduce} has been done to optimize the compute-intensive
 resource utilization (of CPU, memory, etc.) in
 Hadoop, there has not been any
@@ -740,44 +737,49 @@ especially when performing big data analysis. MapReduce can be divided
 into two interfaces: map and reduce.
 The map interface processes the input data and collects a list of
 values corresponding to different keys;
-the reduce interface takes the output of the map primitive as
-input and generates a value for each key.
+the reduce interface takes outputs of the map interface as
+inputs and generates a value for each key.
 Both interfaces run as a set of map or reduce tasks in the YARN
 containers in the cluster.
 
-A reduce task, before the actual reduce semantics execute,
-needs to fetch the map output data from
-different partitions on different nodes for the keys/values to reduce,
+A reduce task, before the actual reduce interface executes,
+needs to fetch the map output data corresponding to a specific key range from
+different nodes for later reducing,
 which is called a ``\textbf{shuffle}''.
-Each fetch translates to an HTTP request to the server to transfer the
-map output of a specific partition on a node to the reduce node,
-which can simply be conceived as a TCP flow. 
+Each fetch is seen as a TCP flow, which sends a HTTP request to the map node to transfer
+map outputs of a specific key partition to the reduce node.
 There are usually many fetches from different source nodes in a shuffle. 
 A shuffle is a many-to-one TCP communication instance, 
-and all the shuffles together for a MapReduce job
+and all shuffles together of a MapReduce job
 make up a many-to-many TCP communication. 
 When a shuffle begins, it starts off a specific number of threads, called
 fetchers, each of which then randomly selects a pending fetch from the set
 of all the fetches of the shuffle.
-In other words, a specific number of fetchers will randomly select the
-source nodes to transfer the map output data in parallel. 
+In other words, a specific number of fetchers will randomly select
+source nodes to transfer map output data in parallel. 
 This random source node selection (RSS) approach adopted by YARN can
 approximately evenly distribute the network transfer workload
-over different source nodes, and reduce the probability of the traffic
-congesting in the uplink of a few source nodes.
+over different source nodes when many shuffles are executing, and reduce the probability of the traffic
+congesting in the uplink of some popular source nodes.
 
 
 RSS is widely used in the popular distributed platforms as the major shuffle 
 source selection algorithm~\cite{zaharia2012resilient, vavilapalli2013apache}. 
-However, as we have commented,
+However, due to the dynamic task running environment, 
+RSS can suffer from the case that network flows concentrate on a specific 
+set of links at some period.
+Moreover, as we have commented,
 RSS cannot fully utilize the network bandwidth
 when the network bandwidth capacities of
-the network links connecting the nodes are different, as in
+network links connecting the nodes are different, i.e., in
 a heterogeneous network environment.
-In such an environment, some links might become congested by too many flows,
-while some others leave much of their network bandwidth unused.
-A network bandwidth shuffle scheduler that can select that proper
-source node to fetch data from is necessary in order
+In such an environment, even with the same number of flows on the links, 
+links of low bandwidth capacity can suffer from network congestion, becoming the performance bottleneck,
+while links of high bandwidth capacity keep quite a portion of bandwidth idle.
+%some links might become congested by too many flows,
+%while some others leave much of their network bandwidth unused.
+A shuffle flow scheduler that can select proper
+source nodes to fetch data is desired in order
 to fully utilize the overall network bandwidth available in the cluster. 
 
 
@@ -785,20 +787,22 @@ to fully utilize the overall network bandwidth available in the cluster.
 To improve the shuffle performance, a solution can be devised to operate at the network level or the application level, with both pros and cons
 at either level. 
 
+Scheduling individual network flows is not enough for the shuffle. 
 At the network level, ideas such as
 performance isolation \cite{greenberg2009vl2}
 and fair sharing of network resources \cite{shieh2011sharing,popa2012faircloud} 
-can provide performance guarantees for the shuffle fetch flows.
-However, as the flows belonging to one shuffle are correlated in
+can offer performance improvements for each single fetch flows.
+However, as the fetch flows belonging to one shuffle are correlated in
 semantics and the shuffle phase cannot finish until its last flow
 finishes, optimization by scheduling the network based on the granule of
 individual flows may not always lead to improved shuffle performance.
 
-Therefore, it is better that the network-level optimization can
-consider the flows belonging to one shuffle as a whole when
-scheduling.
-The ``coflow'' model \cite{chowdhury2014efficient,
-chowdhury2015efficient} has been proposed to allow scheduling the network based on
+% Therefore, it seems better that the network-level optimization can
+% consider the flows belonging to one shuffle as a whole when
+% scheduling.
+Network-level models can only see a part of of the shuffle operation.
+Network-level models such as the ``coflow'' model~\cite{chowdhury2014efficient,
+chowdhury2015efficient} have been proposed to allow scheduling the network based on
 the granule of a collection of application-level correlated flows.
 But nevertheless, neither the coflow nor any other pure network-level
 model can actually describe the runtime status of the shuffle phase
@@ -811,15 +815,16 @@ of fetch flows at one time (5 per reduce task by default)
 due to system limits,
 the remaining map outputs will be left pending until there are available
 fetch workers later. 
-The network level (or coflow here) is only aware of the existence of
-the flows created, but not the potential flows of the same shuffle
+Network-level models (or coflow here) are only aware of the existence of
+the flows created, but not the remaining flows of the same shuffle
 pending at the application level.
 With this limitation, the shuffle operation cannot exactly fit into the coflow model. 
-Minimizing the completion time of the coflow is not the same thing as
-minimizing the completion time of the shuffle operation.
+Efforts on optimizing such network-level models are not directly related to 
+improving the performance of shuffle operations.
+% is not the same thing as
+% minimizing the completion time of the shuffle operation.
 
-
-
+A application-network cross-layer solution can be too complex and complicated. 
 The shuffle completion time is the execution time of the shuffle operation 
 from the time the first fetch flow is ready to start to the time the last fetch flow 
 finishes. 
@@ -830,11 +835,11 @@ destinations) and the network level information (the network fabric,
 the routing, the bandwidth allocation, etc.).
 However, it is too costly %and impractical
 to implement such a scheduler
-because it will need to gather (or distribute) a large amount of information
+because it needs to gather (or distribute) a large amount of information
 from (or to) both the application level and the network level.
 The overhead of communication between the application level and the
 network level could be prohibitive.
-What is more important is that such a cross-layer approach would violate the
+Such a cross-layer approach would violate the
 principle of the isolation of the application level and the network
 level \cite{saltzer1984end}.
 
@@ -842,10 +847,10 @@ Application-level shuffle scheduling has the advantage of knowing
 the true runtime status of the shuffle.
 ``Application-level'' is the term relative to the network layers in 
 the OSI model, but is not limited to the distributed application (e.g., MapReduce programs). 
-Although it does not make efforts to improve the underlying network, 
+Although it does not try to improve the underlying network, 
 it can observe and predict the behavior and performance of the network, 
-and then schedule the shuffle flows accordingly based on
-these observations and the predicted values (e.g., by using MMF in the TCP
+and then make the shuffle scheduling decisions based on
+these network observations and the predicted values (e.g., by using MMF in the TCP
 network) to obtain the near-optimal solution. 
 
 
@@ -863,23 +868,23 @@ is the converged state achieved by the
 AIMD (Additive Increase, Multiplicative Decrease) congestion control
 algorithm used by TCP \cite{jacobson1988congestion}.
 The MMF of TCP has been extensively
-analyzed and verified in the literature \cite{bertsekas1992data, chiu1989analysis, kelly1998rate, vojnovic2000global}.
+analyzed and verified~\cite{bertsekas1992data, chiu1989analysis, kelly1998rate, vojnovic2000global}.
 Although it cannot accurately model the exact behavior of the TCP
 communication, the MMF model is acceptable and appropriate for
 approximating the network behavior, and can lead to useful conclusions in
 various application settings.
  
-When there is MMF in the communication network, there
+In a MMF communication network, there
 exists a feasible and unique bandwidth allocation
 such that an attempt to increase the allocation of any flow will be
 at the cost of decreasing the allocation of some other
 flows with equal or smaller allocation.
-Each data flow must have a \emph{bottleneck link}, which is saturated, 
-and of all the data flows sharing the bottleneck link, this data flow
+Each data flow must have a \emph{bottleneck link}, which is saturated.
+Of all the data flows sharing the bottleneck link, this flow
 occupies the overall maximum bandwidth.
 
 The MMF allocation can be derived by a progressive filling
-algorithm if the bandwidth capacities of the links and the routing of all the data flows
+algorithm if the bandwidth capacities of the links and the routing of all flows
 are known in advance (as apposed to best-effort networks). 
 The first step is to find out the saturated links.
 Suppose that all data flows passing through a link will get equal
@@ -933,9 +938,10 @@ YARN by selecting the appropriate source node
 for fetching map output data from in order to increase the network bandwidth
 utilization.
 %\textcolor{red}{TODO.}
-The greedy source selection method and the partially greedy source
-selection method are applied for selecting the source nodes. 
-BAShuffler optimizes the network transfer throughput at the application level, 
+
+% The greedy source selection method and the partially greedy source
+% selection method are applied for selecting the source nodes. 
+BAShuffler improves the network transfer throughput at the application level, 
 without having to modify the underlying network protocols. 
 It will not affect the performance of the datacenter networks when
 there are other non-MapReduce jobs running. 
@@ -951,45 +957,47 @@ in the presence of BAShuffler.
 
 \subsection{Design of BAShuffler}
 \subsubsection{Design Considerations}
-When improving the shuffle performance, it is not wise to sacrifice 
+To improve the shuffle performance, it is not wise to sacrifice 
 the execution time of the other phases of the jobs. 
 BAShuffler should not negatively impact the resource allocation for the other map tasks
 and reduce tasks. 
 Also BAShuffler prefers not to change the task assignment policy of the existing system
 as changing it will cause chaoses in the issues of task locality and task dependency. 
 The only effect of BAShuffler shall be a faster shuffle operation. 
-With the other phases unaffected, the job execution time is improved with faster shuffle.
+With the other phases unaffected, the job execution time will be improved with faster shuffles.
 
 
-In order to improve the shuffle performance, 
-it is necessary for the system to schedule network bandwidth as a
+It is necessary for the system to schedule network bandwidth as a
 kind of resource.
 However, it is not appropriate to encapsulate network bandwidth
 in a container
-like what is done for memory or CPU cores, for the following two reasons: 
-a) the network bandwidth occupied by the communication flow is decided
+like what is done for memories or CPU cores, for the following two reasons: 
+a) the network bandwidth occupied by a communication flow is decided
 by the two nodes on both ends of the flow
 and cannot be represented in a container that resides on a single node; 
 b) the task in a container may only use the network bandwidth as the
-necessary resource for some period of time
-throughout the whole lifecycle of the container, and a container for
-network bandwidth cannot properly 
-model the resources a task requires for its execution. 
+necessary resource for some period of time,
+% in the whole lifetime of the container, 
+and a network-bandwidth-encapsulated container can prohibit other 
+flows from using the bandwidth 
+during the lifetime of the container, even when the task is not working on the shuffle.
+% cannot properly 
+% model the resources a task requires for its execution. 
 Therefore, BAShuffler will not change the allocation mechanism of
 resource containers for the tasks.
-Instead, BAShuffler focuses on the shuffle phase of the reduce task,
+Instead, BAShuffler focuses on the shuffle phase of reduce tasks,
 which is already running in an allocated container.
 
 %Even inside
 During the shuffle phase, there are many factors that can
 affect the throughput or the execution time of the shuffles.
-For example, the CPU time slices for source nodes to send the map outputs via the fetch flow and 
-the straggler of a map task that prevents the shuffle operation having all the map outputs ready. 
-These factors are related to the dynamic environment of the distributed management platform. 
+For example, the CPU time slices for source nodes to send the map outputs via fetch flows and 
+the map task straggler that fails to have all map outputs ready. 
+These factors are related to the dynamic environment of distributed platforms. 
 Some of them can be avoided by a better resource isolation mechanism. 
-For instance, a good resource isolation mechanism should make sure the CPU time slices guaranteed for
+For instance, a good resource isolation mechanism should make sure that the CPU time slices guaranteed for
 sending the flow data will be stolen by other compute-intensive jobs.
-BAShuffler does not consider these factors.
+BAShuffler will not consider these factors.
 
 
 One factor we want to discuss here is the number of fetchers of each shuffle fetching the data
@@ -998,15 +1006,15 @@ This number directly decides the traffic workload in the cluster. Too many
 fetchers can jam the network (the TCP incast problem \cite{Phanishayee:2008:MAT}),
 while too few fetchers may increase the probability of the network
 links being underutilized. 
-The optimal number of fetchers in fact varies with the network settings as well as the application, but generally need not be very large (as suggested by the incast problem). 
+The optimal number of fetchers in fact varies with the network settings as well as the application characteristics, but generally need not be large (as suggested by the incast problem). 
 According to some of the Hadoop best practices (e.g. \cite{white2015hadoop}), tuning the number of fetchers is not a major performance consideration. 
-Considering there can be multiple task containers in one node, we consider 2 to 6 fetchers per shuffle task would be acceptable. 
-For the experiments that evaluate the other factors than the fetcher number, such as different jobs and input sizes, we do not bother with the optimal fetcher number and simply used Hadoop's default number, which is 5. 
+Considering that there can be multiple task containers in one node, we assume 2 to 6 fetchers per shuffle task would be acceptable. 
+For the experiments that evaluate the other factors than the fetcher number, such as different jobs and input sizes, we do not bother with the impact of the fetcher number and simply used Hadoop's default number, which is 5. 
 
-Another important factor is the communication pattern of the fetch
+Another important factor is the communication pattern of fetch
 flows. 
-The communication pattern mainly refers to the mapping from flow sources to flow destinations.
-Different communication patterns can lead to different bandwidth utilization status, which we will illustrate in the coming sections.
+The communication pattern refers to the mappings from flow sources to flow destinations.
+Different communication patterns can lead to different bandwidth utilization status, which we will illustrate in later sections.
 BAShuffler works on this factor and schedules the communication pattern.
 To schedule the communication pattern that can yield maximum bandwidth
 utilization, BAShuffler selects the source node of the fetch based on the MMF bandwidth estimation
@@ -1014,62 +1022,72 @@ when a new fetcher is free.
 
 
 \subsubsection{Architecture of BAShuffler}
-The logical position where the BAShuffler components are embedded in YARN is shown in Fig.~\ref{fig:bashuffler}. 
-The solid arrow lines represent local signals or data communications
-between components by method calls in the same node,
-while the dashed arrow lines represent remote procedure calls (RPC)
+BAShuffler is embedded in YARN. The structure of BAShuffler components and the shuffle-related information maintained by them are shown in Fig.~\ref{fig:bashuffler}. 
+The solid arrow lines represent remote procedure calls (RPC)
 between components in different nodes.
+The resource manager, the node manager and the application master  are the conventional terms in YARN, 
+where the resource manager controls the resource allocation in the cluster, 
+the node manager controls resources in each node, 
+and the application master coordinates the task assignment and execution of a distributed job (T1). 
+BAShuffler is a centralized scheduler in the resource manager and makes source scheduling decisions based on 
+bandwidth capacities of links (T2) and the scheduling status of the whole cluster, e.g., the records of the source and
+destination nodes of the scheduled flows (T3), 
+with the fact that this information is easily at hand of the resource manager.
 
 \begin{figure}
 \centering
 
 \includegraphics[width=1\columnwidth]{figure1}
 
-\caption{Architecture Design of BAShuffler}
+\caption{Architecture of BAShuffler and Shuffle-Related Information Maintained in Components}
 \label{fig:bashuffler}
 %\vspace{-0.2in}
 \end{figure}
 
-At startup, the node managers register the bandwidth capacities of the uplink
-and downlink of the node with BAShuffler. The users can obtain the
+At startup, node managers register with BAShuffler the bandwidth capacity of 
+the uplinks and downlinks of the nodes (S1). Users can obtain the
 capacities of these access layer links of the nodes either from the
-specification of the cluster configuration or by a simple bandwidth
+specification of the cluster configuration or simply by a bandwidth
 evaluation tool.
 
-When a shuffle task needs to schedule a new fetch, with the machine executing the shuffle task as the destination node, it asks the
-BAShuffler caller to initiate a request to the remote BAShuffler
-to decide the source node to schedule, from a set of available nodes that has finished some map task.
-The BAShuffler caller sends the necessary shuffle information to the
-corresponding application master,
-including the shuffle task ID, the list of pending nodes to fetch
-the data from and the request number of source nodes.
+When a shuffle task needs to schedule a new fetch, with the node executing the shuffle task as the destination node, it initiates a request to the application master
+for a scheduled fetch (S2).
+The request contains the shuffle information, including 
+the shuffle task ID, the list of pending source nodes for fetching
+data and the amount of source nodes to request.
+% the remote BAShuffler
+% to decide the source node to schedule, from a set of available nodes that has finished some map task.
+% The BAShuffler caller sends the necessary shuffle information to the
+% corresponding application master,
+% including the shuffle task ID, the list of pending nodes to fetch
+% the data from and the request number of source nodes.
 When the application master receives the shuffle scheduling request, 
 it caches the request and extracts the node information from the job
 information maintained in the application master.
-In the heartbeat from the application master to the resource manager,
+In a heartbeat from the application master to the resource manager,
 besides the original container allocation requests
-of YARN, the application master also sends the shuffle source
-scheduling request to BAShuffler, which lies in the resource manager.
-BAShuffler applies PGSS to schedule the fetch source of the shuffle tasks, which will be introduced in the following sub-sections. 
-BAShuffler adopts the centralized scheduling policy and make the source scheduling decision based on the link
-bandwidth capacities and scheduling status of the whole cluster, e.g., the records of the source and
-destination nodes of the scheduled flows, 
-with the fact that this information is easily at hand of the resource manager.
-When the source nodes for fetching are selected, BAShuffler will
-update the current scheduling information and
-the result is transferred back to the shuffle task in the reversed path. 
+of YARN, the application master also sends those shuffle source
+scheduling requests to BAShuffler (S3).
+BAShuffler applies a shuffle scheduling policy (PGSS or GSS) to select sources of shuffle tasks, which will be introduced soon. 
+% BAShuffler is a centralized scheduler and makes the source scheduling decision based on 
+% bandwidth capacities of links and the scheduling status of the whole cluster, e.g., the records of the source and
+% destination nodes of the scheduled flows, 
+% with the fact that this information is easily at hand of the resource manager.
+When the source nodes are selected, BAShuffler will
+update the current scheduling status and
+the result is transferred back to the shuffle task in the reversed path (S4 and S5). 
 
 When the shuffle task finishes fetching the data from a source and
 wants to free the flow,
-it will use the BAShuffler caller to update the source scheduling
-information in BAShuffler along the same path.
+it will ask BAShuffler to update the source scheduling
+status in BAShuffler along the same path.
 
-When a node manager is added or deleted from the cluster, 
-the node manager registers or deregisters its link capacities information 
-(and also the existing flow information when deregistering) to BAShuffler, 
+When a node manager is added to or deleted from the cluster, 
+the node manager registers or deregisters its link capacity information 
+(and also the existing flow information when deregistering) with BAShuffler, 
 just as at startup. 
 Adding or deleting a node in the cluster will not add additional workloads 
-of the users installing and configuring the system. 
+for users installing and configuring the system. 
 
 
 \begin{figure}[!t]
@@ -1078,14 +1096,19 @@ of the users installing and configuring the system.
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 
- \Input{$Sources$: the source nodes to select; \\
- $Pattern$: the sources and destinations the allocated flows in the cluster;}
+ \Input{$Sources$: source nodes to select; \\
+ $Pattern$: sources and destinations of the allocated flows in the cluster;}
  \Output{$Selected$;}
 
- $Heaviest$ $\gets$ the heaviest-loaded source nodes in $Sources$;\\
+ \If{GSS}{
+ 	$Nodes$ $\gets$ $Sources$
+ } \ElseIf{PGSS}{
+ 	$Nodes$ $\gets$ the heaviest-loaded source nodes in $Sources$;
+ }
+ % $Heaviest$ $\gets$ the heaviest-loaded source nodes in $Sources$;\\
  $MaxBandwidth$ $\gets$ 0;
  
- \ForEach{Source $\in$ Heaviest}{
+ \ForEach{$Source$ $\in$ $Nodes$}{
   $Util$ $\gets$ the MMF bandwidth utilization of the whole cluster after adding $Source$ to $Pattern$;
   
   \If{Util $>$ MaxBandwidth}{
@@ -1093,13 +1116,14 @@ of the users installing and configuring the system.
     $Selected \gets Source$;
   }
  }
-add $Selected$ to $Pattern$;\\
-update the load count of $Selected$;
-\caption{Partially Greedy Source Selection}
+\If{PGSS}{
+	update the load count of $Selected$;
+}
+add $Selected$ to $Pattern$;
+\caption{Greedy Source Selection and Partially Greedy Source Selection}
 \label{algo:PGSS}
 \end{algorithm}
-\caption{Pseudo Code of the Partially Greedy Source Selection Algorithm}
-\label{fig:PGSS}
+%\caption{Pseudo Code of the Partially Greedy Source Selection Algorithm}
 \end{figure}
 
 
@@ -1110,16 +1134,17 @@ selecting the source is
 to use the greedy method for online scheduling: 
 whenever there is a new fetch to schedule, the shuffle selects the
 pending source node such that after selecting it,
-the MMF bandwidth of the communication pattern is no less
+the MMF bandwidth of the whole cluster is no less
 than that
 when any other pending source node is selected. We call this shuffle
-scheduling policy Greedy Source Selection, or GSS.
+scheduling policy Greedy Source Selection, or GSS. 
+Algorithm~\ref{algo:PGSS} presents the procedure of GSS.
 %as against the RSS policy of YARN. 
 
-
-GSS is an effective method as long as it is not the
+GSS selects the source node that currently maximizes the cluster MMF bandwidth.
+GSS is an effective method when it is not the
 worst case:
-the selections of the shuffles concentrate on a part of the pool of the
+the selections of shuffles concentrate on a part of the pool of the
 nodes too much
 so that later on, the selection of the remaining source nodes of all
 the shuffles can only be concentrated in the other part of the pool.
@@ -1127,6 +1152,55 @@ In this case, in the latter period of source scheduling,
 the bandwidth of some nodes cannot be used at all as all the map
 outputs have already been fetched.
 The total bandwidth utilization might fall dramatically in this worst case. 
+
+\subsection{Partially Greedy Source Selection}
+Just like other online scheduling algorithms~\cite{wu2007scheduling, sgall1998line}, 
+GSS does not predict the arrival pattern of coming source nodes. 
+It makes sure that the maximum transfer throughput of the whole
+cluster is achieved at the moment it makes the scheduling decision,
+% during the short period
+% following the selection of each source,
+but it cannot guarantee the maximum average throughput of the cluster
+over a long period of time.
+
+A better shuffle source scheduling algorithm is possible if it can
+predict the arrival pattern of the source nodes in the future. %to fetch.
+There is, however, almost no way to know the arrival pattern of the shuffle
+tasks in advance
+as when and where the shuffle task starts depends on the allocation of
+the reduce containers, which is a stochastic process.
+Nevertheless, after a shuffle has started, the future pairs of the
+sources and the destination of fetch flows can be approximately predicted.
+The destination of the fetch flows is the node where the shuffle task
+executes,
+and the sources are the nodes %where there are input data for the
+where 
+the map tasks of the same job execute.
+(we ignore the case when there happens to be no map output partition
+for the shuffle, which is almost impossible
+for reasonably large input datasets). 
+
+Therefore, we can improve GSS to avoid concentration via what we call Partially
+Greedy Source Selection (PGSS), whose algorithm is also shown in Algorithm~\ref{algo:PGSS}.
+PGSS marks all the nodes with a \emph{load count}, which indicates how many fetch flows will be created from
+the corresponding source nodes in the immediate or near future.
+When a shuffle begins, PGSS predicts that there will be a new fetch
+flow later from every map task.
+Therefore, it increments the load count of each potential pending
+source node by the number of map tasks in the node.
+When PGSS needs to select a source from the pending nodes, 
+it zeros in on the set of source nodes that have the largest remaining load counts first (``partial'') and selects the one that gives that maximum MMF
+bandwidth utilization (``greedy'').
+
+PGSS may not increase the overall bandwidth utilization as compared to GSS, 
+as PGSS only selects the source nodes from the heaviest-loaded
+sources, which are a subset of the domain of GSS.
+However, PGSS can avoid the concentration of selection from a small set
+of sources,
+while maintaining the competitive bandwidth utilization, especially in the long run. 
+Another advantage of PGSS against GSS is that PGSS may incur
+even a smaller scheduling overhead, 
+as PGSS only selects the source nodes from the heaviest-loaded nodes. 
 
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
@@ -1149,53 +1223,6 @@ $O(K \cdot (N+F))$ &$O(\frac{(P+M-1)!}{P \cdot P! \cdot(M-1)!} \cdot (N+F))$\\
 \end{tabularx}
 %\end{tabular}
 \end{table}
-
-\subsection{Partially Greedy Source Selection}
-Just like the other online scheduling algorithms \cite{wu2007scheduling, sgall1998line}, 
-GSS does not predict the arrival pattern of the coming source nodes. 
-It makes sure that the maximum transfer throughput of the whole
-cluster is achieved during the short period
-following the selection of each source,
-but it cannot guarantee the maximum average throughput of the cluster
-for a much longer period of time.
-
-A better shuffle source scheduling algorithm is possible if we can
-predict the arrival pattern of the source nodes. %to fetch.
-There is however almost no way to know the arrival pattern of the shuffle
-tasks in advance
-as when and where the shuffle task starts depends on the allocation of
-the reduce containers, which is a stochastic process.
-Nevertheless, after a shuffle has started, the future pairs of the
-source and destination of the fetch flows can be approximately predicted.
-The destination of the fetch flows is the node where the shuffle task
-executes,
-and the sources are all the nodes where there are input data for the
-map tasks of the same job
-(we ignore the case when there happens to be no map output partition
-for the shuffle, which is almost impossible
-for reasonably large input datasets). 
-
-Therefore, we can improve GSS to avoid concentration via what we call Partially
-Greedy Source Selection (PGSS), whose algorithm is shown in Fig.~\ref{fig:PGSS}.
-PGSS marks all the nodes with a \emph{load count}, which indicates how many fetch flows will be created from
-the corresponding source nodes in the immediate or near future.
-When a shuffle begins, PGSS predicts that there will be a new fetch
-flow later from every map task.
-Therefore, it increments the load count of each potential pending
-source node by the number of map tasks in the node.
-When PGSS needs to select a source from the pending nodes, 
-it zeros in on the set of source nodes that have the largest remaining load counts first (``partial'') and selects the one that gives that maximum MMF
-bandwidth utilization (``greedy'').
-
-PGSS may not increase the overall bandwidth utilization as compared to GSS, 
-as PGSS only selects the source nodes from the heaviest-loaded
-sources, which are a subset of the domain of GSS.
-However, PGSS can avoid the concentration of selection from a small set
-of sources,
-while maintaining the competitive bandwidth utilization, especially in the long run. 
-Another advantage of PGSS against GSS is that PGSS may incur
-even a smaller scheduling overhead, 
-as PGSS only selects the source nodes from the heaviest-loaded nodes. 
 
 Although GSS and PGSS are not the online optimal scheduling solutions for the
 shuffle source selection problem,
@@ -1236,40 +1263,42 @@ The goal of maximizing bandwidth utilization is reasonable in the shared environ
 %\vspace{-0.2in}
 \end{figure}
 
-\subsection{Applying PGSS}\label{section:analysis}
-We illustrate how PGSS is applied when selecting a source based on the
-notion of MMF allocation in both homogeneous and heterogeneous
-network settings, corresponding to the capacities
-of the access layer links being the same or different, respectively.
+\subsection{Applying GSS/PGSS}\label{section:analysis}
+We illustrate how GSS or PGSS are applied when selecting a source based on the
+MMF allocation in both homogeneous and heterogeneous
+network settings, which are distinguished by whether the capacities
+of the access layer links are the same or not, respectively.
 The analysis can easily extend to a large scale of nodes and flows in
 the datacenter, as the MMF behavior follows the same
 method of estimation.
-
 As dicussed in Section~\ref{section:MMF}, we assume that the bottleneck links of the TCP
-flows are the access links to the computer nodes.
-We consider both the homogeneous and the heterogeneous network settings,
-which are distinguished by whether the capacities
-of the access layer links are the same or vary.
+flows are the access links to computer nodes.
+Since GSS and PGSS are similar except that PGSS selects source nodes from the heaviest-loaded nodes,
+we illustrate the benefit of MMF of estimation in BAShuffler by assuming all nodes are already heaviest-load nodes. 
+GSS behaves exactly the same as PGSS then, and for simplicity, we only discuss about applying PGSS.
+% We consider both the homogeneous and the heterogeneous network settings,
+% which are distinguished by whether the capacities
+% of the access layer links are the same or vary.
 %i.e., a homogeneous network environment. 
-Although RSS can distribute the
-flows more or less evenly, %to some extent,
-it cannot guarantee exactly the same workload (or number of flows) on each node. 
+% Although RSS can distribute the
+% flows more or less evenly, %to some extent,
+% it cannot guarantee exactly the same workload (or number of flows) on each node. 
 
 
 
 Fig.~\ref{fig:network} depicts 
 two scenarios of the uneven flow pattern, where uneven means
-that the numbers of flows into or out of all the nodes are not the same, and even otherwise. 
-In the sparse case, most of the links are idle, while in the intensive case, the
+that the numbers of flows into or out of the nodes are different, and even otherwise. 
+In the sparse case, some links are idle, while in the intensive case, the
 links are almost saturated by the flows.
 In the homogeneous network setting,
 the three nodes, A, B, and C, have the same uplink and downlink bandwidth
 capacities, % which are listed in Table \ref{table:networkSetting}.
-which are 6, 6 and 6, respectively; whereas in the heterogeneous setting,
-there capacities are 6, 6 and 12, respectively.
+which are all 6; whereas in the heterogeneous setting,
+their capacities are 6, 6 and 12, respectively.
 The solid arrows represent the existing fetch flows and the dashed arrows represent the newly coming flows that can be selected. 
 Now, a fetcher in Node B becomes available and PGSS needs to decide a source
-node (A or C) to fetch the data. 
+node (A or C) to fetch data. 
 Assume that both Node A and Node C are the heaviest-loaded nodes.
 
 
@@ -1278,7 +1307,7 @@ Assume that both Node A and Node C are the heaviest-loaded nodes.
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1}
 % \extrarowheight as needed to properly center the text within the cells
-\caption{Max-Min Fairness Bandwidth Allocation of Flows of the Sparse Case in the Homogeneous Network}
+\caption{MMF Flow Allocation of the Sparse Case in Homogeneous Network}
 \label{table:homoSparse}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
@@ -1302,7 +1331,7 @@ c2 &3&3&-&6&12\\
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1}
 % \extrarowheight as needed to properly center the text within the cells
-\caption{Max-Min Fairness Bandwidth Allocation of Flows of the Intensive Case in the Homogeneous Network}
+\caption{MMF Flow Allocation of the Intensive Case in Homogeneous Network}
 \label{table:homoIntensive}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
@@ -1324,12 +1353,12 @@ e2 &2&2&2&3&-&3&12\\
 
 
 \subsubsection{Homogeneous Network}
+Different selection decisions lead to different flow bandwidth allocations and overall bandwidth utilizations. 
 In the homogeneous network setting, the MMF bandwidth
 allocation of each flow before or after selecting a new flow is
 shown in Table \ref{table:homoSparse} (for the sparse case) and Table
-\ref{table:homoIntensive} (for the intensive case), respectively, where ``Nil'' in an entry means before the source selection.
-Different selection decisions can lead to different flow bandwidth allocations and overall bandwidth utilizations. 
-In the sparse case (Fig.~\ref{fig:network}), PGSS will select Node C as the source, which gives 33\% higher overall
+\ref{table:homoIntensive} (for the intensive case), respectively, where ``Nil'' in an entry means the status before the source selection.
+In the sparse case (Fig.~\ref{fig:network}), PGSS selects Node C as the source, which offers 33\% higher overall
 bandwidth utilization than if Node A is selected.
 Note that the RSS policy of YARN will have a 50\% probability of selecting
 Node A, not guaranteeing the maximum utilization of the bandwidth
@@ -1337,24 +1366,25 @@ even in the homogeneous network setting.
 %Usually, there are lots of such idle bandwidth that can be made use of
 %if the shuffle carefully selects the source node for fetching data. 
 
-In the intensive case (Fig.~\ref{fig:network}), if we have the assumption that the upload (down)
-rates of the flows are only decided by the uplink (downlink)
+Applying MMF to estimate the bandwidth allocation can
+help make better decisions when selecting the source nodes at the
+application level.
+In the intensive case (Fig.~\ref{fig:network}), if we assume that the upload (download)
+rates of flows are only decided by the uplink (downlink)
 capacity and the number of the flows sharing that link
 as in \cite{chowdhury2011managing},
 it will make no difference whether to choose Flow e1 or Flow e2,
 as both source nodes have one outgoing flow from them 
 (Flow a and Flow d). 
 However, by the notion of MMF, PGSS will select e1 that can maximize the overall bandwidth utilization. 
-Applying MMF to estimate the bandwidth allocation can
-help make better decisions when selecting the source nodes at the
-application level.
+
 
 
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1}
 % \extrarowheight as needed to properly center the text within the cells
-\caption{Max-Min Fairness Bandwidth Allocation of Flows of Uneven Flow Pattern in Heterogeneous Network Setting}
+\caption{MMF Flow Allocation of Uneven Pattern in Heterogeneous Network}
 \label{table:heteUneven}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
@@ -1376,16 +1406,16 @@ c2 &6&6&-&6&18\\
 
 \subsubsection{Heterogeneous Network}
 In the heterogeneous network setting, the randomly source selection policy
-can have an even greater (negative) impact on the
+can even have an greater (negative) impact on the
 bandwidth utilization than in a homogeneous network, 
 no matter whether the flows are evenly allocated across the network or not.
 
 %\subsubsection{Uneven Flow Pattern}
 Look at the uneven flow patterns in Fig.~\ref{fig:network} again. 
 In the heterogeneous network setting, 
-the MMF bandwidth allocation of each flow is shown in Table \ref{table:heteUneven}
+the MMF bandwidth allocation of each flow is shown in Table~\ref{table:heteUneven}.
 The overall bandwidth utilization difference between selecting Flow c1 and Flow c2 is amplified in the heterogeneous network (3:2),
-compared to the homogeneous network (4:3).
+as compared to the homogeneous network (4:3).
 PGSS will always select the source (Node C) that brings about the maximum
 bandwidth utilization.
 
@@ -1395,25 +1425,25 @@ where every link has the same number of flows, selecting any source
 node for fetching
 will make almost no difference in the overall bandwidth utilization. 
 However, in the heterogeneous network, selecting the right source node
-can lead to a higher bandwidth utilization.
+is critical for high bandwidth utilization.
 
 \begin{figure}[!t]
 \centering
 
-\includegraphics[width=0.5\columnwidth,height=0.35\columnwidth]{figure4}
+\includegraphics[height=0.35\columnwidth]{figure4}
 
 \caption{Selecting the Source in the Even Flow Pattern}
 \label{fig:network3}
 %\vspace{-0.2in}
 \end{figure}
  
-Fig.~\ref{fig:network3} depicts the scenarios of the even flow pattern, and the capacities of the links follow the heterogeneous setting.
+Fig.~\ref{fig:network3} depicts the scenario of the even flow pattern, and the capacities of the links follow the heterogeneous setting.
 %We analyze the bandwidth utilization in the even flow pattern
 %scenario as shown in Fig.~\ref{fig:network3}. 
 The MMF allocation of the flows before and after
 selecting the new dashed flows is shown in Table
 \ref{table:heteEven}.
-Surprisingly but it does happen that the overall MMF bandwidth utilization
+Surprisingly, it does happen that the overall MMF bandwidth utilization
 drops if Flow d1 is selected.
 PGSS selects Flow d2 to guarantee the maximum bandwidth utilization.
 
@@ -1442,50 +1472,50 @@ d2 &3&3&2&2&4&3&-&2&19\\
 \end{table}
 
 Overall, neither RSS nor selecting the source based on the number of flows on
-the link can help make the right decision that can
-maximize the bandwidth utilization in the MMF network.
-However, by using the knowledge
+the link makes the right decision that
+maximizes the bandwidth utilization in the MMF network.
+However, by applying the knowledge
 of the bandwidth capacities of the
 access layer links and the TCP flow communication patterns (sources
 and destinations of the flows),
-PGSS can easily find out the proper source node for achieving the maximum
+PGSS can easily find out the proper source node to achieve the maximum
 transfer throughput of the flows by
 the behavior of MMF.
 
 
 \subsection{Implementation Details}
-\textbf{Rearranging Selecting Sequence}: PGSS applies the ``first-hit" approach when selecting the source node that achieves the maximum bandwidth utilization. 
+
+\textbf{Rearranging Selecting Sequence}: PGSS applies the ``first-hit" approach when selecting the source node. 
 For a specific sequence of the pending source nodes, PGSS will always
-prefer the source node at the front of the sequence
+prefer the source node in the front of the sequence
 among the source nodes with the same maximum bandwidth utilization
 if they are selected.
 %after selected.
-To avoid the case where the source nodes in the front
-of the sequence starve the nodes in the tail,
+To avoid the case that the source nodes in the front
+of the sequence starves the nodes in the tail,
 PGSS rearranges the sequence of the pending source nodes randomly
-before it starts to find the first-hit source node.
+before it starts to find the first-hit node.
 This guarantees that every source node that can achieve the maximum
-bandwidth has the chance to be selected, and
-reduces the probability of concentration during the latter period of
-scheduling.
+bandwidth has the same chance to be selected.
+% , and
+% reduces the probability of concentration during the latter period of
+% scheduling.
 
 \textbf{Pre-Scheduling}:
-Usually, the shuffle task will have only one free fetcher at a time,
-and the shuffle needs to ask the BAShuffler caller
-to request a scheduled source every time (Fig.~\ref{fig:bashuffler}). 
-For every source request from the BAShuffler caller to the BAShuffler, 
+Usually, the shuffle task has only one free fetcher at a time,
+and the shuffle requests for a scheduled source from BAShuffler every time (Fig.~\ref{fig:bashuffler}). 
+For every source request from the shuffle task to BAShuffler, 
 it takes two segments of remote call time, one segment of heartbeat
 interval time and two segments of thread scheduling time.
-In fact, the pending sources for fetching are known before the free
-fetcher asks for the source.
-The BAShuffler uses the \emph{pre-scheduling} strategy, which requests
-a few of the scheduled sources from the BAShuffler at a time,
-and when the shuffle task needs a source to fetch, the BAShuffler
-caller can return one source to the shuffle
+In fact, the pending sources for fetching are known before free
+fetchers ask for the sources.
+BAShuffler uses the \emph{pre-scheduling} strategy, which requests
+a number of the scheduled sources from BAShuffler at a time,
+and when a fetcher needs a source, the shuffle task can return one
 immediately. Although the actual flow pattern may lag slightly behind
-the scheduling pattern stored in the BAShuffler,
-the pattern will soon catch up when the scheduled sources in the cache of
-the BAShuffler caller are consumed.
+the scheduling pattern stored in BAShuffler when pre-scheduling,
+the pattern will quickly catch up when the scheduled sources in the cache of
+the shuffle task are consumed.
 
 
 \section{Evaluation}\label{section:evaluation}
@@ -1494,8 +1524,8 @@ we conduct experiments in a physical cluster of heterogeneous
 network setting with realistic benchmarks and datasets.
 The performance improvement of BAShuffler will also be verified in an
 Amazon EC2 virtual cluster, whose underlying network setting is
-unknown to the users.
-Furthermore, we also evaluate the performance of BAShuffler in
+unknown to users.
+Furthermore, we also evaluate the scalability of BAShuffler in
 clusters of different scales and degrees of heterogeneity by simulation.
 
 
@@ -1527,15 +1557,13 @@ RankedInvertedIndex & 150 & 175 & 153\\
 \end{table}
 
 \subsection{Physical Testbed}
-To verify the benefits of BAShuffler in scheduling the shuffle fetch
-flows with awareness of the network bandwidth allocation behavior,
+% To verify the benefits of BAShuffler in scheduling the shuffle fetch
+% flows with awareness of the network bandwidth allocation behavior,
 %we run BAShuffler in real testbeds, including a physical cluster and
 %a virtual cluster with heterogeneous networks.
-we run BAShuffler in a physical testbed, the
+We run BAShuffler in a physical testbed, the
 Gideon-II cluster \cite{gideon} in the heterogeneous network configuration.
-
-
-The physical cluster contains 18 computer nodes, where one node
+The physical testbed is a cluster containing 18 computer nodes, where one node
 assumes the role of the name node of HDFS, and
 one node acts as the resource manager of YARN. 
 The remaining 16 nodes are configured as both the data nodes of HDFS
@@ -1544,10 +1572,10 @@ Each node is equipped with 2 quad-core, 32 GB DDR3 memory and
 2 $\times$ 300 GB SAS hard disks running RAID-1. 
 All the 18 nodes run with Scientific Linux 5.3 and are connected to an internal non-blocking switch with GbE ports. 
 To create the heterogeneous network capacity, among 16 node managers, 
-the bandwidth capacities of the uplinks and downlinks of 8 nodes are
+the bandwidth capacity of the uplinks and downlinks of 8 nodes is
 manually limited to 160 Mbps,
 by using the traffic control tool ``\emph{tc}'', 
-and the remaining 8 nodes keep to their physical uplink and downlink
+and the remaining 8 nodes keep to their physical uplinks and downlinks
 bandwidth capacity, which is 320 Mbps.
 
 
@@ -1555,30 +1583,32 @@ bandwidth capacity, which is 320 Mbps.
 \centering
 \includegraphics[width=1\columnwidth]{figure5}
 \caption{Cumulative Completion Ratio (CR) of the Overall Shuffle Workload of RSS, GSS and PGSS in Various Benchmarks along the Time
-in the Physical Cluster} 
+in the Physical Testbed} 
 \label{fig:new_completion_ratio}
 \end{figure}
 
 
-The benchmarks and datasets used are from a realistic MapReduce benchmark suite \cite{ahmad2012puma}. 
+The benchmarks and datasets used are from a realistic MapReduce benchmark suite~\cite{ahmad2012puma}. 
 We use mainly the shuffle-heavy applications because we want to evaluate  BAShuffler when the shuffle workload can saturate the
-network most of the time,
-and ignore the other applications whose shuffle workloads are quite
-low. %regarding the input data size.
+network most of the time. 
+BAShuffler performs almost the same in shuffle-light applications in the benchmark suite and we leave them out in the experiment results. 
+% and ignore the other applications whose shuffle workloads are quite
+% low. %regarding the input data size.
 The sizes of the datasets of the benchmarks are listed in Table \ref{table:benchmark}.
 
-BAShuffler is configured in advance to have the knowledge of
+BAShuffler is configured in advance to know
 the link bandwidth capacity of each node.
 %We run the typical shuffle-heavy MapReduce job, i.e., SequenceCount \cite{ahmad2012puma} on YARN, 
 %with both the original shuffle scheduler and BAShuffler. 
 Unless specified otherwise, %the input data size for each job is 200 GB, 
 in both the physical testbed and the virtual testbed introduced later, 
 the number of fetchers in each shuffle task is 5 (the default value), 
-and the number of reduce tasks of each job is configured to
-be the total number of node managers in the cluster.
+the number of reduce tasks of each job is configured to
+be the total number of node managers in the cluster, 
+and other Hadoop configurations keep their default values. 
 We compare GSS and PGSS with RSS, and RSS is the default and the only
 presently known application-level shuffle scheduler in YARN. 
-The following subsections report the overall shuffle throughput of
+The following sub-sections report the overall shuffle throughput of
 the cluster, the shuffle rate of each shuffle task, the reduce phase
 completion time and the job overall completion time.
 We also measure the performance of BAShuffler with input data of
@@ -1589,14 +1619,14 @@ The results will be introduced later together with the those of the virtual clus
 \begin{figure}
 \centering
 \includegraphics[width=0.7\columnwidth,height=0.35\columnwidth]{figure6}
-\caption{GSS and PGSS Speedup of Average Shuffle Rate of Each Shuffle Task in comparison to RSS in Benchmarks Terasort (TS), InvertedIndex(II), SequenceCount (SC) and RankedInvertedIndex (RII) in the Physical Cluster} 
+\caption{GSS and PGSS Speedup of Average Shuffle Rate of Each Shuffle Task in comparison to RSS in Benchmarks Terasort (TS), InvertedIndex(II), SequenceCount (SC) and RankedInvertedIndex (RII) in the Physical Testbed} 
 \label{fig:new_shuffle_rate}
 \end{figure}
 
 \subsubsection{Shuffle Throughput}
 The throughput performance of GSS and PGSS can be measured by the overall shuffle
 throughput of the cluster
-and the average shuffle rate of each individual shuffle task, respectively. 
+and the average shuffle rate of each shuffle task, respectively. 
 We use the metric of the overall shuffle throughput because it
 reflects the cluster overall bandwidth utilization along the time axis.
 The start time and finish time of the shuffle tasks are usually different from each other during the shuffle phase, but can also overlap. 
@@ -1613,26 +1643,25 @@ throughputs, %along the time,
 which shows that the simple greedy method can also maximize the
 bandwidth utilization in some cases,
 as long as that it selects the fetch source node based on the estimation of the bandwidth allocation status. 
-The overall shuffle throughput improvement is the result of maximizing
-the overall bandwidth utilization.
+The overall shuffle throughput improvement is the result of improved overall bandwidth utilization.
 
-One thing to notice is that we can see the slightly longer tails in the shuffle CR line (e.g., RSS and GSS in Terasort and RSS in SequenceCount). 
-It is because a few of the shuffle tasks would likely gain lower throughput at the beginning, and when some other tasks finish shuffling, they become stragglers. The largest throughput these remaining stragglers can attain depends on the bandwidth of the working links, but not the bandwidth of the whole cluster. As a result, the transfer rate slows down and we see the tails.
+One thing to notice is that we can see slightly longer tails in the shuffle CR line (e.g., RSS and GSS in Terasort and RSS in SequenceCount). 
+It is because a few of the shuffle tasks unfortunately gain lower throughput at the beginning. When some other tasks finish shuffling, they still cannot increase the throughput and become stragglers. The reason is that the largest throughput these remaining stragglers can attain depends on the bandwidth of the working links, but not the bandwidth of the whole cluster. As a result, the transfer rate is slow and we see the tails.
 
-The comparison of average shuffle rates of the shuffle tasks between GSS, PGSS and RSS is made based on the speedup factor. 
+The comparison of the average shuffle rates of shuffle tasks between GSS, PGSS and RSS is made based on the speedup factor. 
 The speedup is calculated by the average shuffle rate difference between GSS (or PGSS) and RSS over that of RSS. 
 The results are shown in Fig.~\ref{fig:new_shuffle_rate}.
 GSS and PGSS gain relatively high shuffle rate speedups as compared to
-RSS in all benchmarks, which are as high as 7\% and 12\% in the
+RSS in all benchmarks, which are about 7\% and 12\% in the
 Terasort benchmark.
-The speedups of PGSS are a bit higher than GSS, e.g., in Terasort and RankedInvertedIndex. 
+The speedups of PGSS are a bit higher than GSS, e.g., in Terasort (by 5\%) and RankedInvertedIndex (by 3\%). 
 
 
 
 \subsubsection{Completion Time}
 We also measure how much the job completion time can be decreased by maximizing the network bandwidth utilization with GSS and PGSS. 
-The reduce completion time is the duration from the time when all the
-map tasks have finished to the time the job finishes.
+The reduce completion time is the time period between the time when all the
+map tasks have finished and the time the job finishes.
 During the reduce completion time, no map task is running, and most of
 the tasks are doing the shuffle work at the first half of the time and
 doing the reduce work at the second half of the time.
@@ -1645,12 +1674,12 @@ define the endpoint of the shuffle completion time.
 \centering
 \includegraphics[width=1\columnwidth]{figure7}
 \caption{Reduce Completion Time of RSS, GSS and PGSS in Various Benchmarks with Different Numbers of Fetchers in Each Shuffle Task
-in the Physical Clusters} 
+in the Physical Testbed} 
 \label{fig:new_reduce_completion}
 \end{figure}
 
 
-The reduce completion time of RSS, GSS and PGSS in various benchmarks with different numbers of fetchers in the shuffle tasks are shown in Fig.~\ref{fig:new_reduce_completion}. 
+\textbf{Reduce Completion Time:} The reduce completion time of RSS, GSS and PGSS in various benchmarks with different numbers of fetchers in shuffle tasks are shown in Fig.~\ref{fig:new_reduce_completion}. 
 Different numbers of fetchers will create different degrees of traffic
 congestion in the network. 
 The case of only one fetch in each shuffle task is skipped because the
@@ -1660,31 +1689,34 @@ time to complete the reduce than RSS.
 The exact speedup is depicted in Fig.~\ref{fig:new_speedup} and will be described soon.
 The reduce completion time of RSS with different numbers of fetchers
 deviates from each other over a large value range without obeying following an obvious pattern,
-which indicates that the random source selection method cannot fully
-utilize the network bandwidth for different levels of network traffic
+which indicates that RSS is sensitive to different levels of network traffic
 congestions.
+The reduce completion time of GSS and PGSS is more flat
+with different numbers of fetchers in all benchmarks.
+Except in Terasort, where PGSS and GSS are close in reduce completion time,
+PGSS generally performs better than GSS with different fetcher numbers in the other benchmarks. 
+PGSS is more applicable to various traffic congestion statuses.
+
 It is not our work to obtain such an ``optimal'' fetcher number that generates the least reduce time because it seems unpredictable from the results of different benchmarks or just may not be unique 
 (e.g., 4 fetchers and 6 fetchers in RankedInvertedIndex generate almost the same reduce time, and it is hard to tell the fetch number is an important impact factor for the same reduce time), which indicates that the obtaining the ``optimal'' fetcher number may be a false proposition.
 Besides, even if there is such an ``optimal'' fetcher number for RSS, it requires users multiple runs to obtain such number, and the best reduce completion time is narrowly shorter than the worst one with PGSS in the Terasort Case. 
-While in the other benchmarks, PGSS always outperforms (or performs no worse than) RSS with any fetcher number. 
-Nevertheless, the reduce completion time of GSS and PGSS (especially PGSS) is more flat
-with different numbers of fetchers in all benchmarks.
-It shows that BAShuffler can be applied to various traffic congestion statuses.
+While in the other benchmarks, PGSS's worst result is no worse than the best one of RSS with any fetcher number. 
 
 
-Fig.~\ref{fig:new_speedup} depicts the reduce completion time speedup
+
+\textbf{Overall Completion Time:} Fig.~\ref{fig:new_speedup} depicts the reduce completion time speedup
 and the job overall completion time speedup of GSS and PGSS as
 compared to RSS with different numbers of fetchers in each shuffle
 task.
-The completion time speedup is calculated based on the time difference between GSS (or PGSS) and RSS over that of RSS. 
-As the benchmarks are reduce-heavy, where the shuffle phase can occupy
+The completion time speedup is calculated based on the time difference between GSS (or PGSS) and RSS over the time of RSS. 
+As the benchmarks are reduce-heavy, where the shuffle phase occupies
 a major portion of the overall workload, in most cases, BAShuffler not
 only improves the reduce phase, but also the overall
 completion time of the jobs by a remarkable margin.
 For example, in the RankedInvertedIndex benchmark with 5 fetchers, 
 GSS and PGSS decrease the reduce completion time by 26\% and 29\%, respectively, 
 and decrease the overall completion time by 19\% and 21\%, respectively.  
-In some cases, the speedups of GSS and PGSS are not obvious (e.g.,
+We also note that in some cases, the speedups of GSS and PGSS are not obvious (e.g.,
 Terasort with 6 fetchers and RankedInvertedIndex with 4 fetchers) when
 the reduce completion time of RSS is already the minimum among all the
 fetcher settings.
@@ -1700,9 +1732,9 @@ in the Physical Clusters}
 \end{figure}
 
 \subsection{Virtual Testbed}
-The virtual cluster is meant to evaluate the performance of BAShuffler in the environment when the network settings are unclear. 
+The virtual testbed is meant to evaluate the performance of BAShuffler in the environment when the network settings are unclear. 
 
-We deploy the virtual cluster on Amazon EC2, with 9 c3.xlarge
+We deploy the virtual testbed on Amazon EC2, with a cluster consisting of 9 c3.xlarge
 instances and 10 c3.2xlarge instances running
 Amazon Linux Image \cite{aws}. The c3.xlarge instance is referred to as the \emph{medium} instance 
 and the c3.2xlarge instance the \emph{large} instance below. 
@@ -1732,11 +1764,11 @@ The reason is discussed as follows.
 The network bandwidth capacities of the links in the virtual cluster are much higher than those of in the physical one, with similar CPU rates. 
 With the higher shuffle throughput, the length of the list of the pending fetch sources is smaller in the virtual cluster, as the fetch tasks finish faster. 
 Although PGSS is designed to prevent the worse
-case that some heavy-loaded nodes are starved in the long period, which GSS may encounter, 
+case that some heavy-loaded nodes are starved for a long period, which GSS may encounter, 
 GSS is good enough to handle the scheduling of the pending sources of short length. 
 
-It leads us to the thought of the choice between GSS and PGSS. 
-GSS performs well when the pending source list is of short length, which is either because the network throughput is high as compared to the data size that the CPU can generate, or because the shuffle size is relatively low (shuffle-trivial). With the setting that the network would be bottleneck for the job and the workload type is shuffle-heavy, by further considering the lower scheduling overhead in the large-scale cluster (which will be evaluated in Section~\ref{section:eva_overhead}, PGSS is preferred. 
+It leads us to think of the choice between GSS and PGSS. 
+GSS performs well when the pending source list is of short length, which is either because the network throughput is high as compared to the data size that the CPU can generate, or because the shuffle size is relatively low (shuffle-trivial). With the setting that the network would be bottleneck for the job and the workload type is shuffle-heavy, by further considering the lower scheduling overhead in the large-scale cluster (which will be evaluated in Section~\ref{section:eva_overhead}), PGSS is preferred. 
 
 
 Although the underlying network settings are unclear, the experiment
@@ -1753,15 +1785,16 @@ network as a non-blocking switch.
 \end{figure}
 
 \subsubsection{Completion Time}
-The reduce completion of the SequenceCount benchmark with different fetcher numbers in the virtual cluster is shown in Fig.~\ref{fig:r_vsequence}. 
+The reduce completion time of the SequenceCount benchmark with different fetcher numbers in the virtual cluster is shown in Fig.~\ref{fig:r_vsequence}. 
 Similar to the situation of the physical cluster,
 BAShuffler decreases the reduce
 completion time in different fetcher number settings.
 When the fetcher number is 2, GSS and PGSS decrease the reduce
 completion time by 26\% and 8\%, respectively.
-The curve of PGSS is more flat than the other scheduling algorithms and is always below that of RSS, 
-which indicates that PGSS guarantees high shuffle performance regardless of the network congestion status.
-With 6 fetchers, GSS gives merely the same reduce completion time as RSS, but PGSS
+The curve of PGSS is more flat than the other scheduling algorithms and is always below that of RSS, which is the same as in the physical cluster.
+As discussed in the previous sub-section, GSS generally performs better than PGSS
+because of the faster network transfer rate over the CPU rate. 
+In the case with 6 fetchers, when the network is more congested, GSS gives merely the same reduce completion time as RSS, but PGSS
 decreases the time by about 11\% as compared to RSS. 
 
 
@@ -1770,13 +1803,16 @@ decreases the time by about 11\% as compared to RSS.
 \centering
 \includegraphics[width=0.7\columnwidth,height=0.4\columnwidth]{figure10}
 \caption{Reduce Completion Time of the SequenceCount Benchmark with Different Fetcher Numbers
-in the Virtual Cluster}
+in the Virtual Testbed}
 \label{fig:r_vsequence}
 %\vspace{-0.22in}
 \end{figure}
 
 
 \subsubsection{Different Input Data Sizes}
+The influence of the application-level shuffle scheduling is contributed by 
+the characteristics of the jobs, the varieties in the resource configurations
+(e.g., CPU, memory and network) of the cluster, as well as the size of the input data.
 To evaluate the scalability of BAShuffler in processing large datasets, 
 we run BAShuffler against different sizes of input data for the jobs.
 Fig.~\ref{fig:r_sizes} shows the RSS and PGSS reduce completion time of the
@@ -1784,11 +1820,9 @@ SequenceCount Job with different input data sizes
 in both the physical and the virtual testbeds. 
 Note that the total numbers of nodes of the physical and virtual testbeds are different.
 PGSS performs better than RSS in both the testbeds regardless of the input data size. 
-The completion time improvements range from 8\% to 13\% in the physical testbed
+The completion time improvement ranges from 8\% to 13\% in the physical testbed
 and from 2\% to 17\% in the virtual one. 
-The influence of the application-level shuffle scheduling is contributed more by 
-the characteristics of the jobs and the varieties in the resource configurations
-(e.g., CPU, memory and network) of the cluster, rather than the size of the input data. 
+ 
 
 
 \begin{figure}[!t]
@@ -1806,7 +1840,7 @@ the throughput of the concurrent shuffle tasks.
 We evaluate how BAShuffler can improve the job completion time when
 multiple jobs run concurrently in the shared cluster.
 %Finally, we conduct the experiments with multiple concurrent jobs in the cluster. 
-We submit totally three SequenceCount jobs to the clusters at the same time.
+We submit three SequenceCount jobs to the clusters at the same time.
 %and we submit each job 15 seconds after the previous is submitted. 
 The container scheduler is the default Capacity Scheduler in YARN. 
 Fig.~\ref{fig:r_concurrent} shows the average job completion time and
@@ -1817,7 +1851,7 @@ PGSS decreases the average completion time and the last job
 completion time by about 6\% and 15\% in the physical testbed 
 and by about 7\% and 2\% in the virtual testbed, respectively. 
 In the virtual testbed, the second job completion time of PGSS is still 13\% higher than that of RSS, but the final results at ``2\%''.
-It may be because PGSS has the chance of pending the shuffle tasks of the third job as a penalty of achieving a maximum MMF allocation, 
+The reason may be that PGSS has the chance of pending some shuffle tasks of the third job as a penalty of achieving a maximum MMF allocation, 
 while RSS is more fair for different jobs but gains poorer average completion time. 
 
 
@@ -1834,30 +1868,22 @@ It is hard to measure the performance of BAShuffler in real
 testbeds of different scales; we rely on
 simulations to provide some insight of algorithmic benefits and
 overheads, and the results are convincing.  %with convincing results. 
-The different scheduling algorithms will generate scheduling decisions
+Different scheduling algorithms generate scheduling decisions
 of the source nodes,
 and the bandwidth utilization of these scheduling
 decisions is calculated based on the MMF mechanism.
 
 We classify the synthetic nodes into low-bandwidth nodes and
 high-bandwidth nodes.
-The bandwidth capacity of the uplink and the downlink of the
+The bandwidth capacity of uplinks and downlinks of the
 low-bandwidth nodes is 512 Mbps %respectively,
-and it is 1024 Mbps for the high-bandwidth nodes. Unless specified, 
+and it is 1024 Mbps for the high-bandwidth ones. Unless specified, 
 otherwise, there is one shuffle task running on each node, 
 and each shuffle task has 5 fetchers in total. Each shuffle needs to fetch data from all the other nodes in the cluster.
-One shuffle of the node will request to schedule all its fetches first 
-before the next shuffle on another node requests to schedule its fetches. 
-
-All the tests about PGSS and the online optimal algorithm are executed
-10 times, and 100 times for
-the tests about RSS due to its property of total randomness.
-The bandwidth utilization value is obtained as the mean value of all the runs.
-There is one shuffle task with 5 fetchers in each node.  
-During the workload, at every time interval, 
-the shuffle on a node will request to schedule the source nodes for
-its free fetchers
-before it is the turn for the shuffle on the next node in the sequence.
+The order of fetch requests is:
+one shuffle of the node requests to schedule all its fetch flows,
+then another shuffle on another node requests to schedule all its fetches, 
+and go on. 
 When there is no free fetcher in a shuffle, the shuffle will assume
 that a random working fetcher has finished the
 fetch, release the corresponding fetch flow, and schedule a new pending
@@ -1865,6 +1891,16 @@ source node for the new free fetcher.
 When the shuffle finishes fetching data from all the pending source
 nodes, a new shuffle will start on the same node to start to fetch
 data from all the other nodes again if it has free fetchers.
+
+All tests about PGSS and the online optimal algorithm are ran
+10 times, and it is 100 times for
+tests about RSS due to its property of total randomness.
+The bandwidth utilization value is obtained as the mean value of all runs.
+% There is one shuffle task with 5 fetchers in each node.  
+% During the workload, at every time interval, 
+% the shuffle on a node will request to schedule the source nodes for
+% its free fetchers
+% before it is the turn for the shuffle on the next node in the sequence.
 Simulation results show that PGSS performs much better than RSS
 in bandwidth utilization
 with different numbers of nodes and different degrees of network heterogeneity. 
@@ -1875,7 +1911,7 @@ with different numbers of nodes and different degrees of network heterogeneity.
 
 \includegraphics[width=1\columnwidth]{figure13}
 
-\caption{Bandwidth Utilization and Improvement (Suffixed with   IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Amount of Nodes in the Homogeneous Settings and the Heterogeneous Settings}
+\caption{Bandwidth Utilization and Improvement (Suffixed with IP) of RSS, PGSS and the Online Optimal Algorithm (Opt) with Different Amount of Nodes in the Homogeneous Settings and the Heterogeneous Settings}
 \label{fig:s_nodes}
 \end{figure}
 
@@ -1885,12 +1921,12 @@ different scales, i.e., different numbers of nodes.
 Both the homogeneous and heterogeneous network modes are tested. 
 In the homogeneous mode, all the nodes are high-bandwidth nodes, 
 while in the heterogeneous mode, half of them are low-bandwidth nodes
-and the other half are high-bandwidth nodes.
+and the other half are high-bandwidth ones.
 Fig.~\ref{fig:s_nodes} shows the bandwidth utilization of the homogeneous and
 heterogeneous modes,
 respectively. 
 % The solid line represents the total bandwidth capacities of the links in the cluster in different cases.
-The online optimal scheduling solution (Opt) is the maximum online result by traversing every possible permutation of the pending requests that have already seen by the scheduler. 
+The online optimal scheduling solution (Opt) is the maximum online result by traversing every possible permutation of the pending requests that the scheduler have already seen. 
 The total bar represents the bandwidth capacities of all the links in the cluster. Two solid curves stand for the improvement of PGSS and Opt as compared to RSS, respectively.
 The bandwidth utilizations of both PGSS and Opt 
 are about 3.9\% to 7.3\% higher than RSS in the homogeneous mode
@@ -1919,15 +1955,14 @@ i.e., different ratios of low-bandwidth nodes to high-bandwidth ones.
 We run the scheduling algorithms with totally 20 synthetic nodes, 
 some of which are low-bandwidth nodes and the rest are high-bandwidth nodes. 
 The result is shown in Fig.~\ref{fig:s_lowbandwidth}, 
-where the left and the right ends of the horizontal axis stand for the higher
+where the left and the right ends of the horizontal axis stand for a higher
 degree in homogeneity
-and the middle part of the figure stands for the higher degree in heterogeneity. 
+and the middle part of the figure stands for a higher degree in heterogeneity. 
 PGSS performs better than RSS in various heterogeneous networks, 
 especially with higher degrees in heterogeneity, 
 With higher degrees in heterogeneity, the PGSS bandwidth utilization
-increase can be as high as about 7\%. 
-This means that the application-level bandwidth-aware source selecting algorithm
-performs better in the heterogeneous networks.
+increase is about 7\% in the simulation. 
+It show the benefits of the bandwidth-aware source selecting algorithm in the heterogeneous networks.
 
 \begin{figure}[!t]
 \centering
@@ -1941,7 +1976,7 @@ performs better in the heterogeneous networks.
 
 \subsubsection{Scheduling Overhead}\label{section:eva_overhead}
 The scheduling overhead of BAShuffler is the time to figure out the source scheduling decision, is related to the number of total nodes and existing flows (whose number generally grows as the number of nodes grows) in the cluster. 
-Fig.~\ref{fig:s_overhead} depicts the overhead time of RSS, GSS, PGSS as well as the online optimal scheduling algorithm
+Fig.~\ref{fig:s_overhead} depicts the overhead time of RSS, GSS, PGSS and the online optimal scheduling algorithm
 with different numbers of nodes in the cluster.
 The scheduling overhead of RSS is taken for granted the lowest, which is not related to the number of nodes in the cluster. 
 PGSS scales much better than GSS, as PGSS only considers the heaviest loaded nodes when estimating the network bandwidth utilization. 
@@ -1949,11 +1984,9 @@ Nevertheless, the scheduling overhead of BAShuffler is quite low comparing to th
 While the overhead online optimal algorithm grows dramatically as the number of nodes increases, which is totally impractical in the real-life datacenters. 
 
 
-
-
 \section{Related Work}\label{section:relatedwork}
 \textbf{Distributed Resource Management}:
-Existing resource managing platforms for clusters, like YARN
+Existing distributed resource managing platforms, like YARN
 \cite{vavilapalli2013apache} and Mesos \cite{hindman2011mesos},
 allow distributed computing frameworks run on the cluster with
 fine-grained control of computation and storage resources.
@@ -1965,26 +1998,25 @@ resource scheduling by maintaining fairness across tasks
 \cite{zaharia2010delay, isard2009quincy},
 or by achieving data locality (thus reducing the traffic workload)
 \cite{dean2008mapreduce, zaharia2008improving,faraz2014shufflewatcher}.
-BAShuffler considers the network bandwidth utilization of the shuffle
+BAShuffler considers the network bandwidth utilization of shuffle
 flows and schedules the source nodes of the flows to achieve a better
 utilization of the overall bandwidth.
 
 \textbf{Network Bandwidth Scheduling}:
 Much work has been done on
-improving network performance and the fair share of network bandwidth
+improving the network performance and the fair share of network bandwidth
 in datacenter networks at the network level, 
 either by individual flow scheduling \cite{greenberg2009vl2, popa2012faircloud, shieh2011sharing,ballani2011towards} 
 or by scheduling the flows in terms of ``coflow'' \cite{dogar2014decentralized, chowdhury2014efficient, Qiu:2015:MTW, chowdhury2015efficient, zhao2015rapier, chen2016coflow}. 
 Specially, Chen et al. \cite{chen2016coflow} analyzed the max-min fairness utilization of the coflow algorithm. 
-In contrast to the network-leveled optimization, BAShuffler improves the shuffle performance at the application
-level by scheduling the sources
-of the TCP flows with GSS or PGSS and leave the sharing of bandwidth
-to the TCP natural behaviors.
-YARN with BAShuffler can easily be ported to any commercial cluster
+In contrast to the network-leveled optimization, BAShuffler better understands the shuffle phase by holding the whole picture of the process and schedules the sources
+of TCP flows at the application level.
+BAShuffler estimates the TCP network but leaves the policy of sharing bandwidth
+to TCP's natural behaviors.
+Distributed platforms with BAShuffler can easily be ported to any commercial cluster
 without changing the underlying network.
 
-
-A work closely related to this paper is Orchestra~\cite{chowdhury2011managing}, which reduces the shuffle completion
+A work closely related to this paper is Orchestra~\cite{chowdhury2011managing}, which decreases the shuffle completion
 time by assigning a weight to a set of flows
 depending on the data size at the application level. 
 More TCP flows will be created for the shuffle task that has a larger
@@ -2006,24 +2038,24 @@ Sylvain et al. \cite{gault2014dynamic} proposes and compares several data transf
 which has the potential to be applied in the MapReduce-specific network. 
 
 
-\textbf{Online Scheduling}:
-Compared to other online scheduling algorithms~\cite{wu2007scheduling,sgall1998line},
-BAShuffler can predict the approximate arrival pattern of the pending
-sources based on the semantic of the shuffle,
-and thus can apply the partially greedy source selection method to
-maintain the performance in the long term.
+% \textbf{Online Scheduling}:
+% Compared to other online scheduling algorithms~\cite{wu2007scheduling,sgall1998line},
+% BAShuffler can predict the approximate arrival pattern of the pending
+% sources based on the semantic of the shuffle,
+% and thus can apply the partially greedy source selection method to
+% maintain the performance in the long term.
 
 \section{Conclusion}\label{section:conclusion}
 In this paper, we demonstrate the underutilization problem of network
-bandwidth by the shuffle phase in both homogeneous and the heterogeneous
+bandwidth by the shuffle phase in both homogeneous and heterogeneous
 network settings, by analyzing the max-min fairness behavior of the
 underlying TCP network.
-We present BAShuffler in YARN to improve the shuffle performance by
-selecting the source nodes of the shuffle flows that can
-maximize the overall bandwidth utilization in the cluster. 
+We present BAShuffler to improve the shuffle performance by
+selecting the source nodes of shuffle flows that can
+maximize the overall bandwidth utilization in distributed platforms. 
 GSS and PGSS are proposed to maintain the high bandwidth utilization. 
 BAShuffler significantly increases the shuffle performance in both
-physical and virtual clusters, especially where the network is
+physical and virtual testbeds, especially where the network is
 heterogeneous.
 
 
