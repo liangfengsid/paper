@@ -1,10 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2016.12.19)  1 MAY 2017 17:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  7 MAY 2017 21:42
 entering extended mode
-**C:/Users/Êù•ÂÆæ/Documents/GitHub/paper/TPDS16_bashuffler/bashuffler.tex
-(C:/Users/Êù•ÂÆæ/Documents/GitHub/paper/TPDS16_bashuffler/bashuffler.tex
-LaTeX2e <2016/03/31> patch level 3
-Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
-(IEEEtran.cls
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**bashuffler.tex
+(./bashuffler.tex
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+(./IEEEtran.cls
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
@@ -17,7 +19,7 @@ Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 \@IEEEtrantmptoksA=\toks14
 LaTeX Font Info:    Try loading font information for OT1+ppl on input line 503.
 
-(D:\Programs\miktex\tex\latex\psnfss\ot1ppl.fd
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 -- Using IEEE Computer Society mode.
@@ -114,49 +116,49 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <24.09> not available
 \IEEEPARstartletwidth=\dimen125
 \c@IEEEbiography=\count93
 \@IEEEtranrubishbin=\box27
-) (D:\Programs\miktex\tex\latex\cite\cite.sty
+) (/usr/local/texlive/2015/texmf-dist/tex/latex/cite/cite.sty
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
 Package: cite 2015/02/27  v 5.5
 )
-(D:\Programs\miktex\tex\latex\graphics\graphicx.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-(D:\Programs\miktex\tex\latex\graphics\keyval.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks15
 )
-(D:\Programs\miktex\tex\latex\graphics\graphics.sty
-Package: graphics 2016/07/10 v1.0t Standard LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
 
-(D:\Programs\miktex\tex\latex\graphics\trig.sty
-Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(D:\Programs\miktex\tex\latex\graphics-cfg\graphics.cfg
-File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 99.
+Package graphics Info: Driver file: pdftex.def on input line 94.
 
-(D:\Programs\miktex\tex\latex\graphics-def\pdftex.def
-File: pdftex.def 2016/07/10 v0.06j Graphics/color for pdfTeX
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-(D:\Programs\miktex\tex\generic\oberdiek\infwarerr.sty
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-(D:\Programs\miktex\tex\generic\oberdiek\ltxcmds.sty
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count94
 ))
 \Gin@req@height=\dimen126
 \Gin@req@width=\dimen127
 )
-(D:\Programs\miktex\tex\latex\subfig\subfig.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
-(D:\Programs\miktex\tex\latex\caption\caption3.sty
-Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 67.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
 \captionmargin=\dimen128
 \captionmargin@=\dimen129
 \captionwidth=\dimen130
@@ -181,72 +183,69 @@ Package caption Info: Unknown document class (or package),
 \sf@top=\skip47
 \sf@bottom=\skip48
 )
-(D:\Programs\miktex\tex\latex\algorithm2e\algorithm2e.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
 Package: algorithm2e 2013/01/06 v5.00 algorithms environments
 \c@AlgoLine=\count102
 
-(D:\Programs\miktex\tex\latex\base\ifthen.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\algocf@hangindent=\skip49
-
-(D:\Programs\miktex\tex\latex\tools\xspace.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 )
-(D:\Programs\miktex\tex\latex\ltxmisc\relsize.sty
-Package: relsize 2003/07/04 ver 3.1
+(/usr/local/texlive/2015/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
 )
 ********************************************************
-Package `algorithm2e' Release 5.1 -- october 19 2015 --
+Package `algorithm2e' Release 5.0 -- january 06 2013 --
 - algorithm2e-announce@lirmm.fr mailing list for announcement about releases
 - algorithm2e-discussion@lirmm.fr mailing list for discussion about package
 subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
-- Author: Christophe Fiorio (christophe.fiorio@umontpellier.fr)
+- Author: Christophe Fiorio (cfiorio@um2.fr)
 ********************************************************
-\skiptotal=\skip50
-\skiplinenumber=\skip51
-\skiprule=\skip52
-\skiphlne=\skip53
-\skiptext=\skip54
-\skiplength=\skip55
-\algomargin=\skip56
-\skipalgocfslide=\skip57
+\skiptotal=\skip49
+\skiplinenumber=\skip50
+\skiprule=\skip51
+\skiphlne=\skip52
+\skiptext=\skip53
+\skiplength=\skip54
+\algomargin=\skip55
+\skipalgocfslide=\skip56
 \algowidth=\dimen136
 \inoutsize=\dimen137
 \inoutindent=\dimen138
 \interspacetitleruled=\dimen139
 \interspacealgoruled=\dimen140
 \interspacetitleboxruled=\dimen141
-\algocf@ruledwidth=\skip58
 \algocf@inoutbox=\box28
 \algocf@inputbox=\box29
-\AlCapSkip=\skip59
-\AlCapHSkip=\skip60
-\algoskipindent=\skip61
+\AlCapSkip=\skip57
+\AlCapHSkip=\skip58
+\algoskipindent=\skip59
 \algocf@nlbox=\box30
 \algocf@hangingbox=\box31
 \algocf@untilbox=\box32
-\algocf@skipuntil=\skip62
+\algocf@skipuntil=\skip60
 \algocf@capbox=\box33
-\algoheightruledefault=\skip63
-\algoheightrule=\skip64
-\algotitleheightruledefault=\skip65
-\algotitleheightrule=\skip66
+\algoheightruledefault=\skip61
+\algoheightrule=\skip62
+\algotitleheightruledefault=\skip63
+\algotitleheightrule=\skip64
 \c@algocfline=\count103
 \c@algocfproc=\count104
 \c@algocf=\count105
 \algocf@algoframe=\box34
 \algocf@algobox=\box35
-) (D:\Programs\miktex\tex\latex\tools\tabularx.sty
-Package: tabularx 2016/02/03 v2.11 `tabularx' package (DPC)
+) (/usr/local/texlive/2015/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2014/10/28 v2.10 `tabularx' package (DPC)
 
-(D:\Programs\miktex\tex\latex\tools\array.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/tools/array.sty
 Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen142
 \extrarowheight=\dimen143
 \NC@list=\toks16
-\extratabsurround=\skip67
-\backup@length=\skip68
+\extratabsurround=\skip65
+\backup@length=\skip66
 )
 \TX@col@width=\dimen144
 \TX@old@table=\dimen145
@@ -256,390 +255,401 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 \TX@cols=\count106
 \TX@ftn=\toks17
 )
-(D:\Programs\miktex\tex\latex\graphics\color.sty
-Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
 
-(D:\Programs\miktex\tex\latex\graphics-cfg\color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: pdftex.def on input line 147.
+Package color Info: Driver file: pdftex.def on input line 142.
 )
-(D:\Programs\miktex\tex\latex\soul\soul.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/soul/soul.sty
 Package: soul 2003/11/17 v2.4 letterspacing/underlining (mf)
 \SOUL@word=\toks18
 \SOUL@lasttoken=\toks19
 \SOUL@cmds=\toks20
 \SOUL@buffer=\toks21
 \SOUL@token=\toks22
-\SOUL@spaceskip=\skip69
+\SOUL@spaceskip=\skip67
 \SOUL@ttwidth=\dimen149
 \SOUL@uldp=\dimen150
 \SOUL@ulht=\dimen151
-) (bashuffler.aux)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip68
+\enit@outerparindent=\dimen152
+\enit@toks=\toks23
+\enit@inbox=\box36
+\enitdp@description=\count107
+)
+(./bashuffler.aux)
 \openout1 = `bashuffler.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 385.
-LaTeX Font Info:    ... okay on input line 385.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 385.
-LaTeX Font Info:    ... okay on input line 385.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 385.
-LaTeX Font Info:    ... okay on input line 385.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 385.
-LaTeX Font Info:    ... okay on input line 385.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 385.
-LaTeX Font Info:    ... okay on input line 385.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 385.
-LaTeX Font Info:    ... okay on input line 385.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 386.
+LaTeX Font Info:    ... okay on input line 386.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 386.
+LaTeX Font Info:    ... okay on input line 386.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 386.
+LaTeX Font Info:    ... okay on input line 386.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 386.
+LaTeX Font Info:    ... okay on input line 386.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 386.
+LaTeX Font Info:    ... okay on input line 386.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 386.
+LaTeX Font Info:    ... okay on input line 386.
 
 -- Lines per column: 61 (exact).
-(D:\Programs\miktex\tex\context\base\supp-pdf.mkii
+(/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count107
-\scratchdimen=\dimen152
-\scratchbox=\box36
-\nofMPsegments=\count108
-\nofMParguments=\count109
-\everyMPshowfont=\toks23
-\MPscratchCnt=\count110
-\MPscratchDim=\dimen153
-\MPnumerator=\count111
-\makeMPintoPDFobject=\count112
-\everyMPtoPDFconversion=\toks24
-) (D:\Programs\miktex\tex\generic\oberdiek\pdftexcmds.sty
-Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
+\scratchcounter=\count108
+\scratchdimen=\dimen153
+\scratchbox=\box37
+\nofMPsegments=\count109
+\nofMParguments=\count110
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count111
+\MPscratchDim=\dimen154
+\MPnumerator=\count112
+\makeMPintoPDFobject=\count113
+\everyMPtoPDFconversion=\toks25
+) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-(D:\Programs\miktex\tex\generic\oberdiek\ifluatex.sty
-Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
-(D:\Programs\miktex\tex\generic\oberdiek\ifpdf.sty
-Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
-(D:\Programs\miktex\tex\latex\oberdiek\epstopdf-base.sty
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
-(D:\Programs\miktex\tex\latex\oberdiek\grfext.sty
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 
-(D:\Programs\miktex\tex\generic\oberdiek\kvdefinekeys.sty
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 ))
-(D:\Programs\miktex\tex\latex\oberdiek\kvoptions.sty
-Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 
-(D:\Programs\miktex\tex\generic\oberdiek\kvsetkeys.sty
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 
-(D:\Programs\miktex\tex\generic\oberdiek\etexcmds.sty
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-38.
 Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.jpg,.png,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
-)
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 522.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 528.
 
 
-(D:\Programs\miktex\tex\latex\psnfss\ot1phv.fd
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <11.04124> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 522.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8.03> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 522.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 528.
 LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 52
-2.
+8.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <11.04124> on input line 522.
+(Font)              <11.04124> on input line 528.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7.72884> on input line 522.
+(Font)              <7.72884> on input line 528.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.52061> on input line 522.
-LaTeX Font Info:    Try loading font information for U+pzd on input line 522.
+(Font)              <5.52061> on input line 528.
+LaTeX Font Info:    Try loading font information for U+pzd on input line 528.
 
-(D:\Programs\miktex\tex\latex\psnfss\upzd.fd
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
-LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 522.
+LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 528.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8.03> on input line 522.
+(Font)              <8.03> on input line 528.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.62097> on input line 522.
+(Font)              <5.62097> on input line 528.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <4.015> on input line 522.
+(Font)              <4.015> on input line 528.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <11.04124> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 550.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 556.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <11.04124> not available
 
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 550.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 556.
 
-Underfull \hbox (badness 4366) in paragraph at lines 599--611
+Underfull \hbox (badness 4366) in paragraph at lines 606--619
 []\OT1/ppl/m/n/9.53561 Unfortunately, ex-ist-ing dis-tributed plat-forms (e.g.,
 
  []
 
 
-Underfull \hbox (badness 4846) in paragraph at lines 599--611
+Underfull \hbox (badness 4846) in paragraph at lines 606--619
 \OT1/ppl/m/n/9.53561 YARN [5]) mainly con-cen-trate on man-ag-ing node-
  []
 
-[1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+[1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Underfull \hbox (badness 1924) in paragraph at lines 645--657
+Underfull \hbox (badness 1924) in paragraph at lines 653--665
 []\OT1/ppl/m/n/9.53561 In this pa-per, we present BAShuf-fler, a network-
  []
 
-LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 676
+LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 684
 .
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9.53561> on input line 676.
+(Font)              <9.53561> on input line 684.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6.6749> on input line 676.
+(Font)              <6.6749> on input line 684.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <4.7678> on input line 676.
+(Font)              <4.7678> on input line 684.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9.53561> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 714.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 726.
 [2] [3]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9.53561> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 964.
- [4] <./figure/figure1.pdf, id=23, 442.65375pt x 343.2825pt>
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 987.
+ [4] <./figure/figure1.pdf, id=24, 442.65375pt x 343.2825pt>
 File: ./figure/figure1.pdf Graphic file (type pdf)
 
 <use ./figure/figure1.pdf>
-Package pdftex.def Info: ./figure/figure1.pdf used on input line 1045.
+Package pdftex.def Info: ./figure/figure1.pdf used on input line 1068.
 (pdftex.def)             Requested size: 252.94499pt x 196.16542pt.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <6.62196> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1110.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1133.
  [5 <./figure/figure1.pdf>]
-Overfull \hbox (1.16974pt too wide) in alignment at lines 1228--1228
+Overfull \hbox (1.16974pt too wide) in alignment at lines 1262--1262
 [][][][] 
  []
 
-<./figure/figure3.pdf, id=70, 506.6428pt x 187.45032pt>
+<./figure/figure3.pdf, id=71, 506.6428pt x 187.45032pt>
 File: ./figure/figure3.pdf Graphic file (type pdf)
 
 <use ./figure/figure3.pdf>
-Package pdftex.def Info: ./figure/figure3.pdf used on input line 1264.
+Package pdftex.def Info: ./figure/figure3.pdf used on input line 1303.
 (pdftex.def)             Requested size: 252.94499pt x 93.58476pt.
  [6 <./figure/figure3.pdf>]
-Underfull \hbox (badness 10000) in alignment at lines 1331--1331
+Underfull \hbox (badness 10000) in alignment at lines 1371--1371
 [][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 1355--1355
+Underfull \hbox (badness 10000) in alignment at lines 1395--1395
 [][][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 1408--1408
+Underfull \hbox (badness 10000) in alignment at lines 1448--1448
 [][][][][][] 
  []
 
-<./figure/figure4.pdf, id=90, 317.68687pt x 192.72pt>
+<./figure/figure4.pdf, id=91, 317.68687pt x 192.72pt>
 File: ./figure/figure4.pdf Graphic file (type pdf)
 
 <use ./figure/figure4.pdf>
-Package pdftex.def Info: ./figure/figure4.pdf used on input line 1438.
+Package pdftex.def Info: ./figure/figure4.pdf used on input line 1478.
 (pdftex.def)             Requested size: 145.93898pt x 88.53229pt.
 
-Underfull \hbox (badness 10000) in alignment at lines 1475--1475
+Underfull \hbox (badness 10000) in alignment at lines 1515--1515
 [][][][][][][][][][] 
  []
 
 [7 <./figure/figure4.pdf>]
-Underfull \hbox (badness 10000) in alignment at lines 1560--1560
+Underfull \hbox (badness 10000) in alignment at lines 1600--1600
 [][][][] 
  []
 
-<./figure/figure5.pdf, id=107, 467.7475pt x 391.4625pt>
+<./figure/figure5.pdf, id=108, 467.7475pt x 391.4625pt>
 File: ./figure/figure5.pdf Graphic file (type pdf)
 
 <use ./figure/figure5.pdf>
-Package pdftex.def Info: ./figure/figure5.pdf used on input line 1589.
+Package pdftex.def Info: ./figure/figure5.pdf used on input line 1629.
 (pdftex.def)             Requested size: 252.94499pt x 211.6972pt.
 
-<./figure/figure6.pdf, id=108, 275.0275pt x 137.51375pt>
+<./figure/figure6.pdf, id=109, 275.0275pt x 137.51375pt>
 File: ./figure/figure6.pdf Graphic file (type pdf)
 
 <use ./figure/figure6.pdf>
-Package pdftex.def Info: ./figure/figure6.pdf used on input line 1626.
+Package pdftex.def Info: ./figure/figure6.pdf used on input line 1666.
 (pdftex.def)             Requested size: 177.06613pt x 88.53516pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 6364) has occurred while \output is active []
 
- [8 <./figure/figure5.pdf> <./figure/figure6.pdf>]
-<./figure/figure7.pdf, id=161, 379.4175pt x 302.12875pt>
+ [8 <./figure/figure5.pdf>]
+Underfull \vbox (badness 2582) has occurred while \output is active []
+
+
+<./figure/figure7.pdf, id=150, 379.4175pt x 302.12875pt>
 File: ./figure/figure7.pdf Graphic file (type pdf)
 
 <use ./figure/figure7.pdf>
-Package pdftex.def Info: ./figure/figure7.pdf used on input line 1680.
+Package pdftex.def Info: ./figure/figure7.pdf used on input line 1720.
 (pdftex.def)             Requested size: 252.94499pt x 201.4202pt.
- [9 <./figure/figure7.pdf>]
-<./figure/figure8.pdf, id=208, 429.605pt x 344.28625pt>
+ [9 <./figure/figure6.pdf> <./figure/figure7.pdf>]
+<./figure/figure8.pdf, id=210, 429.605pt x 344.28625pt>
 File: ./figure/figure8.pdf Graphic file (type pdf)
 
 <use ./figure/figure8.pdf>
-Package pdftex.def Info: ./figure/figure8.pdf used on input line 1732.
+Package pdftex.def Info: ./figure/figure8.pdf used on input line 1772.
 (pdftex.def)             Requested size: 252.94499pt x 202.7121pt.
 
-<./figure/figure9.pdf, id=209, 254.9525pt x 180.675pt>
+<./figure/figure9.pdf, id=211, 254.9525pt x 180.675pt>
 File: ./figure/figure9.pdf Graphic file (type pdf)
 
 <use ./figure/figure9.pdf>
-Package pdftex.def Info: ./figure/figure9.pdf used on input line 1786.
+Package pdftex.def Info: ./figure/figure9.pdf used on input line 1826.
 (pdftex.def)             Requested size: 177.06891pt x 101.17729pt.
- [10 <./figure/figure8.pdf> <./figure/figure9.pdf>]
-<./figure/figure10.pdf, id=268, 241.90375pt x 148.555pt>
+ [10 <./figure/figure8.pdf>]
+<./figure/figure10.pdf, id=258, 241.90375pt x 148.555pt>
 File: ./figure/figure10.pdf Graphic file (type pdf)
 
 <use ./figure/figure10.pdf>
-Package pdftex.def Info: ./figure/figure10.pdf used on input line 1809.
+Package pdftex.def Info: ./figure/figure10.pdf used on input line 1849.
 (pdftex.def)             Requested size: 177.06812pt x 101.18152pt.
 
-<./figure/figure11.pdf, id=269, 335.2525pt x 178.6675pt>
+<./figure/figure11.pdf, id=259, 335.2525pt x 178.6675pt>
 File: ./figure/figure11.pdf Graphic file (type pdf)
 
 <use ./figure/figure11.pdf>
-Package pdftex.def Info: ./figure/figure11.pdf used on input line 1835.
+Package pdftex.def Info: ./figure/figure11.pdf used on input line 1875.
 (pdftex.def)             Requested size: 202.3552pt x 101.17632pt.
 
-<./figure/figure12.pdf, id=270, 373.395pt x 172.645pt>
+<./figure/figure12.pdf, id=260, 373.395pt x 172.645pt>
 File: ./figure/figure12.pdf Graphic file (type pdf)
 
 <use ./figure/figure12.pdf>
-Package pdftex.def Info: ./figure/figure12.pdf used on input line 1865.
+Package pdftex.def Info: ./figure/figure12.pdf used on input line 1905.
 (pdftex.def)             Requested size: 227.65097pt x 101.17735pt.
-
-<./figure/figure13.pdf, id=271, 368.37625pt x 450.68375pt>
+ [11 <./figure/figure9.pdf> <./figure/figure10.pdf> <./figure/figure11.pdf> <./
+figure/figure12.pdf>]
+<./figure/figure13.pdf, id=371, 368.37625pt x 450.68375pt>
 File: ./figure/figure13.pdf Graphic file (type pdf)
 
 <use ./figure/figure13.pdf>
-Package pdftex.def Info: ./figure/figure13.pdf used on input line 1917.
+Package pdftex.def Info: ./figure/figure13.pdf used on input line 1957.
 (pdftex.def)             Requested size: 252.94499pt x 309.4592pt.
- [11 <./figure/figure10.pdf> <./figure/figure11.pdf> <./figure/figure12.pdf>]
-<./figure/figure14.pdf, id=369, 380.42125pt x 210.7875pt>
+
+<./figure/figure14.pdf, id=372, 380.42125pt x 210.7875pt>
 File: ./figure/figure14.pdf Graphic file (type pdf)
 
 <use ./figure/figure14.pdf>
-Package pdftex.def Info: ./figure/figure14.pdf used on input line 1950.
+Package pdftex.def Info: ./figure/figure14.pdf used on input line 1990.
 (pdftex.def)             Requested size: 202.3595pt x 101.17685pt.
 
-<./figure/figure15.pdf, id=370, 294.09875pt x 161.60374pt>
+<./figure/figure15.pdf, id=373, 294.09875pt x 161.60374pt>
 File: ./figure/figure15.pdf Graphic file (type pdf)
 
 <use ./figure/figure15.pdf>
-Package pdftex.def Info: ./figure/figure15.pdf used on input line 1975.
+Package pdftex.def Info: ./figure/figure15.pdf used on input line 2015.
 (pdftex.def)             Requested size: 177.06194pt x 101.17715pt.
  [12 <./figure/figure13.pdf> <./figure/figure14.pdf> <./figure/figure15.pdf>] [
 13]
-Underfull \hbox (badness 4328) in paragraph at lines 2443--2446
+Underfull \hbox (badness 4328) in paragraph at lines 2486--2489
 []\OT1/ppl/m/n/8.03 Hku gideon-ii clus-ter. [On-line]. Avail-able:
  []
 
-
-Underfull \vbox (badness 1221) has occurred while \output is active []
-
-
-<./figure/author1.png, id=470, 447.6725pt x 555.07375pt>
+<./figure/author1.png, id=473, 447.6725pt x 555.07375pt>
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2526.
+Package pdftex.def Info: ./figure/author1.png used on input line 2569.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2526.
+Package pdftex.def Info: ./figure/author1.png used on input line 2569.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
-<./figure/author2.png, id=474, 151.56625pt x 181.67876pt>
+<./figure/author2.png, id=477, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2532.
+Package pdftex.def Info: ./figure/author2.png used on input line 2575.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2532.
+Package pdftex.def Info: ./figure/author2.png used on input line 2575.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
-<./figure/author3.png, id=477, 334.24875pt x 397.485pt>
+<./figure/author3.png, id=480, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2539.
+Package pdftex.def Info: ./figure/author3.png used on input line 2582.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2539.
+Package pdftex.def Info: ./figure/author3.png used on input line 2582.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2539--2542
+Underfull \hbox (badness 1400) in paragraph at lines 2582--2585
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
-<./figure/author4.png, id=480, 110.4125pt x 121.45375pt>
+<./figure/author4.png, id=483, 110.4125pt x 121.45375pt>
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2545.
+Package pdftex.def Info: ./figure/author4.png used on input line 2588.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2545.
+Package pdftex.def Info: ./figure/author4.png used on input line 2588.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no ‚ in font phvr7t!
 Missing character: There is no Ä in font phvr7t!
 Missing character: There is no ô in font phvr7t!
  [14 <./figure/author1.png> <./figure/author2.png> <./figure/author3.png> <./fi
 gure/author4.png>]
-(bashuffler.aux) )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 1061 ({)
-### bottom level 
+(./bashuffler.aux) ) 
 Here is how much of TeX's memory you used:
- 4715 strings out of 493333
- 76802 string characters out of 3143095
- 159365 words of memory out of 3000000
- 8164 multiletter control sequences out of 15000+200000
- 47293 words of font info for 96 fonts, out of 3000000 for 9000
+ 5419 strings out of 493089
+ 86861 string characters out of 6134842
+ 181789 words of memory out of 5000000
+ 8820 multiletter control sequences out of 15000+600000
+ 45407 words of font info for 94 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
- 40i,17n,43p,609b,2547s stack positions out of 5000i,500n,10000p,200000b,50000s
-{D:/Programs/miktex/fonts/enc/dvips/base/8r.enc}<D:/Programs/mi
-ktex/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Programs/miktex/fonts/type1/
-public/amsfonts/cm/cmmi6.pfb><D:/Programs/miktex/fonts/type1/public/amsfonts/cm
-/cmmi8.pfb><D:/Programs/miktex/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Pro
-grams/miktex/fonts/type1/public/amsfonts/cm/cmr6.pfb><D:/Programs/miktex/fonts/
-type1/public/amsfonts/cm/cmr8.pfb><D:/Programs/miktex/fonts/type1/public/amsfon
-ts/cm/cmsy10.pfb><D:/Programs/miktex/fonts/type1/public/amsfonts/cm/cmsy6.pfb><
-D:/Programs/miktex/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/Programs/miktex
-/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Programs/miktex/fonts/type1/urw/h
-elvetic/uhvb8a.pfb><D:/Programs/miktex/fonts/type1/urw/helvetic/uhvr8a.pfb><D:/
-Programs/miktex/fonts/type1/urw/helvetic/uhvro8a.pfb><D:/Programs/miktex/fonts/
-type1/urw/palatino/uplb8a.pfb><D:/Programs/miktex/fonts/type1/urw/palatino/uplr
-8a.pfb><D:/Programs/miktex/fonts/type1/urw/palatino/uplri8a.pfb><D:/Programs/mi
-ktex/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on bashuffler.pdf (14 pages, 2244722 bytes).
+ 38i,17n,43p,552b,484s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r
+.enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pf
+b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr
+/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
+live/2015/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/local/texlive/2015/texmf-dist
+/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/
+type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/u
+rw/palatino/uplri8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zap
+fding/uzdr.pfb>
+Output written on bashuffler.pdf (14 pages, 2200216 bytes).
 PDF statistics:
- 548 PDF objects out of 1000 (max. 8388607)
+ 553 PDF objects out of 1000 (max. 8388607)
+ 360 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  139 words of extra memory for PDF output out of 10000 (max. 10000000)
 
