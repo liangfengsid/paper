@@ -503,9 +503,11 @@ consume significant network bandwidth.
 % which widely exists in practice, 
 %  this under-utilization problem is more pronounced. 
 Network bandwidth is usually largely under-utilized for distributed applications, especially the shuffle-heavy ones.
-When the network bandwidth capacities of computer nodes are varied, 
-which widely exists in practice, 
- this under-utilization problem is more pronounced. 
+% When the network bandwidth capacities of computer nodes are varied, 
+% which widely exists in practice, 
+%  this under-utilization problem is more pronounced. 
+Worse, in practice, when network bandwidth capacities of computer nodes vary, 
+the under-utilization problem is more pronounced. 
 We first present BAShuffler, a bandwidth-aware shuffle scheduler that can maximize the overall network bandwidth utilization 
 in shuffle operations.
 We then demonstrate how BAShuffler fully utilizes the network bandwidth in various network settings and network traffic scenarios.
@@ -600,7 +602,8 @@ and is observed to dominate the job completion time in datacenters.
 % the jobs are shuffle-heavy and other studies show that the shuffle completion time
 % can account for 33\% of the overall completion time.
 A study on Facebook MapReduce workloads~\cite{chen2012interactive} suggests that about 10\% of the large jobs are shuffle-heavy, whose shuffle operation accounts for 46\% of the total data movement and 53\% of the total job completion time. 
-High network bandwidth utilization is critical for improving the performance of 
+High network bandwidth utilization is critical for %improving the performance of
+reducing the completion time of 
 shuffle-heavy jobs.
 
 Unfortunately, existing distributed platforms (e.g., YARN~\cite{vavilapalli2013apache}) mainly concentrate on
