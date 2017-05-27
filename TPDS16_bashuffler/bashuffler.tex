@@ -601,7 +601,9 @@ and is observed to dominate the job completion time in datacenters.
 % A study on the Yahoo! datacenter work trace suggests that as many as 70\% of 
 % the jobs are shuffle-heavy and other studies show that the shuffle completion time
 % can account for 33\% of the overall completion time.
-A study on Facebook MapReduce workloads~\cite{chen2012interactive} suggests that about 10\% of the large jobs are shuffle-heavy, whose shuffle operation accounts for 46\% of the total data movement and 53\% of the total job completion time. 
+A study on Facebook MapReduce workloads~\cite{chen2012interactive} suggests that
+about 10\% of the large jobs are shuffle-heavy, whose shuffle operation accounts for
+46\% of the total data movement and 53\% of the total job completion time. 
 High network bandwidth utilization is critical for %improving the performance of
 reducing the completion time of 
 shuffle-heavy jobs.
@@ -630,12 +632,13 @@ and if the number of network connections is
 large, this random source selection policy would prevent some nodes becoming a bottleneck.
 However, 
 without monitoring the actual bandwidth usage of network flows,
-this random source scheduling approach often under-utilizes the network bandwidth when some nodes are congested by unpredictable flow jams. 
+this random source scheduling approach often under-utilizes the network bandwidth 
+when some nodes are congested by unpredictable flow jams~\cite{chowdhury2011managing}. 
 
 Worse, when the network bandwidth capacities of the links are heterogeneous, 
 the bandwidth under-utilization problem is more pronounced. 
-% ssthe bandwidth-ignorant source selection policies will cause significant bandwidth .
-The reason will be analyzed with examples in Section \ref{section:analysis}.
+We discuss this finding by analyzing with examples 
+in Section~\ref{section:analysis}.
 A heterogeneous network environment is common in practice
 for distributed platform users. 
 For example, Hadoop is designed as a general distributed processing platform for 
@@ -815,11 +818,9 @@ can offer performance improvements for each single fetch flows.
 However, as the fetch flows belonging to one shuffle are correlated in
 semantics and the shuffle phase cannot finish until its last flow
 finishes, optimization by scheduling the network based on the granule of
-individual flows may not always lead to improved shuffle performance.
+individual flows may not always lead to improved shuffle performance~\cite{chowdhury2014efficient}.
 
-% Therefore, it seems better that the network-level optimization can
-% consider the flows belonging to one shuffle as a whole when
-% scheduling.
+
 Network-level models can only see a part of of the shuffle operation.
 Network-level models such as the ``coflow'' model~\cite{chowdhury2014efficient,
 chowdhury2015efficient} have been proposed to allow scheduling the network based on
@@ -1132,9 +1133,9 @@ for users installing and configuring the system.
  \Output{$Selected$;}
 
  \If{GSS}{
- 	$Nodes$ $\gets$ $Sources$
+  $Nodes$ $\gets$ $Sources$
  } \ElseIf{PGSS}{
- 	$Nodes$ $\gets$ the heaviest-loaded source nodes in $Sources$;
+  $Nodes$ $\gets$ the heaviest-loaded source nodes in $Sources$;
  }
  % $Heaviest$ $\gets$ the heaviest-loaded source nodes in $Sources$;\\
  $MaxBandwidth$ $\gets$ 0;
@@ -1148,7 +1149,7 @@ for users installing and configuring the system.
   }
  }
 \If{PGSS}{
-	update the load count of $Selected$;
+  update the load count of $Selected$;
 }
 add $Selected$ to $Pattern$;
 \caption{Greedy Source Selection and Partially Greedy Source Selection}
@@ -2569,8 +2570,7 @@ A.~Borodin and R.~El-Yaniv, \emph{Online computation and competitive
 % or if you just want to reserve a space for a photo:
 
 \vspace{-0.5in}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
-is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interests are mainly on distributed file systems, distributed computing, and machine learning. He is recently undertaking the research project on distributed deep learning.
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang} received the BS degree in software engineering from Nanjing University in 2012, and the PhD degree in computer science from The University of Hong Kong. His research interests are mainly on distributed file systems, distributed computing, formal methods for distributed systems and machine learning. He is recently undertaking the research project on distributed deep learning.
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 
