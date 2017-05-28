@@ -621,7 +621,7 @@ Spark; Shuffle; MapReduce; Iterative Distributed Operation; Key Partitioning
 Distributed applications consisting of iterative distributed operations are pervasive in the fields of graph computing~\cite{Malewicz:2010:PSL, Lu:2014:LDG}, database query processing~\cite{thusoo2009hive,Yu:2008:DSG,Armbrust:2015:SSR} and machine learning~\cite{low2012distributed,kraska2013mlbase}.
 To process the big data,
 distributed computing frameworks like YARN~\cite{vavilapalli2013apache},
-Mesos~\cite{hindman2011mesos} and Dryad~\cite{isard2007dryad} are often used.
+Spark~\cite{zaharia2012resilient} and Dryad~\cite{isard2007dryad} are often used.
 %have made the computing on big data feasible and robust.
 Several distributed computing paradigms have been developed on top of
 these frameworks to match various styles and
@@ -801,120 +801,140 @@ Section~\ref{section:conclusion}.
 
 \section{Background}\label{section:background}
 \subsection{Iterative Distributed Operations}
-Datasets of large volume cannot be stored in a single computer node
+Datasets of large volumes cannot be stored in a single computer node
 and are often separated into several partitions, 
-where each partition is distributed to a node in the computer cluster. 
+where each partition is distributed to a node in a computer cluster. 
 We refer to a dataset which is separately stored in several nodes as a distributed dataset. 
-The function whose inputs include the distributed dataset is called a \emph{distributed operation}.
+A function whose inputs include a distributed dataset is called a \emph{distributed operation}.
 Each entry of the distributed dataset can be represented as a key-value pair. 
 %\textcolor{red}{How to obtain each entry in the dataset. }
 
 In many distributed computing paradigms, there are often several
 iterations involving different distributed operations being applied
-to the input dataset before the final results are obtained. 
-Each iteration usually takes the outputs of the previous iteration as
-the input dataset.
+to an input dataset before final results are obtained. 
+Each iteration usually takes outputs of the previous iteration as
+the input dataset. 
 
-One typical example of the distributed operation is
-MapReduce~\cite{dean2008mapreduce}, which divides the operation into two
-primitives: map and reduce.
-Many iterative distributed paradigms such as the in-memory paradigm
-Spark~\cite{zaharia2012resilient} and the distributed database query
-engine Hive~\cite{thusoo2009hive} can be equated to multiple
-iterations of MapReduce operations.
 For iterative distributed
-operations, we refer to the general iterative map-and-reduce operation, 
-where the ``map'' primitive performs one or more transformation operations on the
-datasets in each local node, and the ``reduce'' primitive would
-re-partition the datasets by transferring the data entries with
-the same keys to the designated locations and group the entries of the same key to one key-value pair, where this \textit{value} is a list of the values that associate with the key. 
-The output of each data entry of the reduce primitive is also called as the key-value-list pair in this paper.
-The reduce primitive does not involve any transformation on the values of the entries and is also known as the shuffle operation. 
+operations, we refer to the general iterative transform-and-shuffle operations. 
+In each iteration of the distributed operation, 
+the ``transform'' primitive performs one or more transformation operations on 
+input datasets in each local node.
+The ``shuffle'' primitive would
+re-partition the datasets by transferring data entries with
+the same keys to designated locations and grouping entries of the same key to a key-value pair, as the input for the next iteration. 
+This \textit{value} is actually a list of the values that associate with the key, 
+and the output of each data entry of the shuffle primitive is also called as the key-value-list pair in this paper.
+Each iteration of distributed operation is in the form of a series of transformations plus at most one shuffle operation.
 
-Note that division of map and reduce in the matrix multiplication example in Section~\ref{section:introduction} is slightly different from the definition here. 
-In the example, the reduce primitive aggregate the value list of each key to a value, which follows the traditional style of MapReduce. 
-While by the definition here, the aggregate operations join the other data transformation operation in the map primitive of the next iteration. 
-Each iteration of distributed operation can have a series of transformations plus at most one shuffle operation.
-In the rest of this paper, the terms of the reduce primitive and the shuffle operation may be used interchangeably. 
+Note that the division of distributed operations by transform-and-shuffle is similar to the paradigm of 
+MapReduce~\cite{dean2008mapreduce}, which divides the operation into two primitives: map and reduce.
+They are slightly different but can be equivalent in the context of iterative distributed operations.  
+The shuffle primitive is equivalent to the shuffle operation of the reduce primitive in MapReduce. 
+It does not involve any transformation on data.
+While the transform primitive is equivalent to the reduce operation
+(excluding the shuffle operation) in the reduce primitive plus the map primitive of the next iteration of a MapReduce operation. 
+The transform primitive and the shuffle primitive are also called the transform operation and the shuffle operation, respectively.
+
+% in the matrix multiplication example in Section~\ref{section:introduction} is slightly different from the definition here. 
+% The transform primitive of an iteration is equivalent to 
+% the reduce operation in the previous iteration without the shuffle operation plus the map operation of the next iteration in MapReduce. 
+% The shuffle primitive is only 
+
+% For instance, in the matrix multiplication example in Section~\ref{section:introduction},
+% In the example, 
+% the reduce primitive aggregate the value list of each key to a value, which follows the traditional style of MapReduce. 
+% While by the definition here, the aggregate operations should join other data transformation operation in the map primitive of the next iteration. 
+
+% In the rest of this paper, the terms of the reduce primitive and the shuffle operation may be used interchangeably. 
+
+% One typical example of the distributed operation is
+% MapReduce~\cite{dean2008mapreduce}, 
+% which divides the operation into two primitives: map and reduce.
+Most iterative distributed paradigms such as the in-memory paradigm
+Spark~\cite{zaharia2012resilient} and the distributed database query
+engine Hive~\cite{thusoo2009hive} can be equated to iterative transform-and-shuffle operations.
+The matrix multiplication example in Section~\ref{section:introduction}
+follows the traditional MapReduce interpretation. 
+From now on in this paper, we use the transform-and-shuffle interpretation when we describe iterative distributed operations.
+
+% The traffic pattern of the data to shuffle in each iteration is directly
+% dictated by the key partitioning scheme.
+% A random or careless key partitioning scheme may cause unnecessary
+% shuffle traffic across multiple iterations of distributed operations.
+% This is what we set out to improve using our partitioning scheme.
 
 
-The traffic pattern of the data to shuffle in each iteration is directly
-dictated by the key partitioning scheme.
-A random or careless key partitioning scheme may cause unnecessary
-shuffle traffic across multiple iterations of distributed operation.
-This is what we set out to reduce using our partitioning scheme.
+% \subsection{Dependency Graph}
+% The dependency graph is a directed graph usually used for
+% describing the dependency relationship of instructions, tasks, data, etc
+% \cite{sakellariou2004hybrid,zhao2006scheduling,isard2007dryad}.
+% The scheduler can use the dependency graph to decide the order the execution of instructions or tasks. 
+% In distributed frameworks, the scheduler uses the data dependency graph
+% or task dependency graph to make the tasks execute in parallel in the
+% cluster.
+% As the tasks are meant to process their specific data, the task dependency
+% graph is the data dependency graph as well.
+
+% In the data dependency graph, the datasets are divided into graph nodes
+% based on locations and the dependency relationship is
+% constructed upon the execution stages and data locations.
+% The data partition information is specific to the application running
+% situation and the cluster environment.
+% In the key dependency graph proposed in this paper, the construction of
+% the graph does not use any data partitioning information, but considers
+% the key dependency of data, which depends on the
+% application logic.
 
 
-\subsection{Dependency Graph}
-The dependency graph is a directed graph usually used for
-describing the dependency relationship of instructions, tasks, data, etc
-\cite{sakellariou2004hybrid,zhao2006scheduling,isard2007dryad}.
-The scheduler can use the dependency graph to decide the order the execution of instructions or tasks. 
-In distributed frameworks, the scheduler uses the data dependency graph
-or task dependency graph to make the tasks execute in parallel in the
-cluster.
-As the tasks are meant to process their specific data, the task dependency
-graph is the data dependency graph as well.
-
-In the data dependency graph, the datasets are divided into graph nodes
-based on locations and the dependency relationship is
-constructed upon the execution stages and data locations.
-The data partition information is specific to the application running
-situation and the cluster environment.
-In the key dependency graph proposed in this paper, the construction of
-the graph does not use any data partitioning information, but considers
-the key dependency of data, which depends on the
-application logic.
 
 \subsection{Iterative Shuffle Size}\label{section:model}
-We model the overall shuffle size of the iterative
+We model the overall shuffle size of iterative
 distributed operations and discuss the time complexity of obtaining
 the optimal key partitioning scheme that minimizes the overall shuffle
 size.
 
-
-
-For the iterative distributed operations, the result of the $i_{th}$ iteration can be obtained recursively by:
+For iterative distributed operations, the result of the $i_{th}$ iteration can be obtained recursively by:
 \begin{equation}\label{eq:m}
-A'_i=m_i(A_{i-1})
+A'_i=T_i(A_i)
 \end{equation}
 \begin{equation}\label{eq:r}
-A_i=r_i(A'_i)
+A_{i+1}=S_i(A'_i)
 \end{equation}
-, where $A_{i-1}$ is the output of the $(i-1)_{th}$ iteration as well as the input of the $i_{th}$ iteration, 
-$m_i$ is the map primitive of the $i_{th}$ iteration that operates on $A_{i-1}$ locally without changing the partition locality, 
-and $r_i$ is the shuffle operation of the $i_{th}$ iteration that takes the output $A'_i$ of the map primitive as the input.  
-The keys of $A_i$ and $A'_i$ are the same, but the partition localities are different. 
-In the first iteration, when i is equal to 1, 
-$A_0$ represents the raw input datasets before any processing.  
+, where $A_i$ is the output of iteration $i-1$ as well as the input of iteration $i$, 
+$T_i$ is the transform operation of iteration $i$ that operates on $A_i$ locally without changing the partition locality, 
+and $S_i$ is the shuffle operation of iteration $i$ that takes the output $A'_i$ of the transform operation as the input.  
+$A_i$ and $A'_i$ define not only key-value pairs of datasets, but also their partition locality. 
+The keys of $A'_i$ and $A_{i+1}$ are the same, but their partition localities are different. 
+In the first iteration, when $i$ equals 1, 
+$A_1$ represents the raw input datasets before any processing.  
 
-Suppose in the $i_{th}$ iteration of the shuffle operation, in order to collect an entry $a \in A_i$, 
-the size of data that need to be transferred is a function of $a$ and $A'_i$: $s_i(a,A'_i)$. The function $s_i$ can be different in different key partitioning schemes. 
-The data transfer size to obtain $A_i$ is: 
+Suppose in the shuffle operation of iteration $i$, in order to shuffle an entry $a \in A'_i$ to its partition location, 
+the size of data that need to be transferred is a function of $a$ and $A_i$: $g_i(a,A_i)$. 
+The returned value of function $g_i$ can be different in different key partitioning schemes. 
+The data transfer size to shffule $A'_i$ is: 
 \begin{equation}\label{eq:si}
 \begin{aligned}
-S_i&=\sum_{a \in A_i} s_i(a,A'_i).
-% &=|A_i| \cdot s_i(a_i, A_{i-1})
+G_i=\sum_{a \in A'_i} g_i(a,A_i).
 \end{aligned}
 \end{equation}
 
-Within the same $i_{th}$ iteration, for $\forall a_p, a_q \in A_i$ where $a_p \neq a_q$, the values of $s_i(a_p,A'_i)$ and $s_i(a_q,A'_i)$ are independent of each other. 
-It means that if the value of $s_i(a_p,A'_i)$ changes due to a different partition location of $a_p$, the value of $s_i(a_q,A'_i)$ remains unchanged unless $a_q$ is partitioned to a different location. 
+Within the same $i_{th}$ iteration, for $\forall a_p, a_q \in A_i$ where $a_p \neq a_q$, values of $g_i(a_p,A_{i-1})$ and $g_i(a_q,A_{i-1})$ are independent of each other. 
+If the value of $g_i(a_p,A_{i-1})$ changes due to a different partition location of $a_p$, the value of $g_i(a_q,A_{i-1})$ remains unchanged unless $a_q$ is also partitioned to a different location. 
 
 If $m$ iterations are required to compute the final result, 
-the overall accumulated data transfer size for obtaining the final result is
+the overall accumulated shuffle size for obtaining the final result is
 \begin{equation}\label{eq:s}
-S=\sum_{i=1}^{m} S_i=\sum_{i=1}^{m} \sum_{a_i \in A_i} s_i(a,A'_i).
+G=\sum_{i=1}^{m} G_i=\sum_{i=1}^{m} \sum_{a_i \in A_i} g_i(a,A_{i-1}).
 \end{equation}
 
 
-If values of $S_i (1 \leq i \leq m)$ are independent of each other, 
-$S$ is a linear function and $S$ can be minimized simply by minimizing each $s_i(a,A'_i)$.
-However, most usually, $S_i$ and $S_{i+1}$ are correlated.
-The value of $S_i$ depends on the logic of the function $m_i$ in Formula \ref{eq:m}, 
-the partition locality of dataset $ A_{i-1}$, 
-as well as the locations where each entry of $A_i$ is partitioned to. 
-The partition locality of $A_i$ inherited from the $i_{th}$ iteration 
+If values of $G_i (1 \leq i \leq m)$ are independent of each other, 
+$S$ is a linear function and $S$ can be minimized simply by minimizing each $g_i(a,A_{i-1})$.
+However, most usually, $G_i$ and $G_{i+1}$ are correlated.
+The value of $G_i$ depends on the logic of the transform function $T_i$ in Formula~(\ref{eq:m}), 
+and the partition locality of datasets $ A_{i-1}$ and $A_i$. 
+The partition locality of $A_i$ in iteration $i$
 will again affect the value of $S_{i+1}$.
 %\textcolor{red}{add Markov-Chain-like relation here}
 
@@ -932,6 +952,58 @@ for the next iteration until the program has actually finished the $i_{th}$ iter
 Due to this limitation, the idea of finding out the optimal partition schemes for all the iterations to minimize the overall data transfer size $S$ is infeasible. 
 In the rest of this paper, the shuffle size is used to refer to the data transfer size of the shuffle operation. 
 
+\subsection{Key Dependency}\label{section:dependency}
+Given a key-value pair as the input to an iteration of a distributed operation,
+it will generate a (or a set of) new key-value pair(s) based on the logic of the transform primitive. 
+The key dependency
+represents such a logic of generation of key-value pairs from input key-value pairs in every iteration
+of the distributed operation. 
+
+Formally, for a set of input key-value pairs and output key-value pairs 
+in an iteration of a distributed operation, 
+we define their \emph{key dependency} as 
+\begin{equation}\label{eq:dependency}
+k \Rightarrow_{pr} f(k)
+\end{equation}
+, where $k$ is a key, 
+$f$ is a mapping function of $k$, 
+and $f(k)$ is another key. 
+For now, we do not care about what $f$ is like, and consider $f(k)$
+is an arbitrary key. 
+The symbol ``$\Rightarrow_{pr}$'' indicates the fact that 
+for any data entry whose key is $k$, after the transform primitive, 
+the probability of that the key of an output data entry is $f(k)$ is $pr$.
+In other words, we have
+\begin{equation*}\label{eq:dependencyDefine}
+\begin{aligned}
+k_0 \Rightarrow_{pr} f(k_0) \Leftrightarrow 
+& \forall \langle k,v \rangle \in \{ \langle k,v \rangle | k = k_0\}: \\
+& p(k_{t( \langle k,v \rangle)} = f(k)) = pr
+\end{aligned}
+\end{equation*}
+, where $t(\langle k,v \rangle)$ is the transform operation on $\langle k,v \rangle$ and outputs 
+a set of key-value pairs, $k_d$ is one of the keys in dataset $d$,
+and $p$ is the probability function. 
+
+A programmer is supposed to be well acquainted with the logic of the transform operation $t$. 
+By saying that we know the key dependency for a specific iterative distributed operation,
+it means that we are able to calculate $pr$ by the probability function 
+$p$ for a specific $k$ and $f(k)$.
+In the matrix multiplication example, we can easily deduce
+the key dependency of the second iteration: 
+$\forall i, j, p \in domain: (i, j, p) \Rightarrow_{1.0} (i, j)$.  
+Specially, the key mapping function is $f((i, j, p)) = (i, j)$.
+% it means that we know what the output key-value pairs will be 
+% for an input key-value pair in every computing iteration. 
+
+% We use the key dependency graph (introduced later) to portrait the iterative key dependency
+% so that it is comprehensible to the computer. 
+% Every distributed operation has its own key dependency
+% and it relies on the programmer to understand the iterative key dependency based on the application logic
+% and construct the key dependency graph.
+
+\subsection{}
+$k_{A_{i-1}}$
 
 \section{Confluence}\label{section:keyDependencyGraph}
 Even though it is hard to find the optimal partition solution to minimize the overall shuffle size,
@@ -943,21 +1015,21 @@ This section firstly describes the construction process of the key dependency gr
 After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
 
 
-\subsection{Key Dependency}\label{section:dependency}
-Given a key-value pair as the input to an iteration of the distributed operation,
-it will generate a (or a set of) new key-value pair(s) based on the logic of the program. 
-The distributed key dependency
-represents such logic of the generation of key-value pairs from the input key-value pairs in every iteration
-of the distributed operation. 
-The programmer is supposed to be well acquainted with the distributed operation logic. 
-By saying that we know the key dependency for a specific iterative distributed operation,
-it means that we know what the output key-value pairs will be 
-for an input key-value pair in every computing iteration. 
-We use the key dependency graph (introduced later) to portrait the iterative key dependency
-so that it is comprehensible to the computer. 
-Every distributed operation has its own key dependency
-and it relies on the programmer to understand the iterative key dependency based on the application logic
-and construct the key dependency graph.
+% \subsection{Key Dependency}\label{section:dependency}
+% Given a key-value pair as the input to an iteration of the distributed operation,
+% it will generate a (or a set of) new key-value pair(s) based on the logic of the program. 
+% The distributed key dependency
+% represents such logic of the generation of key-value pairs from the input key-value pairs in every iteration
+% of the distributed operation. 
+% The programmer is supposed to be well acquainted with the distributed operation logic. 
+% By saying that we know the key dependency for a specific iterative distributed operation,
+% it means that we know what the output key-value pairs will be 
+% for an input key-value pair in every computing iteration. 
+% We use the key dependency graph (introduced later) to portrait the iterative key dependency
+% so that it is comprehensible to the computer. 
+% Every distributed operation has its own key dependency
+% and it relies on the programmer to understand the iterative key dependency based on the application logic
+% and construct the key dependency graph.
 
 
 \begin{figure}[!t]
@@ -1373,22 +1445,23 @@ All the values of the CKP shuffle size improvement are figured out without consi
 % Some packages, such as MDW tools, offer better commands for making tables
 % than the plain LaTeX2e tabular which is used here.
 %\begin{tabular}{|c||c|c|}
-\begin{tabularx}{0.98\textwidth}{ c || c |c  }
+\begin{tabularx}{1\textwidth}{ c || c |c  }
 \hline
 \textbf{Distributed Operations} & \textbf{Key Dependency} & \textbf{User-Defined Function} \\
 \hline
-MatrixMultiplication & $(i,j,p) \Rightarrow (i,j)$ & (a:Any) $=>$ a match \{case (\_ , \_, \_) $=>$ (a.\_1, a.\_2)\}\\
+MatrixMultiplication & $(i,j,p) \Rightarrow_{1} (i,j)$ & (a:Any) $=>$ a match \{case (\_ , \_, \_) $=>$ (a.\_1, a.\_2)\}\\
 \hline
-MovieLensALS  &$(user,item) \Rightarrow user$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
+MovieLensALS  &$(user,item) \Rightarrow_{1} user$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
 \hline
-MultiAdjacentList  & $list \Rightarrow (list, tails)$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
+MultiAdjacentList  & $list \Rightarrow_{0.5} (list, tails)$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
 \hline
-KMeans & $points \Rightarrow cluster$ & (a:Any) $=>$ a match \{case point:Vector[Double] $=>$ closestPoint(point, cluster\_centers)\tnote{1}\\
+KMeans & $point \Rightarrow_{pr} centroid_1(point)$ & (a:Any) $=>$ a match \{case point:Vector[Double] $=>$ closestPoint(point, centroids$_1$)\tnote{1}\\
 \hline
 \end{tabularx}
 %\end{tabular}
 \begin{tablenotes}
-    \item[1] closestPoint(point, cluster\_centers) is the function which returns the index of the point in ``cluster\_centers'' that is in the shortest Euclidean distance with ``point''. The ``cluster\_centers'' are the cluster centers of a fixed iteration, e.g., the first iteration. 
+    \item[1] $centroid_1(point)$ stands for the index of the centroid point that the $point$ is grouped to in the first iteration.
+    closestPoint(point, centroids$_1$) is the function which returns the index of the point in ``centroids$_1$'' that is in the shortest Euclidean distance with ``point''. The ``centroids$_1$'' are the cluster centroids of the first iteration. 
   \end{tablenotes}
 \end{threeparttable}
 \end{table*}
@@ -1624,37 +1697,38 @@ The CKP decreases the shuffle workload greatly (about 50\%) in one iteration out
 
 \section{Related Work}\label{section:relatedWork}
 \textbf{Iterative distributed computing}: 
-Some works \cite{gunarathne2013scalable, bu2010haloop, ekanayake2010twister} improved the distributed frameworks for the iterative MapReduce-like computing by extended the programming interfaces to support multiple map and reduce phases. 
-The general idea was to cache the output data of each iteration for the next iteration. 
-Spark \cite{zaharia2012resilient} provided more kinds of operation interfaces and supported a series of transformations on the distributed input datasets in the memory by the concept of resilient distributed dataset. 
-These iterative distributed frameworks tried to minimize the I/O overhead by storing the intermediate data of each iteration in the memory, instead of in the disk like Hadoop. 
-However, they did not consider the heavy network workload during the shuffle operations. 
-Inheriting the benefit of fast memory I/O speed, Confluence decreases the shuffle sizes and alleviate the network workload by considering the key dependency of multiple relational iterations. 
+Some works~\cite{gunarathne2013scalable, bu2010haloop, ekanayake2010twister} improved distributed frameworks for iterative MapReduce-like computing by extending programming interfaces to support multiple map and reduce phases. 
+The general idea was to cache the data of each iteration in memories instead of in disks to reduce I/O overheads.
+Spark~\cite{zaharia2012resilient} provided more kinds of operation interfaces and supported a series of transformations on distributed input datasets in the memory by the concept of resilient distributed dataset. 
+% These iterative distributed frameworks tried to minimize the I/O overhead by storing the intermediate data of each iteration in the memory, instead of in the disk like Hadoop. 
+However, these works on distributed frameworks did not consider the heavy network workload during shuffle operations. 
+Inheriting the benefit of fast memory I/O rate, Confluence decreases shuffle sizes and alleviate network workloads by considering the key dependency of multiple related iterations. 
 
-\textbf{Parallel\&Distributed algorithms optimization}: Lots of work has been conducted on the optimization of parallel\&distributed machine learning algorithms~\cite{bekkerman2011scaling} and science computing \cite{kiran2013verification, mensink2012metric}, including the matrix multiplication methods~\cite{buluc2012parallel, ballard2012communication}. 
-Generally, they focused on optimizing the algorithm itself by decomposing the tasks to increase the task parallelism and removing the synchronization boundary between the I/O-intensive tasks and compute-intensive tasks. 
-Sarma et al. \cite{Sarma:2013:ULB} represented the map-and-reduce communication cost as the number of data entries needed to generate from the map input for the distributed application with a given parallelism factor. 
+\textbf{Parallel\&Distributed algorithms optimization}: Lots of work has been conducted on the optimization of parallel\&distributed machine learning algorithms~\cite{bekkerman2011scaling} and science computing~\cite{kiran2013verification, mensink2012metric}, including matrix multiplication methods~\cite{buluc2012parallel, ballard2012communication}. 
+Generally, they focused on optimizing the algorithm itself by decomposing tasks to increase the task parallelism and removing the synchronization boundary between I/O-intensive tasks and compute-intensive tasks. 
+Sarma et al.~\cite{Sarma:2013:ULB} represented the map-and-reduce communication cost as the number of data entries that need to be generated from the map input for a distributed application with a given parallelism factor. 
 To decrease the communication cost for a specific distributed application, one need redesign the distributed program itself, operating with the proper parallelism factor. 
-The term of communication cost is slightly different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce workers, while the shuffle size transfer size of data between different computer nodes. 
-The algorithms with the minimum communication cost can further decrease the shuffle size by considering the key dependency of the datasets in multiple iterations. 
-ShuffleWatcher~\cite{faraz2014shufflewatcher} scheduled the locality of the map tasks and the reduce tasks to decrease shuffle inter-node traffic for the single 
-iteration of the MapReduce jobs, but it did not provide the solution for iterative distributed operations. 
+The term of communication cost is slightly different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce workers (which can be on the same node), while the shuffle size transfer size of data between different computer nodes. 
+An Iterative distributed application can be first designed with the minimum communication cost for each iteration, if possible, and then apply Confluence to decrease the shuffle size.
+% The algorithms with the minimum communication cost can further decrease the shuffle size by considering the key dependency of the datasets in multiple iterations. 
+ShuffleWatcher~\cite{faraz2014shufflewatcher} scheduled the locality of map tasks and reduce tasks to decrease shuffle inter-node traffic for the single 
+iteration of a MapReduce job, but it did not provide a solution for iterative distributed operations. 
 
 
 \textbf{Datacenter networking for shuffle}: 
-In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals \cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}.  
-Confluence does not concern with the underlying network level. However, by decreasing the shuffle workload, the shuffle tasks applying the confluence key partitioning scheme can work on these shuffle-optimized datacenter networks seamlessly and gain more performance increase.    
+In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals~\cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}.  
+Confluence does not concern with the underlying network level. However, by decreasing shuffle workloads, shuffle tasks applying the confluence key partitioning scheme can work on these shuffle-optimized datacenter networks seamlessly and gain larger performance increase.    
 
 \textbf{Skew\&Straggler}: 
-The distributed computing paradigms like MapReduce adopted the data locality principle, either to place the computing tasks closed to data locations in priority to reduce the traffic workloads of data migration \cite{dean2008mapreduce, zaharia2008improving} or to avoid the unbalanced allocation of workloads by considering the compute skew problems \cite{kwon2010skew, kwon2012skewtune}. 
+Distributed computing paradigms like MapReduce adopted the data locality principle, either to place computing tasks close to locations of the processing data in priority to avoid data migration~\cite{dean2008mapreduce, zaharia2008improving}, or to avoid an unbalanced allocation of workloads by considering compute skew problems~\cite{kwon2010skew, kwon2012skewtune}. 
 They concerned with the placing of map tasks where the required input data are self-contained.
-As the input data of each shuffle task are distributed across the cluster, such task-to-data approach cannot help in the shuffle tasks. 
-Confluence localizes the data and tasks by partitioning the data corresponding to each pure confluence subgraph with multiple shuffle iterations in the same node, which eliminates the shuffle traffic of the following iterations while not impacting the balance of workloads.
-Aaron et al. \cite{Harlap:2016:ASP} addressed the problem of stragglers in iterative machine learning. If the unbalance in the granule of pure confluence subgraph does exist for some particular dataset or algorithm, the partitioning scheme of the pure confluence subgraph can be manually specified by the user to prevent stragglers. 
+As the input data of each shuffle task are distributed across the cluster, such a task-to-data approach cannot help in shuffle tasks. 
+Confluence localizes data and tasks by partitioning the data corresponding to each pure confluence subgraph with multiple shuffle iterations in the same node, which eliminates the shuffle traffic of multiple iterations while not impacting the balance of workloads.
+Aaron et al.~\cite{Harlap:2016:ASP} addressed the problem of stragglers in iterative machine learning. \red{If the unbalance in the granule of pure confluence subgraphs does exist in some particular dataset or algorithm, the partitioning scheme of the pure confluence subgraph can be manually specified by the user to prevent stragglers.} 
 
 \textbf{DAG scheduling}: 
-Similar to the DAG task scheduling algorithms \cite{sakellariou2004hybrid, zhao2006scheduling, spark-dagscheduler, isard2007dryad} that schedule the tasks to based on the task dependency graph, Confluence optimizes the partition location based on the key dependency graph. 
-The difference is, in terms of the goal, that the DAG task scheduling algorithms tried to parallel the execution of jobs that are not depended on each other to increase parallelism, while Confluence isolates the partitions of the data with dependency relationship in multiple shuffle iterations to reduce the network traffic. 
+Similar to other DAG task scheduling algorithms~\cite{sakellariou2004hybrid, zhao2006scheduling, spark-dagscheduler, isard2007dryad} that schedule tasks to based on the task dependency graph, Confluence optimizes the partition location based on the key dependency graph. 
+The difference is, in terms of the goal, that the DAG task scheduling algorithms tried to parallel the execution of jobs that are not depended on each other to increase parallelism, while Confluence isolates the partitions of the key-related data in multiple shuffle iterations to reduce network traffic. 
 
 
 \section{Conclusion and Future Work}\label{section:conclusion}
@@ -1920,11 +1994,11 @@ V.~K. Vavilapalli et al., ``Apache hadoop yarn: Yet another
   resource negotiator,'' in \emph{Proceedings of the 4th ACM Annual Symposium
   on Cloud Computing}, New York, NY, USA, 2013, pp. 5:1--5:16.
 
-\bibitem{hindman2011mesos}
-B.~Hindman et al., ``Mesos: A platform for fine-grained resource
-  sharing in the data center.'' in \emph{Proceedings of the 8th USENIX
-  Symposium on Networked Systems Design and Implementation}, vol.~11, 2011, pp.
-  22--22.
+% \bibitem{hindman2011mesos}
+% B.~Hindman et al., ``Mesos: A platform for fine-grained resource
+%   sharing in the data center.'' in \emph{Proceedings of the 8th USENIX
+%   Symposium on Networked Systems Design and Implementation}, vol.~11, 2011, pp.
+%   22--22.
 
 \bibitem{isard2007dryad}
 M.~Isard et al., ``Dryad: Distributed
