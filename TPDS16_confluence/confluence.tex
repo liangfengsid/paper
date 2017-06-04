@@ -551,7 +551,7 @@ greatly decreases the shuffle network traffic by up to 50\%.
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-Spark; Shuffle; MapReduce; Iterative Distributed Operation; Key Partitioning
+Spark; Shuffle; Key Dependency; Iterative Distributed Operation; Partitioning
 \end{IEEEkeywords}}
 
 
@@ -753,7 +753,7 @@ to their designated nodes.
 Most distributed computing paradigms, such as Spark~\cite{zaharia2012resilient} and Twister~\cite{ekanayake2010twister},
 provide an interface for adding a user-defined partitioner for the shuffle
 operation.
-By applying the CKP scheme, the shuffle sizes of multiple computing
+By applying the CKP scheme, shuffle sizes of multiple computing
 iterations can be reduced significantly. %in polynomial time,
 Note that this will not impact the computing workload skew level; that is,
 the standard deviation of the computing workloads of the
@@ -834,7 +834,9 @@ The shuffle primitive is equivalent to the shuffle operation of the reduce primi
 It does not involve any transformation on data.
 While the transform primitive is equivalent to the reduce operation
 (excluding the shuffle operation) in the reduce primitive plus the map primitive of the next iteration of a MapReduce operation. 
-The transform primitive and the shuffle primitive are also called the transform operation and the shuffle operation, respectively.
+The shuffle primitive is also called the shuffle operation,
+and the transform primitive is called the transform operation or, simply, 
+transformation.
 
 % in the matrix multiplication example in Section~\ref{section:introduction} is slightly different from the definition here. 
 % The transform primitive of an iteration is equivalent to 
@@ -892,13 +894,14 @@ From now on in this paper, we use the transform-and-shuffle interpretation when 
 We model the overall shuffle size of iterative
 distributed operations and discuss the time complexity of obtaining
 the optimal key partitioning scheme that minimizes the overall shuffle
-size.
+size. Table~\ref{table:symbol} lists some symbols we use in this paper
+for reference. 
 
 For iterative distributed operations, the result of the $i_{th}$ iteration can be obtained recursively by:
-\begin{equation}\label{eq:m}
+\begin{equation}\label{eq:t}
 A'_i=T_i(A_i)
 \end{equation}
-\begin{equation}\label{eq:r}
+\begin{equation}\label{eq:s}
 A_{i+1}=S_i(A'_i)
 \end{equation}
 , where $A_i$ is the output of iteration $i-1$ as well as the input of iteration $i$, 
@@ -909,55 +912,82 @@ The keys of $A'_i$ and $A_{i+1}$ are the same, but their partition localities ar
 In the first iteration, when $i$ equals 1, 
 $A_1$ represents the raw input datasets before any processing.  
 
-Suppose in the shuffle operation of iteration $i$, in order to shuffle an entry $a \in A'_i$ to its partition location, 
-the size of data that need to be transferred is a function of $a$ and $A_i$: $g_i(a,A_i)$. 
-The returned value of function $g_i$ can be different in different key partitioning schemes. 
-The data transfer size to shffule $A'_i$ is: 
-\begin{equation}\label{eq:si}
+Suppose in the shuffle operation of iteration $i$, in order to shuffle transformation outputs of an entry $a \in A_i$ to its partition location, 
+the shuffle size is a function of $a$ and $A_{i+1}$: $g_i(a,A_{i+1})$. 
+The returned value of function $g_i$ can be different in different key partitioning schemes for $A_{i+1}$. 
+The shuffle size of iteration $i$ is: 
+\begin{equation}\label{eq:gi}
 \begin{aligned}
-G_i=\sum_{a \in A'_i} g_i(a,A_i).
+G_i=\sum_{a \in A_i} g_i(a,A_{i+1}).
 \end{aligned}
 \end{equation}
 
-Within the same $i_{th}$ iteration, for $\forall a_p, a_q \in A_i$ where $a_p \neq a_q$, values of $g_i(a_p,A_{i-1})$ and $g_i(a_q,A_{i-1})$ are independent of each other. 
-If the value of $g_i(a_p,A_{i-1})$ changes due to a different partition location of $a_p$, the value of $g_i(a_q,A_{i-1})$ remains unchanged unless $a_q$ is also partitioned to a different location. 
+% Within the same $i_{th}$ iteration, for $\forall a_p, a_q \in A_i$ where $a_p \neq a_q$, values of $g_i(a_p,A_{i+1})$ and $g_i(a_q,A_{i+1})$ are independent of each other in terms of $a$. 
+% If the value of $g_i(a_p,A_{i+1})$ changes due to a different partition location of $A_{i+1}$, the value of $g_i(a_q,A_{i+1})$ remains unchanged unless $a_q$ is also partitioned to a different location. 
 
 If $m$ iterations are required to compute the final result, 
 the overall accumulated shuffle size for obtaining the final result is
-\begin{equation}\label{eq:s}
-G=\sum_{i=1}^{m} G_i=\sum_{i=1}^{m} \sum_{a_i \in A_i} g_i(a,A_{i-1}).
+\begin{equation}\label{eq:g}
+G=\sum_{i=1}^{m} G_i=\sum_{i=1}^{m} \sum_{a \in A_i} g_i(a,A_{i+1}).
 \end{equation}
 
 
-If values of $G_i (1 \leq i \leq m)$ are independent of each other, 
-$S$ is a linear function and $S$ can be minimized simply by minimizing each $g_i(a,A_{i-1})$.
+\red{If values of $G_i (1 \leq i \leq m)$ are independent of each other, 
+$S$ is a linear function and $S$ can be minimized simply by minimizing each $g_i(a,A_{i+1})$. Not correct now because they are not independent}
 However, most usually, $G_i$ and $G_{i+1}$ are correlated.
-The value of $G_i$ depends on the logic of the transform function $T_i$ in Formula~(\ref{eq:m}), 
-and the partition locality of datasets $ A_{i-1}$ and $A_i$. 
-The partition locality of $A_i$ in iteration $i$
-will again affect the value of $S_{i+1}$.
+The value of $G_i$ depends on the logic of the transform function $T_i$ in Formula~(\ref{eq:t}), 
+and the partition locality of datasets $ A_{i}$ and $A_{i+1}$. 
+The partition locality of $A_{i+1}$
+will again affect the value of $G_{i+1}$.
 %\textcolor{red}{add Markov-Chain-like relation here}
 
-If the contents of $A_i (i=1,2,...,m)$ are already known, to find out the optimal key partitioning scheme that minimizes 
+If contents (including key-value pairs and the partition locality) of $A_i (i=1,2,...,m)$ are already known, to find out the optimal key partitioning scheme that minimizes 
 %A clumsy and straightforward way to minimize 
-the overall data transfer size $S$,  %is 
+the overall shuffle size $G$,  %is 
 we need to exhaustively explore the possible key partition schemes of all the key-value pairs across all the iterations. 
-By calculating the overall data transfer size of each scheme, the optimal solution is the scheme with the minimal size. 
-The time complexity of the exhaustive method is $O(n^{\sum_{i=1}^{m} |A_i|}$), 
+By calculating the overall shuffle size of each scheme, the optimal solution is the scheme with the minimal size. 
+The time complexity of the exhaustive method is $O(n^{\sum_{i=1}^{m+1} |A_i|}$), 
 where $n$ is the number of nodes in the cluster and $|A_i|$ is the number of data entries of $A_i$, 
-which indicates that it is an NP-complete problem. 
+which indicates that it is a complex problem. 
 
 In fact, we usually do not know the contents of $A_i$ and cannot explore the partition scheme 
 for the next iteration until the program has actually finished the $i_{th}$ iteration. 
-Due to this limitation, the idea of finding out the optimal partition schemes for all the iterations to minimize the overall data transfer size $S$ is infeasible. 
-In the rest of this paper, the shuffle size is used to refer to the data transfer size of the shuffle operation. 
+Due to this limitation, the idea of finding out the optimal partition schemes for all the iterations to minimize the overall data transfer size $G$ is infeasible. 
+% In the rest of this paper, the shuffle size is used to refer to the data transfer size of the shuffle operation. 
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1}
+% \extrarowheight as needed to properly center the text within the cells
+\caption{Symbol Reference}\label{table:symbol}
+\centering
+% Some packages, such as MDW tools, offer better commands for making tables
+% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|c|}
+\begin{tabularx}{0.49\textwidth}{ c | c }
+\hline
+\textbf{Symbol} & \textbf{Description}  \\
+\hline
+$A_i$ & Input dataset for iteration $i$\\
+\hline
+$A'_i$  & Transformation Output in iteration $i$   \\
+\hline
+$D_k$ & Set of input entries of the transform operation \\
+&(in the specified iteration) that have key $k$\\
+\hline
+$D'_k$ & Outputs of the transform operation with $D_k$ as the input\\
+\hline
+\end{tabularx}
+%\end{tabular}
+\end{table}
 
 \subsection{Key Dependency}\label{section:dependency}
+We use \emph{key dependency}
+to represent the transformation logic in every iteration
+of a distributed operation. 
 Given a key-value pair as the input to an iteration of a distributed operation,
-it will generate a (or a set of) new key-value pair(s) based on the logic of the transform primitive. 
-The key dependency
-represents such a logic of generation of key-value pairs from input key-value pairs in every iteration
-of the distributed operation. 
+the transform operation will generate a (or a set of) new key-value pair(s) based on its logic. 
+
 
 Formally, for a set of input key-value pairs and output key-value pairs 
 in an iteration of a distributed operation, 
@@ -973,10 +1003,10 @@ is an arbitrary key.
 The symbol ``$\Rightarrow_{pr}$'' indicates the fact that 
 for any data entry whose key is $k$, after the transform primitive, 
 the probability of that the key of an output data entry is $f(k)$ is $pr$.
-In other words, we have
+By definition, we have
 \begin{equation*}\label{eq:dependencyDefine}
 \begin{aligned}
-k_0 \Rightarrow_{pr} f(k_0) \Leftrightarrow 
+k_0 \Rightarrow_{pr} f(k_0) \equiv 
 & \forall \langle k,v \rangle \in \{ \langle k,v \rangle | k = k_0\}: \\
 & p(k_{t( \langle k,v \rangle)} = f(k)) = pr
 \end{aligned}
@@ -986,9 +1016,11 @@ a set of key-value pairs, $k_d$ is one of the keys in dataset $d$,
 and $p$ is the probability function. 
 
 A programmer is supposed to be well acquainted with the logic of the transform operation $t$. 
+In the key dependency, we call $k$ the input key, $f(k)$ the mapping key, 
+and $pr$ the dependency probability.
 By saying that we know the key dependency for a specific iterative distributed operation,
 it means that we are able to calculate $pr$ by the probability function 
-$p$ for a specific $k$ and $f(k)$.
+$p$ for specific $k$ and $f(k)$.
 In the matrix multiplication example, we can easily deduce
 the key dependency of the second iteration: 
 $\forall i, j, p \in domain: (i, j, p) \Rightarrow_{1.0} (i, j)$.  
@@ -1002,168 +1034,261 @@ Specially, the key mapping function is $f((i, j, p)) = (i, j)$.
 % and it relies on the programmer to understand the iterative key dependency based on the application logic
 % and construct the key dependency graph.
 
-\subsection{}
-$k_{A_{i-1}}$
+\subsection{Random Key Partitioning}\label{section:rkp}
+We will show that the random key partitioning scheme(RKP) generates larger shuffle size than almost any other key partitioning schemes. 
+In RKP, a key is assigned a random partition location in the shuffle operation. 
+RKP is widely used in popular distributed paradigms.
+For example, Spark~\cite{zaharia2012resilient} uses the hash-based key partitioning scheme, which partitions keys based on their hash values. 
 
-\section{Confluence}\label{section:keyDependencyGraph}
-Even though it is hard to find the optimal partition solution to minimize the overall shuffle size,
-if the code logic of the specific distributed operations is already known, 
+As mentioned in in Section~\ref{section:model}, the shuffle size $g_i(a, A_{i+1})$ to shuffle transformation outputs of entry $a$ is different in different key partitioning schemes. 
+Given a key dependency implicated by a distributed operation, we discuss how to calculate $g_i(a, A_{i+1})$ in a specific key partitioning scheme. 
+We set off from RKP.
+
+
+In a cluster of $n$ nodes, using RKP, the probability of a transformed key-value pair 
+is assigned and partitioned to another node (which indicates a network transfer) is $(n-1)/n$.
+
+In iteration i, let $D_{k}$ denote all transform operation inputs that have key $k$, $D'_{k}$
+denote transform operation outputs after transforming $D_{k}$, 
+and $|D|$ denote the volume of dataset $D$. 
+% In the rest of the discussion, we think of the size of every key-value pair in a dataset is the same. 
+% % Considering the difference between the sizes of different key-value pairs
+% % in $D$ will work, but it will greatly complicated our discussion. 
+% Therefore, $|D|$ equals the size 
+% of each key-value pair times the number of key-value pairs in $D$.
+Given a set of key dependencies $k \Rightarrow_{pr_j} k_j, \sum_j pr_j = 1$, 
+the expected shuffle size to transfer $D'_k$ in RKP is:
+\begin{equation}\label{eq:rkp_gi}
+\begin{aligned}
+\sum_{a \in D_k} g_i(a, A_{i+1}) = \sum_j \frac{n-1}{n} pr_j  |D'_{k}| 
+&= \frac{n-1}{n} |D'_{k}|\\
+&\approx |D'_{k}|.
+\end{aligned}
+\end{equation}
+
+In cases that $n$ is large in a large cluster, the approximately equal sign
+in Formula~\ref{eq:rkp_gi} can be thought of as an equal sign. 
+Note that the key dependency does not affect the shuffle size of an iteration in RKP at all. 
+For any key partitioning scheme, the shuffle size cannot be larger than 
+the volume of the shuffle operation. 
+That is, $\sum_{a \in D_k} g_i(a, A_{i+1}) <= |D'_k|$ for any key partitioning scheme.
+By summing up the shuffle sizes for all keys in all iterations by Formula~\ref{eq:g},
+we can easily conclude that
+the overall shuffle size of RKP is almost larger than any other key partitioning scheme. 
+
+% Suppose that $a'$ is the set of input data entries that have the same key as $a$ right before the shuffle operation and $p_j$ denotes the percentage of data entries of $a'$ that lie in Node $j$, where $\sum_{j=1}^{n} p_i=1$.
+% We have
+% \begin{equation}\label{eq:si2}
+% s_i(a,A'_i)= \sum_{j=1}^{n} [\frac{1}{n}|a|(1-p_j)]=\frac{(n-1)} {n}\cdot |a|
+% \end{equation}
+% , where $|a|$ is the length of the value list of $a$, which is also the number of data entries in $a'$. 
+% It shows that if $a$ is randomly partitioned to a node, 
+% the distribution of $a'$ does not affect the data transfer size for collecting $a$. 
+
+\section{Confluence}\label{section:confluence}
+Although it is hard to find the optimal partition solution to minimize the overall shuffle size,
+we discover that 
+if the transformation logic of a specific distributed operation is already known, 
 the shuffle size can be reduced to the maximum extent %in polynomial time 
 by exploring the key dependency of different iterations. 
 
-This section firstly describes the construction process of the key dependency graphs, as well as its properties. 
-After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
+The key dependency is to represent the logic of transform operations, 
+while the key partitioning scheme is to indicate the logic of shuffle operations. 
+By the observation that the RKP shuffle size can be expressed by some term in the key dependency, we have the intuition that we can
+leverage the key dependency to discover other key partitioning schemes that 
+can reduce the shuffle size. 
 
+In this section, we present the Confluence Key Partitioning scheme
+that leverages the key dependency to reduce the shuffle size by binding 
+key partition locations. 
+We also analyze that the Confluence Key Partitioning scheme does not 
+increase the workload skew level.
 
-% \subsection{Key Dependency}\label{section:dependency}
-% Given a key-value pair as the input to an iteration of the distributed operation,
-% it will generate a (or a set of) new key-value pair(s) based on the logic of the program. 
-% The distributed key dependency
-% represents such logic of the generation of key-value pairs from the input key-value pairs in every iteration
-% of the distributed operation. 
-% The programmer is supposed to be well acquainted with the distributed operation logic. 
-% By saying that we know the key dependency for a specific iterative distributed operation,
-% it means that we know what the output key-value pairs will be 
-% for an input key-value pair in every computing iteration. 
-% We use the key dependency graph (introduced later) to portrait the iterative key dependency
-% so that it is comprehensible to the computer. 
-% Every distributed operation has its own key dependency
-% and it relies on the programmer to understand the iterative key dependency based on the application logic
-% and construct the key dependency graph.
+% This section firstly describes the construction process of the key dependency graphs, as well as its properties. 
+% After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
 
+\subsection{Binding Partition Locations}
+Binding partition locations of mapping keys to input keys based on the key dependency reduces the shuffle size.
+In an arbitrary iteration, again assume that we have a set of key 
+dependencies $k \Rightarrow_{pr_j} k_j, \sum_{j} pr_j = 1$. 
+Now suppose that a key partitioning scheme $X$ always partitions 
+shuffle output data that have key $k_x$ to the same computer node where 
+input data that have key $k$ is partitioned. 
+We say that key partitioning scheme $X$ binds the partition location of the mapping key $k_x$ to the input key $k$ in this iteration. 
+For shuffle outputs that have other keys, scheme $X$ partitions them by the hash values of their keys. 
+
+By the definition of the key dependency, 
+we easily deduct the following theorem.
+\newtheorem{theorem}{\textbf{Theorem}}
+\begin{theorem}\label{thm:binding}
+In an iteration of a distributed operation, given a key dependency
+$k \Rightarrow_{pr} f(k)$, if the partition location of key $f(k)$ is bound to $k$, 
+the shuffle size of transferring transformation output data that have key $f(k)$ after transforming $D_k$ is zero.
+\end{theorem}
+
+In such a scheme X, reusing the symbols in Section~\ref{section:rkp}, the expected shuffle size to transfer 
+transformation outputs of the $D_k$ is: $\sum_{a \in D_k} g_i(a, A_{i+1}) = \frac{n-1}{n} (1 - pr_x) |D'_{k}|$.
+The shuffle size difference between scheme X and scheme RKP is 
+$ \Delta \approx pr_x |D'_{k}|$. 
+The value of $|D'_{k}|$ is a constant for a given transform operation and input $D_k$. 
+The larger $pr_x$ is, the greater scheme X reduces the shuffle size than RKP does. 
 
 \begin{figure}[!t]
 \removelatexerror
 
 \begin{algorithm}[H]
 \SetKwInOut{Input}{Input}
+\SetKwInOut{Variable}{Variable}
 \SetKwInOut{Output}{Output}
 
- \Input{Key Set $K_i$, containing all the possible keys (or usually, key patterns) of the output key-value pairs of any Iteration $i$;\\
- Key Dependency Set $D$, containing the key dependency of all iterations;
+ \Input{
+ A Key Dependency Set $DK$: $\{ k \Rightarrow_{pr_j} f_j(k) | j = 1, 2, ..., 
+ \sum_j pr_j \leq 1 \}$ ;
  }
- \Output{Key Dependency Graph $G=(V,E)$}
-\tcc{Construction of $V$}
- \ForEach{Iterations $i$}{
-  \ForEach{$k \in K_i$}{
-    add vertex $v_{i,k}$ to $V$
-  }
-  \If{any possible key (key pattern) is unknown}{
-    add vertex $v_{i,x}$ to $V$
-  }
-}
+  find out $J$ such that $\forall j, pr_j \leq pr_{J}$; \\
+  bind key $f_J(k)$ to key $k$
 
-\tcc{Construction of E}
-\ForEach{Iterations $i$}{
-  \ForEach{key dependency $v_{i,k1} \Rightarrow v_{i+1,k2}$ in $D$}{
-    add edge $(v_{i,k1}, v_{i+1,k2})$ to $E$
-  }
-}
-\caption{Construction of the Key Dependency Graph}
-\label{algo:KDG}
+\caption{Confluence Key Partitioning}
+\label{algo:CKP}
 \end{algorithm}
-
-\caption{Pseudo Code of Constructing the Key Dependency Graph}
-\label{fig:KDG}
 \end{figure}
 
+\subsection{Confluence Key Partitioning}\label{section:ckp}
+The Confluence Key Partitioning (CKP) scheme 
 
-\subsection{Key Dependency Graph}\label{section:kdg}
 
-The directed graph $G=(V,E)$, which is named as the \emph{key dependency graph} (KDG), addresses the key dependency status of the distributed operation iterations. 
+% \begin{figure}[!t]
+% \removelatexerror
 
-The key pattern is the symbol that represents a set of keys that match a specific pattern.
-The key dependency is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
-the output key-value pairs with key matching pattern $k1$
-in Iteration $i$ can generate a key-value pair with key matching pattern $k2$ in Iteration $i+1$.
-The key dependency is specific to the code logic of the distributed operation 
-and it decides which graph node should point to which others. 
-The distributed operation code logic should be known prior by the programmers.
+% \begin{algorithm}[H]
+% \SetKwInOut{Input}{Input}
+% \SetKwInOut{Output}{Output}
 
-The construction process of the key dependency graph G is shown as in Algorithm~\ref{algo:KDG}.
-Note that when constructing $E$, for the unknown keys (or key patterns), it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
-The unknown key dependency is only raised when there are some key values (or key patterns) the programmer cannot make sure in a computing iteration. 
-In practice, the input set $K_i$ in Algorithm~\ref{algo:KDG} is defined to contain the key patterns instead of the distinguished key values, so that a node in the KDG represents a key pattern. 
-Such practice limits the width of the KDG in each level
-and our algorithm introduced later can partition the key-value pairs based on their key pattern. 
-In the rest of this paper, unless specified, the input set $K_i$ is the key pattern set, 
-but for generality, we still refer to it as the key set. 
+%  \Input{Key Set $K_i$, containing all the possible keys (or usually, key patterns) of the output key-value pairs of any Iteration $i$;\\
+%  Key Dependency Set $D$, containing the key dependency of all iterations;
+%  }
+%  \Output{Key Dependency Graph $G=(V,E)$}
+% \tcc{Construction of $V$}
+%  \ForEach{Iterations $i$}{
+%   \ForEach{$k \in K_i$}{
+%     add vertex $v_{i,k}$ to $V$
+%   }
+%   \If{any possible key (key pattern) is unknown}{
+%     add vertex $v_{i,x}$ to $V$
+%   }
+% }
 
-%The construction of the KDG $G=(V,E)$ is finished here. 
-This graph is a directed acyclic graph (DAG).
-The time complexity to construct this graph is $O(\sum_{i=1}^m k_{i-1} k_i)$, 
-where $k_i$ is the number of keys (or key patterns) in iteration i and $m$ is the total number of iterations.
-Usually, $k_i$ is very small in value when it is referred as the key pattern (not the distinguished values of the keys).
-For example, in the matrix multiplication application, the subgraph from the second level to the third (final level) of the KDG can be denoted as a one node to one node subgraph: $(a, b, [1, n]) \rightarrow (a, b)$, 
-where $a$ and $b$ stand for any row and any column index of the matrix, 
-and $[1, n]$ stands for the range from 1 to the matrix dimension length $n$.
+% \tcc{Construction of E}
+% \ForEach{Iterations $i$}{
+%   \ForEach{key dependency $v_{i,k1} \Rightarrow v_{i+1,k2}$ in $D$}{
+%     add edge $(v_{i,k1}, v_{i+1,k2})$ to $E$
+%   }
+% }
+% \caption{Construction of the Key Dependency Graph}
+% \label{algo:KDG}
+% \end{algorithm}
 
-The subgraph $C=(V', E')$ of $G=(V,E)$ is called a \emph{confluence subgraph} if it satisfies the following
-\emph{outward exclusive} requirements: 
-denote $V'_i$ as the set of all the vertexes in $V'$ which are in level $i$ in $G$.  
-$V'_i$ satisfies $V'_i=\bigcup_{v'_{i-1} \in V'_{i-1}}V_i$, where $V_i$ is the set of vertexes that $v'_{i-1}$ has an edge $e \in E$ points to. 
-%For any $v'_1 \in V', v'_2 \in V'$, if $e' =(v'_1,v'_2) \in E$, 
-%then $e' \in E'$. For any $e'=(v'_1,v'_2)\in E'$, $v'_1 \in V'$ and $v'_2 \in V'$. 
-The edge $e' =(v'_1,v'_2)$ is in $E'$ iff $v'_1 \in V', v'_2 \in V'$ and $(v'_1,v'_2) \in E$.
+% \caption{Pseudo Code of Constructing the Key Dependency Graph}
+% \label{fig:KDG}
+% \end{figure}
 
-In other words, in the confluence subgraph, all the vertexes in the upper level have no edge pointing to
-the vertexes in the lower level outside the confluence subgraph. 
-Let Level $u$ and Level $w$ be the uppermost level and the lowest level that $V'$ contains, respectively. 
-$V'_u$ is called the \emph{source key set} at level $u$ and $V'_w$ the \emph{confluence key set} at level $w$
-of the confluence subgraph $C=(V',E')$. 
 
-We call the confluence subgraph $C=(V', E')$ the \emph{pure confluence subgraph} if 
-it further satisfies the \emph{inward exclusive} requirement: 
-$V'_{i-1}=\bigcup_{v'_i \in V'_i}V''_{i-1}$, where $V''_{i-1}$ is the set of vertexes that have an edge $e \in E$ pointing to $v'_i$. 
+% \subsection{Key Dependency Graph}\label{section:kdg}
 
-%\textcolor{red}{the time complexity of getting the confluence subgraph}
+% The directed graph $G=(V,E)$, which is named as the \emph{key dependency graph} (KDG), addresses the key dependency status of the distributed operation iterations. 
 
-An example of the KDG of 3 levels and some of its confluence subgraphs are shown in Fig.~\ref{fig:keyDependencyGraph}. The subgraph in the dashed boxes C3 is a pure confluence subgraph 
-of C1. The subgraph in C2 is a confluence subgraph but not a pure confluence subgraph, 
-as the source node of the edges $(v0x, v11)$ and $(v0x, v12)$ is not in C2. 
-The subgraph in the dotted box C4 is not a confluence subgraph as the edge $(v0x, v12)$ 
-points to the node $v12$, which is not a vertex in the subgraph C4. 
-Note that the key dependency graph is always the pure confluence subgraph of itself, as show in the dashed box C1. 
+% The key pattern is the symbol that represents a set of keys that match a specific pattern.
+% The key dependency is denoted with two vertexes $v_{i,k1} \Rightarrow v_{i+1,k2}$ if
+% the output key-value pairs with key matching pattern $k1$
+% in Iteration $i$ can generate a key-value pair with key matching pattern $k2$ in Iteration $i+1$.
+% The key dependency is specific to the code logic of the distributed operation 
+% and it decides which graph node should point to which others. 
+% The distributed operation code logic should be known prior by the programmers.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=1\columnwidth]{figure3}
-\caption{A Key Dependency Graph Example}
-\label{fig:keyDependencyGraph}
-%\vspace{-0.2in}
-\end{figure}
+% The construction process of the key dependency graph G is shown as in Algorithm~\ref{algo:KDG}.
+% Note that when constructing $E$, for the unknown keys (or key patterns), it is assumed that $v_{i,x} \Rightarrow v_{i+1,k2}, \forall k2$. 
+% The unknown key dependency is only raised when there are some key values (or key patterns) the programmer cannot make sure in a computing iteration. 
+% In practice, the input set $K_i$ in Algorithm~\ref{algo:KDG} is defined to contain the key patterns instead of the distinguished key values, so that a node in the KDG represents a key pattern. 
+% Such practice limits the width of the KDG in each level
+% and our algorithm introduced later can partition the key-value pairs based on their key pattern. 
+% In the rest of this paper, unless specified, the input set $K_i$ is the key pattern set, 
+% but for generality, we still refer to it as the key set. 
 
-\subsection{Properties of Confluence Subgraph}
-For the distributed operations of several iterations, suppose that there is a confluence subgraph $C$ of its KDG 
-with the source key set $V'_u$ at level $u$ and the confluence key set $V'_w$ at level $w(w > u)$. 
-Let $B_u$ be a part of the output dataset of the $u_{th}$ iteration 
-and $B_w$ be the dataset generated by $B_u$ after $(w-u)$ iterations. 
-%Let $A_u$ and $A_w$ be a part of the output datasets of the $u_{th}$ and $w_{th}$ iteration, respectively.
-We have a theorem that can easily be conducted by the definition of the confluence subgraph. 
+% %The construction of the KDG $G=(V,E)$ is finished here. 
+% This graph is a directed acyclic graph (DAG).
+% The time complexity to construct this graph is $O(\sum_{i=1}^m k_{i-1} k_i)$, 
+% where $k_i$ is the number of keys (or key patterns) in iteration i and $m$ is the total number of iterations.
+% Usually, $k_i$ is very small in value when it is referred as the key pattern (not the distinguished values of the keys).
+% For example, in the matrix multiplication application, the subgraph from the second level to the third (final level) of the KDG can be denoted as a one node to one node subgraph: $(a, b, [1, n]) \rightarrow (a, b)$, 
+% where $a$ and $b$ stand for any row and any column index of the matrix, 
+% and $[1, n]$ stands for the range from 1 to the matrix dimension length $n$.
 
-\newtheorem{theorem}{\textbf{Theorem}}
-\begin{theorem}\label{thm:upwardClosure}
-If the keys of all the entries of $B_u$ are in the source key set $V'_u$, 
-the keys of all entries of $B_w$ are in the confluence key set $V'_w$. 
-\end{theorem}
+% The subgraph $C=(V', E')$ of $G=(V,E)$ is called a \emph{confluence subgraph} if it satisfies the following
+% \emph{outward exclusive} requirements: 
+% denote $V'_i$ as the set of all the vertexes in $V'$ which are in level $i$ in $G$.  
+% $V'_i$ satisfies $V'_i=\bigcup_{v'_{i-1} \in V'_{i-1}}V_i$, where $V_i$ is the set of vertexes that $v'_{i-1}$ has an edge $e \in E$ points to. 
+% %For any $v'_1 \in V', v'_2 \in V'$, if $e' =(v'_1,v'_2) \in E$, 
+% %then $e' \in E'$. For any $e'=(v'_1,v'_2)\in E'$, $v'_1 \in V'$ and $v'_2 \in V'$. 
+% The edge $e' =(v'_1,v'_2)$ is in $E'$ iff $v'_1 \in V', v'_2 \in V'$ and $(v'_1,v'_2) \in E$.
 
-We call the datasets $B_u$ and $B_w$ in Theorem \ref{thm:upwardClosure} 
-the \emph{upward closure pair} datasets of the confluence subgraph. 
-It can be further conducted from Theorem \ref{thm:upwardClosure} to get:
+% In other words, in the confluence subgraph, all the vertexes in the upper level have no edge pointing to
+% the vertexes in the lower level outside the confluence subgraph. 
+% Let Level $u$ and Level $w$ be the uppermost level and the lowest level that $V'$ contains, respectively. 
+% $V'_u$ is called the \emph{source key set} at level $u$ and $V'_w$ the \emph{confluence key set} at level $w$
+% of the confluence subgraph $C=(V',E')$. 
 
-\newtheorem{conduction}{\textbf{Theorem}}[theorem] 
-\begin{conduction}\label{thm:zeroTransfer}
-If the subgraph $C$ is a pure confluence subgraph and the keys of all the entries of $B_u$ are in the source key set $V'_u$, 
-when $B_u$ is stored in one single node, 
-the minimum data transfer size for obtaining $B_w$ is 0. 
-\end{conduction}
+% We call the confluence subgraph $C=(V', E')$ the \emph{pure confluence subgraph} if 
+% it further satisfies the \emph{inward exclusive} requirement: 
+% $V'_{i-1}=\bigcup_{v'_i \in V'_i}V''_{i-1}$, where $V''_{i-1}$ is the set of vertexes that have an edge $e \in E$ pointing to $v'_i$. 
 
-Theorem \ref{thm:zeroTransfer} indicates that if the datasets $B_u$ and $B_w$ are 
-the upward closure pair of a pure confluence subgraph 
-and $B_u$ is partitioned in one node, 
-we can finish all the following $(w-u)$ iterations of distributed operations in the same node to obtain $A_w$, 
-without any data transferring. 
-We name this key partitioning scheme the \textbf{Confluence Key Partitioning} scheme. 
+% %\textcolor{red}{the time complexity of getting the confluence subgraph}
+
+% An example of the KDG of 3 levels and some of its confluence subgraphs are shown in Fig.~\ref{fig:keyDependencyGraph}. The subgraph in the dashed boxes C3 is a pure confluence subgraph 
+% of C1. The subgraph in C2 is a confluence subgraph but not a pure confluence subgraph, 
+% as the source node of the edges $(v0x, v11)$ and $(v0x, v12)$ is not in C2. 
+% The subgraph in the dotted box C4 is not a confluence subgraph as the edge $(v0x, v12)$ 
+% points to the node $v12$, which is not a vertex in the subgraph C4. 
+% Note that the key dependency graph is always the pure confluence subgraph of itself, as show in the dashed box C1. 
+
+% \begin{figure}[!t]
+% \centering
+% \includegraphics[width=1\columnwidth]{figure3}
+% \caption{A Key Dependency Graph Example}
+% \label{fig:keyDependencyGraph}
+% %\vspace{-0.2in}
+% \end{figure}
+
+% \subsection{Properties of Confluence Subgraph}
+% For the distributed operations of several iterations, suppose that there is a confluence subgraph $C$ of its KDG 
+% with the source key set $V'_u$ at level $u$ and the confluence key set $V'_w$ at level $w(w > u)$. 
+% Let $B_u$ be a part of the output dataset of the $u_{th}$ iteration 
+% and $B_w$ be the dataset generated by $B_u$ after $(w-u)$ iterations. 
+% %Let $A_u$ and $A_w$ be a part of the output datasets of the $u_{th}$ and $w_{th}$ iteration, respectively.
+% We have a theorem that can easily be conducted by the definition of the confluence subgraph. 
+
+% \newtheorem{theorem}{\textbf{Theorem}}
+% \begin{theorem}\label{thm:upwardClosure}
+% If the keys of all the entries of $B_u$ are in the source key set $V'_u$, 
+% the keys of all entries of $B_w$ are in the confluence key set $V'_w$. 
+% \end{theorem}
+
+% We call the datasets $B_u$ and $B_w$ in Theorem \ref{thm:upwardClosure} 
+% the \emph{upward closure pair} datasets of the confluence subgraph. 
+% It can be further conducted from Theorem \ref{thm:upwardClosure} to get:
+
+% \newtheorem{conduction}{\textbf{Theorem}}[theorem] 
+% \begin{conduction}\label{thm:zeroTransfer}
+% If the subgraph $C$ is a pure confluence subgraph and the keys of all the entries of $B_u$ are in the source key set $V'_u$, 
+% when $B_u$ is stored in one single node, 
+% the minimum data transfer size for obtaining $B_w$ is 0. 
+% \end{conduction}
+
+% Theorem \ref{thm:zeroTransfer} indicates that if the datasets $B_u$ and $B_w$ are 
+% the upward closure pair of a pure confluence subgraph 
+% and $B_u$ is partitioned in one node, 
+% we can finish all the following $(w-u)$ iterations of distributed operations in the same node to obtain $A_w$, 
+% without any data transferring. 
+% We name this key partitioning scheme the \textbf{Confluence Key Partitioning} scheme. 
 
 
 %\textcolor{red}{The usage of the confluence keys}
@@ -1192,7 +1317,7 @@ in comparison with that $S''$ of the random key partitioning scheme (RKP), which
 $S'_i$ and $S''_i$ denote the expected data transfer size of CKP and and RKP in the $i_{th}$ iteration, respectively.  
 % We assume that in every iteration, each key is expected 
 
-Before going further, we figure out the function $s_i(a,A'_i)$ in Formula \ref{eq:si} in the case that $a$ is randomly (uniformly) partitioned to a node. 
+Before going further, we figure out the function $s_i(a,A'_i)$ in Formula \ref{eq:gi} in the case that $a$ is randomly (uniformly) partitioned to a node. 
 In this case, the probability of $a$ is partitioned to any node is $1/n$, where $n$ is the number of nodes in the cluster. 
 We call such an entry that has the same probability being partitioned to any node as the uniformly-partitioned entry. 
 As long as the partition location of an entry is finally hashed to the computer nodes, the entry is a uniformly-partitioned entry.
@@ -1206,10 +1331,10 @@ s_i(a,A'_i)= \sum_{j=1}^{n} [\frac{1}{n}|a|(1-p_j)]=\frac{(n-1)} {n}\cdot |a|
 It shows that if $a$ is randomly partitioned to a node, 
 the distribution of $a'$ does not affect the data transfer size for collecting $a$. 
 
-\newtheorem{siTheorem}{\textbf{Theorem}}
-\begin{theorem}\label{thm:siTheorem}
-The data transfer size for collecting the uniformly-partitioned entry in the shuffle operation is decided only by the number of nodes in the cluster and the length of this entry. 
-\end{theorem}
+% \newtheorem{siTheorem}{\textbf{Theorem}}
+% \begin{theorem}\label{thm:siTheorem}
+% The data transfer size for collecting the uniformly-partitioned entry in the shuffle operation is decided only by the number of nodes in the cluster and the length of this entry. 
+% \end{theorem}
 
 By Theorem \ref{thm:siTheorem}, when using RKP, the data transfer size of the $i_{th}$ iteration is $S''_i=\sum_{a\in A_i} \frac{(n-1) \cdot |a|}{n}=\frac{n-1}{n}|A'_i|$, 
 where $|A'_i|$ is the number of data entries in $A'_i$.
