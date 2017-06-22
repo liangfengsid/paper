@@ -137,7 +137,7 @@
   \graphicspath{{./figure/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  \DeclareGraphicsExtensions{.pdf,.jpg,.png}
+  \DeclareGraphicsExtensions{.pdf,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
@@ -265,8 +265,9 @@
 
 \usepackage{tabularx}
 \usepackage{color}
-\usepackage[ruled]{algorithm2e}
+\usepackage[ruled, linesnumbered]{algorithm2e}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{threeparttable}
 
 \usepackage{soul}
@@ -433,7 +434,7 @@ E-mail: F.~Liang- loengf@connect.hku.hk, %\protect\\
 F.C.M.~Lau- fcmlau@cs.hku.hk,
 H.~Cui- heming@cs.hku.hk,
 C.-L.~Wang- clwang@cs.hku.hk}%
-\thanks{Manuscript received January 7, 2017.}
+% \thanks{Manuscript received January 7, 2017.}
 }
 
 % note the % following the last \IEEEmembership and also \thanks - 
@@ -498,25 +499,29 @@ C.-L.~Wang- clwang@cs.hku.hk}%
 \IEEEtitleabstractindextext{%
 \begin{abstract}
 A typical shuffle operation randomly partitions 
-key-value pairs on many computers,
-and thus generates significant network traffic and often dominates completion time.
+data on many computers and generates significant network traffic.
 % and take up a substantial portion of the overall I/O workloads 
 % for many MapReduce-like distributed operations. 
 This traffic is
-% particularly 
-pronounced in iterative distributed applications
+pronounced in iterative distributed operations
 where each iteration invokes a shuffle operation. 
-% % and thus greatly reduce the amount of key-value pairs.
 Our key observation is that 
-some iterations process different types of key-value pairs according to 
-relevant keys among these types, 
-and we can partition key-value pairs on local machines by exploiting this relevance, greatly reducing shuffle traffic for the following iterations. 
+data of different iterations are related according to 
+the transformation logic of distributed iterations.
+In an iteration, if input data have been partitioned by previous 
+iterations to the same node where they are supposed to be processed
+in this iteration, unnecessary network traffic is avoided in the shuffle operation.
+
+% some iterations process different types of key-value pairs according to 
+% relevant keys among these types, 
+% and we can partition key-value pairs on local machines by exploiting this relevance, greatly reducing shuffle traffic for the following iterations. 
+% avoid unnecessary network traffic.
 % keys of different types of key-values are often relevant between iterations,
 % and we can localize 
 % key-value pairs with relevant keys in an iteration to avoid shuffling data between nodes in other iterations. 
-For instance, PageRank involves two types of key-value pairs: the URL key and webpage links pair, and the URL key and webpage rank pair. These two pairs'
-URL keys are relevant because if we partition them with the same URL on the same node, PageRank's \emph{join} operations in the next iteration incur no shuffle
-network traffic.
+% For instance, PageRank involves two types of key-value pairs: the URL key and webpage links pair, and the URL key and webpage rank pair. These two pairs'
+% URL keys are relevant because if we partition them with the same URL on the same node, PageRank's \emph{join} operations in the next iteration incur no shuffle
+% network traffic.
 % If we have an efficient key partitioning scheme that partitions key-value pairs based on these specific key patterns on the same node, 
 % we can greatly reduce the network traffic. 
 
@@ -538,14 +543,22 @@ network traffic.
 % adjacent computing iterations.
 
 % In this paper, we define these specific keys as dependent keys for an iteration, 
-We present a new data structure called Key Dependency Graph (KDG) to capture relevant keys for general iterative distributed applications. 
-We implement the Confluence system, where developers construct a KDG for a distributed application, 
-and Confluence automatically generates an efficient key partitioning scheme from the KDG.
-We apply Confluence on diverse applications
+We model general iterative distributed operations as the transform-and-shuffle primitive and define a powerful notion named Confluence key dependency to 
+precisely capture the data relation in the primitive.
+We further find that by binding key partitions between different 
+iterations based on the Confluence key dependency, 
+the shuffle network traffic can always be reduced with a 
+predicable value.
+% a new data structure called Key Dependency Graph (KDG) to capture relevant keys for general iterative distributed applications. 
+We implement the Confluence system, which automatically generates an efficient key partitioning scheme for iterative distributed operations.
+ % from the Confluence key dependency.
+% where developers presents the Confluence key dependency for an iterative distributed operation, 
+% and Confluence automatically generates an efficient key partitioning scheme from the KDG.
+Confluence is widely applicable to real-life applications in diverse fields,
 %is widely applicable to distributed computing applications in the fields of
 %scientific computing, machine learning, data analysis, etc.
-and show that Confluence
-greatly decreases the shuffle network traffic by up to 50\%.
+and both analytical and experimental results show that Confluence
+can greatly reduce or even totally eliminate the shuffle network traffic.
 % while not affecting %increasing the skewness of the workload. 
 \end{abstract}
 
@@ -618,65 +631,60 @@ Spark; Shuffle; Key Dependency; Iterative Distributed Operation; Partitioning
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
-Distributed applications consisting of iterative distributed operations are pervasive in the fields of graph computing~\cite{Malewicz:2010:PSL, Lu:2014:LDG}, database query processing~\cite{thusoo2009hive,Yu:2008:DSG,Armbrust:2015:SSR} and machine learning~\cite{low2012distributed,kraska2013mlbase}.
-To process the big data,
-distributed computing frameworks like YARN~\cite{vavilapalli2013apache},
-Spark~\cite{zaharia2012resilient} and Dryad~\cite{isard2007dryad} are often used.
+Distributed applications consisting of iterative distributed operations are pervasive in fields of graph computing~\cite{Malewicz:2010:PSL, Lu:2014:LDG}, database query processing~\cite{thusoo2009hive,Yu:2008:DSG,Armbrust:2015:SSR} and machine learning~\cite{low2012distributed,kraska2013mlbase}.
+To process big data,
+distributed frameworks like Hadoop~\cite{dean2008mapreduce}%YARN~\cite{vavilapalli2013apache},
+and Dryad~\cite{isard2007dryad} are often used.
 %have made the computing on big data feasible and robust.
-Several distributed computing paradigms have been developed on top of
+Several distributed paradigms have been developed on top of
 these frameworks to match various styles and
 scenarios of computing on large-scale data~\cite{thusoo2009hive, Yu:2008:DSG}.
 MapReduce~\cite{dean2008mapreduce}, one of the most popular
-distributed paradigms, provides users a simple map-and-reduce
-interface that can suit most of these data analysis tasks.
-Generally, it saves the output data in the file system, such as HDFS~\cite{shvachko2010hadoop}. 
-This is inefficient for tasks of the iterative distributed operations, where one iteration reuses the data from the previous iterations. The sharing of data between iterations is usually done
+distributed paradigms, 
+% provides users a simple map-and-reduce
+% interface that can suit most of these data analysis tasks.
+% Generally, it 
+saves output data in file systems, such as HDFS~\cite{shvachko2010hadoop}. 
+This is inefficient for tasks of iterative distributed operations, where one iteration reuses the data from the previous iterations. Sharing of data between iterations is usually done
 through a shuffle operation.
 
-The problem of heavy shuffle network traffic greatly impacts the performance of distributed operations. 
-Most distributed computing paradigms include the shuffle
-operation, which transfers intermediate output data of map
-operations to the computer nodes doing reduce operations.
+Moreover, the problem of heavy shuffle network traffic greatly impacts the performance of distributed operations. 
+Most distributed paradigms include the shuffle
+operation, which transfers intermediate output data between computer nodes 
+for the following processing.
 The intermediate data are stored in disks in some traditional distributed paradigms. 
 The shuffle operation may invoke a large amount of network traffic and disk I/O, 
 and sometimes even dominate the job completion time. 
 For instance, 
-shuffle-heavy jobs generate a large volume of network traffic.
-The study based on the Yahoo! work trace has revealed as much as 70\% of 
-jobs are shuffle-heavy~\cite{chen2011case} and the shuffle completion
+shuffle-heavy jobs generate a large volume of network traffic. 
+A study based on the Yahoo! work trace has revealed as much as 70\% of 
+jobs are shuffle-heavy~\cite{chen2011case}. 
+Though some work claimed that the network for shuffle may
+be less a bottleneck~\cite{Ousterhout2015MSP},
+other studies showed that the shuffle completion
 time can account for as much as 33\% of overall completion time~\cite{chowdhury2011managing, al2010hedera}.
 The heavy shuffle workload problem is pronounced in iterative distributed operations, 
 where shuffle operations transfer large volumes of data between every two iterations. 
 
-
 To improve shuffle performance,  
-% disk I/O
-% overheads of the computing tasks that include multiple iterations of
-% distributed operations, 
-several iterative distributed computing paradigms (e.g., Spark~~\cite{zaharia2012resilient}) 
-% For instance, Spark~\cite{zaharia2012resilient} %adopts the in-memory approach 
-reuses intermediate data across iterations in memory.
-% to avoid the overhead of transferring intermediate data into and out of the disk.
+several iterative distributed paradigms (e.g., Spark~~\cite{zaharia2012resilient}) 
+reuses intermediate data across iterations by storing them in memory.
 However, the volume of intermediate data and their network traffic is still enormous.  
-% However, none of them proposes a method to minimize the size of
-% the data to be transferred in multiple shuffle iterations.
 
-Our key observation is that we can exploit the dependency of keys across iterations
-and partition the data according to the relation between keys of different iterations to greatly decrease 
-the network traffic.
+Our key observation is that we can exploit the powerful notion of key dependency
+and partition data to locations where it will be processed in latter iterations to greatly reduce 
+the shuffle network traffic.
 % the transferred data across shuffle iterations.
-How the output data of the
-previous shuffle iterations are partitioned across different locations
-can greatly affect the data that are to be
-shuffled and its efficiency in the following computing iterations.
-Keys are relevant between different iterations.
-If we have a key partitioning scheme such that some data needed for the
-following computing iterations can be assigned to the same computing
-node after shuffling, we can reduce
+Keys are relevant between different iterations 
+and how data are partitioned between iterations
+can greatly affect the network traffic in shuffle operations.
+If we have a key partitioning scheme such that data needed for the
+following computing iterations have been partitioned to the same 
+node before shuffling, we can reduce or even eliminate
 %we can avoid re-shuffling data in the following iterations and
-the data volume of shuffle operations (we call that the
+the cross-node traffic of shuffle operations (we call that the
 ``shuffle size'' in the rest of this paper). 
-With the default hashed-by-key partitioning scheme, the shuffle size of
+In pervasive hashed-by-key partitioning schemes, the shuffle size of
 each map-and-reduce iteration would be almost of the same size as the
 map output data. The total shuffle size of multiple iterations
 can be very large.
@@ -697,22 +705,24 @@ Stage 1 calculates $A_{ip}B_{pj}$, $p=1, 2, ..., k$.
 Stage 2 obtains $C_{ij}$ by summing $A_{ip}B_{pj}$, $p=1, 2, ..., k$.
 Fig.~\ref{fig:matrixExample} shows an example of $2 \times 2$ matrix multiplication in a four-node cluster. 
 The data entries are in the key-value format, where the keys are $(i,j,p)$ or $(i,j)$. 
-The boxes having the same color represent
-the related data entries needed to generate a particular result entry $C_{ij}$. 
+% The boxes in the same color represent
+% the related data entries needed to generate a particular result entry $C_{ij}$. 
 By using the default hashed key partitioning scheme in both shuffle iterations
 (Fig.~\ref{fig:matrixExample}(b)), the data entries representing the addends
 for a particular sum need to be transferred to the same node in the
 second shuffle iteration. %before calculating the final sum.
-For example, to get $(1,1) \rightarrow 19$, the entry $(1,1)\rightarrow 14$ in Node 2 needs to be transferred to Node 1 to join the entry $(1,1) \rightarrow 5$.
-However, if in the first shuffle iteration, knowing that
-entries with keys $(i,j,p)$ are expected to all mapped to the key $(i,j)$ in
-the second iteration (Fig.~\ref{fig:matrixExample}(c)), a better partitioning can
-be done such that no entry is needed to be transferred in the second shuffle
+For example, to get $(1,1) \rightarrow 19$, entry $(1,1)\rightarrow 14$ in Node 2 needs to be transferred to Node 1 to join entry $(1,1) \rightarrow 5$.
+However, we know that for any particular $i$ and $j$ and different $p$'s, all entries with keys $(i,j,p)$ will be transformed to 
+entries with key $(i,j)$ in
+the second iteration (Fig.~\ref{fig:matrixExample}(c)).
+A better scheme should have partitioned all entries with key $(i,j,p)$
+with a different $p$ to a local node in the first iteration, so that 
+no entry needs to be transferred across nodes in the second shuffle
 iteration.
 For example, by assigning $(1,1,1)\rightarrow 5$ and $(1,1,2)
 \rightarrow 14$ to the same node (Node 1) in the first shuffle iteration,
-the result entry $(1,1) \rightarrow 19$ can be obtained locally in Node
-1 from the input entries in the second iteration with no data transfer.
+the result entry $(1,1) \rightarrow 19$ can be obtained locally 
+in Node 1 in the second iteration without cross-node data transfer.
 
 \begin{figure}[!t]
 \centering
@@ -725,91 +735,116 @@ the result entry $(1,1) \rightarrow 19$ can be obtained locally in Node
 
 
 
-In the above simple example, obviously, there is a dependency between
-keys $(i,j,p)$ in the first distributed iteration and  keys $(i,j)$ in the second distributed iteration.
- Knowing and leveraging this
-dependency, partitioning the data entries to decrease/minimize the shuffle
-would become possible.
+In the above example, obviously, there is a relation between
+keys $(i,j,p)$ in the first iteration and  keys $(i,j)$ in the second iteration.
+ Knowing this
+relation, partitioning data entries to decrease/minimize the shuffle
+becomes possible.
 
-We present a new data structure called the \emph{key dependency graph} (KDG) for this purpose.
+We define the notion of Confluence key dependency to describe this key relation.
 %to extract the semantics of the computing paradigm.
-The KDG is a directed acyclic graph which depicts how the keys of
-dataset entries of each iteration are generated from the previous iteration.
-From the KDG, we can identify the subgraphs in which dataset
-entries with the keys in the source nodes will only generate the dataset
-entries with keys in the downstream nodes. We define such a subgraph
-the \emph{pure confluence subgraph}.
-Within a pure confluence subgraph, if all the dataset entries matching
-the source keys are assigned to the same node, all the generated
-datasets can be computed locally in the node without shuffling.
+The Confluence key dependency depicts the logic of distributed application, by specifying how an input dataset is transformed 
+to an output dataset. 
+The Confluence key dependency is simple in form and easy to define in iterative distributed operations.
+We further find that by using the technique of key partition binding 
+based on the Confluence key dependency, the shuffle size 
+always decreases with a predictable value, 
+and sometimes can be even eliminated.
+% From the KDG, we can identify the subgraphs in which dataset
+% entries with the keys in the source nodes will only generate the dataset
+% entries with keys in the downstream nodes. We define such a subgraph
+% the \emph{pure confluence subgraph}.
+% Within a pure confluence subgraph, if all the dataset entries matching
+% the source keys are assigned to the same node, all the generated
+% datasets can be computed locally in the node without shuffling.
 
-To make use of the confluence key partitioning scheme (CKP) in iterative distributed operations, 
-Confluence allows programmers to construct a KDG for a distributed operation. 
-KDG is easy to construct and it does not have to be accurate (Section~\ref{section:inaccurate}). 
-Confluence automatically generates an efficient key partitioning 
-scheme from the KDG. 
-This user-defined key partitioning scheme guides the assignment of data entries 
-to their designated nodes. 
+We present the Confluence Key Partitioning (CKP) scheme for iterative distributed operations. 
+Based on a set of key dependencies, CKP binds key partitions in 
+different iterations and reduces the shuffle size to the maximum
+extent. 
 Most distributed computing paradigms, such as Spark~\cite{zaharia2012resilient} and Twister~\cite{ekanayake2010twister},
-provide an interface for adding a user-defined partitioner for the shuffle
-operation.
-By applying the CKP scheme, shuffle sizes of multiple computing
-iterations can be reduced significantly. %in polynomial time,
-Note that this will not impact the computing workload skew level; that is,
-the standard deviation of the computing workloads of the
-nodes in the cluster after applying CKP will not be larger than that
-with the random hashing scheme.
-We are not aware of any previous work
-%As far as we know, we are the first
-that also tried to decrease the overall
-shuffle traffic by a key partitioning scheme across multiple
-iterations based on the
-key dependency relationship.
-%\textcolor{red}{Performance}
+provide an interface for adding a user-defined partitioner for shuffle operations.
+We implement CKP in Spark and programmers can apply CKP to various 
+kinds of distributed applications by add a single line of code
+in the program.
+% CKP automatically generates an efficient key partitioning 
+% scheme from the KDG. 
+% This user-defined key partitioning scheme guides the assignment of data entries 
+% to their designated nodes. 
+We illustrate with analysis and experiment to real-life applications 
+to show that by applying the CKP scheme, 
+the shuffle size of multiple computing
+iterations reduces significantly with a predictable value. %in polynomial time,
+% Note that CKP will not impact the workload skewness in most cases; 
+% that is, the standard deviation of the computing workloads of the
+% nodes in the cluster after applying CKP will not be larger than that
+% with the random hashing scheme.
 
+To the best of our knowledge, we are the first to 
+represent the logic of iterative distributed operations
+by key dependency, and to reduce the 
+shuffle network traffic with a predictable value by considering the key dependency 
+across multiple iterations in a key partitioning scheme.
+%\textcolor{red}{Performance}
 Our major contributions are listed as follows.
+
 \begin{itemize}
 \setlength{\itemsep}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
-\item We invented the new data structure Key Dependency Graph to depict the iterative key dependency
-and used the Confluence Key Partitioning (CKP) scheme to decrease the shuffle traffic
-across distributed computing iterations.
+\item \textbf{Precise}: 
+We invented the simple yet powerful notion of Confluence key dependency to precisely capture the behavior of data transformation in iterative distributed operations. 
+We defined the transform-and-shuffle primitive that can generally describe all iterative distributed operations. 
 
-\item We created the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
+\item \textbf{Efficient}: We presented the Confluence Key Partitioning (CKP) scheme to 
+greatly reduce the shuffle size in iterative distributed operations.
+% CKP makes use of the model of Confluence key dependency and the technique of binding key partitions to partition data to locations where they will be processed later.
+CKP is efficient and does not introduce extra workload skewness. 
 
-\item We implemented CKP in Spark and illustrated the use of CKP with typical iterative distributed applications from different fields. 
-The experiment on a medium-size cluster demonstrates that CKP reduces the overall shuffle traffic by as much as 50\%.  
+\item \textbf{Universal}: We showed that CKP is easily applicable to diverse real-life distributed applications.
+We provided a simple interface in distributed frameworks that allows 
+programmers to apply CKP with one single line of code.
+% , and it greatly reduces the shuffle size.
+
+% \item We invented the new data structure Key Dependency Graph to depict the iterative key dependency
+% and used the Confluence Key Partitioning (CKP) scheme to decrease the shuffle traffic
+% across distributed computing iterations.
+
+% \item We created the method to analyze the data transfer size and the workload skewness when using CKP, which offers the solid shuffle traffic improvement with guarantees. 
+
+% \item We implemented CKP in Spark and illustrated the use of CKP with typical iterative distributed applications from different fields. 
+% The experiment on a medium-size cluster demonstrates that CKP reduces the overall shuffle traffic by as much as 50\%.  
 \end{itemize}
 
 
-The rest of the paper is organized as follows. Section~\ref{section:background}
-gives some background information on iterative distributed operations
-, dependency graph, and the model of the iterative shuffle size.
-In Section~\ref{section:keyDependencyGraph}, we show how to construct
-the KDG and to reduce effectively the shuffle sizes by the Confluence Key
-Partitioning scheme, as well as analyzing the workload skew level.
-Section~\ref{section:application} introduces how to apply CKP in
-the real-life iterative distributed applications 
-and Section~\ref{section:implement} discusses the
-implementation details of CKP in Hadoop and Spark.
-The evaluation results of the performance are presented in Section~\ref{section:evaluation}. 
+The rest of the paper is organized as follows. 
+In Section~\ref{section:background}, 
+we introduces the model of iterative distributed operations and the 
+iterative shuffle size, gives the definition of Confluence 
+key dependency, and shows the calculation of the shuffle size of 
+the random key partitioning scheme based on Confluence key dependency.
+We present the Confluence key partitioning scheme in Section~\ref{section:confluence}.
+Section~\ref{section:application} introduces the application of CKP
+and its limitations, 
+and Section~\ref{section:implement} discusses 
+implementation details of CKP in distributed frameworks.
+Evaluation results of the performance are presented in Section~\ref{section:evaluation}. 
 We discuss the related work in Section~\ref{section:relatedWork} and
-conclude the paper and suggest some possible future work in
+conclude the paper and suggest the future work in
 Section~\ref{section:conclusion}.
 
 
-\section{Background}\label{section:background}
+\section{Model and Definition}\label{section:background}
 \subsection{Iterative Distributed Operations}
 Datasets of large volumes cannot be stored in a single computer node
 and are often separated into several partitions, 
 where each partition is distributed to a node in a computer cluster. 
 We refer to a dataset which is separately stored in several nodes as a distributed dataset. 
-A function whose inputs include a distributed dataset is called a \emph{distributed operation}.
+A function whose inputs include a distributed dataset is called a distributed operation.
 Each entry of the distributed dataset can be represented as a key-value pair. 
 %\textcolor{red}{How to obtain each entry in the dataset. }
 
-In many distributed computing paradigms, there are often several
+In many distributed paradigms, there are often several
 iterations involving different distributed operations being applied
 to an input dataset before final results are obtained. 
 Each iteration usually takes outputs of the previous iteration as
@@ -898,12 +933,12 @@ size. Table~\ref{table:symbol} lists some symbols we use in this paper
 for reference. 
 
 For iterative distributed operations, the result of the $i_{th}$ iteration can be obtained recursively by:
-\begin{equation}\label{eq:t}
+\begin{equation*}\label{eq:t}
 A'_i=T_i(A_i)
-\end{equation}
-\begin{equation}\label{eq:s}
+\end{equation*}
+\begin{equation*}\label{eq:s}
 A_{i+1}=S_i(A'_i)
-\end{equation}
+\end{equation*}
 , where $A_i$ is the output of iteration $i-1$ as well as the input of iteration $i$, 
 $T_i$ is the transform operation of iteration $i$ that operates on $A_i$ locally without changing the partition locality, 
 and $S_i$ is the shuffle operation of iteration $i$ that takes the output $A'_i$ of the transform operation as the input.  
@@ -916,11 +951,11 @@ Suppose in the shuffle operation of iteration $i$, in order to shuffle transform
 the shuffle size is a function of $a$ and $A_{i+1}$: $g_i(a,A_{i+1})$. 
 The returned value of function $g_i$ can be different in different key partitioning schemes for $A_{i+1}$. 
 The shuffle size of iteration $i$ is: 
-\begin{equation}\label{eq:gi}
+\begin{equation*}\label{eq:gi}
 \begin{aligned}
 G_i=\sum_{a \in A_i} g_i(a,A_{i+1}).
 \end{aligned}
-\end{equation}
+\end{equation*}
 
 % Within the same $i_{th}$ iteration, for $\forall a_p, a_q \in A_i$ where $a_p \neq a_q$, values of $g_i(a_p,A_{i+1})$ and $g_i(a_q,A_{i+1})$ are independent of each other in terms of $a$. 
 % If the value of $g_i(a_p,A_{i+1})$ changes due to a different partition location of $A_{i+1}$, the value of $g_i(a_q,A_{i+1})$ remains unchanged unless $a_q$ is also partitioned to a different location. 
@@ -932,13 +967,13 @@ G=\sum_{i=1}^{m} G_i=\sum_{i=1}^{m} \sum_{a \in A_i} g_i(a,A_{i+1}).
 \end{equation}
 
 
-\red{If values of $G_i (1 \leq i \leq m)$ are independent of each other, 
-$S$ is a linear function and $S$ can be minimized simply by minimizing each $g_i(a,A_{i+1})$. Not correct now because they are not independent}
-However, most usually, $G_i$ and $G_{i+1}$ are correlated.
-The value of $G_i$ depends on the logic of the transform function $T_i$ in Formula~(\ref{eq:t}), 
-and the partition locality of datasets $ A_{i}$ and $A_{i+1}$. 
-The partition locality of $A_{i+1}$
-will again affect the value of $G_{i+1}$.
+% \red{If values of $G_i (1 \leq i \leq m)$ are independent of each other, 
+% $G$ is a linear function and $G$ can be minimized simply by minimizing each $g_i(a,A_{i+1})$. Not correct now because they are not independent}
+% However, most usually, $G_i$ and $G_{i+1}$ are correlated.
+% The value of $G_i$ depends on the logic of the transform function $T_i$ in Formula~(\ref{eq:t}), 
+% and the partition locality of datasets $ A_{i}$ and $A_{i+1}$. 
+% The partition locality of $A_{i+1}$
+% will again affect the value of $G_{i+1}$.
 %\textcolor{red}{add Markov-Chain-like relation here}
 
 If contents (including key-value pairs and the partition locality) of $A_i (i=1,2,...,m)$ are already known, to find out the optimal key partitioning scheme that minimizes 
@@ -981,9 +1016,10 @@ $D'_k$ & Outputs of the transform operation with $D_k$ as the input\\
 %\end{tabular}
 \end{table}
 
-\subsection{Key Dependency}\label{section:dependency}
-We use \emph{key dependency}
-to represent the transformation logic in every iteration
+\subsection{Confluence Key Dependency}\label{section:dependency}
+We define the Confluence key dependency, or for convenience, 
+simply called key dependency in the rest of this paper,
+to represent transformation logic in every iteration
 of a distributed operation. 
 Given a key-value pair as the input to an iteration of a distributed operation,
 the transform operation will generate a (or a set of) new key-value pair(s) based on its logic. 
@@ -991,7 +1027,7 @@ the transform operation will generate a (or a set of) new key-value pair(s) base
 
 Formally, for a set of input key-value pairs and output key-value pairs 
 in an iteration of a distributed operation, 
-we define their \emph{key dependency} as 
+we define their key dependency as 
 \begin{equation}\label{eq:dependency}
 k \Rightarrow_{pr} f(k)
 \end{equation}
@@ -1003,7 +1039,7 @@ is an arbitrary key.
 The symbol ``$\Rightarrow_{pr}$'' indicates the fact that 
 for any data entry whose key is $k$, after the transform primitive, 
 the probability of that the key of an output data entry is $f(k)$ is $pr$.
-By definition, we have
+By definition, we have:
 \begin{equation*}\label{eq:dependencyDefine}
 \begin{aligned}
 k_0 \Rightarrow_{pr} f(k_0) \equiv 
@@ -1015,9 +1051,12 @@ k_0 \Rightarrow_{pr} f(k_0) \equiv
 a set of key-value pairs, $k_d$ is one of the keys in dataset $d$,
 and $p$ is the probability function. 
 
-A programmer is supposed to be well acquainted with the logic of the transform operation $t$. 
-In the key dependency, we call $k$ the input key, $f(k)$ the mapping key, 
+In the key dependency, we call $k$ the input key, $f(k)$ the mapped key, 
 and $pr$ the dependency probability.
+This key dependency can be read and grasped as 
+"input key $k$ has a $pr$ chance to map to mapped key f(k)" after transformation in the corresponding iteration. 
+
+A programmer is supposed to be well acquainted with the logic of the transform operation $t$. 
 By saying that we know the key dependency for a specific iterative distributed operation,
 it means that we are able to calculate $pr$ by the probability function 
 $p$ for specific $k$ and $f(k)$.
@@ -1094,67 +1133,173 @@ by exploring the key dependency of different iterations.
 
 The key dependency is to represent the logic of transform operations, 
 while the key partitioning scheme is to indicate the logic of shuffle operations. 
-By the observation that the RKP shuffle size can be expressed by some term in the key dependency, we have the intuition that we can
-leverage the key dependency to discover other key partitioning schemes that 
-can reduce the shuffle size. 
+By the observation that the RKP shuffle size can be expressed by the terms in the key dependency, we have the intuition that we can
+use the key dependency to discover other key partitioning schemes that produce a smaller shuffle size. 
 
 In this section, we present the Confluence Key Partitioning scheme
-that leverages the key dependency to reduce the shuffle size by binding 
+that makes use of the key dependency to reduce the shuffle size by binding 
 key partition locations. 
 We also analyze that the Confluence Key Partitioning scheme does not 
-increase the workload skew level.
+increase the workload skewness.
 
 % This section firstly describes the construction process of the key dependency graphs, as well as its properties. 
-% After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skew level. 
+% After that, we present Confluence Key Partitioning Scheme, which decreases the overall iterative shuffle size by applying the properties of the key dependency graph, while not increasing the workload skewness. 
 
-\subsection{Binding Partition Locations}
-Binding partition locations of mapping keys to input keys based on the key dependency reduces the shuffle size.
-In an arbitrary iteration, again assume that we have a set of key 
-dependencies $k \Rightarrow_{pr_j} k_j, \sum_{j} pr_j = 1$. 
+\subsection{Key Partition Binding}\label{section:binding}
+Binding partitions of input keys to mapped keys based on the key dependency reduces the shuffle size.
+Assume that we have a set of key 
+dependencies $k \Rightarrow_{pr_j} k_j, \sum_{j} pr_j = 1$ in an arbitrary iteration $i$. 
 Now suppose that a key partitioning scheme $X$ always partitions 
-shuffle output data that have key $k_x$ to the same computer node where 
-input data that have key $k$ is partitioned. 
-We say that key partitioning scheme $X$ binds the partition location of the mapping key $k_x$ to the input key $k$ in this iteration. 
-For shuffle outputs that have other keys, scheme $X$ partitions them by the hash values of their keys. 
+shuffle output data that have key $k$ in the previous iteration $i-1$ to the same computer node where 
+shuffle output data that have key $k_x$ in this iteration $i$ will be partitioned. 
+We say that key partitioning scheme $X$ binds the partition of 
+input key $k$ to mapped key $k_x$ in the previous iteration. 
+% For shuffle outputs that have other keys, scheme $X$ partitions them by the hash values of their keys. 
 
-By the definition of the key dependency, 
+By the definition of the key dependency and recalling that 
+the shuffle size only refers to cross-node data transfer,
 we easily deduct the following theorem.
-\newtheorem{theorem}{\textbf{Theorem}}
-\begin{theorem}\label{thm:binding}
-In an iteration of a distributed operation, given a key dependency
-$k \Rightarrow_{pr} f(k)$, if the partition location of key $f(k)$ is bound to $k$, 
-the shuffle size of transferring transformation output data that have key $f(k)$ after transforming $D_k$ is zero.
-\end{theorem}
+\newtheorem*{theorem*}{\textbf{Binding Theorem}}
+\begin{theorem*}\label{thm:binding}
+Suppose a key dependency $k \Rightarrow_{pr} f(k)$ in an iteration of a distributed operation,
+if the partition of key $f(k)$ was bound to $k$ in the previous iteration, 
+the shuffle size for transferring transformation output data that have key $f(k)$ after transforming $D_k$ is zero in this iteration.
+\end{theorem*}
 
-In such a scheme X, reusing the symbols in Section~\ref{section:rkp}, the expected shuffle size to transfer 
+The insight of the binding theorem is that if we know the key dependency 
+for a dataset in an specific iteration,  we can prepare the partition
+of the dataset in the previous iteration by the notion of binding keys so that the dataset
+will do local shuffling in this iteration and it will incur no cross-node traffic. 
+
+In such a scheme X, reusing the symbols in Section~\ref{section:rkp}, 
+by the binding theorem, the expected shuffle size to transfer 
 transformation outputs of the $D_k$ is: $\sum_{a \in D_k} g_i(a, A_{i+1}) = \frac{n-1}{n} (1 - pr_x) |D'_{k}|$.
 The shuffle size difference between scheme X and scheme RKP is 
 $ \Delta \approx pr_x |D'_{k}|$. 
 The value of $|D'_{k}|$ is a constant for a given transform operation and input $D_k$. 
 The larger $pr_x$ is, the greater scheme X reduces the shuffle size than RKP does. 
 
+There are two constrains when binding key partitions. 
+First, key partition binding often be used in all but the first iteration of a distributed operation.
+The reason is that most distributed frameworks do not support specifying the partition locations of input data loaded from a file system, which means 
+binding key partitions in the first iteration is not feasible. 
+But it could be used in the following iterations.
+
+The second constrain is that any input key can be bound to at most one mapped 
+key, because a key should have a unique partition. 
+This constrain indicates for all key dependencies with the same input key, only one can be selected for key partition binding. 
+These two constrains are consider as common sense when we design key partitioning schemes.
+
 \begin{figure}[!t]
 \removelatexerror
 
 \begin{algorithm}[H]
-\SetKwInOut{Input}{Input}
-\SetKwInOut{Variable}{Variable}
-\SetKwInOut{Output}{Output}
+  In a specific iteration $i$,
+  \ForEach{key $k$}{
+    \tcc{$K$ is a key dependency set}
+    $K$ = $\{ k \Rightarrow_{pr_j} f_j(k) | j = 1, 2, ..., \sum_j pr_j \leq 1 \}$ ; \\
+    Find $J$ such that $\forall j, pr_j \leq pr_{J}$; \\
+    Bind input key $k$ to mapped key $f_J(k)$;
+}
 
- \Input{
- A Key Dependency Set $DK$: $\{ k \Rightarrow_{pr_j} f_j(k) | j = 1, 2, ..., 
- \sum_j pr_j \leq 1 \}$ ;
- }
-  find out $J$ such that $\forall j, pr_j \leq pr_{J}$; \\
-  bind key $f_J(k)$ to key $k$
+\caption{Enhanced Key Partitioning Scheme X}
+\label{algo:x}
+\end{algorithm}
+\end{figure}
+
+
+\subsection{Confluence Key Partitioning}\label{section:ckp}
+Surprisingly, by the binding theorem, we find that
+binding key dependency always reduces shuffle size as compared to RKP. 
+Note that by binding key partitions, the shuffle size which is reduced is 
+linearly proportional to the dependency probability. 
+We can further enhance scheme X 
+by applying key binding based on the key dependency with the 
+maximum dependency probability for each key in an specific iteration (Algorithm~\ref{algo:x}). 
+
+A problem exists in the enhanced scheme X. 
+The key dependency is usually provided by programmers.
+In just one iteration, programmers need find a distinguished
+key dependency set for every input key. 
+The key dependency sets of different input keys can be different. 
+The time complexity is the size of a key dependency set (usually small) 
+times the number of keys (usually large), 
+or roughly, $O$(\# keys), which is usually large. 
+
+\begin{figure}[!t]
+\removelatexerror
+
+\begin{algorithm}[H]
+\ForEach{iteration $i$}{
+  \tcc{Programmers decide that}
+  $b$ = Should iteration $i$ apply key partition binding? \\
+  \If{$b = True$}{
+    \tcc{$K$ is a key dependency set}
+    Find $\forall k, K =$ 
+    $\{ k \Rightarrow_{pr_j} f_j(k) | j = 1, 2, ..., \sum_j pr_j \leq 1 \}$ ; \\
+    Find $J$ such that $\forall j, pr_j \leq pr_{J}$; \\
+    $\forall k$, bind input key $k$ to mapped key $f_J(k)$;
+  }
+}
 
 \caption{Confluence Key Partitioning}
 \label{algo:CKP}
 \end{algorithm}
 \end{figure}
 
-\subsection{Confluence Key Partitioning}\label{section:ckp}
-The Confluence Key Partitioning (CKP) scheme 
+We presents the efficient Confluence Key Partitioning (CKP) scheme reduces or even eliminates 
+the shuffle size in each iteration with as little as $O(1)$ time complexity. 
+The procedure of applying CKP is shown in Algorithm~\ref{algo:CKP}.
+In an iteration, instead of finding a distinguished key dependency set for 
+every input key, CKP finds one general key dependency set that is applicable 
+to any input key. 
+
+For example, in the second iteration of matrix multiplication, 
+instead of finding key dependency $(1, 0, 0) \Rightarrow_{1} (1, 0)$ 
+for input key $(1,0,0)$ and $(1,0,1) \Rightarrow_{1} (1,0)$ 
+for input key $(1,0,1)$, respectively, 
+we can define $(1, 0, p) \Rightarrow_{1} (1,0)$ for any $p$ in general. 
+Or more generally, we can define $(i, j, p) \Rightarrow_{1} (i, j)$ 
+generally for any $i, j, p$. 
+
+A feature of CKP is that it allows a programmer to decide whether a specific iteration should apply key partition binding or not. 
+In some iterations, it may happen that programmers fail to find the key dependency, 
+or maximum dependency probability of the key dependency set is very small, 
+and applying CKP is trivial. 
+In these cases, CKP let the programmer to decide not to bind key partitions. 
+Further discussion about these cases will be presented in Section~\ref{section:limitation}.
+When a key dependency with a large dependency probability exists in an iteration, key partition binding can be applied to reduce shuffle size.
+
+A question about the CKP algorithm is how to figure out the key dependency set in an iteration to apply key partition binding. 
+The key dependency is be derived from the transform operation logic. 
+% For input entries with a specific key, the transform operation outputs 
+% a set of new entries. 
+In some cases, for input key-value entries with a specific key, 
+the transform operation always generate output entries with predictable keys, 
+regardless what the values are. 
+The matrix multiplication algorithm falls in this case. 
+Finding key dependency such cases is usually simple, 
+and a programmer may start from the domain of the input keys and 
+derive the general key dependency for each range of the domain.
+In some other cases, keys of the output entries are also affected by 
+the values of the input key-value entries. 
+In these cases, a programmer need also consider the key-value entries as 
+a whole to deduct what mapped keys will be and what probability it is
+to generate an output entry with each mapped key.
+We will discuss more about finding the key dependency with real-life examples in Section~\ref{section:application}.
+
+There is an implicit in the CKP algorithm. 
+For iterations that do not apply key partition binding, 
+the input keys are randomly partitioned, just as in RKP.
+
+CKP reduces the shuffle size in all iterations that apply key partition binding.
+The shuffle size reduction in each applied iteration compared to RKP is $ \Delta \approx \sum_k pr_J |D'_k|$ (recalling the shuffle size reduction by 
+key partition binding in Section~\ref{section:binding}). 
+For other iterations that do not applied key partition binding, 
+the CKP shuffle size is the same as that of RKP.
+In all, CKP reduces the shuffle size by a percentage of $pr_J$ in each 
+iteration that applies key partition binding. 
+When $pr_J$ equals 1 in an iteration, the shuffle size is 0 in that iteration.
 
 
 % \begin{figure}[!t]
@@ -1293,270 +1438,387 @@ The Confluence Key Partitioning (CKP) scheme
 
 %\textcolor{red}{The usage of the confluence keys}
 %\textcolor{red}{how it reduce the data transfer size}
-\subsection{Confluence Key Partitioning}\label{section:CKP}
-We demonstrate that the overall data transfer size can be decreased by 
-localizing the pure confluence subgraph, 
-i.e., placing the datasets corresponding to the pure confluence subgraph in a node. 
+% \subsection{Confluence Key Partitioning}\label{section:CKP}
+% We demonstrate that the overall data transfer size can be decreased by 
+% localizing the pure confluence subgraph, 
+% i.e., placing the datasets corresponding to the pure confluence subgraph in a node. 
 
-Assume that there is a pure confluence subgraph $C$ in the KDG, 
-from level $u$ to level $w(u \neq 0, w>u)$. 
-Let $V'_u$ and $V'_w$ be the source key set and the confluence key set of $C$, respectively, and $B_u$ and $B_w$ be the upward closure pair datasets. 
-The \emph{Confluence Key Partitioning (CKP)} scheme partitions the dataset $B_u$ %, whose keys are all in $V'_u$, 
-in one single node in Iteration $u$
-and completes the following $(w-u)$ iterations of operations on $B_u$ and its generated dataset in the same node. 
+% Assume that there is a pure confluence subgraph $C$ in the KDG, 
+% from level $u$ to level $w(u \neq 0, w>u)$. 
+% Let $V'_u$ and $V'_w$ be the source key set and the confluence key set of $C$, respectively, and $B_u$ and $B_w$ be the upward closure pair datasets. 
+% The \emph{Confluence Key Partitioning (CKP)} scheme partitions the dataset $B_u$ %, whose keys are all in $V'_u$, 
+% in one single node in Iteration $u$
+% and completes the following $(w-u)$ iterations of operations on $B_u$ and its generated dataset in the same node. 
 
-CKP localizes the data in the granularity of a pure confluence subgraph, different pure confluence subgraphs are partitioned randomly. 
+% CKP localizes the data in the granularity of a pure confluence subgraph, different pure confluence subgraphs are partitioned randomly. 
 
-Although the KDG is the pure confluence subgraph of itself,
-we do not consider the localizing the whole KDG in the above discussion. 
-The reason is that the raw input dataset %which is considered as the output of iteration 0
-is always distributed across the cluster before the first iteration. 
+% Although the KDG is the pure confluence subgraph of itself,
+% we do not consider the localizing the whole KDG in the above discussion. 
+% The reason is that the raw input dataset %which is considered as the output of iteration 0
+% is always distributed across the cluster before the first iteration. 
 
-We analyze the expected overall data transfer size $S'$ of CKP
-in comparison with that $S''$ of the random key partitioning scheme (RKP), which is ignorant of the key dependency and partition the data entries randomly (e.g., partition by the hashed value of keys). 
-$S'_i$ and $S''_i$ denote the expected data transfer size of CKP and and RKP in the $i_{th}$ iteration, respectively.  
-% We assume that in every iteration, each key is expected 
+% We analyze the expected overall data transfer size $S'$ of CKP
+% in comparison with that $S''$ of the random key partitioning scheme (RKP), which is ignorant of the key dependency and partition the data entries randomly (e.g., partition by the hashed value of keys). 
+% $S'_i$ and $S''_i$ denote the expected data transfer size of CKP and and RKP in the $i_{th}$ iteration, respectively.  
+% % We assume that in every iteration, each key is expected 
 
-Before going further, we figure out the function $s_i(a,A'_i)$ in Formula \ref{eq:gi} in the case that $a$ is randomly (uniformly) partitioned to a node. 
-In this case, the probability of $a$ is partitioned to any node is $1/n$, where $n$ is the number of nodes in the cluster. 
-We call such an entry that has the same probability being partitioned to any node as the uniformly-partitioned entry. 
-As long as the partition location of an entry is finally hashed to the computer nodes, the entry is a uniformly-partitioned entry.
+% Before going further, we figure out the function $s_i(a,A'_i)$ in Formula \ref{eq:gi} in the case that $a$ is randomly (uniformly) partitioned to a node. 
+% In this case, the probability of $a$ is partitioned to any node is $1/n$, where $n$ is the number of nodes in the cluster. 
+% We call such an entry that has the same probability being partitioned to any node as the uniformly-partitioned entry. 
+% As long as the partition location of an entry is finally hashed to the computer nodes, the entry is a uniformly-partitioned entry.
 
-Suppose that $a'$ is the set of input data entries that have the same key as $a$ right before the shuffle operation and $p_j$ denotes the percentage of data entries of $a'$ that lie in Node $j$, where $\sum_{j=1}^{n} p_i=1$.
-We have
-\begin{equation}\label{eq:si2}
-s_i(a,A'_i)= \sum_{j=1}^{n} [\frac{1}{n}|a|(1-p_j)]=\frac{(n-1)} {n}\cdot |a|
-\end{equation}
-, where $|a|$ is the length of the value list of $a$, which is also the number of data entries in $a'$. 
-It shows that if $a$ is randomly partitioned to a node, 
-the distribution of $a'$ does not affect the data transfer size for collecting $a$. 
+% Suppose that $a'$ is the set of input data entries that have the same key as $a$ right before the shuffle operation and $p_j$ denotes the percentage of data entries of $a'$ that lie in Node $j$, where $\sum_{j=1}^{n} p_i=1$.
+% We have
+% \begin{equation}\label{eq:si2}
+% s_i(a,A'_i)= \sum_{j=1}^{n} [\frac{1}{n}|a|(1-p_j)]=\frac{(n-1)} {n}\cdot |a|
+% \end{equation}
+% , where $|a|$ is the length of the value list of $a$, which is also the number of data entries in $a'$. 
+% It shows that if $a$ is randomly partitioned to a node, 
+% the distribution of $a'$ does not affect the data transfer size for collecting $a$. 
 
-% \newtheorem{siTheorem}{\textbf{Theorem}}
-% \begin{theorem}\label{thm:siTheorem}
-% The data transfer size for collecting the uniformly-partitioned entry in the shuffle operation is decided only by the number of nodes in the cluster and the length of this entry. 
-% \end{theorem}
+% % \newtheorem{siTheorem}{\textbf{Theorem}}
+% % \begin{theorem}\label{thm:siTheorem}
+% % The data transfer size for collecting the uniformly-partitioned entry in the shuffle operation is decided only by the number of nodes in the cluster and the length of this entry. 
+% % \end{theorem}
 
-By Theorem \ref{thm:siTheorem}, when using RKP, the data transfer size of the $i_{th}$ iteration is $S''_i=\sum_{a\in A_i} \frac{(n-1) \cdot |a|}{n}=\frac{n-1}{n}|A'_i|$, 
-where $|A'_i|$ is the number of data entries in $A'_i$.
+% By Theorem \ref{thm:siTheorem}, when using RKP, the data transfer size of the $i_{th}$ iteration is $S''_i=\sum_{a\in A_i} \frac{(n-1) \cdot |a|}{n}=\frac{n-1}{n}|A'_i|$, 
+% where $|A'_i|$ is the number of data entries in $A'_i$.
 
-For CKP, we analyze every iteration as follows. 
+% For CKP, we analyze every iteration as follows. 
 
-\begin{itemize}
-\setlength{\itemsep}{0pt}
-\setlength{\parskip}{0pt}
-\setlength{\parsep}{0pt}
-\item[1)] From Iteration $1$ to $(u-1)$, the key partitioning scheme is the same as RKP: 
-$S'_i=S''_i, 1 \leq i \leq u-1$. 
+% \begin{itemize}
+% \setlength{\itemsep}{0pt}
+% \setlength{\parskip}{0pt}
+% \setlength{\parsep}{0pt}
+% \item[1)] From Iteration $1$ to $(u-1)$, the key partitioning scheme is the same as RKP: 
+% $S'_i=S''_i, 1 \leq i \leq u-1$. 
 
-\item[2)] In Iteration u, an entry of $B_u$ belongs to a pure confluence subgraph and the pure confluence subgraph is randomly partitioned. 
-The entries in $B_u$ are uniformly-partitioned entries, as well as the entries in $A_u-B_u$. Therefore, $S'_u=S''_u$.
+% \item[2)] In Iteration u, an entry of $B_u$ belongs to a pure confluence subgraph and the pure confluence subgraph is randomly partitioned. 
+% The entries in $B_u$ are uniformly-partitioned entries, as well as the entries in $A_u-B_u$. Therefore, $S'_u=S''_u$.
 
-\item[3)] From the $(u+1)_{th}$ to $w_{th}$ iteration, the data transfer size of the operations on the datasets generated by $B_u$
-is 0, by Theorem \ref{thm:zeroTransfer}. 
-We have $S'_i=S''_i-\frac{n-1}{n}|B'_i|$, 
-where $r_i(B'_i)=B_i, u+1 \leq i \leq w$. 
+% \item[3)] From the $(u+1)_{th}$ to $w_{th}$ iteration, the data transfer size of the operations on the datasets generated by $B_u$
+% is 0, by Theorem \ref{thm:zeroTransfer}. 
+% We have $S'_i=S''_i-\frac{n-1}{n}|B'_i|$, 
+% where $r_i(B'_i)=B_i, u+1 \leq i \leq w$. 
 
-\item[4)] From iteration $(w+1)$ onward, the data entries are uniformly-partitioned entries again:
-$S'_i=S''_i, i \geq w+1$.
-\end{itemize}
+% \item[4)] From iteration $(w+1)$ onward, the data entries are uniformly-partitioned entries again:
+% $S'_i=S''_i, i \geq w+1$.
+% \end{itemize}
 
-In all, the expected overall data transfer size after applying CKP 
-is $S'=S''- \frac{n-1}{n}\sum_{i=u+1}^w |B'_i|$, 
-which eliminates exactly the shuffle workload of the datasets that associate with the keys in the pure confluence subgraphs as compared to RKP, without introducing other shuffle workloads. 
-$\sum_{i=u+1}^w |B'_i|$ stands for the shuffle size improvement of CKP as compared to RKP.
-This result indicates that CKP can reduce more data transfer size 
-if the pure confluence subgraph contains more iterations 
-or the size of the dataset corresponding to the pure confluence subgraph is larger. 
-In Section~\ref{section:application}, the value of $\sum_{i=u+1}^w |B'_i|$ will be figured out for the specific distributed operations.
-
-
-\subsection{Workload Skew Analysis}\label{section:skew}
-The workload of a node is the number of data entries of the map primitive in that node and 
-The workload skew level of Iteration $i$ is the standard deviation of the expected workloads of different nodes in that iteration, which is denoted as $L_i$. 
-The math symbols in Section~\ref{section:CKP} are reused here without duplicated definition. 
-Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and CKP and will not affect the standard deviation of the workloads.
-We only consider the workload skew levels of the iterations that the pure confluence subgraphs affects (Iteration $u+1$ to $w+1$).
-The reason is that both RKP and CKP use the same key partitioning policy in the CKP-not-affected iterations and the workload skew levels of these iterations will be the same in both schemes.
+% In all, the expected overall data transfer size after applying CKP 
+% is $S'=S''- \frac{n-1}{n}\sum_{i=u+1}^w |B'_i|$, 
+% which eliminates exactly the shuffle workload of the datasets that associate with the keys in the pure confluence subgraphs as compared to RKP, without introducing other shuffle workloads. 
+% $\sum_{i=u+1}^w |B'_i|$ stands for the shuffle size improvement of CKP as compared to RKP.
+% This result indicates that CKP can reduce more data transfer size 
+% if the pure confluence subgraph contains more iterations 
+% or the size of the dataset corresponding to the pure confluence subgraph is larger. 
+% In Section~\ref{section:application}, the value of $\sum_{i=u+1}^w |B'_i|$ will be figured out for the specific distributed operations.
 
 
-In all iterations when RKP is applied, every entry is a uniformly-partitioned entry, the expected workloads of the all the nodes are the same and the expected workload skew level is 0. 
-
-When CKP is applied, as each output entry of the shuffle operation is the uniformly-partitioned entry in Iteration $u$, the workloads of all the nodes are the same in Iteration $u+1$. 
-Therefore, $L_{u+1}=0$.
-
-In Iterations from $u+2$ to $w+1$, 
-it can be divided into two phases based on the logic of the distributed operations. 
-Suppose that Iteration $u' (u+1 \leq u' \leq w)$ is such an iteration that in every iteration from $u+1$ to $u'-1$, each input entry of the map primitive is expected to generate the same number of output entries of the shuffle operation, and in Iteration $u'$, the expected number of output entries of the shuffle operation generated by each map input entry is unknown or not the same. 
-Note that such Iteration $u'$ may not exist and in this case, we denote it as $u'=w+1$. 
-
-\textbf{Phase 1}: From Iteration $u+2$ to $u'$, 
-the workloads are the same in all the nodes and the workload skew level of every iteration is 0.
-
-\textbf{Phase 2}: From Iteration $u'+1$ to $w+1$, 
-the workloads of the nodes in each iteration are unpredictable, 
-which are dependent on the number of data entries that can be generated by the data localized in each node. Therefore, $L_i \geq 0, u'+1 \leq i \leq w+1$.
-
-Although the workload skew levels of CKP in Phase 2 is unpredictable,
-fortunately, such Iteration $u'$ does not exist in many distributed operation, 
-including matrix multiplication and the other distributed applications (MovieLensALS, MultiAdjacentList and KMeans) introduced in Section~\ref{section:application}. 
-In these applications, the expected workload skew level of CkP is 0, which is the same as that of RKP.
-In the distributed application where $u'$ does exist, the workload skew level may not be 0 and specific workload skew analysis is needed for this specific application.
+\subsection{Workload Skewness Analysis}\label{section:skew}
+CKP does not increase the workload skewness in most applications. 
+The workload of a node is the number of input entries for the transform
+operation in that node and 
+the workload skewness of an iteration is the standard deviation of the workloads of different nodes in that iteration. 
+% The math symbols in Section~\ref{section:CKP} are reused here without duplicated definition. 
+% Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and 
+% CKP and will not affect the standard deviation of the workloads.
 
 
-\subsection{Affect of Inaccurate KDG}\label{section:inaccurate}
-Note that the programmers do not need to change the original logic of programs 
-in order to apply CKP. 
-A wrong or inaccurate KDG will not impact the accuracy of the computation results, but only affect results of key partitioning locations. 
-Unpredictable workload skewness may exist, but as CKP randomly partitions the pure confluence subgraphs, the workloads tend to be balanced in all the nodes. 
+We compare workload skewness of CKP and RKP in iterations 
+that apply key partition binding.
+In unbound iterations, the key partitioning policy of CKP is the same as that of RKP, and the workload skewness in these iterations is the same in both schemes.
+Suppose in one of such iterations, keys of input entries follow a distribution $Dist$. 
+In RKP, these input keys have been uniformly partitioned, 
+and the workload skewness is the standard deviation of $Dist$ times 
+the total number of input entries times
+the average number of distinguished input keys in each node. 
+
+In CKP, in the binding iteration, suppose two conditions: 
+1) input keys are uniformly bound to mapped keys;
+2) the mapped keys, which is also the input keys of the next iteration, will be uniformly partitioned in the shuffle operation.
+The first condition means that the expected number of distinguished input keys bound to every mapped key is the same.
+If both conditions are satisfied, it indicates that the input keys have also 
+been uniformly partitioned in the previous iteration,
+and therefore, the workload skewness is the same as that of RKP.
+The second condition will be eventually satisfied, as the last iteration always randomly partitions keys. 
+If the first condition is always true in all iterations, 
+the second condition can be proved to be always true by induction from the last iteration back to previous iterations. 
+
+In all, if input keys are uniformly bound to mapped keys in all iterations, the workload skewness of CKP 
+is the same as that of RKP. 
+Luckily, this condition is true in most applications we observe.
+For example, in the second iteration of matrix multiplication, 
+the number of input keys $(i,j,p)$ that
+are bound to mapped key $(i,j)$ is the dimension size of the matrix.
+In the MovieLensALS algorithm introduced later in Section~\ref{section:application}, the expected number of input keys $(userId, itemId)$
+that are bound to mapped key $userId$ is the average number of items all users have bought.
+In a few cases (e.g., KMeans to be introduced in Section~\ref{section:application}) when this condition does not hold, 
+we find that the workload skewness difference of CKP and RKP is so small  that it could be ignored, regarding the shuffle size CKP reduces.
+
+% In all iterations when RKP is applied, every entry is a uniformly-partitioned entry, the expected workloads of the all the nodes are the same and the expected workload skewness is 0. 
+
+% When CKP is applied, as each output entry of the shuffle operation is the uniformly-partitioned entry in Iteration $u$, the workloads of all the nodes are the same in Iteration $u+1$. 
+% Therefore, $L_{u+1}=0$.
+
+% In Iterations from $u+2$ to $w+1$, 
+% it can be divided into two phases based on the logic of the distributed operations. 
+% Suppose that Iteration $u' (u+1 \leq u' \leq w)$ is such an iteration that in every iteration from $u+1$ to $u'-1$, each input entry of the map primitive is expected to generate the same number of output entries of the shuffle operation, and in Iteration $u'$, the expected number of output entries of the shuffle operation generated by each map input entry is unknown or not the same. 
+% Note that such Iteration $u'$ may not exist and in this case, we denote it as $u'=w+1$. 
+
+% \textbf{Phase 1}: From Iteration $u+2$ to $u'$, 
+% the workloads are the same in all the nodes and the workload skewness of every iteration is 0.
+
+% \textbf{Phase 2}: From Iteration $u'+1$ to $w+1$, 
+% the workloads of the nodes in each iteration are unpredictable, 
+% which are dependent on the number of data entries that can be generated by the data localized in each node. Therefore, $L_i \geq 0, u'+1 \leq i \leq w+1$.
+
+% Although the workload skewness of CKP in Phase 2 is unpredictable,
+% fortunately, such Iteration $u'$ does not exist in many distributed operation, 
+% including matrix multiplication and the other distributed applications (MovieLensALS, MultiAdjacentList and KMeans) introduced in Section~\ref{section:application}. 
+% In these applications, the expected workload skewness of CkP is 0, which is the same as that of RKP.
+% In the distributed application where $u'$ does exist, the workload skewness may not be 0 and specific workload skew analysis is needed for this specific application.
+
+
+\subsection{Affect of Inaccurate Key Dependency}\label{section:inaccurate}
+Note that the programmers do not need to change the original logic of applications in order to apply CKP. 
+Applying any key partition scheme, including CKP, will not affect
+the logic correctness of the applications, but only affect the traffic 
+performance of shuffle (shuffle size and workload skewness). 
+
+An inaccurate key dependency means a key dependency with 
+an inaccurate dependency probability. 
+While a dependency probability of a key dependency implies 
+how much it reduces the shuffle size as compared to RKP.
+When an inaccurate key dependency is used for binding key partitions
+in CKP, the only shuffle size effect is that the shuffle size reduction
+is related to the actual dependency probability, not to the inaccurate one. 
+As to the workload skewness, the inaccurate key dependency may lead to 
+a different key partition binding and unpredictable workload skewness may exist. 
+But as CKP randomly partitions mapped keys in every iteration whose next iteration does not apply key partition binding, 
+the workload skewness readjusts to the same as RKP then.
 
 
 
-%\textcolor{red}{TODO}
-
-%Matrix Multiplication
 \section{Application}\label{section:application}
 % In this section, we illustrate how CKP can be applied to the matrix multiplication algorithm straightforwardly. 
-In this section, we show how CKP can be applied in various
-iterative distributed applications, even when the applications are not well-structured and the pure confluence subgraphs
-are not obvious, by dividing the operations into multiple sub-operations.
+In this section, we show how CKP is applied in various
+iterative distributed applications, by digging out the key dependency 
+with a large dependency probability
+in some iterations. 
+We also discuss limitations of CKP when in some circumstances it is not applicable, and solutions to handle these limitations. 
 
-In the key dependency graph of the matrix multiplication algorithm, 
-the pure confluence subgraphs are obvious in the second iteration, 
-whose keys follow the many-to-one mapping pattern.
-In some cases, CKP may not be applicable when
-the pure confluence subgraphs cannot be found
-%for the whole iterative distributed operations
-in the straightforward way.
-In this case, if the iterative distributed operations can be divided into several smaller operations to fit the Confluence model, 
-CKP can be flexibly applied to some of the divided operations.
-The division of the iterative distributed operations can be based on either the operations or the datasets. 
-In the following, we illustrate the methods to divide the iterative
-distributed operations with the real-life application examples, 
-namely MovieLensALS, MultiAdjacentList and KMeans.
-
-
-
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=2\columnwidth]{figure4}
-\caption{The Original (Suffixed by \_O) and Divided (Suffixed by \_D) Iterative Evolution of the Datasets of the MovieLensALS and MultiAdjacentList Applications. The Keys of the Datasets are Marked by Parenthesis. Pure Confluence Subgraphs can be Found in the Computing Iterations in the Dashed Boxes
-}
-\label{fig:alsDivision}
-%\vspace{-0.2in}
-\end{figure*}
-
-
-\subsection{MovieLensALS}
-MovieLensALS \cite{movielensals} is a
-recommendation application that uses Alternating Least Squares (ALS)
-method in collaborative filtering in order to recommend the product
-items to the users based on the user-item rating information.
-During the execution, it organizes the rating data into the user-item
-blocks grouped by the keys ``$(userId, itemId)$".
-In the successive iterations, it needs to reorganize the user-item block
-data by generating the user block and the item block grouped by
-``$userId$'' and ``$itemId$'', respectively.
-This operation is done in two iterations as shown in Fig.~\ref{fig:alsDivision}(a). 
-No single key partitioning scheme can remove the shuffle data in order
-to generate both of these blocks from the user-item block, as the key
-dependency follows a many-to-many pattern.
-However, if the programmer regards the iterative distributed operation as two
-individual iterative operations and the operation is divided as in
-Fig.~\ref{fig:alsDivision}(b), the pure confluence subgraph can be found in
-the operation in the dashed box.
-CKP can then be applied on the key dependency $(userId, itemId) \Rightarrow
-userId$ for the user block.
-
-As CKP is applied only in one successive iteration in MovieLensALS, the workload skew level is 0.
+Luckily, we find that many applications have key dependency with 
+a large dependency probability in some iteration(s).
+In the second iteration of the matrix multiplication algorithm, 
+the transform operation does a many-to-one processing and the key dependency is obvious, 
+$\forall$ key $(i,j,p)$, $(i,j,p) \Rightarrow_{1.0} (i,j)$,
+which has 100\% dependency probability for all the key dependencies.
+In some applications, the dependency probability is not 100\% but 
+is still large enough for applying CKP.
+We illustrate the techniques for finding the key dependency of iterative
+distributed operations with the real-life application examples from 
+different fields, 
+namely MovieLensALS, GoogleAlbum, MultiAdjacentList and KMeans.
+A summary of the CKP shuffle size improvements to the distributed applications discussed below is shown in Table~\ref{table:reduction}.
 
 \begin{table}[!t]
+\begin{threeparttable}[b]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1}
 % \extrarowheight as needed to properly center the text within the cells
-\caption{CKP Shuffle Size Improvements in Different Distributed Operations}\label{table:skew}
+\caption{CKP Shuffle Size Reduction in Different Distributed Operations}\label{table:reduction}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
 % than the plain LaTeX2e tabular which is used here.
 %\begin{tabular}{|c||c|c|}
 \begin{tabularx}{0.5\textwidth}{ c || c }
 \hline
-\textbf{Distributed Operations} & \textbf{CKP Shuffle Size Improvement}  \\
+\textbf{Distributed Operations} & \textbf{CKP Shuffle Size Reduction}  \\
 \hline
 MatrixMultiplication & $n^3 for R^{n \times n}$\\
 \hline
 MovieLensALS  & \# of $(user,item)$ entries  \\%; input file size 640 MB 
 \hline
+GoogleAlbum & \# of album entries and user entries \\
+\hline
 MultiAdjacentList  & 1/2 the RKP shuffle size in every iteration \\
 \hline
-KMeans & $|A| \cdot \sum_{i=2}^{m} (\sum_{j=1}^{k} p'_{ij} - 1/n)$ \cr
-& upper bound:$|A| \cdot (m-1)(n-1)/n$ \cr
-& lower bound:$-|A|\cdot (m-1)/n$\\
+KMeans & $|A| \cdot \sum_{i=j+1}^{m} p_{ij}$ \tnote{1} \\
+& upper bound: $(m-j) |A|$ \\
+& lower bound: $0$\\
 \hline
 \end{tabularx}
+\begin{tablenotes}
+    \item[1] $|A|$ is the volume of points, $m$ is the number of iterations. 
+  \end{tablenotes}
 %\end{tabular}
+\end{threeparttable}
 \end{table}
 
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=2\columnwidth]{figure4}
+\caption{The Transformation Lineage of Keys between Iterations 
+and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Dashed Rhombus Boxes
+}
+\label{fig:application}
+%\vspace{-0.2in}
+\end{figure*}
 
+
+\subsection{MovieLensALS}
+MovieLensALS \cite{movielensals} is a
+recommendation application that uses the Alternating Least Squares (ALS)
+method in collaborative filtering in order to recommend product
+items to the users based on the user-item rating information.
+During the execution, it organizes the rating data into user-item
+blocks grouped by key ``$(userId, itemId)$".
+In the successive iterations, it needs to reorganize the user-item block
+data by generating user blocks and item blocks grouped by
+key ``$userId$'' and key ``$itemId$'', respectively.
+This operation is done in two iterations as shown in Fig.~\ref{fig:application}(a). 
+
+A key dependency from input key $(userId, ItemId)$ exists in
+iteration 2 and iteration 3, respectively.
+As these two iterations use the same copy of input dataset, 
+by the constrain of key partition binding, 
+we can apply key partition binding in either iteration, 
+but not in both.
+If we select key dependency $(userId, itemId) \Rightarrow
+userId$ in iteration 2, the shuffle size generating the user block 
+in iteration 2 is $0$, 
+and the shuffle size generating the item block in iteration 3 
+is the same of that of RKP.
+
+
+\subsection{GoogleAlbum}
+CKP can usually be applied to \emph{join} operations in distributed databases.
+For example, in a Google album application~\cite{google2012spanner}, 
+an entry in table Users is identified by primary key ``$uid$''
+and an entry in table Albums by ``$(uid, aid)$'' (Fig.~\ref{fig:application}(b)). 
+When an \emph{inner join} operation interleaves these two tables and gets albums for 
+each user, the transform operation processes interleaved data 
+with key ``$(uid, (uid, aid))$'' to album data with key $uid$. 
+The key dependency here is $(uid, (uid, aid)) \Rightarrow_{1} uid$.
+In CKP, when binding the interleaved key $(uid, (uid, aid))$ to key $uid$, 
+it meaning both binding key $uid$ in table Users to key $uid$ (which is a trivial binding)
+and binding key $(uid, aid)$ in table Albums to key $uid$. 
+
+We can also interpret this binding as putting album entries 
+of the same user together
+in a local node before such an ``inner join'' operation.
+Spanner~\cite{google2012spanner} uses the similar notion of 
+hierarchical schema to maintain data locality in the distributed database. 
+The hierarchical schema specifies data locations once when persisting data in storage, 
+while CKP specifies the data locations iteratively during the computing procedure of a distributed operation.
 
 \subsection{MultiAdjacentList}
-MultiAdjacentList \cite{multiAdjList} is
-a graph computing application which generates the heads and tails of
-lists of various lengths from the information of edges.
-In every iteration, where the key $L_i$ represents a list of length $i$ and its values are the sets of the head nodes and tail nodes of the list, it
+MultiAdjacentList~\cite{multiAdjList} is
+a graph computing application which generates 
+lists of different lengths in a graph by concatenating adjacent nodes 
+to the head and the tail of a list, recursively.
+In every iteration, for a data entry $\langle L_i, value \rangle$,
+key $L_i$ represents a list of length $i$ and 
+the value is a set of adjacent nodes to the head or the tail of the list.
+The transform operation
 generates a group of new lists of length $i+1$ by appending each head
 node and each tail node to it. Each new list acts as the key and
 its new head nodes and tail nodes act as the value.
-The evolution of the data of multiple iterations is shown as Fig.~\ref{fig:alsDivision}(c).
-The key dependencies are $L_i \Rightarrow (heads, L_i)$ and $L_i \Rightarrow (L_i, tails)$. 
-We cannot use CKP to localize the keys $(heads, L_i)$ and $(L_i, tails)$ with $L_i$, 
-as the datasets corresponding to Key $(heads, L_i)$ and Key $(L'_i, tails)$ may overlap for different $L_i$ and $L'_i$.
-However, the programmer can divide the iterative operations into several smaller iterative operations by dividing the dataset as in Fig.~\ref{fig:alsDivision}(d). 
-In the iterative operations in the dashed boxes, the pure confluence subgraphs exist 
-in their KDG's by the key dependency $L_i \Rightarrow (L_i, tails)$.
-Applying CKP to these operations and leaving the other iterative operations
-that are related to the keys $(heads, L_i)$ to be randomly partitioned,
-only half of the datasets need to be shuffled. 
+The iterative transformation of the data in algorithm MultiAdjacentList is shown in Fig.~\ref{fig:application}(c).
 
-In the setting that every node has $l$ heads and $l$ tails on average, every map input entry is expected to generate $2 \cdot l$ shuffle output entries in each iteration. Therefore, by the discussion in Section~\ref{section:skew}, the workload skew level of each iteration is 0 when CKP is applied. 
+For any input key $L_i$ in iteration $i$, key dependencies 
+are $L_i \Rightarrow_{pr_{j}} (head_{j}, L_i)$ and 
+$L_i \Rightarrow_{pr_{l}} (L_i, tail_{l})$ for many different 
+$j$'s and $l$'s, because a list $L_i$ may have many adjacent head
+or tail nodes. Therefore, values of $pr_{j1}$ and $pr_{j2}$ can be 
+small and benefits of applying CKP based on these 
+key dependencies is little.
+But if we inverse the direction of key flow as 
+in Fig.~\ref{fig:application}(d), we have new key dependencies with 
+dependency probability of 0.5. 
+The key dependencies of the inversed key flow 
+reflects the fact that
+an entry with key $(L_i, tail)$ is 50\% generated from entries with 
+key $L_i$ (and another 50\% from entries with key $(L_{i-1}, tail)$
+, where $L_{i-1}$ is a sublist of $L_i$ without the head node).
+
+% We could select either key dependency to apply CKP to all data
+% in every iteration. 
+% We cannot use CKP to localize the keys $(heads, L_i)$ and $(L_i, tails)$ with $L_i$, 
+% as the datasets corresponding to Key $(heads, L_i)$ and Key $(L'_i, tails)$ may overlap for different $L_i$ and $L'_i$.
+% However, the programmer can divide the iterative operations into several smaller iterative operations by dividing the dataset as in Fig.~\ref{fig:alsDivision}(d). 
+% In the iterative operations in the dashed boxes, the pure confluence subgraphs exist 
+% in their KDG's by the key dependency $L_i \Rightarrow (L_i, tails)$.
+% \red{
+% Applying CKP to these operations and leaving the other iterative operations
+% that are related to the keys $(heads, L_i)$ to be randomly partitioned,
+% only half of the datasets need to be shuffled. 
+% In the setting that every node has $l$ heads and $l$ tails on average, every map input entry is expected to generate $2 \cdot l$ shuffle output entries in each iteration. Therefore, by the discussion in Section~\ref{section:skew}, the workload skewness of each iteration is 0 when CKP is applied. 
+% }
 
 \subsection{KMeans}
-KMeans \cite{kmeans} is the popular clustering algorithm in data mining, which groups the vector points into $k$ clusters where each vector point belongs to the cluster with the nearest mean. 
-This process could be done in a dedicated number of iterations. 
-With the initial $k$ chosen points regarded as the centers of the clusters, 
-in each iteration, every point is compared with the $k$ centers and is is grouped into the cluster where the Euclidean distance between the point and the center is the smallest. 
-After all points are grouped, each new cluster center for the next iteration is chosen by the mean of the points in that cluster. 
-The shuffle operation takes place when calculating the mean of each cluster whose points are located in different nodes. 
+KMeans~\cite{kmeans} is a famous clustering algorithm in data mining.
+It groups vector points into $k$ clusters where each vector point belongs to the cluster with the minimum mean value. 
+This procedure is done in a dedicated number of iterations. 
+With the initial $k$ chosen points regarded as centroids of the clusters, 
+in each iteration, every point is compared with the $k$ centroids and is grouped into a cluster where the Euclidean distance between the point and the centroid is the smallest. 
+After all points are grouped, each new cluster centroid is chosen in the next iteration by the mean of the points in that cluster. 
+To calculate the mean of each cluster whose points are located in different nodes, the shuffle operation takes place to partition points of the same cluster to one node.
 
-If the points are bound to the same cluster in every iteration, 
-by using the key dependency $points \Rightarrow centers$ 
-and localizing the points in the same cluster at the first iteration, 
-CKP can eliminate the shuffle size in the successive iterations. 
-However, the affiliation of point to clusters are not stable between iterations. 
-One point that is grouped into one cluster in a iteration can be grouped into another cluster in the next iteration. 
-We estimate the shuffle size in this case. 
+% If the points are bound to the same cluster in every iteration, 
+% by using the key dependency $points \Rightarrow centers$ 
+% and localizing the points in the same cluster at the first iteration, 
+% CKP can eliminate the shuffle size in the successive iterations. 
+% However, the affiliation of point to clusters are not stable between iterations. 
+% One point that is grouped into one cluster in a iteration can be grouped into another cluster in the next iteration. 
+% We estimate the shuffle size in this case. 
 
-Suppose that $p'_{ij}$ is the percentage of points that are grouped in Cluster $j$ both in the first CKP iteration and Iteration $i (i \neq 1)$, 
-$|A|$ is the total number of points, $m$ is the total number of iterations, 
-and $n$ is number of nodes. 
-The shuffle size of Iteration $i$ is $S_i=|A| \cdot (1-\sum_{j=1}^{k} p'_{ij})$.
-The CKP shuffle size improvement in Iteration $i$ is 
-$(n-1)/n \cdot |A| - S_i = |A| \cdot (\sum_{j=1}^{k} p'_{ij} - 1/n)$, 
-and the overall CKP shuffle size improvement is $|A| \cdot \sum_{i=2}^{m} (\sum_{j=1}^{k} p'_{ij} - 1/n)$.
-The higher $\sum_{i=2}^{m} \sum_{j=1}^{k} p'_{ij}$ is, the higher the shuffle size improvement. 
-In the best case that points are bound to the same cluster in every iteration, 
-$\sum_{j=1}^{k} p'_{ij}=1 (i=2,3,...m)$ 
-and the shuffle size improvement is $|A| \cdot (m-1)(n-1)/n$.
-In the worst case, every point grouped into cluster $i$ in the first iteration is grouped to a cluster other than $i$, the shuffle size improvement is 
-$-|A|\cdot (m-1)/n$. 
-The affiliation of the points to the clusters are more stable after running a few iterations. 
-Instead of localizing the points of the same cluster in the very first iteration of KMeans, localizing them after a few beginning iterations can give higher $\sum_{j=1}^{k} p'_{ij}$.
+Key dependency exists in each cluster iteration of the KMeans algorithm (Fig.~\ref{fig:application}(e)).
+Suppose in iteration $i$, 
+$pr_{ij}$ is the probability of that any point $p_i$ is grouped 
+into the same cluster as it was grouped into in a previous iteration $j$ ($j < i$), where the cluster is denoted as $centroid_j(p_i)$,
+We can observe the key dependency: 
+$\forall i > j, \forall p_i: p_i \Rightarrow_{pr_{ij}} centroid_j(p_i)$.
+We can bind key partitions based on this key dependency 
+in each iteration starting from iteration $j+1$. 
+It can be interpreted as: if a point is partitioned to a cluster 
+in an iteration, 
+we bind its partition to that of this cluster afterwards,
+regardless of which cluster it will be actually grouped into in the following transform operations.
 
-In every iteration of KMeans, as every input point generates the same point as the input for the next iteration, the workload skew level of every iteration is 0. 
+CKP reduces the shuffle size by a percentage of $pr_{ij}$ in each iteration after iteration $j$. 
+One point grouped into a cluster in iteration $j$ can be grouped into another cluster in other iterations. 
+The value of $pr_{ij}$ is affected by the input dataset, initial
+centroids of the clusters, and the value of $j$, 
+i.e., from which iteration on point partitions are bound to clusters.
+For example, the cluster a point is grouped into tends to be stabler in latter iteration. With a higher value of $j$, 
+the value of $pr_{ij} (i > j)$ tends to be higher.
+But accordingly, the number of iterations that apply key partition 
+binding is smaller. 
+Programmers may need to tune the value and make a trade-off then. 
 
 
-A summary of the CKP shuffle size improvements of the distributed operations discussed above is shown in Table~\ref{table:skew}.
-All the values of the CKP shuffle size improvement are figured out without consideration to the map-side combine mechanism discussed in Section~\ref{section:implement}.
+% \red{
+% $|A|$ is the total number of points, $m$ is the total number of iterations, 
+% and $n$ is number of nodes. 
+% The shuffle size of Iteration $i$ is $S_i=|A| \cdot (1-\sum_{j=1}^{k} p'_{ij})$.
+% The CKP shuffle size improvement in Iteration $i$ is 
+% $(n-1)/n \cdot |A| - S_i = |A| \cdot (\sum_{j=1}^{k} p'_{ij} - 1/n)$, 
+% and the overall CKP shuffle size improvement is $|A| \cdot \sum_{i=2}^{m} (\sum_{j=1}^{k} p'_{ij} - 1/n)$.
+% The higher $\sum_{i=2}^{m} \sum_{j=1}^{k} p'_{ij}$ is, the higher the shuffle size improvement. 
+% In the best case that points are bound to the same cluster in every iteration, 
+% $\sum_{j=1}^{k} p'_{ij}=1 (i=2,3,...m)$ 
+% and the shuffle size improvement is $|A| \cdot (m-1)(n-1)/n$.
+% In the worst case, every point grouped into cluster $i$ in the first iteration is grouped to a cluster other than $i$, the shuffle size improvement is 
+% $-|A|\cdot (m-1)/n$. 
+% The affiliation of the points to the clusters are more stable after running a few iterations. 
+% Instead of localizing the points of the same cluster in the very first iteration of KMeans, localizing them after a few beginning iterations can give higher $\sum_{j=1}^{k} p'_{ij}$.
+% }
+
+% In every iteration of KMeans, as every input point generates the same point as the input for the next iteration, the workload skewness of every iteration is 0. 
+
+% All the values of the CKP shuffle size improvement are figured out without consideration to the map-side combine mechanism discussed in Section~\ref{section:implement}.
 
 
 \begin{table*}[!t]
@@ -1564,7 +1826,7 @@ All the values of the CKP shuffle size improvement are figured out without consi
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1}
 % \extrarowheight as needed to properly center the text within the cells
-\caption{User-Defined Functions of ConfluencePartitioner in Different Distributed Operations}
+\caption{Key Mapping Functions of ConfluencePartitioner in Different Iterative Distributed Operations}
 \label{table:code}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
@@ -1572,13 +1834,15 @@ All the values of the CKP shuffle size improvement are figured out without consi
 %\begin{tabular}{|c||c|c|}
 \begin{tabularx}{1\textwidth}{ c || c |c  }
 \hline
-\textbf{Distributed Operations} & \textbf{Key Dependency} & \textbf{User-Defined Function} \\
+\textbf{Distributed Operations} & \textbf{Key Dependency} & \textbf{Key Mapping Function} \\
 \hline
 MatrixMultiplication & $(i,j,p) \Rightarrow_{1} (i,j)$ & (a:Any) $=>$ a match \{case (\_ , \_, \_) $=>$ (a.\_1, a.\_2)\}\\
 \hline
-MovieLensALS  &$(user,item) \Rightarrow_{1} user$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
+MovieLensALS  &$(userId,itemId) \Rightarrow_{1} userId$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
 \hline
-MultiAdjacentList  & $list \Rightarrow_{0.5} (list, tails)$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
+GoogleAlbum  &$(uid,(uid,aid)) \Rightarrow_{1} uid$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
+\hline
+MultiAdjacentList  & $(list, tail) \Rightarrow_{0.5} list$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
 \hline
 KMeans & $point \Rightarrow_{pr} centroid_1(point)$ & (a:Any) $=>$ a match \{case point:Vector[Double] $=>$ closestPoint(point, centroids$_1$)\tnote{1}\\
 \hline
@@ -1591,43 +1855,64 @@ KMeans & $point \Rightarrow_{pr} centroid_1(point)$ & (a:Any) $=>$ a match \{cas
 \end{threeparttable}
 \end{table*}
 
+\subsection{Limitations Applying Confluence}\label{section:limitation}
+CKP can be widely applied to reduce the shuffle size of the iterative
+distributed paradigms that compute and store intermediate transformation outputs in
+local storages (including disk and memory), like Spark and Twister.
+However, we find it not applicable or directly applicable in the following 
+circumstances and we suggest solutions for these problems.
+
+First, CKP is not usually applicable for single-iteration distributed operations. 
+CKP requires that each key of a transformation input dataset have a partition location. 
+But in single-iteration distributed operations, input datasets are usually attained 
+from a distributed file system (e.g., HDFS), where data locations are not organized by their key partition locations. 
+An alternative solution is to modify the mechanism of distributed file systems on choosing the
+partition locations of data blocks when storing data to a file.
+If a data entry is able to declare the preferred location as its key partition location, and if the distributed file system write the entry to its preferred location, the key partition locations of the dataset sustain and CKP can be applicable. 
+
+Second, CKP is not applicable when intermediate transformation data change
+their partition location in iterative distributed operations. 
+CKP assumes that data would sustain the partition location during 
+transformation, which should be a local processing of data in each node 
+without cross-node data transfer.
+This assumption is violated when performing iterative distributed operations
+in distributed paradigms that relocate the data during transformation. 
+For example, if we use MapReduce~\cite{dean2008mapreduce} to implement a iterative distributed operation, output data of the reduce phase are 
+stored into HDFS, where the data may be transfered to other nodes for persistence due to its internal mechanism. 
+A solution to this problem to use iterative distributed paradigms, such as Twister~\cite{ekanayake2010twister} and Haloop~\cite{bu2010haloop}, that retain the intermediate transformation data in local nodes. 
+
+The third circumstance is that programmers fail to find the key dependency 
+or the maximum dependency probability of the key dependency set 
+is small and trivial in all iterations. 
+The reason of the former case is either that 
+the programmers do not have enough information on the logic and input data of the distributed application to deduce the key dependency, 
+or that the key dependency is not clear by the nature of the distributed application. 
+the latter case happens when input keys are diversely mapped to lots of mapped
+keys during transformation. 
+Applying CKP in this case gains trivial shuffle size improvement. 
+A solution to this circumstance relies on programmers to discover 
+key dependencies with large dependency probability, 
+usually in transform operations that reduce the dimensions of key tuples. 
+An example is the mapping from key $(userId, itemId)$ to $(userId)$ in the 
+MovieLensALS algorithm.
+When all dependency probabilities are small, the shuffle size improvement 
+of CKP can be very limited. 
+
 \section{Implementation}\label{section:implement}
-This section introduces the effect of the map-side combine mechanism and the
-limitations of applying CKP in MapReduce.
-The implementation details of binding partitions and executors to
-facilitate CKP in Spark and the discussion on how to automate
-the confluence approach will also be presented.
+This section introduces implementation details of binding partitions to executors to facilitate CKP and automating CKP in distributed frameworks.
 
-\subsection{Map-Side Combine}
-In practice, existing distributed frameworks can do map-side
-combine for the map output data before the shuffle operation if the
-reduce operation is an aggregate function, e.g, the sum function of the
-reduce operation in Stage 2 of the matrix multiplication algorithm as
-mentioned above.
-The map-side combine does the local reduce operation on map output data
-such that the data needed to transfer in the shuffle operation can be
-greatly decreased in size even when RKP is applied.
-However, CKP is still beneficial because it eliminates the overhead time
-of initializing and cleaning up the %bunches of
-shuffle connections, which can be time-consuming.
-
-
-\subsection{Confluence in Hadoop}
-CKP can be widely applied to decrease the shuffle size of the iterative
-distributed paradigms that compute and store intermediate datasets in
-the memory, like Spark and Twister.
-However, we find it not applicable to Hadoop MapReduce for the following reason. 
-Hadoop MapReduce stores the output result of each distributed operation
-iteration in the distributed file system, i.e., HDFS,
-where the partitioned locations of the data blocks are reorganized due to the internal storing mechanism of HDFS.
-Even if the datasets are partitioned by CKP during the distributed
-operation, the partitioned locations of the datasets will not be
-retained in the next iteration of the distributed operation.
-
-An alternative solution is to modify the mechanism of HDFS on choosing the
-partitioned locations of data blocks when storing data to a file.
-If the dataset is able to declare the preferred partitioned location as the node where it is kept in the memory and HDFS writes the dataset to its preferred partitioned locations, the partitioned locations of the datasets will remain unchanged and CKP is applicable. 
-We have not implemented this new mechanism in HDFS and the feasibility is yet to be verified. 
+% \subsection{Local Combine Before Shuffling}
+% In practice, existing distributed frameworks can do local
+% combine for the transformation output data before the shuffle operation if the
+% reduce operation is an aggregate function, e.g, the sum function of the
+% reduce operation in Stage 2 of the matrix multiplication algorithm as
+% mentioned above.
+% The map-side combine does the local reduce operation on map output data
+% such that the data needed to transfer in the shuffle operation can be
+% greatly decreased in size even when RKP is applied.
+% However, CKP is still beneficial because it eliminates the overhead time
+% of initializing and cleaning up the %bunches of
+% shuffle connections, which can be time-consuming.
 
 
 \subsection{Binding Partition and Executor in Spark}
@@ -1676,204 +1961,240 @@ KMeans & 64,534,480 wikipedia page visit records& 32 centers, 10 iterations \\
 \end{table*}
 
 
-\subsection{Automating Confluence}
-Currently, programmers need to manually discover the pure confluence subgraphs of the iterative distributed applications from KDG and specify the key partitioning scheme in the program code if they apply CKP. 
-A system which automates this process before the runtime of the application and frees the programmers the extra work may sound attractive. 
-However, there are some difficulties implementing such a system because 
-it is hard for the machines to really understand the application logic to draw the KDG. 
-The reasons are as follows. 
-1) Difficulty in constructing the vertexes: 
-without the provision of the real meanings of the keys by the programmer, 
-the domain of the values of keys or the patterns of the keys are unknown without visiting the values of the whole dataset. 
-2) Difficulty in constructing the edges: 
-the key dependency relationship is unclear by merely looking at logic of the program code because the key dependency relationship can also depend on the values, which are unknown until runtime. 
+\subsection{Confluence Partitioner Interface}
+% Currently, programmers need to manually discover the pure confluence subgraphs of the iterative distributed applications from KDG and specify the key partitioning scheme in the program code if they apply CKP. 
+% A system which automates this process before the runtime of the application and frees the programmers the extra work may sound attractive. 
+% However, there are some difficulties implementing such a system because 
+% it is hard for the machines to really understand the application logic to draw the KDG. 
+% The reasons are as follows. 
+% 1) Difficulty in constructing the vertexes: 
+% without the provision of the real meanings of the keys by the programmer, 
+% the domain of the values of keys or the patterns of the keys are unknown without visiting the values of the whole dataset. 
+% 2) Difficulty in constructing the edges: 
+% the key dependency relationship is unclear by merely looking at logic of the program code because the key dependency relationship can also depend on the values, which are unknown until runtime. 
 
-To apply CKP, the powerful partitioner interface offered by the pervasive distributed frameworks allows the programmers to easily implement the specific partitioner for their distributed application. 
-We make one step further by implementing the half-automatic approach so that if the programmers provide the information of the pure confluence subgraphs via a simple interface, the system will generate the corresponding partitioner 
-and apply CKP automatically. 
+We provide an interface in Spark to allow programmers apply CKP in a
+distributed application with one single line of code.
+To apply CKP, the user-definable partitioner offered by pervasive distributed frameworks allows programmers to implement specific partitioners for their distributed applications. 
 
-We implement the class named ConfluencePartitioner in Spark, 
-which only requires the programmer to input the user-defined function that defines the mapping of the keys to the pure confluence subgraphs. 
-The shuffle operation uses the ConfluencePartitioner to identify the pure confluence subgraphs that the data entries belong to 
-and partitions each pure confluence subgraph randomly by the hashed value of the subgraph.  
-To apply CKP with ConfluencePartitioner can be as simple as a single line of code
-in the Scala language:
+We make one step further by implementing a class named ConfluencePartitioner, 
+which only requires the programmer to provide the key mapping function 
+of the key dependency with the maximum dependency probability. 
+Now recall that in Section~\ref{section:dependency}, the key mapping function
+$f$
+is a function of the input key $k$ and returns the mapped key $f(k)$ in a 
+key dependency.
+% The ConfluencePartitioner to identify the pure confluence subgraphs that the data entries belong to 
+% and partitions each pure confluence subgraph randomly by the hashed value of the subgraph.  
 
-\textit{data.shuffleOperation (new ConfluencePartitioner (num-Partitions, user-defined-function))}
+In ConfluencePartitioner, to calculate the partition of a input key-value entry in the shuffle operation, 
+the key mapping function is applied to the input key, 
+and the mapped key is returned. 
+The mapped key is hashed based on the number of partitions 
+and the hash value decides the partition of this input entry. 
+In this way, all input entries whose returned key by the mapping function are the same are partitioned to the same node.
 
-Table~\ref{table:code} shows the user-defined functions in the Scala codes of different distributed operations mentioned above. 
+To apply CKP in a shuffle operation, programmers only need 
+add a ConfluencePartitioner with the corresponding 
+mapping function as the partitioner. 
+The code looks like:
+\begin{equation*}\label{eq:confluencePartitioner}
+\begin{aligned}
+data.shuffleOperation (new\ ConfluencePartitioner \\
+(numPartitions, mappingFunction))
+\end{aligned}
+\end{equation*}
+, where the ``data'' is often an RDD in Spark and the ``shuffleOperation'' is any shuffle function that repartition distributed data, such as $reduceByKey$ or $join$. 
+Fig.~\ref{fig:alscode} shows the code of using ConfluencePartitioner
+to apply CKP in MovieLensALS, where only the single line of code 
+in bold is added to the original algorithm.
+This line of code binds the partition of key $(userId, itemId)$
+to that of key $userId$ when creating the user-item block data.
 
-To calculate the partition of a key-value entry in the shuffle operation, 
-the user-defined function is applied to the key of the entry, 
-and the returned result is then hashed by number of total partition nodes. 
-The hashed value decides the partition location of this entry. 
-In this way, the key-value entries whose returned values of the user-defined function are the same are considered to match the same confluence key node and will be partitioned to the same node.
+Table~\ref{table:code} lists the mapping functions of different distributed operations mentioned above in Scala programming language.
 
-With ConfluencePartitioner, the programmers can apply CKP even without knowing the details of implementing the self-defined partitioner and repeatedly writing different self-defined partitioners for different distributed operations.
+
+
+With ConfluencePartitioner, the programmers can apply CKP without knowing the details of implementing the self-defined partitioner and repeatedly writing different self-defined partitioners in each iteration of different distributed operations.
 
 
 \section{Evaluation}\label{section:evaluation}
-We conduct experiments on a physical testbed to compare the performance of CKP with the default RKP scheme in various aspects: the improvement on the shuffle sizes of different iterations, the shuffle skew level of the executors, and the scalability via the metrics of the overall shuffle sizes against different input data volumes. 
+We conduct experiments on a physical testbed to compare the performance of CKP with the default RKP scheme in aspects: the improvement on shuffle sizes of different iterations, the workload skewness of executors, and the scalability. 
 
 
 \subsection{Testbed and Benchmarks}
 The testbed consists of 18 computer nodes of the Gideon-II cluster in HKU \cite{gideon}, where each node is equipped with 2 quad-core, 32 GB DDR3 memory and 2 $\times$ 300 GB SAS hard disks running RAID-1. 
-The nodes run with Scientific Linux 5.3 and are connected to an internal non-blocking switch with GbE ports. 
-In the setting of the YARN cluster, one node takes the role of  the name node of HDFS and one other acts as the resource manager of YARN, while the remaining 16 nodes are configured as both the HDFS data nodes and YARN node managers. 
-Spark is deployed on top of the YARN cluster with 16 executor, where each executor runs with 8 GB of memories. 
+In the setting of the YARN cluster, one node takes the role of  the name node of HDFS and one other acts as the resource manager of YARN. The remaining 16 nodes are configured as both HDFS data nodes and YARN node managers, and are connected to an internal non-blocking switch with GbE ports.
+Spark is deployed on top of the YARN cluster with 16 executor, where each executor runs with 8 GB memories. 
 
 Several benchmarks that are representative ones of their fields are used to evaluate the performance of CKP.
-Unless further specified, the input data sizes and the running setting of the benchmarks are listed in Table \ref{table:benchmark}.
-Pure confluence subgraphs can be found based on the key dependency relationship indicated in the table, and CKP is applied on these pure confluence subgraphs. 
-CKP is compared with RKP as the baseline as RKP is the default and generally used key partitioning scheme for the distributed operations. 
-Other key partitioning scheme are sometimes used to balance the workload of the executors for specific datasets. 
-These key partitioning schemes rely not only on the application logic but also on the distribution of datasets, we do not compare CKP with them here. 
+Unless further specified, the input data sizes and the running setting of the benchmarks are listed in Table~\ref{table:benchmark}.
+CKP is compared with RKP as the baseline as RKP is the default and pervasive key partitioning scheme in distributed frameworks. 
+Other key partitioning scheme are sometimes used to balance the workload of the executors for specific applications and datasets. 
+These key partitioning schemes are for special purpose and we do not compare CKP with them here. 
 
 \subsection{Metrics}
-We measure the shuffle size of each distributed computing iteration (or alternately, stage) of benchmarks. 
-The shuffle size of each iteration is the sum of the data transfer size of the shuffle operation of all the executors in that iteration. 
-This metric depicts the performance of CKP in decreasing the data transfer size. 
-Besides, the standard deviation of the shuffle sizes of the executors is measured as the metric to evaluate the workload skew level of the key partitioning schemes. 
+We measure the shuffle size of each distributed computing iteration (or alternately, stage) of the benchmarks. 
+The shuffle size of each iteration is the sum of the cross-node data transfer size of the shuffle operation of all executors in that iteration. 
+This metric depicts the performance of CKP in reducing the shuffle size. 
+Besides, the standard deviation of input workloads of the executors is measured as the metric to evaluate the workload skewness of the key partitioning schemes. 
 This metric is also measured in each iteration of the benchmark. 
-The scalability of CKP is measured by the overall shuffle size of all the iterations that are in the pure confluence subgraphs with different volumes of input data. 
+The scalability of CKP is measured by the overall shuffle size of all iterations that apply key partition binding, with different volumes of input data. 
 % As the iterative distributed operations are finished iteration by iteration, the completion time of each iteration is measured to show the benefit of minimizing the shuffle size. 
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=1\columnwidth]{figure5}
-\caption{Shuffle Sizes of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks
+\caption{The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks
 }
 \label{fig:size}
 %\vspace{-0.2in}
 \end{figure}
 
 
-\subsection{Shuffle Sizes Improvement} 
-The results of the shuffle size of each iteration (or stage) after applying CKP and RKP in all the benchmarks are shown in Fig.~\ref{fig:size}, respectively. 
+\subsection{Shuffle Size Improvement} 
+Results of the shuffle size and the workload skewness of each iteration (or stage) after applying CKP and RKP in all the benchmarks are shown in Fig.~\ref{fig:size}, respectively. 
 
-In MatrixMultiplication, CKP totally removes the shuffle operation of Stage 2 whose shuffle size is 0, and the shuffle size of Stage 1 remains closed to that of RKP (Fig.~\ref{fig:size}(a)). 
-Note that when RKP is applied, the shuffle size of Stage 2 is very small as compared to Stage 1 due to the map-side combine mechanism mentioned above.
+In MatrixMultiplication, CKP totally removes the shuffle size of stage 2, and the shuffle size of stage 1 remains close to that of RKP (Fig.~\ref{fig:size}(a)). 
+Note that, regardless of the key partitioning scheme, the volume of data in stage 2 is small compared to stage 1 because data have been locally merged by the distributed framework to compress data in stage 2~\cite{zaharia2012resilient}.
 % Still, we will show that CKP has the advantage in minimizing the job completion time by eliminating the shuffle runtime overheads in the latter sub-sections. 
 
-
-The benefit of applying CKP on the smaller iterative distributed operation divided based on operations can be read in Fig.~\ref{fig:size}(b).
-In MovieLensALS, after applying CKP, the shuffle size for generating the user block is 0, while that for generating the item block remains almost the same as that of RKP. 
+The benefit of applying CKP on iterative distributed operations 
+that reduce the key dimensions can be read in Fig.~\ref{fig:size}(b).
+In MovieLensALS, after applying CKP, the shuffle size for generating the user block is 0, while the shuffle size for generating the item block remains almost the same as that of RKP. 
 As a result, the CKP shuffle size for generating these two block is half of that of RKP. 
 Because the other iterations of the distributed operations cannot be improved by CKP, 
-the overall shuffle traffic CKP can decrease for the application is about 11\%.
+the overall shuffle size CKP can reduce for this application is about 11\%.
 
-After applying CKP in MultiAdjacentList benchmark, the shuffle size of each iteration is decreased by half beginning from Iteration 2 (Fig.~\ref{fig:size}(c)). 
-The reason is that by using CKP on divided sub-operations that handle the datasets corresponding to the key $(list, tails)$, only the datasets of Key  $(heads, L_i)$ need to be shuffled.
+After applying CKP in MultiAdjacentList benchmark, the shuffle size of each iteration is decreased by half beginning from iteration 2 (Fig.~\ref{fig:size}(c)). 
+The reason is that by binding partitions of key $(list, tail)$ 
+to key $list$, only data with key $(head, list)$ need to be shuffled in each iteration, which is about 50\% of the total data volume. 
 
-In the KMeans benchmark, by partitioning the points into the clusters they belong to at the first few iterations, CKP decreases the overall cluster shuffle size by 12\%. 
+In KMeans benchmark, points are bound to centers they are grouped into in iteration 1. by partitioning the points into clusters they belong to in the first iteration, CKP decreases the overall shuffle size by 12\% (Fig.~\ref{fig:size}(d)). 
 This decrease in shuffle size is contributed by avoiding the repartition of the points that are stable to their clusters,
 although not all points are fixed to their clusters in every iteration. 
+This shuffle size is influenced by the input dataset, initial 
+centroids of clusters, and from which iteration the points are bound to the centroids.
+All these factors affect the dependency probability in the key dependency.
 
 Note that the shuffle sizes of the other iterations that do not apply CKP remains almost unchanged, which means that CKP can decrease the shuffle size of distributed iterations that have the confluence key dependency without introducing extra workloads to the other iterations. 
-How CKP can decrease the overall shuffle traffic depends on how large the portion of data corresponding to the pure confluence subgraph take in the overall processing of the application. 
+How CKP can decrease the overall shuffle traffic depends on how large the volumes of data are in iterations that apply key partition binding, compared to the overall data volume of the application. 
 For MultiAdjacentList, the CKP can be applied to half of the operations, either appending to the head or to the tail.
-While for MovieLensALS, CKP can only be applied to the operation that arrange the user-item blocks, which is only a small portion of the overall application. 
+While for MovieLensALS, CKP can only be applied to the operation that arrange the user-item blocks, which is a relatively small portion of the overall application. 
 Still, it indicates the potential of applying CKP in the complicated iterative distributed applications. 
 
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=1\columnwidth]{figure6}
-\caption{Standard Deviations (SD) of the Shuffle Sizes of the Executors of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks
-}
-\label{fig:SD}
-%\vspace{-0.2in}
-\end{figure}
+% \begin{figure}[!t]
+% \centering
+% \includegraphics[width=1\columnwidth]{figure6}
+% \caption{Standard Deviations (SD) of the Shuffle Sizes of the Executors of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks
+% }
+% \label{fig:SD}
+% %\vspace{-0.2in}
+% \end{figure}
 
+\subsection{Workload Skew}
+The workload skewness is denoted as the standard deviation bar in Fig.~\ref{fig:size}. 
+As expected, the workload skewness (standard deviation of workloads) of the key partition 
+binding stages of MatrixMultiplication (Fig.~\ref{fig:size}(a)), MovieLensALS (Fig.~\ref{fig:size}(b)) and MultiAdjacentList (Fig.~\ref{fig:size}(c)) are all close to 0. 
+In the KMeans benchmark, the workload skewness of CKP is larger than that in RKP (Fig.~\ref{fig:size}(d)). 
+The reason is that the number of points belonging to each cluster varies but the number of clusters (32) is not large enough compared to 
+the computer nodes (16) to balance the workloads of the nodes. 
+If the number of clusters is larger, 
+the number of points bound to each cluster is smaller.
+As each cluster centroid is randomly partitioned, the workload 
+skewness will become smaller.
+Still, the standard deviation of CKP (7 MB) is small as compared to the mean shuffle size of the executors (25 MB).
+
+
+% For the stages that are either before or after the CKP-affected stages, the standard deviations remain almost the same as RKP, or as compared to the shuffle size, the difference is so tiny that can be ignored. 
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=1\columnwidth]{figure7}
-\caption{Overall Shuffle Size of the Pure-Confluence-Subgraphs-Related Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}
+\caption{Overall Shuffle Size of the Key Partition 
+Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}
 \label{fig:sizeLine}
 %\vspace{-0.2in}
 \end{figure}
 
-\subsection{Workload Skew}
-The standard deviations of the shuffle workloads of the executors of different benchmarks are shown in Fig.~\ref{fig:SD}. 
-As expected, the workload standard deviations of the CKP-affected stages of MatrixMultiplication (Fig.~\ref{fig:SD}(a)), MovieLensALS (Fig.~\ref{fig:SD}(b)) and MultiAdjacentList (Fig.~\ref{fig:SD}(c)) are all 0. 
-In the KMeans benchmark, the standard deviation of CKP is larger than that of RKP (Fig.~\ref{fig:SD}(d)). 
-The reason is that the number of points belonging to each cluster varies but the number of cluster centers (32) is not large enough as compared to 
-the computer nodes (16) to even the workloads of the nodes. 
-If the number of cluster centers is large enough, the actual number of points partitioned to each node will get closer to the expected value, 
-which is the same in every node.
-Still, the standard deviation of CKP (7 MB) is small as compared to the mean shuffle size of the executors (25 MB).
-
-For the stages that are either before or after the CKP-affected stages, the standard deviations remain almost the same as RKP, or the change is so tiny as compared to the overall shuffle size of the stage that can be ignored. 
-
-
-
 
 \subsection{Scalability}
-The overall shuffle sizes of the pure-confluence-subgraph-related iterations with different input sizes in various benchmarks are shown in Fig.~\ref{fig:sizeLine}. 
+The overall shuffle sizes of iterations that apply key partition 
+binding with different input sizes in various benchmarks are shown in Fig.~\ref{fig:sizeLine}. 
 In MatrixMultiplication, 
 the overall shuffle size of RKP increases linearly as the matrix length grows, while that of CKP is always 0. 
-CKP can totally remove the shuffle workload for Stage 2 of MatrixMultiplication. 
+CKP can totally remove the shuffle size of stage 2 in MatrixMultiplication. 
 In the other benchmarks, the shuffle sizes of CKP always keep in a fixed (or stable) ratio to those of RKP, e.g., 50\% in both MovieLensALS and MultiAdjacentList and around 88\% in KMeans. 
 The result shows that CKP scales well with different volumes of input data. 
-The CKP decreases the shuffle workload greatly (about 50\%) in one iteration out of the many distributed operations in the MovieLensALS application, and a little (about 12\%) but in every iteration of the distributed operations of the KMeans application. 
+The CKP decreases the shuffle size greatly (about 50\%) in one iteration out of many iterations in the MovieLensALS application, and a little (about 12\%) but in every iteration the KMeans application. 
 
 
 
 \section{Related Work}\label{section:relatedWork}
 \textbf{Iterative distributed computing}: 
-Some works~\cite{gunarathne2013scalable, bu2010haloop, ekanayake2010twister} improved distributed frameworks for iterative MapReduce-like computing by extending programming interfaces to support multiple map and reduce phases. 
+Some works~\cite{gunarathne2013scalable, zaharia2012resilient,bu2010haloop, ekanayake2010twister} improved distributed frameworks for iterative distributed operations by extending programming interfaces to support multiple transform and shuffle phases. 
 The general idea was to cache the data of each iteration in memories instead of in disks to reduce I/O overheads.
-Spark~\cite{zaharia2012resilient} provided more kinds of operation interfaces and supported a series of transformations on distributed input datasets in the memory by the concept of resilient distributed dataset. 
+% Spark~\cite{zaharia2012resilient} provided more kinds of operation interfaces and supported a series of transformations on input datasets in the memory by the concept of resilient distributed dataset. 
 % These iterative distributed frameworks tried to minimize the I/O overhead by storing the intermediate data of each iteration in the memory, instead of in the disk like Hadoop. 
-However, these works on distributed frameworks did not consider the heavy network workload during shuffle operations. 
-Inheriting the benefit of fast memory I/O rate, Confluence decreases shuffle sizes and alleviate network workloads by considering the key dependency of multiple related iterations. 
+However, these works on distributed frameworks did not concern with the heavy network workload during shuffle operations. 
+Inheriting the benefit of fast memory I/O rate, CKP decreases shuffle sizes and alleviate network workloads by considering the key dependency in multiple related iterations. 
 
 \textbf{Parallel\&Distributed algorithms optimization}: Lots of work has been conducted on the optimization of parallel\&distributed machine learning algorithms~\cite{bekkerman2011scaling} and science computing~\cite{kiran2013verification, mensink2012metric}, including matrix multiplication methods~\cite{buluc2012parallel, ballard2012communication}. 
-Generally, they focused on optimizing the algorithm itself by decomposing tasks to increase the task parallelism and removing the synchronization boundary between I/O-intensive tasks and compute-intensive tasks. 
-Sarma et al.~\cite{Sarma:2013:ULB} represented the map-and-reduce communication cost as the number of data entries that need to be generated from the map input for a distributed application with a given parallelism factor. 
-To decrease the communication cost for a specific distributed application, one need redesign the distributed program itself, operating with the proper parallelism factor. 
-The term of communication cost is slightly different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce workers (which can be on the same node), while the shuffle size transfer size of data between different computer nodes. 
-An Iterative distributed application can be first designed with the minimum communication cost for each iteration, if possible, and then apply Confluence to decrease the shuffle size.
+Generally, they focused on optimizing the algorithm itself by decomposing tasks to increase task parallelism or removing the synchronization boundary between I/O-intensive tasks and compute-intensive tasks. 
+Sarma et al.~\cite{Sarma:2013:ULB} represented the number of data entries generated from the map input for a distributed application with a given parallelism factor as communication cost. 
+To decrease the communication cost for a specific distributed application, one need redesign the logic of the program itself, operating with the proper parallelism factor. 
+The term of communication cost is slightly different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce workers (which can be on the same node), while the shuffle size is transfer size of data between different computer nodes. 
+An iterative distributed application can first be designed with the minimum communication cost for each iteration, if possible, and then apply CKP to decrease the shuffle size.
 % The algorithms with the minimum communication cost can further decrease the shuffle size by considering the key dependency of the datasets in multiple iterations. 
-ShuffleWatcher~\cite{faraz2014shufflewatcher} scheduled the locality of map tasks and reduce tasks to decrease shuffle inter-node traffic for the single 
+ShuffleWatcher~\cite{faraz2014shufflewatcher} scheduled the locality of map tasks and reduce tasks to decrease shuffle size for the single 
 iteration of a MapReduce job, but it did not provide a solution for iterative distributed operations. 
 
+\textbf{Logic-Aware Shuffle Partitioning}: 
+Some similar works~\cite{zhou2010scope, zhang2012shuffle} also looked into the logic of programs and considered the data relation across iterations to avoid unnecessary shuffle network traffic. 
+But the methods either lacked a precise model abstraction so that 
+its applicable area was limited to aggregate-like operations~\cite{zhang2012shuffle}, or built a complicated model that made its usage difficult~\cite{zhou2010scope}. The Confluence key dependency model is simple in form
+and makes it possible to apply CKP in a single line of code. 
+The dependency probability easily predicts the effect of 
+shuffle size reduction.
 
 \textbf{Datacenter networking for shuffle}: 
 In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals~\cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}.  
-Confluence does not concern with the underlying network level. However, by decreasing shuffle workloads, shuffle tasks applying the confluence key partitioning scheme can work on these shuffle-optimized datacenter networks seamlessly and gain larger performance increase.    
+CKP does not concern with the underlying network level. However, by decreasing shuffle workloads, shuffle operations applying CKP can work on these shuffle-optimized datacenter networks seamlessly and gain larger performance increase.
+
 
 \textbf{Skew\&Straggler}: 
 Distributed computing paradigms like MapReduce adopted the data locality principle, either to place computing tasks close to locations of the processing data in priority to avoid data migration~\cite{dean2008mapreduce, zaharia2008improving}, or to avoid an unbalanced allocation of workloads by considering compute skew problems~\cite{kwon2010skew, kwon2012skewtune}. 
-They concerned with the placing of map tasks where the required input data are self-contained.
+They concerned with the placing of map tasks whose required input data are self-contained.
 As the input data of each shuffle task are distributed across the cluster, such a task-to-data approach cannot help in shuffle tasks. 
-Confluence localizes data and tasks by partitioning the data corresponding to each pure confluence subgraph with multiple shuffle iterations in the same node, which eliminates the shuffle traffic of multiple iterations while not impacting the balance of workloads.
-Aaron et al.~\cite{Harlap:2016:ASP} addressed the problem of stragglers in iterative machine learning. \red{If the unbalance in the granule of pure confluence subgraphs does exist in some particular dataset or algorithm, the partitioning scheme of the pure confluence subgraph can be manually specified by the user to prevent stragglers.} 
+CKP binds key partitions of different iterations based on the key dependency, which eliminates shuffle traffic of multiple iterations while not impacting the balance of workloads.
+Aaron et al.~\cite{Harlap:2016:ASP} addressed the problem of stragglers in iterative machine learning. 
+In the case of successive key partition binding,
+as CKP randomly partitions mapped keys in every iteration 
+whose next iteration does not apply key partition binding, 
+the workload skewness always readjusts to balanced. 
 
-\textbf{DAG scheduling}: 
-Similar to other DAG task scheduling algorithms~\cite{sakellariou2004hybrid, zhao2006scheduling, spark-dagscheduler, isard2007dryad} that schedule tasks to based on the task dependency graph, Confluence optimizes the partition location based on the key dependency graph. 
-The difference is, in terms of the goal, that the DAG task scheduling algorithms tried to parallel the execution of jobs that are not depended on each other to increase parallelism, while Confluence isolates the partitions of the key-related data in multiple shuffle iterations to reduce network traffic. 
+% \textbf{DAG scheduling}: 
+% Similar to other DAG task scheduling algorithms~\cite{sakellariou2004hybrid, zhao2006scheduling, spark-dagscheduler, isard2007dryad} that schedule tasks to based on the task dependency graph, Confluence optimizes the partition location based on the key dependency graph. 
+% The difference is, in terms of the goal, that the DAG task scheduling algorithms tried to parallel the execution of jobs that are not depended on each other to increase parallelism, while Confluence isolates the partitions of the key-related data in multiple shuffle iterations to reduce network traffic. 
 
 
 \section{Conclusion and Future Work}\label{section:conclusion}
-We have presented Confluence Key Partitioning scheme, the first work on decreasing the shuffle size of
-iterative distributed operations leveraging the key dependency. 
-Confluence guides the data partitioning across different iterations based on the key dependency graph, 
-which is constructed based on the iterative key dependency.
-%We use Confluence to partition the datasets to avoid undesired network traffic across multiple iterations during the shuffle operations. 
-Confluence greatly decreases the overall shuffle size while not introducing the workload skew side effect for a variety of distributed operations
-in fields of scientific computing, machine learning, data
+We have presented the Confluence Key Partitioning (CKP) scheme, the first work on reducing the shuffle size of
+iterative distributed operations based on the key dependency. 
+The key dependency precisely captures the logic of iterative distributed operations and CKP partitions data across different iterations by using the technique of key partition binding.
+CKP greatly reduces the overall shuffle size with a predictable value 
+while not introducing the workload skewness side effect 
+for a variety of distributed operations
+in fields such as scientific computing, machine learning, data
 analysis.
 
 In the future, we will try to explore methods to automatically discover the key dependency of data among different iterations. 
 A potential feasible solution is data flow tracking. 
-With a set of sample data, we can keep track of how data are flowing between nodes across different iterations, and thus find out the key dependency of these sample data. 
+With a set of sampled data, we can keep track of how data are flowing between nodes across different iterations, and thus find out the key dependency of these sampled data. 
 The challenge is that how to expand key dependency of the sample data to the whole dataset. 
-If the data flow tracking generates the dependency of specific keys, 
-there can be difficulties to generalize it to the dependency of key patterns.  
-Even when we have the key pattern dependency of the sample data, 
-we need to consider whether the key pattern dependency is applicable to the whole dataset, or how to refine the key pattern dependency for the whole dataset if necessary. 
+The unrepresentative sample sample data affects the accuracy of the dependency probability. 
+Luckily, as we have discussed, CKP survives the problem inaccurate dependency probability.
 
 % \bigskip
 % \noindent
@@ -2054,7 +2375,7 @@ This work is supported in part by a Hong Kong RGC CRF grant
 % (used to reserve space for the reference number labels box)
 %\begin{thebibliography}{1}
 % Generated by IEEEtran.bst, version: 1.13 (2008/09/30)
-\begin{thebibliography}{40}
+\begin{thebibliography}{44}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
 \providecommand{\newblock}{\relax}
@@ -2081,10 +2402,13 @@ G.~Malewicz et al., ``Pregel: A system for large-scale graph processing,'' in
   \emph{Proceedings of the ACM SIGMOD International Conference on Management of
   Data}, New York, NY, USA, 2010, pp. 135--146.
 
+\bibitem{Ousterhout2015MSP}
+K.~Ousterhout et al., ``Making Sense of Performance in Data Analytics Frameworks,'' \emph{NSDI}, vol.~15, pp.~293-307, 2015.
+
 \bibitem{Lu:2014:LDG}
 Y.~Lu et al., ``Large-scale distributed graph computing
   systems: An experimental evaluation,'' \emph{Proceedings of the VLDB
-  Endowment}, vol.~8, no.~3, pp. 281--292, Nov. 2014.
+  Endowment}, vol.~8, no.~3, pp. 281--292, 2014.
 
 \bibitem{thusoo2009hive}
 A.~Thusoo et al., ``Hive: A warehousing solution over a map-reduce
@@ -2100,8 +2424,7 @@ Y.~Yu et al., ``Dryadlinq: A system for general-purpose distributed
 \bibitem{Armbrust:2015:SSR}
 M.~Armbrust et al., ``Spark sql: Relational
   data processing in spark,'' in \emph{Proceedings of the 2015 ACM SIGMOD
-  International Conference on Management of Data}, ser. SIGMOD '15.\hskip 1em
-  plus 0.5em minus 0.4em\relax New York, NY, USA: ACM, 2015, pp. 1383--1394.
+  International Conference on Management of Data}, New York, NY, USA, 2015, pp. 1383--1394.
 
 \bibitem{low2012distributed}
 Y.~Low et al.,
@@ -2131,6 +2454,9 @@ M.~Isard et al., ``Dryad: Distributed
   \emph{Proceedings of the 2nd ACM SIGOPS/EuroSys European Conference on
   Computer Systems}, New York, NY, USA, 2007, pp. 59--72.
 
+\bibitem{white2012hadoop}
+T.~White, ``Hadoop: The definitive guide'', \emph{O'Reilly Media Inc.}, 2012.
+
 \bibitem{dean2008mapreduce}
 J.~Dean and S.~Ghemawat, ``Mapreduce: Simplified data processing on large
   clusters,'' \emph{Communications of the ACM}, vol.~51, no.~1, pp. 107--113,
@@ -2139,7 +2465,7 @@ J.~Dean and S.~Ghemawat, ``Mapreduce: Simplified data processing on large
 \bibitem{shvachko2010hadoop}
 K.~Shvachko et al., ``The hadoop distributed file
   system,'' in \emph{Proceedings of the IEEE 26th Symposium on Mass Storage
-  Systems and Technologies}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2010,
+  Systems and Technologies}, 2010,
   pp. 1--10.
 
 \bibitem{chen2011case}
@@ -2151,8 +2477,8 @@ Y.~Chen et al., ``The case for evaluating
 \bibitem{chowdhury2011managing}
 M.~Chowdhury et al., ``Managing data
   transfers in computer clusters with orchestra,'' in \emph{Proceedings of the
-  ACM SIGCOMM Conference}.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY,
-  USA: ACM, 2011, pp. 98--109.
+  ACM SIGCOMM Conference}, New York, NY,
+  USA, 2011, pp. 98--109.
 
 \bibitem{al2010hedera}
 M.~Al-Fares et al., ``Hedera:
@@ -2211,10 +2537,20 @@ H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
   \url{http://i.cs.hku.hk/\%7Eclwang/Gideon-II/}
 \BIBentrySTDinterwordspacing
 
+\bibitem{google2012spanner}
+J.C. Corbett et al., ``Spanner: Google’s globally distributed database,'' 
+\emph{Proceedings of the 10th USENIX conference on Operating Systems Design and Implementation}, pp. 251-264, 2012.
+
+\bibitem{zhou2010scope}
+J.~Zhou et al., ``Incorporating partitioning and parallel plans into the SCOPE optimizer,'' \emph{IEEE 26th International Conference on Data Engineering}, pp. 1060-1071, 2010.
+
+\bibitem{zhang2012shuffle}
+J.~Zhang et al., ``Optimizing Data Shuffling in Data-Parallel Computation by Understanding User-Defined Functions,'' \emph{NSDI}, vol.~12, pp.~22-22, 2012.
+
 \bibitem{gunarathne2013scalable}
 T.~Gunarathne et al., ``Scalable parallel computing on
   clouds using twister4azure iterative mapreduce,'' \emph{Future Generation
-  Computer Systems}, vol.~29, no.~4, pp. 1035--1048, 2013.
+  Computer Systems}, vol.~29, no.~4, pp. 1035-1048, 2013.
 
 \bibitem{bekkerman2011scaling}
 R.~Bekkerman, M.~Bilenko, and J.~Langford, \emph{Scaling up machine learning:
@@ -2252,9 +2588,7 @@ A.~D. Sarma et al., ``Upper and lower
 \bibitem{faraz2014shufflewatcher}
 F.~Ahmad et al.,
   ``Shufflewatcher: Shuffle-aware scheduling in multi-tenant mapreduce
-  clusters,'' in \emph{2014 USENIX Annual Technical Conference (USENIX ATC
-  14)}.\hskip 1em plus 0.5em minus 0.4em\relax Philadelphia, PA: USENIX
-  Association, Jun. 2014, pp. 1--13.
+  clusters,'' in \emph{2014 USENIX Annual Technical Conference}, Philadelphia, PA, Jun. 2014, pp. 1--13.
 
 \bibitem{greenberg2009vl2}
 A.~Greenberg et al., ``Vl2: a scalable and flexible data center
@@ -2281,20 +2615,17 @@ M.~Zaharia et al., ``Improving
 \bibitem{kwon2010skew}
 Y.~Kwon et al., ``Skew-resistant parallel
   processing of feature-extracting scientific user-defined functions,'' in
-  \emph{Proceedings of the 1st ACM Symposium on Cloud Computing}.\hskip 1em
-  plus 0.5em minus 0.4em\relax ACM, 2010, pp. 75--86.
+  \emph{Proceedings of the 1st ACM Symposium on Cloud Computing}, 2010, pp. 75--86.
 
 \bibitem{kwon2012skewtune}
 Y.~Kwon et al., ``Skewtune: mitigating skew in mapreduce applications,'' in
   \emph{Proceedings of the ACM SIGMOD International Conference on Management of
   Data}, 2012, pp. 25--36.
 
-
 \bibitem{Harlap:2016:ASP}
 A.~Harlap et al., ``Addressing the straggler problem for iterative convergent
   parallel ml,'' in \emph{Proceedings of the Seventh ACM Symposium on Cloud
-  Computing}, ser. SoCC '16.\hskip 1em plus 0.5em minus 0.4em\relax New York,
-  NY, USA: ACM, 2016, pp. 98--111.
+  Computing}, New York, NY, USA, 2016, pp. 98--111.
 
 \bibitem{spark-dagscheduler}
 \BIBentryALTinterwordspacing
@@ -2324,7 +2655,7 @@ Spark job scheduling: Dagscheduler. [Online]. Available:
 
 \vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
-is currently a PhD candidate in Department of Computer Science, The University of Hong Kong. He received his bachelor's degree in software engineering in Nanjing University in 2012. His research interests are mainly on distributed file systems, distributed computing, and machine learning. He is recently undertaking the research project on distributed deep learning.
+received the BS degree in software engineering from Nanjing University in 2012, and the PhD degree in computer science from The University of Hong Kong in 2017. His research interests are mainly on distributed file systems, distributed computing, machine learning, and formal methods for distributed systems. He is recently undertaking the research project on distributed deep learning.
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 

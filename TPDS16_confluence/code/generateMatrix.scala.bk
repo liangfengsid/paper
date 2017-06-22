@@ -1,0 +1,18 @@
+import util.Random
+//val rand=new Random(System.nanoTime)
+//val a=for {i <- 1 until 1001
+//	j <- 1 until 1001}
+//	yield (i,j,rand.nextInt(10))
+val num=1001
+val row=for {i <- 1 until num} yield i
+val rowRdd=sc.makeRDD(row)
+val a=rowRdd.flatMap(row => {
+	val rand=new Random(System.nanoTime)
+	for {k <- 1 until num} yield row.toString+" "+ k.toString+" "+ rand.nextInt(3).toString
+})
+val b=rowRdd.flatMap(row => {
+	val rand=new Random(System.nanoTime)
+	for {k <- 1 until num} yield row.toString+" "+ k.toString+" "+ rand.nextInt(3).toString
+})
+a.saveAsTextFile("/a1000")
+b.saveAsTextFile("/b1000")
