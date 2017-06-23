@@ -1624,8 +1624,7 @@ In some applications, the dependency probability is not 100\% but
 is still large enough for applying CKP.
 We illustrate the techniques for finding the key dependency of iterative
 distributed operations with the real-life application examples from 
-different fields, 
-namely MovieLensALS, GoogleAlbum, MultiAdjacentList and KMeans.
+different fields.
 A summary of the CKP shuffle size improvements to the distributed applications discussed below is shown in Table~\ref{table:reduction}.
 
 \begin{table}[!t]
@@ -1727,7 +1726,7 @@ the link list of a URL is represented as $\langle url, links \rangle$,
 and the rank of a URL is $\langle url, rank \rangle$. 
 These two datasets are joined to entries 
 like $\langle url, (links, rank) \rangle$ in multiple iterations.
-The key dependency is $url \Rightarrow_{1} url$ for both datasets.
+The key dependency is $url \Rightarrow_{1} url$ for both datasets (Fig.~\ref{fig:application}(c)).
 Note that the link list dataset is loaded from a distributed 
 file system initially and it has not been partitioned 
 by its key $url$. 
@@ -1760,7 +1759,7 @@ The transform operation
 generates a group of new lists of length $i+1$ by appending each head
 node and each tail node to it. Each new list acts as the key and
 its new head nodes and tail nodes act as the value.
-The iterative transformation of the data in algorithm MultiAdjacentList is shown in Fig.~\ref{fig:application}(c).
+The iterative transformation of the data in algorithm MultiAdjacentList is shown in Fig.~\ref{fig:application}(d).
 
 For any input key $L_i$ in iteration $i$, key dependencies 
 are $L_i \Rightarrow_{pr_{j}} (head_{j}, L_i)$ and 
@@ -1770,7 +1769,7 @@ or tail nodes. Therefore, values of $pr_{j1}$ and $pr_{j2}$ can be
 small and benefits of applying CKP based on these 
 key dependencies is little.
 But if we inverse the direction of key flow as 
-in Fig.~\ref{fig:application}(d), we have new key dependencies with 
+in Fig.~\ref{fig:application}(e), we have new key dependencies with 
 dependency probability of 0.5. 
 The key dependencies of the inversed key flow 
 reflects the fact that
@@ -1810,7 +1809,7 @@ A point is always transfromed to an entry with its cluster centroid as the key i
 % One point that is grouped into one cluster in a iteration can be grouped into another cluster in the next iteration. 
 % We estimate the shuffle size in this case. 
 
-Key dependency exists in each cluster iteration of the KMeans algorithm (Fig.~\ref{fig:application}(e)).
+Key dependency exists in each cluster iteration of the KMeans algorithm (Fig.~\ref{fig:application}(f)).
 % We can observe the key dependency: 
 % $\forall i > j, \forall p_i: p_i \Rightarrow_{pr_{ij}} centroid_j(p_i)$.
 In CKP, we choose a specific iteration $j$, and bind key partitions of 
