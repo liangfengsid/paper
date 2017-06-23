@@ -280,6 +280,12 @@
 \newcommand{\removelatexerror}{\let\@latex@error\@gobble}
 \makeatother
 
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0,0,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
 
 % *** FLOAT PACKAGES ***
 %
@@ -427,7 +433,7 @@ Heming~Cui,~\IEEEmembership{Member,~IEEE},
 and~Cho-Li~Wang,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
 \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem F. Liang, F.C.M. Lau,
 H. Cui and C.-L. Wang are with Department
-of Computer Science, The University of Hong Kong, Hong Kong SAR.\protect\\
+of Computer Science, The University of Hong Kong.\protect\\
 % note need leading \protect in front of \\ to get a newline within \thanks as
 % \\ is fragile and will error, could use \hfil\break instead.
 E-mail: F.~Liang- loengf@connect.hku.hk, %\protect\\
@@ -1642,6 +1648,9 @@ MovieLensALS  & \# of $(user,item)$ entries  \\%; input file size 640 MB
 \hline
 GoogleAlbum & \# of album entries and user entries \\
 \hline
+PageRank & volume of link lists of all URL's \\
+& in every join iteration\\
+\hline
 MultiAdjacentList  & 1/2 the RKP shuffle size in every iteration \\
 \hline
 KMeans & $|A| \cdot \sum_{i=j+1}^{m} p_{ij}$ \tnote{1} \\
@@ -1660,7 +1669,7 @@ KMeans & $|A| \cdot \sum_{i=j+1}^{m} p_{ij}$ \tnote{1} \\
 \centering
 \includegraphics[width=2\columnwidth]{figure4}
 \caption{The Transformation Lineage of Keys between Iterations 
-and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Dashed Rhombus Boxes
+and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Iterations Wrapped in Dashed Rhombus Boxes
 }
 \label{fig:application}
 %\vspace{-0.2in}
@@ -1692,7 +1701,7 @@ and the shuffle size generating the item block in iteration 3
 is the same of that of RKP.
 
 
-\subsection{GoogleAlbum}
+\subsection{GoogleAlbum and PageRank}
 CKP can usually be applied to \emph{join} operations in distributed databases.
 For example, in a Google album application~\cite{google2012spanner}, 
 an entry in table Users is identified by primary key ``$uid$''
@@ -1712,6 +1721,32 @@ Spanner~\cite{google2012spanner} uses the similar notion of
 hierarchical schema to maintain data locality in the distributed database. 
 The hierarchical schema specifies data locations once when persisting data in storage, 
 while CKP specifies the data locations iteratively during the computing procedure of a distributed operation.
+
+Similarly in the famous PageRank algorithm, 
+the link list of a URL is represented as $\langle url, links \rangle$,
+and the rank of a URL is $\langle url, rank \rangle$. 
+These two datasets are joined to entries 
+like $\langle url, (links, rank) \rangle$ in multiple iterations.
+The key dependency is $url \Rightarrow_{1} url$ for both datasets.
+Note that the link list dataset is loaded from a distributed 
+file system initially and it has not been partitioned 
+by its key $url$. 
+Without CKP, entries with key $url_0$ in the link list dataset need
+to be transfered to the partition of key $url_0$ in every iteration.
+In CKP, by binding partition of input key $url$ to mapped key $url$, 
+the link list dataset is partitioned by its key $url$ first.
+Therefore, the link list and the rank with the same URL 
+are on the same node in every iteration, 
+and no shuffle network traffic incurs in these $join$ operations. 
+This partition optimization is also suggested in the usage 
+of RDD~\cite{zaharia2012resilient}, 
+we formalize it here by the concept of key dependency.
+% Though binding partitions of input key $url$ to mapped key $url$ 
+% seems trivial, as the link list dataset is loaded from a distributed 
+% file system initially and it has not been partitioned 
+% by it key $url$, we must apply this key partition binding by 
+% partitioning the link list dataset by it key $url$ first.
+
 
 \subsection{MultiAdjacentList}
 MultiAdjacentList~\cite{multiAdjList} is
@@ -1764,7 +1799,8 @@ This procedure is done in a dedicated number of iterations.
 With the initial $k$ chosen points regarded as centroids of the clusters, 
 in each iteration, every point is compared with the $k$ centroids and is grouped into a cluster where the Euclidean distance between the point and the centroid is the smallest. 
 After all points are grouped, each new cluster centroid is chosen in the next iteration by the mean of the points in that cluster. 
-To calculate the mean of each cluster whose points are located in different nodes, the shuffle operation takes place to partition points of the same cluster to one node.
+To calculate the mean of each cluster whose points are located in different nodes, the shuffle operation takes place to partition points of the same cluster to one node. 
+A point is always transfromed to an entry with its cluster centroid as the key in every iteration. 
 
 % If the points are bound to the same cluster in every iteration, 
 % by using the key dependency $points \Rightarrow centers$ 
@@ -1775,20 +1811,26 @@ To calculate the mean of each cluster whose points are located in different node
 % We estimate the shuffle size in this case. 
 
 Key dependency exists in each cluster iteration of the KMeans algorithm (Fig.~\ref{fig:application}(e)).
-Suppose in iteration $i$, 
-$pr_{ij}$ is the probability of that any point $p_i$ is grouped 
-into the same cluster as it was grouped into in a previous iteration $j$ ($j < i$), where the cluster is denoted as $centroid_j(p_i)$,
-We can observe the key dependency: 
-$\forall i > j, \forall p_i: p_i \Rightarrow_{pr_{ij}} centroid_j(p_i)$.
-We can bind key partitions based on this key dependency 
-in each iteration starting from iteration $j+1$. 
-It can be interpreted as: if a point is partitioned to a cluster 
-in an iteration, 
-we bind its partition to that of this cluster afterwards,
+% We can observe the key dependency: 
+% $\forall i > j, \forall p_i: p_i \Rightarrow_{pr_{ij}} centroid_j(p_i)$.
+In CKP, we choose a specific iteration $j$, and bind key partitions of 
+the points based on the key dependency $point \Rightarrow_1 centroid_j(point)$
+in iteration $j$.
+% We can bind key partitions based on this key dependency 
+% in each iteration starting from iteration $j+1$. 
+As all iterations use the same copy of the point dataset,
+the binding can be interpreted as: if a point is partitioned to a cluster 
+in an iteration $j$, 
+we bind its partition to this cluster afterwards,
 regardless of which cluster it will be actually grouped into in the following transform operations.
 
-CKP reduces the shuffle size by a percentage of $pr_{ij}$ in each iteration after iteration $j$. 
-One point grouped into a cluster in iteration $j$ can be grouped into another cluster in other iterations. 
+We can predicate the shuffle size after apply CKP.
+Suppose in iteration $i, i > j$, 
+$pr_{ij}$ is the probability of that any point is grouped 
+into the same cluster as it was grouped into in a previous iteration $j$.
+% , where the cluster is denoted as $centroid_j(p_i)$.
+CKP reduces the shuffle size by a percentage of $pr_{ij}$ in each iteration $i$, $i>j$. 
+% One point grouped into a cluster in iteration $j$ can be grouped into another cluster in other iterations. 
 The value of $pr_{ij}$ is affected by the input dataset, initial
 centroids of the clusters, and the value of $j$, 
 i.e., from which iteration on point partitions are bound to clusters.
@@ -1797,6 +1839,7 @@ the value of $pr_{ij} (i > j)$ tends to be higher.
 But accordingly, the number of iterations that apply key partition 
 binding is smaller. 
 Programmers may need to tune the value and make a trade-off then. 
+In our implementation in Section~\ref{section:implement}, we choose $j$ to 1.
 
 
 % \red{
@@ -1822,6 +1865,7 @@ Programmers may need to tune the value and make a trade-off then.
 
 
 \begin{table*}[!t]
+\centering
 \begin{threeparttable}[b]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1}
@@ -1832,7 +1876,7 @@ Programmers may need to tune the value and make a trade-off then.
 % Some packages, such as MDW tools, offer better commands for making tables
 % than the plain LaTeX2e tabular which is used here.
 %\begin{tabular}{|c||c|c|}
-\begin{tabularx}{1\textwidth}{ c || c |c  }
+\begin{tabularx}{.85\textwidth}{ c || c |c  }
 \hline
 \textbf{Distributed Operations} & \textbf{Key Dependency} & \textbf{Key Mapping Function} \\
 \hline
@@ -1842,15 +1886,18 @@ MovieLensALS  &$(userId,itemId) \Rightarrow_{1} userId$ & (a:Any) $=>$ a match \
 \hline
 GoogleAlbum  &$(uid,(uid,aid)) \Rightarrow_{1} uid$ & (a:Any) $=>$ a match \{case (\_ , \_) $=>$ a.\_1\} \\%; input file size 640 MB 
 \hline
+PageRank  &$url \Rightarrow_{1} url$ & (a:Any) $=>$ a match \{case \_ $=>$ a\} \\%; input file size 640 MB 
+\hline
 MultiAdjacentList  & $(list, tail) \Rightarrow_{0.5} list$ & (a:Any) $=>$ a match \{case s:String $=>$ \{s.split(" ")(0) \}\}\\
 \hline
-KMeans & $point \Rightarrow_{pr} centroid_1(point)$ & (a:Any) $=>$ a match \{case point:Vector[Double] $=>$ closestPoint(point, centroids$_1$)\tnote{1}\\
+KMeans & $point \Rightarrow_1 centroid_1(point)$ & (a:Any) $=>$ a match \{case \_ $=>$ closestPoint(a, centroids$_1$)\tnote{1}\\
 \hline
 \end{tabularx}
 %\end{tabular}
 \begin{tablenotes}
     \item[1] $centroid_1(point)$ stands for the index of the centroid point that the $point$ is grouped to in the first iteration.
-    closestPoint(point, centroids$_1$) is the function which returns the index of the point in ``centroids$_1$'' that is in the shortest Euclidean distance with ``point''. The ``centroids$_1$'' are the cluster centroids of the first iteration. 
+    closestPoint(a, centroids$_1$) is the function which returns the cluster 
+    of point ``a'', that is, the index of the point in ``centroids$_1$'' that is in the shortest Euclidean distance with ``a''. The ``centroids$_1$'' are the cluster centroids of the first iteration. 
   \end{tablenotes}
 \end{threeparttable}
 \end{table*}
@@ -1994,22 +2041,92 @@ The mapped key is hashed based on the number of partitions
 and the hash value decides the partition of this input entry. 
 In this way, all input entries whose returned key by the mapping function are the same are partitioned to the same node.
 
+\lstset{
+  language=Scala,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  % numberstyle=\tiny\color{gray},
+  keywordstyle=\color{gray},
+  % commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
 To apply CKP in a shuffle operation, programmers only need 
 add a ConfluencePartitioner with the corresponding 
 mapping function as the partitioner. 
 The code looks like:
-\begin{equation*}\label{eq:confluencePartitioner}
-\begin{aligned}
-data.shuffleOperation (new\ ConfluencePartitioner \\
-(numPartitions, mappingFunction))
-\end{aligned}
-\end{equation*}
-, where the ``data'' is often an RDD in Spark and the ``shuffleOperation'' is any shuffle function that repartition distributed data, such as $reduceByKey$ or $join$. 
-Fig.~\ref{fig:alscode} shows the code of using ConfluencePartitioner
-to apply CKP in MovieLensALS, where only the single line of code 
-in bold is added to the original algorithm.
+\begin{lstlisting}
+data.shuffleOp (new ConfluencePartitioner 
+    (numPartitions, mappingFunction));
+\end{lstlisting}
+, where ``data'' is often an RDD in Spark and ``shuffleOp'' is any shuffle function that repartition distributed data, such as $reduceByKey$ or $join$. 
+Fig.~\ref{fig:code} shows the code of using ConfluencePartitioner
+to apply CKP in MovieLensALS and KMeans.
+Only the single line of code is added in MovieLensALS to apply CKP.
+In KMeans, the partition of a point are bound to its cluster 
+centroid in a specific iteration $j$.
 This line of code binds the partition of key $(userId, itemId)$
 to that of key $userId$ when creating the user-item block data.
+
+\lstset{
+  language=Scala,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  % frame=single,
+  xleftmargin=1.5em,
+  % framexleftmargin=1.5em,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+\begin{figure}[!t]
+\removelatexerror
+\begin{lstlisting}
+/**** Original MovieLensALS ****/
+val userPart = new HashPartitioner(16)
+ratings.mapPartitions{...}
+         .groupByKey(userPart).mapValues{...}
+
+/**** MovieLensALS applying CKP ****/
+val userFunc = (a:Any) => {a match {case (_,_) => a._1}}
+val userPart = new ConfluencePartitioner(16, userFunc)
+ratings.mapPartitions{...}
+         .groupByKey(userPart).mapValues{...}
+
+/**** Original KMeans ****/
+while(notConverge && i < maxIter){
+  val closest = points.map(...)
+  centroids = closest.reduceByKey(...)...
+}
+
+/**** KMeans applying CKP ****/
+while(notConverge && i < maxIter){
+  if (i == j){
+    val mapFunc = (a:Any) => {a match {
+      case _ => closestPoint(a, centroids)}}
+    val part = new ConfluencePartitioner(16, mapFunc)
+    points = points.reduceByKey(part, (a,b)=>1).cache()
+  }
+  val closest = points.map(...)
+  centroids = closest.reduceByKey(...)...
+}
+
+\end{lstlisting}
+\caption{Code Comparison after using the ConfluencePartitioner Interface to apply CKP in MovieLensALS and KMeans}
+\label{fig:code}
+\end{figure}
 
 Table~\ref{table:code} lists the mapping functions of different distributed operations mentioned above in Scala programming language.
 
@@ -2652,6 +2769,7 @@ Spark job scheduling: Dagscheduler. [Online]. Available:
 % simpler here.)
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
+\newpage
 
 \vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
@@ -2659,20 +2777,20 @@ received the BS degree in software engineering from Nanjing University in 2012, 
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 
-\vspace{-.5in}
+\vspace{-1.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
 received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
 computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
 [homepage] i.cs.hku.hk/\%7Efcmlau
 \end{IEEEbiography}
 
-\vspace{-.5in}
+\vspace{-1.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author3}}]{Heming Cui}
 is an assistant professor in Computer Science of HKU. His research interests are in operating systems, programming languages, distributed systems, and cloud computing, with a particular focus on building software infrastructures and tools to improve reliability and security of real-world software. 
 [homepage] i.cs.hku.hk/\%7Eheming
 \end{IEEEbiography}
 
-\vspace{-.5in}
+\vspace{-1.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author4}}]{Cho-Li Wang}
 is currently a Professor in the Department of Computer Science at The
 University of Hong Kong. He graduated with a B.S. degree in Computer Science and

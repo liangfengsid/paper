@@ -62,39 +62,39 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}MovieLensALS}{6}}
 \citation{google2012spanner}
 \citation{google2012spanner}
+\citation{zaharia2012resilient}
 \citation{multiAdjList}
-\citation{kmeans}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Transformation Lineage of Keys between Iterations and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Dashed Boxes }}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Transformation Lineage of Keys between Iterations and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Iterations Wrapped in Dashed Rhombus Boxes }}{7}}
 \newlabel{fig:application}{{2}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}GoogleAlbum}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}GoogleAlbum and PageRank}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}MultiAdjacentList}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}KMeans}{7}}
+\citation{kmeans}
 \citation{dean2008mapreduce}
 \citation{ekanayake2010twister}
 \citation{bu2010haloop}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}KMeans}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Limitations Applying Confluence}{8}}
 \newlabel{section:limitation}{{4.5}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Implementation}{8}}
 \newlabel{section:implement}{{5}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Binding Partition and Executor in Spark}{8}}
-\citation{gideon}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Key Mapping Functions of ConfluencePartitioner in Different Iterative Distributed Operations}}{9}}
 \newlabel{table:code}{{3}{9}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmark Settings}}{9}}
-\newlabel{table:benchmark}{{4}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Confluence Partitioner Interface}{9}}
-\newlabel{eq:confluencePartitioner}{{5.2}{9}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{9}}
-\newlabel{section:evaluation}{{6}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Testbed and Benchmarks}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Metrics}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Code Comparison after using the ConfluencePartitioner Interface to apply CKP in MovieLensALS and KMeans}}{9}}
+\newlabel{fig:code}{{3}{9}}
+\citation{gideon}
 \citation{zaharia2012resilient}
-\citation{gunarathne2013scalable,zaharia2012resilient,bu2010haloop,ekanayake2010twister}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{10}}
-\newlabel{fig:size}{{3}{10}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmark Settings}}{10}}
+\newlabel{table:benchmark}{{4}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{10}}
+\newlabel{section:evaluation}{{6}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Testbed and Benchmarks}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Metrics}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Shuffle Size Improvement}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Scalability}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{10}}
+\newlabel{fig:size}{{4}{10}}
+\citation{gunarathne2013scalable,zaharia2012resilient,bu2010haloop,ekanayake2010twister}
 \citation{bekkerman2011scaling}
 \citation{kiran2013verification,mensink2012metric}
 \citation{buluc2012parallel,ballard2012communication}
@@ -103,16 +103,16 @@
 \citation{zhou2010scope,zhang2012shuffle}
 \citation{zhang2012shuffle}
 \citation{zhou2010scope}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
+\newlabel{fig:sizeLine}{{5}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Scalability}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{11}}
+\newlabel{section:relatedWork}{{7}{11}}
 \citation{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}
 \citation{dean2008mapreduce,zaharia2008improving}
 \citation{kwon2010skew,kwon2012skewtune}
 \citation{Harlap:2016:ASP}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
-\newlabel{fig:sizeLine}{{4}{11}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{11}}
-\newlabel{section:relatedWork}{{7}{11}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{11}}
-\newlabel{section:conclusion}{{8}{11}}
 \bibcite{Malewicz:2010:PSL}{1}
 \bibcite{Ousterhout2015MSP}{2}
 \bibcite{Lu:2014:LDG}{3}
@@ -139,6 +139,9 @@
 \bibcite{kmeans}{24}
 \bibcite{gideon}{25}
 \bibcite{google2012spanner}{26}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{12}}
+\newlabel{section:conclusion}{{8}{12}}
+\@writefile{toc}{\contentsline {section}{References}{12}}
 \bibcite{zhou2010scope}{27}
 \bibcite{zhang2012shuffle}{28}
 \bibcite{gunarathne2013scalable}{29}
@@ -157,7 +160,6 @@
 \bibcite{kwon2012skewtune}{42}
 \bibcite{Harlap:2016:ASP}{43}
 \bibcite{spark-dagscheduler}{44}
-\@writefile{toc}{\contentsline {section}{References}{12}}
 \@writefile{toc}{\contentsline {section}{Biographies}{13}}
 \@writefile{toc}{\contentsline {subsection}{Feng Liang}{13}}
 \@writefile{toc}{\contentsline {subsection}{Francis C.M. Lau}{13}}
