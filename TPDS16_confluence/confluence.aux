@@ -2,13 +2,13 @@
 \citation{Malewicz:2010:PSL,Lu:2014:LDG}
 \citation{thusoo2009hive,Yu:2008:DSG,Armbrust:2015:SSR}
 \citation{low2012distributed,kraska2013mlbase}
-\citation{vavilapalli2013apache}
-\citation{hindman2011mesos}
+\citation{dean2008mapreduce}
 \citation{isard2007dryad}
 \citation{thusoo2009hive,Yu:2008:DSG}
 \citation{dean2008mapreduce}
 \citation{shvachko2010hadoop}
 \citation{chen2011case}
+\citation{Ousterhout2015MSP}
 \citation{chowdhury2011managing,al2010hedera}
 \citation{zaharia2012resilient}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
@@ -20,81 +20,91 @@
 \citation{dean2008mapreduce}
 \citation{zaharia2012resilient}
 \citation{thusoo2009hive}
-\citation{sakellariou2004hybrid,zhao2006scheduling,isard2007dryad}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Model and Definition}{3}}
 \newlabel{section:background}{{2}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Iterative Distributed Operations}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Dependency Graph}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Iterative Shuffle Size}{3}}
-\newlabel{section:model}{{2.3}{3}}
-\newlabel{eq:m}{{1}{3}}
-\newlabel{eq:r}{{2}{3}}
-\newlabel{eq:si}{{3}{3}}
-\newlabel{eq:s}{{4}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Iterative Shuffle Size}{3}}
+\newlabel{section:model}{{2.2}{3}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Symbol Reference}}{3}}
+\newlabel{table:symbol}{{1}{3}}
+\newlabel{eq:t}{{2.2}{3}}
+\newlabel{eq:s}{{2.2}{3}}
+\newlabel{eq:gi}{{2.2}{3}}
+\newlabel{eq:g}{{1}{3}}
+\citation{zaharia2012resilient}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Confluence Key Dependency}{4}}
+\newlabel{section:dependency}{{2.3}{4}}
+\newlabel{eq:dependency}{{2}{4}}
+\newlabel{eq:dependencyDefine}{{2.3}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Random Key Partitioning}{4}}
+\newlabel{section:rkp}{{2.4}{4}}
+\newlabel{eq:rkp_gi}{{3}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Confluence}{4}}
-\newlabel{section:keyDependencyGraph}{{3}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Key Dependency}{4}}
-\newlabel{section:dependency}{{3.1}{4}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Construction of the Key Dependency Graph}}{4}}
-\newlabel{algo:KDG}{{1}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Pseudo Code of Constructing the Key Dependency Graph}}{4}}
-\newlabel{fig:KDG}{{2}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Key Dependency Graph}{4}}
-\newlabel{section:kdg}{{3.2}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Properties of Confluence Subgraph}{5}}
-\newlabel{thm:upwardClosure}{{1}{5}}
-\newlabel{thm:zeroTransfer}{{1.1}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A Key Dependency Graph Example}}{5}}
-\newlabel{fig:keyDependencyGraph}{{3}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Confluence Key Partitioning}{5}}
-\newlabel{section:CKP}{{3.4}{5}}
-\newlabel{eq:si2}{{5}{6}}
-\newlabel{thm:siTheorem}{{2}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Workload Skew Analysis}{6}}
-\newlabel{section:skew}{{3.5}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Affect of Inaccurate KDG}{6}}
-\newlabel{section:inaccurate}{{3.6}{6}}
+\newlabel{section:confluence}{{3}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Key Partition Binding}{4}}
+\newlabel{section:binding}{{3.1}{4}}
+\newlabel{thm:binding}{{3.1}{4}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Enhanced Key Partitioning Scheme X}}{5}}
+\newlabel{algo:x}{{1}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Confluence Key Partitioning}{5}}
+\newlabel{section:ckp}{{3.2}{5}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Confluence Key Partitioning}}{5}}
+\newlabel{algo:CKP}{{2}{5}}
+\citation{movielensals}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Workload Skewness Analysis}{6}}
+\newlabel{section:skew}{{3.3}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Affect of Inaccurate Key Dependency}{6}}
+\newlabel{section:inaccurate}{{3.4}{6}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces CKP Shuffle Size Reduction in Different Distributed Operations}}{6}}
+\newlabel{table:reduction}{{2}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Application}{6}}
 \newlabel{section:application}{{4}{6}}
-\citation{movielensals}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}MovieLensALS}{6}}
+\citation{google2012spanner}
+\citation{google2012spanner}
+\citation{zaharia2012resilient}
 \citation{multiAdjList}
 \citation{kmeans}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces CKP Shuffle Size Improvements in Different Distributed Operations}}{7}}
-\newlabel{table:skew}{{1}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}MovieLensALS}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}MultiAdjacentList}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}KMeans}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Original (Suffixed by \_O) and Divided (Suffixed by \_D) Iterative Evolution of the Datasets of the MovieLensALS and MultiAdjacentList Applications. The Keys of the Datasets are Marked by Parenthesis. Pure Confluence Subgraphs can be Found in the Computing Iterations in the Dashed Boxes }}{8}}
-\newlabel{fig:alsDivision}{{4}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Transformation Lineage of Keys between Iterations and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Iterations Wrapped in Dashed Rhombus Boxes }}{7}}
+\newlabel{fig:application}{{2}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}GoogleAlbum and PageRank}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}MultiAdjacentList}{7}}
+\citation{dean2008mapreduce}
+\citation{ekanayake2010twister}
+\citation{bu2010haloop}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}KMeans}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Limitations Applying Confluence}{8}}
+\newlabel{section:limitation}{{4.5}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Implementation}{8}}
 \newlabel{section:implement}{{5}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Map-Side Combine}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Confluence in Hadoop}{8}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces User-Defined Functions of ConfluencePartitioner in Different Distributed Operations}}{9}}
-\newlabel{table:code}{{2}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Binding Partition and Executor in Spark}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Automating Confluence}{9}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{9}}
-\newlabel{section:evaluation}{{6}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Binding Partition and Executor in Spark}{8}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Key Mapping Functions of ConfluencePartitioner in Different Iterative Distributed Operations}}{9}}
+\newlabel{table:code}{{3}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Confluence Partitioner Interface}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Code Comparison after using the ConfluencePartitioner Interface to apply CKP in MovieLensALS and KMeans}}{9}}
+\newlabel{fig:code}{{3}{9}}
 \citation{gideon}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Benchmark Settings}}{10}}
-\newlabel{table:benchmark}{{3}{10}}
+\citation{zaharia2012resilient}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmark Settings}}{10}}
+\newlabel{table:benchmark}{{4}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{10}}
+\newlabel{section:evaluation}{{6}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Testbed and Benchmarks}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Metrics}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Shuffle Sizes Improvement}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Shuffle Sizes of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{10}}
-\newlabel{fig:size}{{5}{10}}
-\citation{gunarathne2013scalable,bu2010haloop,ekanayake2010twister}
-\citation{zaharia2012resilient}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Shuffle Size Improvement}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{10}}
+\newlabel{fig:size}{{4}{10}}
+\citation{gunarathne2013scalable,zaharia2012resilient,bu2010haloop,ekanayake2010twister}
 \citation{bekkerman2011scaling}
 \citation{kiran2013verification,mensink2012metric}
 \citation{buluc2012parallel,ballard2012communication}
 \citation{Sarma:2013:ULB}
 \citation{faraz2014shufflewatcher}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Standard Deviations (SD) of the Shuffle Sizes of the Executors of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{11}}
-\newlabel{fig:SD}{{6}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Overall Shuffle Size of the Pure-Confluence-Subgraphs-Related Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
-\newlabel{fig:sizeLine}{{7}{11}}
+\citation{zhou2010scope,zhang2012shuffle}
+\citation{zhang2012shuffle}
+\citation{zhou2010scope}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
+\newlabel{fig:sizeLine}{{5}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Scalability}{11}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{11}}
@@ -103,50 +113,53 @@
 \citation{dean2008mapreduce,zaharia2008improving}
 \citation{kwon2010skew,kwon2012skewtune}
 \citation{Harlap:2016:ASP}
-\citation{sakellariou2004hybrid,zhao2006scheduling,spark-dagscheduler,isard2007dryad}
 \bibcite{Malewicz:2010:PSL}{1}
-\bibcite{Lu:2014:LDG}{2}
-\bibcite{thusoo2009hive}{3}
-\bibcite{Yu:2008:DSG}{4}
-\bibcite{Armbrust:2015:SSR}{5}
-\bibcite{low2012distributed}{6}
-\bibcite{kraska2013mlbase}{7}
-\bibcite{vavilapalli2013apache}{8}
-\bibcite{hindman2011mesos}{9}
+\bibcite{Ousterhout2015MSP}{2}
+\bibcite{Lu:2014:LDG}{3}
+\bibcite{thusoo2009hive}{4}
+\bibcite{Yu:2008:DSG}{5}
+\bibcite{Armbrust:2015:SSR}{6}
+\bibcite{low2012distributed}{7}
+\bibcite{kraska2013mlbase}{8}
+\bibcite{vavilapalli2013apache}{9}
 \bibcite{isard2007dryad}{10}
-\bibcite{dean2008mapreduce}{11}
+\bibcite{white2012hadoop}{11}
+\bibcite{dean2008mapreduce}{12}
+\bibcite{shvachko2010hadoop}{13}
+\bibcite{chen2011case}{14}
+\bibcite{chowdhury2011managing}{15}
+\bibcite{al2010hedera}{16}
+\bibcite{bu2010haloop}{17}
+\bibcite{zaharia2012resilient}{18}
+\bibcite{ekanayake2010twister}{19}
+\bibcite{sakellariou2004hybrid}{20}
+\bibcite{zhao2006scheduling}{21}
+\bibcite{movielensals}{22}
+\bibcite{multiAdjList}{23}
+\bibcite{kmeans}{24}
+\bibcite{gideon}{25}
+\bibcite{google2012spanner}{26}
 \@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{12}}
 \newlabel{section:conclusion}{{8}{12}}
 \@writefile{toc}{\contentsline {section}{References}{12}}
-\bibcite{shvachko2010hadoop}{12}
-\bibcite{chen2011case}{13}
-\bibcite{chowdhury2011managing}{14}
-\bibcite{al2010hedera}{15}
-\bibcite{bu2010haloop}{16}
-\bibcite{zaharia2012resilient}{17}
-\bibcite{ekanayake2010twister}{18}
-\bibcite{sakellariou2004hybrid}{19}
-\bibcite{zhao2006scheduling}{20}
-\bibcite{movielensals}{21}
-\bibcite{multiAdjList}{22}
-\bibcite{kmeans}{23}
-\bibcite{gideon}{24}
-\bibcite{gunarathne2013scalable}{25}
-\bibcite{bekkerman2011scaling}{26}
-\bibcite{kiran2013verification}{27}
-\bibcite{mensink2012metric}{28}
-\bibcite{buluc2012parallel}{29}
-\bibcite{ballard2012communication}{30}
-\bibcite{Sarma:2013:ULB}{31}
-\bibcite{faraz2014shufflewatcher}{32}
-\bibcite{greenberg2009vl2}{33}
-\bibcite{popa2012faircloud}{34}
-\bibcite{shieh2011sharing}{35}
-\bibcite{zaharia2008improving}{36}
-\bibcite{kwon2010skew}{37}
-\bibcite{kwon2012skewtune}{38}
-\bibcite{Harlap:2016:ASP}{39}
-\bibcite{spark-dagscheduler}{40}
+\bibcite{zhou2010scope}{27}
+\bibcite{zhang2012shuffle}{28}
+\bibcite{gunarathne2013scalable}{29}
+\bibcite{bekkerman2011scaling}{30}
+\bibcite{kiran2013verification}{31}
+\bibcite{mensink2012metric}{32}
+\bibcite{buluc2012parallel}{33}
+\bibcite{ballard2012communication}{34}
+\bibcite{Sarma:2013:ULB}{35}
+\bibcite{faraz2014shufflewatcher}{36}
+\bibcite{greenberg2009vl2}{37}
+\bibcite{popa2012faircloud}{38}
+\bibcite{shieh2011sharing}{39}
+\bibcite{zaharia2008improving}{40}
+\bibcite{kwon2010skew}{41}
+\bibcite{kwon2012skewtune}{42}
+\bibcite{Harlap:2016:ASP}{43}
+\bibcite{spark-dagscheduler}{44}
 \@writefile{toc}{\contentsline {section}{Biographies}{13}}
 \@writefile{toc}{\contentsline {subsection}{Feng Liang}{13}}
 \@writefile{toc}{\contentsline {subsection}{Francis C.M. Lau}{13}}
