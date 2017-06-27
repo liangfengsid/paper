@@ -554,8 +554,8 @@ We model general iterative distributed operations as the transform-and-shuffle p
 precisely capture the data relation in the primitive.
 We further find that by binding key partitions between different 
 iterations based on the Confluence key dependency, 
-the shuffle network traffic can always be reduced with a 
-predicable value.
+the shuffle network traffic can always be reduced by a 
+predictable percentage.
 % a new data structure called Key Dependency Graph (KDG) to capture relevant keys for general iterative distributed applications. 
 We implement the Confluence system, which automatically generates an efficient key partitioning scheme for iterative distributed operations.
  % from the Confluence key dependency.
@@ -743,7 +743,7 @@ to an output dataset.
 The Confluence key dependency is simple in form and easy to define in iterative distributed operations.
 We further find that by using the technique of key partition binding 
 based on the Confluence key dependency, the shuffle size 
-always decreases with a predictable value, 
+always decreases by a predictable percentage, 
 and sometimes can be even eliminated.
 Compared to other partition optimization approaches~\cite{zhou2010scope, zhang2012shuffle} 
 which support specific types of data exchange patterns, 
@@ -782,7 +782,7 @@ in the program.
 We illustrate with analysis and experiment to real-life applications 
 to show that by applying the CKP scheme, 
 the shuffle size of multiple computing
-iterations reduces significantly with a predictable percentage, 
+iterations reduces significantly by a predictable percentage, 
 e.g., 100\% shuffle size reduction in an iteration of the MovieLensALS algorithm. 
 As a result, CKP can reduce the completion time of an iteration by about 59\%
 and the overall completion time of a job by about 23\%. 
@@ -795,7 +795,7 @@ and the overall completion time of a job by about 23\%.
 To the best of our knowledge, we are the first to 
 represent the logic of iterative distributed operations
 by key dependency, and the first to reduce the 
-shuffle size with a predictable value by considering the key dependency 
+shuffle size by a predictable percentage by considering the key dependency 
 across multiple iterations in a key partitioning scheme.
 %\textcolor{red}{Performance}
 Our major contributions are listed as follows.
@@ -2138,7 +2138,7 @@ the workload skewness always readjusts to balanced.
 We have presented the Confluence Key Partitioning (CKP) scheme, the first work on reducing the shuffle size of
 iterative distributed operations based on the key dependency. 
 The key dependency precisely captures the logic of iterative distributed operations and CKP partitions data across different iterations by using the technique of key partition binding.
-CKP greatly reduces the overall shuffle size with a predictable value 
+CKP greatly reduces the overall shuffle size by a predictable percentage 
 while not introducing the workload skewness side effects
 for a variety of distributed applications
 in fields such as scientific computing, machine learning, and data
