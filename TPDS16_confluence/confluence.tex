@@ -561,11 +561,12 @@ We implement the Confluence system, which automatically generates an efficient k
  % from the Confluence key dependency.
 % where developers presents the Confluence key dependency for an iterative distributed operation, 
 % and Confluence automatically generates an efficient key partitioning scheme from the KDG.
-Confluence is widely applicable to real-life applications in diverse fields,
+Confluence is widely applicable to real-life applications,
 %is widely applicable to distributed computing applications in the fields of
 %scientific computing, machine learning, data analysis, etc.
 and both analytical and experimental results show that Confluence
-can greatly reduce or even totally eliminate the shuffle network traffic.
+can greatly reduce or even totally eliminate the shuffle network traffic, 
+resulting in 23\% job completion time reduction.
 % while not affecting %increasing the skewness of the workload. 
 \end{abstract}
 
@@ -744,6 +745,10 @@ We further find that by using the technique of key partition binding
 based on the Confluence key dependency, the shuffle size 
 always decreases with a predictable value, 
 and sometimes can be even eliminated.
+Compared to other partition optimization approaches~\cite{zhou2010scope, zhang2012shuffle} 
+which support specific types of data exchange patterns, 
+the Confluence key dependency 
+is more general and can be used in arbitrary types of distributed operations.
 % From the KDG, we can identify the subgraphs in which dataset
 % entries with the keys in the source nodes will only generate the dataset
 % entries with keys in the downstream nodes. We define such a subgraph
@@ -779,6 +784,8 @@ to show that by applying the CKP scheme,
 the shuffle size of multiple computing
 iterations reduces significantly with a predictable percentage, 
 e.g., 100\% shuffle size reduction in an iteration of the MovieLensALS algorithm. 
+As a result, CKP can reduce the completion time of an iteration by about 59\%
+and the overall completion time of a job by about 23\%. 
 %in polynomial time,
 % Note that CKP will not impact the workload skewness in most cases; 
 % that is, the standard deviation of the computing workloads of the
@@ -794,9 +801,9 @@ across multiple iterations in a key partitioning scheme.
 Our major contributions are listed as follows.
 
 \begin{itemize}
-% \setlength{\itemsep}{0pt}
-% \setlength{\parskip}{0pt}
-% \setlength{\parsep}{0pt}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
 \item \textbf{Precise}: 
 We invented the simple yet powerful notion of Confluence key dependency to precisely capture the logic of data transformation in iterative distributed operations. 
 We defined the transform-and-shuffle primitive that can generally describe all iterative distributed operations. 
@@ -824,11 +831,11 @@ programmers to apply CKP with one single line of code.
 
 The rest of the paper is organized as follows. 
 In Section~\ref{section:background}, 
-we introduce the model of iterative distributed operations and the 
+we model iterative distributed operations and the 
 iterative shuffle size, give the definition of Confluence 
 key dependency, and analyze the shuffle size of 
 the random key partitioning scheme based on the Confluence key dependency.
-We present the Confluence key partitioning scheme in Section~\ref{section:confluence}.
+We present the CKP in Section~\ref{section:confluence}.
 Section~\ref{section:application} introduces the application of CKP
 and its limitations, 
 and Section~\ref{section:implement} discusses 
@@ -1067,7 +1074,7 @@ it means that we are able to calculate $pr$ by the probability function
 $p$ for specific $k$ and $f(k)$.
 In the matrix multiplication example, we can easily deduce
 the key dependency of the second iteration: 
-$\forall i, j, p \in domain: (i, j, p) \Rightarrow_{1.0} (i, j)$.  
+$\forall i, j, p \in domain: (i, j, p) \Rightarrow_{1} (i, j)$.  
 Specially, the key mapping function is $f((i, j, p)) = (i, j)$.
 % it means that we know what the output key-value pairs will be 
 % for an input key-value pair in every computing iteration. 
@@ -1248,6 +1255,28 @@ we can define $(1, 0, p) \Rightarrow_{1} (1,0)$ for any $p$ in general.
 Or more generally, we can define $(i, j, p) \Rightarrow_{1} (i, j)$ 
 generally for any $i, j, p$. 
 
+\begin{figure}[!t]
+\removelatexerror
+
+\begin{algorithm}[H]
+\ForEach{iteration $i$}{
+  \tcc{Programmers decide that}
+  $b$ = Should iteration $i$ apply key partition binding? \\
+  \If{$b = True$}{
+    \tcc{$K$ is a key dependency set}
+    Find $\forall k, K =$ 
+    $\{ k \Rightarrow_{pr_j} f_j(k) | j = 1, 2, ..., \sum_j pr_j \leq 1 \}$ ; \\
+    Find $J$ such that $\forall j, pr_j \leq pr_{J}$; \\
+    $\forall k$, bind input key $k$ to mapped key $f_J(k)$;
+  }
+}
+
+\caption{Confluence Key Partitioning}
+\label{algo:CKP}
+\end{algorithm}
+\end{figure}
+
+
 A feature of CKP is that it allows a programmer to decide whether a specific iteration should apply key partition binding or not. 
 In some iterations, it may happen that programmers fail to find the key dependency, 
 or the maximum dependency probability of the key dependency set is very small, 
@@ -1286,28 +1315,6 @@ the CKP shuffle size is the same as that of RKP.
 In all, CKP reduces the shuffle size by a percentage of $pr_J$ in each 
 iteration that applies key partition binding. 
 When $pr_J$ equals 1 in an iteration, the shuffle size is 0 in that iteration.
-
-\begin{figure}[!t]
-\removelatexerror
-
-\begin{algorithm}[H]
-\ForEach{iteration $i$}{
-  \tcc{Programmers decide that}
-  $b$ = Should iteration $i$ apply key partition binding? \\
-  \If{$b = True$}{
-    \tcc{$K$ is a key dependency set}
-    Find $\forall k, K =$ 
-    $\{ k \Rightarrow_{pr_j} f_j(k) | j = 1, 2, ..., \sum_j pr_j \leq 1 \}$ ; \\
-    Find $J$ such that $\forall j, pr_j \leq pr_{J}$; \\
-    $\forall k$, bind input key $k$ to mapped key $f_J(k)$;
-  }
-}
-
-\caption{Confluence Key Partitioning}
-\label{algo:CKP}
-\end{algorithm}
-\end{figure}
-
 
 
 \subsection{Workload Skewness Analysis}\label{section:skew}
@@ -1694,50 +1701,57 @@ KMeans & $point \Rightarrow_1 centroid_1(point)$ & (a:Any) $=>$ a match \{case \
 \end{table*}
 
 \subsection{Limitations Applying Confluence}\label{section:limitation}
-CKP can be widely applied to reduce the shuffle size of the iterative
+CKP can be widely applied to reduce the shuffle size of iterative
 distributed paradigms that compute and store intermediate transformation outputs in
 local storages (including disk and memory), like Spark and Twister.
 However, we find it not applicable or directly applicable in the following 
-circumstances and we suggest solutions for these problems.
+circumstances and we suggest solutions for these limitations.
 
 First, CKP is not usually applicable for single-iteration distributed operations. 
 CKP requires that each key of a transformation input dataset have a partition location. 
 But in single-iteration distributed operations, input datasets are usually attained 
-from a distributed file system (e.g., HDFS~\cite{shvachko2010hadoop}), where data locations are not organized by their key partition locations. 
+from a distributed file system (e.g., HDFS~\cite{shvachko2010hadoop}), where data locations are not organized by their key partitions. 
 An alternative solution is to modify the mechanism of distributed file systems on choosing the
-partition locations of data blocks when storing data to a file.
-If a data entry is able to declare the preferred location as its key partition location, and if the distributed file system write the entry to its preferred location, the key partition locations of the dataset sustain and CKP can be applicable. 
+partitions of data blocks when storing data to a file.
+If a data entry is able to declare the preferred location as its key partition, and if the distributed file system writes the entry to its preferred location, the key partitions of the dataset sustain and CKP can be applicable. 
 
 Second, CKP is not applicable when intermediate transformation data change
 their partition location in iterative distributed operations. 
 CKP assumes that data would sustain the partition location during 
 transformation, which should be a local processing of data in each node 
-without cross-node data transfer.
+without cross-node data traffic.
 This assumption is violated when performing iterative distributed operations
-in distributed paradigms that relocate the data during transformation. 
+in distributed paradigms that relocate data during transformation. 
 For example, if we use MapReduce~\cite{dean2008mapreduce} to implement a iterative distributed operation, output data of the reduce phase are 
 stored into HDFS, where the data may be transfered to other nodes for persistence due to its internal mechanism. 
-A solution to this problem to use iterative distributed paradigms, such as Twister~\cite{ekanayake2010twister} and Haloop~\cite{bu2010haloop}, that retain the intermediate transformation data in local nodes. 
+A solution to this problem to use iterative distributed paradigms, such as Twister~\cite{ekanayake2010twister} and Haloop~\cite{bu2010haloop}, that retain intermediate transformation data in local nodes. 
 
-The third circumstance is that programmers fail to find the key dependency 
+The third circumstance is that programmers fail to define the key dependency 
 or the maximum dependency probability of the key dependency set 
 is small and trivial in all iterations. 
 The reason of the former case is either that 
 the programmers do not have enough information on the logic and input data of the distributed application to deduce the key dependency, 
 or that the key dependency is not clear by the nature of the distributed application. 
-the latter case happens when input keys are diversely mapped to lots of mapped
-keys during transformation. 
-Applying CKP in this case gains trivial shuffle size improvement. 
-A solution to this circumstance relies on programmers to discover 
+A solution to the former case relies on programmers to discover 
 key dependencies with large dependency probability, 
 usually in transform operations that reduce the dimensions of key tuples. 
 An example is the mapping from key $(userId, itemId)$ to $(userId)$ in the 
 MovieLensALS algorithm.
-When all dependency probabilities are small, the shuffle size improvement 
-of CKP can be very limited. 
+The latter case happens when input keys are diversely mapped to lots of mapped
+keys during transformation. 
+All dependency probabilities are usually small, and the shuffle size improvement 
+of CKP is limited in this case. 
+
+Besides, to apply CKP, all a programmer need to manually do is to provide a key 
+dependency by the procedure in Section~\ref{section:ckp}, and the rest is automated by the ConfluencePartitioner interface
+introduced later in Section~\ref{section:implement}. 
+After the algorithm of an application is changed, programmers need 
+to manually update the key dependency being applied accordingly. 
+Even if the key dependency was outdated, it only affects the shuffle size 
+reduction, as discussed in Section~\ref{section:inaccurate}. 
 
 \section{Implementation}\label{section:implement}
-This section introduces implementation details of binding partitions to executors to facilitate CKP and automating CKP in distributed frameworks.
+This section introduces implementation details of tying up partitions with executors to facilitate CKP and automating CKP in distributed frameworks.
 
 % \subsection{Local Combine Before Shuffling}
 % In practice, existing distributed frameworks can do local
@@ -1753,23 +1767,23 @@ This section introduces implementation details of binding partitions to executor
 % shuffle connections, which can be time-consuming.
 
 
-\subsection{Binding Partition and Executor in Spark}
-In the implementation of Spark, the partition is only a logical location where the task executes the dataset, while the logical locations of tasks are not tied up with the actual(physical) positions of the executors. 
+\subsection{Tying Partition and Executor in Spark}
+In the implementation of Spark, the partition is only a logical location where the task executes the dataset, while the logical locations of tasks are not tied up with the actual (physical) positions of the executors. 
 In other words, %if a dataset is assigned to the same partition, 
-the tasks working on the same partition are not guaranteed to be assigned to the same executor (or the same computer node) across different iterations, in which case shuffling of data is still needed. 
+the tasks working on the same partition are not guaranteed to be assigned to the same executor (or the same computer node) across different iterations, where data shuffling is still needed. 
 
-To amend the mismatch of the logical partition and the actual position of the executor, we implement the new feature in Spark to allow the binding of the task partitions and the executors. 
-The binding can be done in the hash manner. 
-In the default settings of the task scheduler of Spark, when an executor becomes free, the task scheduler selects the task with whichever partition from the head of task queue. The selected task will run in that executor. 
-Now, if the partition-executor-binding feature is turn on, when the task scheduler selects a task for the free executor, 
-it selects the task whose task partition hash code is the same as the hash code of the free executor. 
-The hash manner binding ensures that the tasks of the same partition will always be allocated to the same executor in different iterations. 
-Finding the first task that first hashed maps the executor from the task queue, 
+To amend the mismatch of the logical partition and the actual position of the executor, we implement the new feature in Spark to allow the tying of the task partitions and the executors. 
+The tying can be done in a hash manner. 
+In default settings of the task scheduler of Spark, when an executor becomes free, the task scheduler selects a task with whichever partition from the head of task queue. The selected task will run in that executor. 
+Now, if the partition-executor-tying feature is turned on, when the task scheduler selects a task for the free executor, 
+it selects one whose task partition hash code is the same as the hash code of the free executor. 
+The hash manner tying ensures that tasks of the same partition will always be allocated to the same executor in different iterations. 
+Finding the first task that hashes the executor from the task queue, 
 the time complexity of scheduling each task is $O(N)$, 
-where $N$ is the number of the executors in each computing iteration. 
+where $N$ is the number of the executors in a computing iteration. 
 
-The partition-executor-binding implementation will not introduce negative side effects into the system in the following three aspects: 1)  The order to run the pending tasks of the same iteration does not affect the completion time of each computing iteration; 2) In the hash manner, each executor is expected to run the same number of tasks in each computing iteration;
-3) The task scheduling overhead is trivial and negligible, which is only linear to the number of executors. 
+The partition-executor-tying implementation will not introduce negative side effects into the system for the following three reasons: 1)  The order to run pending tasks of the same iteration does not affect the completion time of each iteration; 2) In the hash manner, each executor is expected to run the same number of tasks in each iteration;
+3) The task scheduling overhead is often trivial and negligible, which is only linear to the number of executors. 
 
 
 \begin{table*}[!t]
@@ -1811,58 +1825,18 @@ KMeans & 64,534,480 wikipedia page visit records& 32 centers, 10 iterations \\
 % 2) Difficulty in constructing the edges: 
 % the key dependency relationship is unclear by merely looking at logic of the program code because the key dependency relationship can also depend on the values, which are unknown until runtime. 
 
-We provide an interface in Spark to allow programmers apply CKP in a
-distributed application with one single line of code.
+We provide an interface in Spark to allow programmers to apply CKP in a
+distributed application with as simple as one single line of code.
 To apply CKP, the user-definable partitioner offered by pervasive distributed frameworks allows programmers to implement specific partitioners for their distributed applications. 
 
 We make one step further by implementing a class named ConfluencePartitioner, 
-which only requires the programmer to provide the key mapping function 
-of the key dependency with the maximum dependency probability. 
+which only requires programmers to provide the key mapping function 
+of the key dependency selected for key partition binding. 
 Now recall that in Section~\ref{section:dependency}, the key mapping function
-$f$
-is a function of the input key $k$ and returns the mapped key $f(k)$ in a 
+$f$ is a function of the input key $k$ and returns the mapped key $f(k)$ in a 
 key dependency.
 % The ConfluencePartitioner to identify the pure confluence subgraphs that the data entries belong to 
 % and partitions each pure confluence subgraph randomly by the hashed value of the subgraph.  
-
-In ConfluencePartitioner, to calculate the partition of a input key-value entry in the shuffle operation, 
-the key mapping function is applied to the input key, 
-and the mapped key is returned. 
-The mapped key is hashed based on the number of partitions 
-and the hash value decides the partition of this input entry. 
-In this way, all input entries whose returned key by the mapping function are the same are partitioned to the same node.
-
-\lstset{
-  language=Scala,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  % numberstyle=\tiny\color{gray},
-  keywordstyle=\color{gray},
-  % commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true,
-  tabsize=2
-}
-
-To apply CKP in a shuffle operation, programmers only need 
-add a ConfluencePartitioner with the corresponding 
-mapping function as the partitioner. 
-The code looks like:
-\begin{lstlisting}
-data.shuffleOp (new ConfluencePartitioner 
-    (numPartitions, mappingFunction));
-\end{lstlisting}
-, where ``data'' is often an RDD in Spark and ``shuffleOp'' is any shuffle function that repartition distributed data, such as $reduceByKey$ or $join$. 
-Fig.~\ref{fig:code} shows the code of using ConfluencePartitioner
-to apply CKP in MovieLensALS and KMeans.
-Only the single line of code is added in MovieLensALS to apply CKP.
-In KMeans, the partition of a point are bound to its cluster 
-centroid in a specific iteration $j$.
-This line of code binds the partition of key $(userId, itemId)$
-to that of key $userId$ when creating the user-item block data.
 
 \lstset{
   language=Scala,
@@ -1905,10 +1879,9 @@ while(notConverge && i < maxIter){
 /**** KMeans applying CKP ****/
 while(notConverge && i < maxIter){
   if (i == j){
-    val mapFunc = (a:Any) => {a match {
-      case _ => closestPoint(a, centroids)}}
+    val mapFunc = (a:Any) => {a match { case _ => closestPoint(a, centroids)}}
     val part = new ConfluencePartitioner(16, mapFunc)
-    points = points.reduceByKey(part, (a,b)=>1).cache()
+    points = points.reduceByKey(part, (x,y)=>1).cache()
   }
   val closest = points.map(...)
   centroids = closest.reduceByKey(...)...
@@ -1919,15 +1892,52 @@ while(notConverge && i < maxIter){
 \label{fig:code}
 \end{figure}
 
-Table~\ref{table:code} lists the mapping functions of different distributed operations mentioned above in Scala programming language.
+
+In ConfluencePartitioner, to calculate the partition of an input key-value entry in the shuffle operation, 
+the key mapping function is applied to the input key, 
+and the mapped key is returned. 
+The mapped key is then hashed based on the number of partitions 
+and the hash value decides the partition of this input entry. 
+In this way, all input entries whose mapped key is the same will be partitioned to the same node.
+
+\lstset{
+  language=Scala,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  % numberstyle=\tiny\color{gray},
+  keywordstyle=\color{gray},
+  % commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+To apply CKP in a shuffle operation, programmers only need 
+add a ConfluencePartitioner with a corresponding 
+mapping function as the partitioner. 
+The code looks like:
+\begin{lstlisting}
+data.shuffleOp (new ConfluencePartitioner 
+    (numPartitions, mappingFunction));
+\end{lstlisting}
+, where ``data'' is often an RDD in Spark and ``shuffleOp'' is any shuffle function that repartitions distributed data, such as $reduceByKey$ or $join$. 
+Fig.~\ref{fig:code} shows the code of using ConfluencePartitioner
+to apply CKP in MovieLensALS and KMeans.
+Only a single line of code is added in MovieLensALS to apply CKP.
+Line 7 defines the key mapping function from key $(userId, itemId)$ to the first element of the tuple: $userId$.
+In KMeans, the key mapping function in Line~21 binds the partition of 
+key $a$, which is a point, to its cluster centroid in a specific iteration $j$.
 
 
-
-With ConfluencePartitioner, the programmers can apply CKP without knowing the details of implementing the self-defined partitioner and repeatedly writing different self-defined partitioners in each iteration of different distributed operations.
+Table~\ref{table:code} lists the mapping functions of different distributed operations mentioned above in the Scala programming language.
+With ConfluencePartitioner, programmers can apply CKP without knowing details of implementing the self-defined partitioner or repeatedly writing different self-defined partitioners in different iterations.
 
 
 \section{Evaluation}\label{section:evaluation}
-We conduct experiments on a physical testbed to compare the performance of CKP with the default RKP scheme in aspects: the improvement on shuffle sizes of different iterations, the workload skewness of executors, and the scalability. 
+We conduct experiments on a physical testbed to compare the performance of CKP with the default RKP scheme in aspects of: the improvement on the shuffle size, the workload skewness of executors, the completion time and the scalability. 
 
 
 \subsection{Testbed and Benchmarks}
@@ -1943,11 +1953,12 @@ These key partitioning schemes are for special purpose and we do not compare CKP
 
 \subsection{Metrics}
 We measure the shuffle size of each distributed computing iteration (or alternately, stage) of the benchmarks. 
-The shuffle size of each iteration is the sum of the cross-node data transfer size of the shuffle operation of all executors in that iteration. 
+The shuffle size of each iteration is the sum of the cross-node traffic size of the shuffle operation of all executors in that iteration. 
 This metric depicts the performance of CKP in reducing the shuffle size. 
-Besides, the standard deviation of input workloads of the executors is measured as the metric to evaluate the workload skewness of the key partitioning schemes. 
-This metric is also measured in each iteration of the benchmark. 
-The scalability of CKP is measured by the overall shuffle size of all iterations that apply key partition binding, with different volumes of input data. 
+Besides, the standard deviation of input workloads of executors is measured as the metric of workload skewness in binding iterations. 
+The completion time measure how CKP improves the job completion time by shuffle 
+size reduction.
+The scalability of CKP is measured by the overall shuffle size of all binding iterations, with different volumes of input data. 
 % As the iterative distributed operations are finished iteration by iteration, the completion time of each iteration is measured to show the benefit of minimizing the shuffle size. 
 
 \begin{figure}[!t]
@@ -1961,35 +1972,37 @@ The scalability of CKP is measured by the overall shuffle size of all iterations
 
 
 \subsection{Shuffle Size Improvement} 
-Results of the shuffle size and the workload skewness of each iteration (or stage) after applying CKP and RKP in all the benchmarks are shown in Fig.~\ref{fig:size}, respectively. 
+Results of the shuffle size and the workload skewness of each iteration (or stage) after applying CKP and RKP in all the benchmarks are shown in Fig.~\ref{fig:size}. 
 
 In MatrixMultiplication, CKP totally removes the shuffle size of stage 2, and the shuffle size of stage 1 remains close to that of RKP (Fig.~\ref{fig:size}(a)). 
 Note that, regardless of the key partitioning scheme, the volume of data in stage 2 is small compared to stage 1 because data have been locally merged by the distributed framework to compress data in stage 2~\cite{zaharia2012resilient}.
 % Still, we will show that CKP has the advantage in minimizing the job completion time by eliminating the shuffle runtime overheads in the latter sub-sections. 
 
 The benefit of applying CKP on iterative distributed operations 
-that reduce the key dimensions can be read in Fig.~\ref{fig:size}(b).
+that reduce key dimensions can be read in Fig.~\ref{fig:size}(b).
 In MovieLensALS, after applying CKP, the shuffle size for generating the user block is 0, while the shuffle size for generating the item block remains almost the same as that of RKP. 
 As a result, the CKP shuffle size for generating these two block is half of that of RKP. 
-Because the other iterations of the distributed operations cannot be improved by CKP, 
-the overall shuffle size CKP can reduce for this application is about 11\%.
+The other iterations do not apply key partition binding, and
+the overall shuffle size that CKP can reduce for this application is about 11\%.
 
-After applying CKP in MultiAdjacentList benchmark, the shuffle size of each iteration is decreased by half beginning from iteration 2 (Fig.~\ref{fig:size}(c)). 
+After applying CKP in MultiAdjacentList, the shuffle size of each iteration is decreased by half beginning from iteration 2 (Fig.~\ref{fig:size}(c)). 
 The reason is that by binding partitions of key $(list, tail)$ 
 to key $list$, only data with key $(head, list)$ need to be shuffled in each iteration, which is about 50\% of the total data volume. 
 
-In KMeans benchmark, points are bound to centers they are grouped into in iteration 1. by partitioning the points into clusters they belong to in the first iteration, CKP decreases the overall shuffle size by 12\% (Fig.~\ref{fig:size}(d)). 
+In KMeans benchmark, points are bound to centroids they are grouped into in iteration 1. by partitioning the points into clusters they belong to in the first iteration, CKP decreases the overall shuffle size by 12\% (Fig.~\ref{fig:size}(d)). 
 This decrease in shuffle size is contributed by avoiding the repartition of the points that are stable to their clusters,
 although not all points are fixed to their clusters in every iteration. 
 This shuffle size is influenced by the input dataset, initial 
 centroids of clusters, and from which iteration the points are bound to the centroids.
 All these factors affect the dependency probability in the key dependency.
 
-Note that the shuffle sizes of the other iterations that do not apply CKP remains almost unchanged, which means that CKP can decrease the shuffle size of distributed iterations that have the confluence key dependency without introducing extra workloads to the other iterations. 
-How CKP can decrease the overall shuffle traffic depends on how large the volumes of data are in iterations that apply key partition binding, compared to the overall data volume of the application. 
-For MultiAdjacentList, the CKP can be applied to half of the operations, either appending to the head or to the tail.
-While for MovieLensALS, CKP can only be applied to the operation that arrange the user-item blocks, which is a relatively small portion of the overall application. 
-Still, it indicates the potential of applying CKP in the complicated iterative distributed applications. 
+Note that the shuffle sizes of the other iterations that do not apply CKP remains almost unchanged, which means that CKP can reduce the shuffle size in the binding iterations without introducing extra workloads to the other iterations. 
+How CKP can reduce the overall shuffle traffic depends on how large the volumes
+of data are in the binding iterations, 
+compared to the overall data volume of all iterations. 
+In MultiAdjacentList, the CKP can be applied to half of the iterations, by either appending nodes to the head or to the tail.
+While in MovieLensALS, CKP can only be applied to the iteration that arrange the user-item block, which is a relatively small portion of the overall application. 
+Still, it indicates the potential of applying CKP in complicated iterative distributed applications. 
 
 
 % \begin{figure}[!t]
@@ -2001,21 +2014,55 @@ Still, it indicates the potential of applying CKP in the complicated iterative d
 % %\vspace{-0.2in}
 % \end{figure}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{time.pdf}
+\caption{Completion Time of Multiple Iterations in Different Benchmarks}
+\label{fig:time}
+\end{figure}
+
 \subsection{Workload Skew}
-The workload skewness is denoted as the standard deviation bar in Fig.~\ref{fig:size}. 
+The workload skewness is indicated by the standard deviation bars in Fig.~\ref{fig:size}. 
 As expected, the workload skewness (standard deviation of workloads) of the key partition 
 binding stages of MatrixMultiplication (Fig.~\ref{fig:size}(a)), MovieLensALS (Fig.~\ref{fig:size}(b)) and MultiAdjacentList (Fig.~\ref{fig:size}(c)) are all close to 0. 
-In the KMeans benchmark, the workload skewness of CKP is larger than that in RKP (Fig.~\ref{fig:size}(d)). 
-The reason is that the number of points belonging to each cluster varies but the number of clusters (32) is not large enough compared to 
+In the KMeans benchmark, the workload skewness of CKP is slightly larger than that in RKP (Fig.~\ref{fig:size}(d)). 
+The reason is that the number of points belonging to each cluster varies, but the number of clusters (32) is not large enough compared to 
 the computer nodes (16) to balance the workloads of the nodes. 
 If the number of clusters is larger, 
 the number of points bound to each cluster is smaller.
 As each cluster centroid is randomly partitioned, the workload 
-skewness will become smaller.
-Still, the standard deviation of CKP (7 MB) is small as compared to the mean shuffle size of the executors (25 MB).
+skewness tends to be smaller.
+Still, the standard deviation of CKP (7 MB) is small compared to the mean shuffle size of the executors (25 MB).
 
 
 % For the stages that are either before or after the CKP-affected stages, the standard deviations remain almost the same as RKP, or as compared to the shuffle size, the difference is so tiny that can be ignored. 
+
+
+
+
+\subsection{Completion Time}
+We evaluate the completion time of each iteration to see how shuffle size 
+reduction actually improves the performance of distributed applications. 
+The result of different benchmarks is shown in Fig.~\ref{fig:time}. 
+CKP reduces the overall job completion time by about 23\%, 19\%, 6\% and 23\%, 
+respectively. 
+In key partition binding iterations, the completion time reduction is even greater.  
+For example, the completion time reduction of 
+the second iteration in MatrixMultiplicaiton is about 37\% (Fig.~\ref{fig:time}(a)), 
+and that of the UserBlock iteration in MovieLensALS is about 57\% (Fig.~\ref{fig:time}(b)). 
+We conclude that the overall completion time improvement
+depends on how large portion the completion time of binding iterations 
+occupy. 
+
+An other observation is that how much the overall completion time is improved 
+depends on whether the network performance for shuffling is the bottleneck for 
+an iterative distributed operation. For example, in MultiAdjacentList, the shuffle size of every iteration is reduced by 50\%, but the average completion time reduction of all iterations
+is only about 6\%, resulting in about 6\% overall completion time reduction.
+The reason is that this algorithm spends more time generating dozens of 
+new lists from every shorter list, where CPU is the bottleneck most of the time
+and network is less a bottleneck. 
+
+
 
 \begin{figure}[!t]
 \centering
@@ -2026,14 +2073,13 @@ Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAd
 %\vspace{-0.2in}
 \end{figure}
 
-
 \subsection{Scalability}
 The overall shuffle sizes of iterations that apply key partition 
-binding with different input sizes in various benchmarks are shown in Fig.~\ref{fig:sizeLine}. 
+binding with different input sizes in different benchmarks are shown in Fig.~\ref{fig:sizeLine}. 
 In MatrixMultiplication, 
 the overall shuffle size of RKP increases linearly as the matrix length grows, while that of CKP is always 0. 
 CKP can totally remove the shuffle size of stage 2 in MatrixMultiplication. 
-In the other benchmarks, the shuffle sizes of CKP always keep in a fixed (or stable) ratio to those of RKP, e.g., 50\% in both MovieLensALS and MultiAdjacentList and around 88\% in KMeans. 
+In the other benchmarks, the shuffle sizes of CKP always keep in a fixed (or stable) ratio to those of RKP, i.e., 50\% in both MovieLensALS and MultiAdjacentList and around 88\% in KMeans. 
 The result shows that CKP scales well with different volumes of input data. 
 The CKP decreases the shuffle size greatly (about 50\%) in one iteration out of many iterations in the MovieLensALS application, and a little (about 12\%) but in every iteration the KMeans application. 
 
@@ -2041,30 +2087,31 @@ The CKP decreases the shuffle size greatly (about 50\%) in one iteration out of 
 
 \section{Related Work}\label{section:relatedWork}
 \textbf{Iterative distributed computing}: 
-Some works~\cite{gunarathne2013scalable, zaharia2012resilient,bu2010haloop, ekanayake2010twister} improved distributed frameworks for iterative distributed operations by extending programming interfaces to support multiple transform and shuffle phases. 
+Some works~\cite{gunarathne2013scalable, zaharia2012resilient,bu2010haloop, ekanayake2010twister} improved distributed paradigms for iterative distributed operations by extending programming interfaces to support multiple transform and shuffle phases. 
 The general idea was to cache the data of each iteration in memories instead of in disks to reduce I/O overheads.
 % Spark~\cite{zaharia2012resilient} provided more kinds of operation interfaces and supported a series of transformations on input datasets in the memory by the concept of resilient distributed dataset. 
 % These iterative distributed frameworks tried to minimize the I/O overhead by storing the intermediate data of each iteration in the memory, instead of in the disk like Hadoop. 
-However, these works on distributed frameworks did not concern with the heavy network workload during shuffle operations. 
-Inheriting the benefit of fast memory I/O rate, CKP decreases shuffle sizes and alleviate network workloads by considering the key dependency in multiple related iterations. 
+However, these works on distributed paradigms did not concern with the heavy network workload during shuffle operations. 
+Inheriting the benefit of fast memory I/O rate in iterative distributed paradigms, CKP reduces shuffle sizes and alleviate network workloads by considering the key dependency in multiple iterations. 
 
 \textbf{Parallel\&Distributed algorithms optimization}: Lots of work has been conducted on the optimization of parallel\&distributed machine learning algorithms~\cite{bekkerman2011scaling} and science computing~\cite{kiran2013verification, mensink2012metric}, including matrix multiplication methods~\cite{buluc2012parallel, ballard2012communication}. 
 Generally, they focused on optimizing the algorithm itself by decomposing tasks to increase task parallelism or removing the synchronization boundary between I/O-intensive tasks and compute-intensive tasks. 
 Sarma et al.~\cite{Sarma:2013:ULB} represented the number of data entries generated from the map input for a distributed application with a given parallelism factor as communication cost. 
-To decrease the communication cost for a specific distributed application, one need redesign the logic of the program itself, operating with the proper parallelism factor. 
-The term of communication cost is slightly different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce workers (which can be on the same node), while the shuffle size is transfer size of data between different computer nodes. 
-An iterative distributed application can first be designed with the minimum communication cost for each iteration, if possible, and then apply CKP to decrease the shuffle size.
+To decrease the communication cost for a specific distributed application, one need redesign the logic of the program itself, operating with a proper parallelism factor. 
+The term of communication cost is different from the shuffle size in this paper, where the communication cost is the transfer size of data between different reduce worker processes (which can be on the same node), while the shuffle size is traffic size between different computer nodes. 
+An iterative distributed application can first be designed with the minimum communication cost for each iteration, if possible, and then apply CKP to reduce the shuffle size.
 % The algorithms with the minimum communication cost can further decrease the shuffle size by considering the key dependency of the datasets in multiple iterations. 
 ShuffleWatcher~\cite{faraz2014shufflewatcher} scheduled the locality of map tasks and reduce tasks to decrease shuffle size for the single 
 iteration of a MapReduce job, but it did not provide a solution for iterative distributed operations. 
 
 \textbf{Logic-Aware Shuffle Partitioning}: 
 Some similar works~\cite{zhou2010scope, zhang2012shuffle} also looked into the logic of programs and considered the data relation across iterations to avoid unnecessary shuffle network traffic. 
-But the methods either lacked a precise model abstraction so that 
-its applicable area was limited to aggregate-like operations~\cite{zhang2012shuffle}, or built a complicated model that made its usage difficult~\cite{zhou2010scope}. The Confluence key dependency model is simple in form
-and makes it possible to apply CKP in a single line of code. 
-The dependency probability easily predicts the effect of 
+But the approach either lacked a precise model abstraction so that 
+its applicable area was limited to aggregate-like operations~\cite{zhang2012shuffle}, or was modeled on specific types of data exchange patterns~\cite{zhou2010scope}. The Confluence key dependency model is simple in form
+and can be applied to general iterative distributed operations. 
+The dependency probability precisely predicts the effect of 
 shuffle size reduction.
+ % makes it possible to apply CKP in a single line of code. 
 
 \textbf{Datacenter networking for shuffle}: 
 In datacenters, various networking scheduling algorithms were proposed to improve the shuffle throughput for different performance goals~\cite{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}.  
@@ -2075,7 +2122,7 @@ CKP does not concern with the underlying network level. However, by decreasing s
 Distributed computing paradigms like MapReduce adopted the data locality principle, either to place computing tasks close to locations of the processing data in priority to avoid data migration~\cite{dean2008mapreduce, zaharia2008improving}, or to avoid an unbalanced allocation of workloads by considering compute skew problems~\cite{kwon2010skew, kwon2012skewtune}. 
 They concerned with the placing of map tasks whose required input data are self-contained.
 As the input data of each shuffle task are distributed across the cluster, such a task-to-data approach cannot help in shuffle tasks. 
-CKP binds key partitions of different iterations based on the key dependency, which eliminates shuffle traffic of multiple iterations while not impacting the balance of workloads.
+CKP usually does not introduce new workloads skewness. 
 Aaron et al.~\cite{Harlap:2016:ASP} addressed the problem of stragglers in iterative machine learning. 
 In the case of successive key partition binding,
 as CKP randomly partitions mapped keys in every iteration 
@@ -2092,15 +2139,15 @@ We have presented the Confluence Key Partitioning (CKP) scheme, the first work o
 iterative distributed operations based on the key dependency. 
 The key dependency precisely captures the logic of iterative distributed operations and CKP partitions data across different iterations by using the technique of key partition binding.
 CKP greatly reduces the overall shuffle size with a predictable value 
-while not introducing the workload skewness side effect 
-for a variety of distributed operations
-in fields such as scientific computing, machine learning, data
+while not introducing the workload skewness side effects
+for a variety of distributed applications
+in fields such as scientific computing, machine learning, and data
 analysis.
 
 In the future, we will try to explore methods to automatically discover the key dependency of data among different iterations. 
 A potential feasible solution is data flow tracking. 
-With a set of sampled data, we can keep track of how data are flowing between nodes across different iterations, and thus find out the key dependency of these sampled data. 
-The challenge is that how to expand key dependency of the sample data to the whole dataset. 
+With a set of sample data, we can keep track of how data are flowing between nodes across different iterations, and thus find out the key dependency of the sample data. 
+The challenge is that how to expand the key dependency of sample data to the whole dataset. 
 Unrepresentative sample data affect the accuracy of the dependency probability. 
 Luckily, as we have discussed, CKP survives the problem inaccurate dependency probability.
 
@@ -2283,7 +2330,7 @@ This work is supported in part by a Hong Kong RGC CRF grant
 % (used to reserve space for the reference number labels box)
 %\begin{thebibliography}{1}
 % Generated by IEEEtran.bst, version: 1.13 (2008/09/30)
-\begin{thebibliography}{44}
+\begin{thebibliography}{43}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
 \providecommand{\newblock}{\relax}
@@ -2535,11 +2582,11 @@ A.~Harlap et al., ``Addressing the straggler problem for iterative convergent
   parallel ml,'' in \emph{Proceedings of the Seventh ACM Symposium on Cloud
   Computing}, New York, NY, USA, 2016, pp. 98--111.
 
-\bibitem{spark-dagscheduler}
-\BIBentryALTinterwordspacing
-Spark job scheduling: Dagscheduler. [Online]. Available:
-  \url{https://spark.apache.org/docs/1.4.0/job-scheduling.html}
-\BIBentrySTDinterwordspacing
+% \bibitem{spark-dagscheduler}
+% \BIBentryALTinterwordspacing
+% Spark job scheduling: Dagscheduler. [Online]. Available:
+%   \url{https://spark.apache.org/docs/1.4.0/job-scheduling.html}
+% \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
 
@@ -2560,28 +2607,32 @@ Spark job scheduling: Dagscheduler. [Online]. Available:
 % simpler here.)
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
+
+
 \newpage
 
-\vspace{-.5in}
+% \vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
 received the BS degree in software engineering from Nanjing University in 2012, and the PhD degree in computer science from The University of Hong Kong in 2017. His research interests are mainly on distributed file systems, distributed computing, machine learning, and formal methods for distributed systems. He is recently undertaking the research project on distributed deep learning.
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 
-\vspace{-1.5in}
+\vspace{-6.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
 received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
 computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
 [homepage] i.cs.hku.hk/\%7Efcmlau
 \end{IEEEbiography}
 
-\vspace{-1.5in}
+\newpage
+
+% \vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author3}}]{Heming Cui}
 is an assistant professor in Computer Science of HKU. His research interests are in operating systems, programming languages, distributed systems, and cloud computing, with a particular focus on building software infrastructures and tools to improve reliability and security of real-world software. 
 [homepage] i.cs.hku.hk/\%7Eheming
 \end{IEEEbiography}
 
-\vspace{-1.5in}
+\vspace{-6.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author4}}]{Cho-Li Wang}
 is currently a Professor in the Department of Computer Science at The
 University of Hong Kong. He graduated with a B.S. degree in Computer Science and

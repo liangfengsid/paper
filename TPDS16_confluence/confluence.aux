@@ -13,6 +13,7 @@
 \citation{dean2008mapreduce}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \newlabel{section:introduction}{{1}{1}}
+\citation{zhou2010scope,zhang2012shuffle}
 \citation{zaharia2012resilient}
 \citation{ekanayake2010twister}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces An Example of the MapReduce-style Matrix Multiplication Algorithm with Different Key Partitioning Schemes }}{2}}
@@ -33,8 +34,8 @@
 \newlabel{eq:g}{{1}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Confluence Key Dependency}{3}}
 \newlabel{section:dependency}{{2.3}{3}}
-\newlabel{eq:dependency}{{2}{3}}
 \citation{zaharia2012resilient}
+\newlabel{eq:dependency}{{2}{4}}
 \newlabel{eq:dependencyDefine}{{2.3}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Random Key Partitioning}{4}}
 \newlabel{section:rkp}{{2.4}{4}}
@@ -50,10 +51,9 @@
 \newlabel{section:ckp}{{3.2}{5}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Confluence Key Partitioning}}{5}}
 \newlabel{algo:CKP}{{2}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Workload Skewness Analysis}{5}}
-\newlabel{section:skew}{{3.3}{5}}
 \citation{movielensals}
-\citation{google2012spanner}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Workload Skewness Analysis}{6}}
+\newlabel{section:skew}{{3.3}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Affect of Inaccurate Key Dependency}{6}}
 \newlabel{section:inaccurate}{{3.4}{6}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces CKP Shuffle Size Reduction in Different Distributed Operations}}{6}}
@@ -62,39 +62,47 @@
 \newlabel{section:application}{{4}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}MovieLensALS}{6}}
 \citation{google2012spanner}
+\citation{google2012spanner}
 \citation{zaharia2012resilient}
 \citation{multiAdjList}
-\citation{kmeans}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Transformation Lineage of Keys between Iterations and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Iterations Wrapped in Dashed Rhombus Boxes }}{7}}
 \newlabel{fig:application}{{2}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}GoogleAlbum and PageRank}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}MultiAdjacentList}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}KMeans}{7}}
+\citation{kmeans}
 \citation{shvachko2010hadoop}
 \citation{dean2008mapreduce}
 \citation{ekanayake2010twister}
 \citation{bu2010haloop}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}KMeans}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Limitations Applying Confluence}{8}}
 \newlabel{section:limitation}{{4.5}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Implementation}{8}}
 \newlabel{section:implement}{{5}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Binding Partition and Executor in Spark}{8}}
-\citation{gideon}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Tying Partition and Executor in Spark}{8}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Key Mapping Functions of ConfluencePartitioner in Different Iterative Distributed Operations}}{9}}
 \newlabel{table:code}{{3}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Confluence Partitioner Interface}{9}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Code Comparison after Using the ConfluencePartitioner Interface to Apply CKP in MovieLensALS and KMeans}}{9}}
 \newlabel{fig:code}{{3}{9}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{9}}
-\newlabel{section:evaluation}{{6}{9}}
+\citation{gideon}
 \citation{zaharia2012resilient}
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmark Settings}}{10}}
 \newlabel{table:benchmark}{{4}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{10}}
+\newlabel{section:evaluation}{{6}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Testbed and Benchmarks}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Metrics}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Shuffle Size Improvement}{10}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{10}}
 \newlabel{fig:size}{{4}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Shuffle Size Improvement}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Completion Time of Multiple Iterations in Different Benchmarks}}{11}}
+\newlabel{fig:time}{{5}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
+\newlabel{fig:sizeLine}{{6}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Completion Time}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Scalability}{11}}
 \citation{gunarathne2013scalable,zaharia2012resilient,bu2010haloop,ekanayake2010twister}
 \citation{bekkerman2011scaling}
 \citation{kiran2013verification,mensink2012metric}
@@ -105,12 +113,6 @@
 \citation{zhang2012shuffle}
 \citation{zhou2010scope}
 \citation{greenberg2009vl2,popa2012faircloud,shieh2011sharing,chowdhury2011managing}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
-\newlabel{fig:sizeLine}{{5}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Scalability}{11}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{11}}
-\newlabel{section:relatedWork}{{7}{11}}
 \citation{dean2008mapreduce,zaharia2008improving}
 \citation{kwon2010skew,kwon2012skewtune}
 \citation{Harlap:2016:ASP}
@@ -118,6 +120,11 @@
 \bibcite{Ousterhout2015MSP}{2}
 \bibcite{Lu:2014:LDG}{3}
 \bibcite{thusoo2009hive}{4}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{12}}
+\newlabel{section:relatedWork}{{7}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{12}}
+\newlabel{section:conclusion}{{8}{12}}
+\@writefile{toc}{\contentsline {section}{References}{12}}
 \bibcite{Yu:2008:DSG}{5}
 \bibcite{Armbrust:2015:SSR}{6}
 \bibcite{low2012distributed}{7}
@@ -143,9 +150,6 @@
 \bibcite{zhou2010scope}{27}
 \bibcite{zhang2012shuffle}{28}
 \bibcite{gunarathne2013scalable}{29}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{12}}
-\newlabel{section:conclusion}{{8}{12}}
-\@writefile{toc}{\contentsline {section}{References}{12}}
 \bibcite{bekkerman2011scaling}{30}
 \bibcite{kiran2013verification}{31}
 \bibcite{mensink2012metric}{32}
@@ -160,9 +164,8 @@
 \bibcite{kwon2010skew}{41}
 \bibcite{kwon2012skewtune}{42}
 \bibcite{Harlap:2016:ASP}{43}
-\bibcite{spark-dagscheduler}{44}
-\@writefile{toc}{\contentsline {section}{Biographies}{13}}
-\@writefile{toc}{\contentsline {subsection}{Feng Liang}{13}}
-\@writefile{toc}{\contentsline {subsection}{Francis C.M. Lau}{13}}
-\@writefile{toc}{\contentsline {subsection}{Heming Cui}{13}}
-\@writefile{toc}{\contentsline {subsection}{Cho-Li Wang}{13}}
+\@writefile{toc}{\contentsline {section}{Biographies}{14}}
+\@writefile{toc}{\contentsline {subsection}{Feng Liang}{14}}
+\@writefile{toc}{\contentsline {subsection}{Francis C.M. Lau}{14}}
+\@writefile{toc}{\contentsline {subsection}{Heming Cui}{14}}
+\@writefile{toc}{\contentsline {subsection}{Cho-Li Wang}{14}}

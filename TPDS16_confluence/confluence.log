@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  26 JUN 2017 23:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  28 JUN 2017 00:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -466,36 +466,36 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count134
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 579.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 580.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <11.04124> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 579.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 580.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8.03> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 579.
-LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 57
-9.
-LaTeX Font Info:    Try loading font information for U+pzd on input line 579.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 580.
+LaTeX Font Info:    Calculating math sizes for size <11.04124> on input line 58
+0.
+LaTeX Font Info:    Try loading font information for U+pzd on input line 580.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
-LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 579.
+LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 580.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <11.04124> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 607.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 608.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <11.04124> not available
 
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 607.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 608.
 
-Underfull \hbox (badness 1817) in paragraph at lines 641--656
+Underfull \hbox (badness 1817) in paragraph at lines 642--657
 []\OT1/ppl/m/n/9.53561 Distributed ap-pli-ca-tions con-sist-ing of it-er-a-tive
  dis-
  []
 
-LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 709
+LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 710
 .
 [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
@@ -505,42 +505,40 @@ LaTeX Font Info:    Calculating math sizes for size <9.53561> on input line 709
 File: ./figure/figure1.pdf Graphic file (type pdf)
 
 <use ./figure/figure1.pdf>
-Package pdftex.def Info: ./figure/figure1.pdf used on input line 757.
+Package pdftex.def Info: ./figure/figure1.pdf used on input line 762.
 (pdftex.def)             Requested size: 252.94499pt x 469.34203pt.
-LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9.53561> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 843.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [2 <./figure/figure1.pdf>]
-Overfull \hbox (2.25587pt too wide) in alignment at lines 1020--1020
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9.53561> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 850.
+
+Overfull \hbox (2.25587pt too wide) in alignment at lines 1027--1027
 [][] 
  []
 
 
-Overfull \hbox (0.846pt too wide) in paragraph at lines 1020--1022
+Overfull \hbox (0.846pt too wide) in paragraph at lines 1027--1029
  [][] 
  []
 
 [3]
-Underfull \hbox (badness 2221) in paragraph at lines 1087--1090
+Underfull \hbox (badness 2221) in paragraph at lines 1094--1097
 []\OT1/ppl/m/n/9.53561 As men-tioned in in Sec-tion 2.2[], the shuf-fle size
  []
 
 [4]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <6.62196> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1202.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 1208
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1209.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 1215
 .
  (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ) [5]
-Overfull \hbox (4.59415pt too wide) in alignment at lines 1451--1451
+Overfull \hbox (4.59415pt too wide) in alignment at lines 1458--1458
 [][] 
  []
 
 
-Overfull \hbox (6.0225pt too wide) in paragraph at lines 1423--1457
+Overfull \hbox (6.0225pt too wide) in paragraph at lines 1430--1464
 [] 
  []
 
@@ -548,16 +546,16 @@ Overfull \hbox (6.0225pt too wide) in paragraph at lines 1423--1457
 File: ./figure/figure4.pdf Graphic file (type pdf)
 
 <use ./figure/figure4.pdf>
-Package pdftex.def Info: ./figure/figure4.pdf used on input line 1461.
+Package pdftex.def Info: ./figure/figure4.pdf used on input line 1468.
 (pdftex.def)             Requested size: 505.88998pt x 225.61868pt.
  [6] [7 <./figure/figure4.pdf>]
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsppl.fd)
-Overfull \hbox (4.52086pt too wide) in alignment at lines 1686--1686
+Overfull \hbox (4.52086pt too wide) in alignment at lines 1693--1693
 [][][] 
  []
 
 [8]
-Underfull \hbox (badness 10000) in alignment at lines 1797--1797
+Underfull \hbox (badness 10000) in alignment at lines 1811--1811
 [][][] 
  []
 
@@ -570,42 +568,53 @@ File: lstlang2.sty 2014/09/06 1.5e listings language file
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstlang3.sty
 File: lstlang3.sty 2014/09/06 1.5e listings language file
 ) [9]
-<./figure/figure5.pdf, id=276, 442.65375pt x 340.27126pt>
+<./figure/figure5.pdf, id=276, 440.64626pt x 340.27126pt>
 File: ./figure/figure5.pdf Graphic file (type pdf)
 
 <use ./figure/figure5.pdf>
-Package pdftex.def Info: ./figure/figure5.pdf used on input line 1955.
-(pdftex.def)             Requested size: 252.94499pt x 194.44469pt.
+Package pdftex.def Info: ./figure/figure5.pdf used on input line 1966.
+(pdftex.def)             Requested size: 252.94499pt x 195.32735pt.
  [10 <./figure/figure5.pdf>]
-<./figure/figure7.pdf, id=323, 457.71pt x 343.2825pt>
+<./figure/time.pdf, id=323, 441.65pt x 338.26375pt>
+File: ./figure/time.pdf Graphic file (type pdf)
+ <use ./figure/time.pdf>
+Package pdftex.def Info: ./figure/time.pdf used on input line 2019.
+(pdftex.def)             Requested size: 252.94499pt x 193.73624pt.
+
+<./figure/figure7.pdf, id=324, 457.71pt x 343.2825pt>
 File: ./figure/figure7.pdf Graphic file (type pdf)
 
 <use ./figure/figure7.pdf>
-Package pdftex.def Info: ./figure/figure7.pdf used on input line 2022.
+Package pdftex.def Info: ./figure/figure7.pdf used on input line 2069.
 (pdftex.def)             Requested size: 252.94499pt x 189.7069pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2061--2068
+ [11 <./figure/time.pdf> <./figure/figure7.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 2107--2115
 []\OT1/ppl/b/n/9.53561 Logic-Aware Shuf-fle Par-ti-tion-ing\OT1/ppl/m/n/9.53561
  : Some sim-i-lar
  []
 
-[11 <./figure/figure7.pdf>]
-Underfull \hbox (badness 2393) in paragraph at lines 2426--2429
+
+Underfull \hbox (badness 1783) in paragraph at lines 2107--2115
+\OT1/ppl/m/n/9.53561 The Con-flu-ence key de-pen-dency model is sim-ple in
+ []
+
+[12]
+Underfull \hbox (badness 2393) in paragraph at lines 2473--2476
 \OT1/ppl/m/n/8.03 able: https://databricks-training.s3.amazonaws.com/movie-
  []
 
 
-Underfull \hbox (badness 2181) in paragraph at lines 2432--2435
+Underfull \hbox (badness 2181) in paragraph at lines 2479--2482
 []\OT1/ppl/m/n/8.03 ``Multiadjacentlist bench-mark.'' [On-line]. Avail-able:
  []
 
 
-Underfull \hbox (badness 1533) in paragraph at lines 2438--2441
+Underfull \hbox (badness 1533) in paragraph at lines 2485--2488
 []\OT1/ppl/m/n/8.03 ``Spark kmeans bench-mark.'' [On-line]. Avail-able:
  []
 
 
-Underfull \hbox (badness 3219) in paragraph at lines 2444--2447
+Underfull \hbox (badness 3219) in paragraph at lines 2491--2494
 []\OT1/ppl/m/n/8.03 ``Hku gideon-ii clus-ter.'' [On-line]. Avail-able:
  []
 
@@ -613,72 +622,72 @@ Missing character: There is no â in font pplr7t!
 Missing character: There is no € in font pplr7t!
 Missing character: There is no ™ in font pplr7t!
 
-Underfull \hbox (badness 2318) in paragraph at lines 2449--2451
+Underfull \hbox (badness 2318) in paragraph at lines 2496--2498
 []\OT1/ppl/m/n/8.03 J.C. Cor-bett et al., ``Span-ner: Googles glob-ally dis-tri
 buted
  []
 
-[12] <./figure/author1.png, id=368, 447.6725pt x 555.07375pt>
+[13] <./figure/author1.png, id=410, 447.6725pt x 555.07375pt>
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2566.
+Package pdftex.def Info: ./figure/author1.png used on input line 2615.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2566.
+Package pdftex.def Info: ./figure/author1.png used on input line 2615.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
-<./figure/author2.png, id=372, 151.56625pt x 181.67876pt>
+<./figure/author2.png, id=414, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2572.
+Package pdftex.def Info: ./figure/author2.png used on input line 2621.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2572.
+Package pdftex.def Info: ./figure/author2.png used on input line 2621.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
-<./figure/author3.png, id=375, 334.24875pt x 397.485pt>
+<./figure/author3.png, id=417, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2579.
+Package pdftex.def Info: ./figure/author3.png used on input line 2630.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2579.
+Package pdftex.def Info: ./figure/author3.png used on input line 2630.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2579--2582
+Underfull \hbox (badness 1400) in paragraph at lines 2630--2633
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
-<./figure/author4.png, id=378, 110.4125pt x 121.45375pt>
+<./figure/author4.png, id=420, 110.4125pt x 121.45375pt>
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2585.
+Package pdftex.def Info: ./figure/author4.png used on input line 2636.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2585.
+Package pdftex.def Info: ./figure/author4.png used on input line 2636.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no â in font phvr7t!
 Missing character: There is no € in font phvr7t!
 Missing character: There is no ™ in font phvr7t!
- [13 <./figure/author1.png> <./figure/author2.png> <./figure/author3.png> <./fi
+ [14 <./figure/author1.png> <./figure/author2.png> <./figure/author3.png> <./fi
 gure/author4.png>]
 (./confluence.aux) ) 
 Here is how much of TeX's memory you used:
- 7352 strings out of 493089
- 111725 string characters out of 6134842
- 259804 words of memory out of 5000000
- 10704 multiletter control sequences out of 15000+600000
+ 7357 strings out of 493089
+ 111812 string characters out of 6134842
+ 258514 words of memory out of 5000000
+ 10709 multiletter control sequences out of 15000+600000
  50129 words of font info for 110 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
- 38i,17n,41p,498b,1077s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,17n,41p,498b,1122s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r
 .enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.
 pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cmextra/cme
@@ -708,10 +717,10 @@ w/palatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palat
 ino/uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/upl
 ri8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
 
-Output written on confluence.pdf (13 pages, 1493734 bytes).
+Output written on confluence.pdf (14 pages, 1541656 bytes).
 PDF statistics:
- 476 PDF objects out of 1000 (max. 8388607)
- 303 compressed objects within 4 object streams
+ 517 PDF objects out of 1000 (max. 8388607)
+ 334 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 89 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 94 words of extra memory for PDF output out of 10000 (max. 10000000)
 
