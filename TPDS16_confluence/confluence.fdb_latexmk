@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1498661434 "confluence.tex" "confluence.pdf" "confluence" 1498661436
+["pdflatex"] 1498661698 "confluence.tex" "confluence.pdf" "confluence" 1498661699
   "./figure/author1.png" 1493909380 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "./figure/author2.png" 1493909380 54334 12d054f3372da35bf7bba7b9d835779c ""
   "./figure/author3.png" 1493909380 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -133,8 +133,8 @@
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1444308917 3849859 e2001a8b1b11b19e9727f68face59b59 ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
   "IEEEtran.cls" 1493909380 288304 b67b6fc6c2abb39f9b461923f5199343 ""
-  "confluence.aux" 1498661436 9009 5238f2a80780e3f777874c7d96adec14 ""
-  "confluence.tex" 1498661426 143407 e2a2413c4cf1481354d9914fe26a275b ""
+  "confluence.aux" 1498661699 9009 5238f2a80780e3f777874c7d96adec14 ""
+  "confluence.tex" 1498661694 143407 f2ede42439df5ff33433612c28a730a9 ""
   "figure/author1.png" 1493909380 424849 89450b77bc3d74ca366cc621caba4b0e ""
   "figure/author2.png" 1493909380 54334 12d054f3372da35bf7bba7b9d835779c ""
   "figure/author3.png" 1493909380 232491 a5aea025547ca0d75c39e15525ff54b4 ""
@@ -146,5 +146,5 @@
   "figure/time.pdf" 1498577815 50007 d326c9c6e9d1b21f096d8554f787afc9 ""
   (generated)
   "confluence.aux"
-  "confluence.log"
   "confluence.pdf"
+  "confluence.log"
