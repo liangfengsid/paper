@@ -1,0 +1,21 @@
+Summary of Difference
+
+This manuscript is an extended work of the previous published paper "BAShuffler: Maximizing Network Bandwidth Utilization in the Shuffle of YARN" in Proceedings of the 25th ACM International Symposium on High-Performance Parallel and Distributed Computing (HPDC) in year 2016. We call it the "previous paper" in the following descriptions. 
+
+Here is a list of differences between this manuscript and the previous paper:
+
+1) Distributed resource management: This manuscript adds the discussion on the challenges of managing the network bandwidth in distributed platforms and the cause of bandwidth underutilization in shuffle operations (Section 2.1 in manuscript). The previous paper did not have this part. 
+
+2) Max-min fairness: The previous paper briefly introduced the features of max-min fair networks (Section 2.2 in previous paper). This manuscript supplements the bandwidth estimation details in a max-min fair network (Section 2.3 in manuscript). 
+
+3) BAShuffler architecture: The previous paper only briefly described of components of the system (Section 3.1 in previous paper). In the manuscript, 1) we thoroughly discuss the design rationality behind the BAShuffler development (Section 3.1.1 in manuscript); 2) we describe the architecture of BAShuffler and how each component interacts with others to do the application-level network flow scheduling (in Section 3.1.2 in manuscript). 
+
+4) Greedy Source Selection algorithm: The previous introduced the Partially Greedy Source Selection algorithm (Section 3.2 in previous paper). This manuscript introduce one more algorithm, Greedy Source Selection, for the comparison with the "partial" one. We compare their pros and cons, as well as the different use scenarios of these two scheduling policies. (Section 3.2 and Section 3.4 in manuscript)
+
+5) Applying BAShuffler: This manuscript adds a scenario that applies the proposed source selection algorithms with intensive and uneven network flows in both homogeneous and heterogeneous networks (Section 3.5 in manuscript).
+
+6) Implementation: This manuscript discusses implementation details of the BAShuffler system, including the rearrangement of selecting sequence and the pre-scheduling policy (Section 3.6 in manuscript). The previous paper did not include this part.
+
+7) More thorough evaluation: Compared to the previous paper, besides comparing more performance metrics in the physical testbed (Section 4.1 in manuscript), this manuscript also evaluates BAShuffler in the virtual testbed (Section 4.2 in manuscript) and verifies the scalability performance with simulations (Section 4.3 in manuscript). 
+
+8) Related work: This manuscript supplements the complete related work (Section 5), which is absent in the previous published paper. 
