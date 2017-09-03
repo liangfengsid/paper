@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  30 JUN 2017 00:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.8)  5 SEP 2017 03:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -521,24 +521,24 @@ Overfull \hbox (0.846pt too wide) in paragraph at lines 1055--1057
  []
 
 [3]
-Underfull \hbox (badness 2221) in paragraph at lines 1124--1127
+Underfull \hbox (badness 2221) in paragraph at lines 1128--1131
 []\OT1/ppl/m/n/9.53561 As men-tioned in in Sec-tion 2.2[], the shuf-fle size
  []
 
 [4]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <6.62196> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1243.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 1249
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1247.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 1253
 .
  (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ) [5]
-Overfull \hbox (4.59415pt too wide) in alignment at lines 1506--1506
+Overfull \hbox (4.59415pt too wide) in alignment at lines 1539--1539
 [][] 
  []
 
 
-Overfull \hbox (6.0225pt too wide) in paragraph at lines 1478--1512
+Overfull \hbox (6.0225pt too wide) in paragraph at lines 1511--1545
 [] 
  []
 
@@ -546,16 +546,19 @@ Overfull \hbox (6.0225pt too wide) in paragraph at lines 1478--1512
 File: ./figure/figure4.pdf Graphic file (type pdf)
 
 <use ./figure/figure4.pdf>
-Package pdftex.def Info: ./figure/figure4.pdf used on input line 1516.
+Package pdftex.def Info: ./figure/figure4.pdf used on input line 1549.
 (pdftex.def)             Requested size: 505.88998pt x 225.61868pt.
  [6] [7 <./figure/figure4.pdf>]
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsppl.fd)
-Overfull \hbox (4.52086pt too wide) in alignment at lines 1742--1742
+Overfull \hbox (4.52086pt too wide) in alignment at lines 1775--1775
 [][][] 
  []
 
 [8]
-Underfull \hbox (badness 10000) in alignment at lines 1878--1878
+Underfull \vbox (badness 2556) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 1930--1930
 [][][] 
  []
 
@@ -568,60 +571,71 @@ File: lstlang2.sty 2014/09/06 1.5e listings language file
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstlang3.sty
 File: lstlang3.sty 2014/09/06 1.5e listings language file
 ) [9]
-<./figure/figure5.pdf, id=276, 440.64626pt x 340.27126pt>
+<./figure/figure5.pdf, id=276, 431.6125pt x 340.27126pt>
 File: ./figure/figure5.pdf Graphic file (type pdf)
 
 <use ./figure/figure5.pdf>
-Package pdftex.def Info: ./figure/figure5.pdf used on input line 2044.
-(pdftex.def)             Requested size: 252.94499pt x 195.32735pt.
- [10 <./figure/figure5.pdf>]
-<./figure/time.pdf, id=323, 441.65pt x 338.26375pt>
+Package pdftex.def Info: ./figure/figure5.pdf used on input line 2101.
+(pdftex.def)             Requested size: 252.94499pt x 199.41353pt.
+ [10]
+<./figure/time.pdf, id=280, 437.635pt x 338.26375pt>
 File: ./figure/time.pdf Graphic file (type pdf)
  <use ./figure/time.pdf>
-Package pdftex.def Info: ./figure/time.pdf used on input line 2097.
-(pdftex.def)             Requested size: 252.94499pt x 193.73624pt.
+Package pdftex.def Info: ./figure/time.pdf used on input line 2154.
+(pdftex.def)             Requested size: 252.94499pt x 195.51178pt.
 
-<./figure/figure7.pdf, id=324, 457.71pt x 343.2825pt>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11 <./figure/figure5.pdf> <./figure/time.pdf>]
+<./figure/adjList_compress.pdf, id=365, 449.68pt x 163.61125pt>
+File: ./figure/adjList_compress.pdf Graphic file (type pdf)
+
+<use ./figure/adjList_compress.pdf>
+Package pdftex.def Info: ./figure/adjList_compress.pdf used on input line 2202.
+
+(pdftex.def)             Requested size: 252.94499pt x 92.0311pt.
+
+<./figure/figure7.pdf, id=366, 457.71pt x 343.2825pt>
 File: ./figure/figure7.pdf Graphic file (type pdf)
 
 <use ./figure/figure7.pdf>
-Package pdftex.def Info: ./figure/figure7.pdf used on input line 2147.
+Package pdftex.def Info: ./figure/figure7.pdf used on input line 2250.
 (pdftex.def)             Requested size: 252.94499pt x 189.7069pt.
- [11 <./figure/time.pdf> <./figure/figure7.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 2213--2227
+ [12 <./figure/adjList_compress.pdf> <./figure/figure7.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 2316--2330
 []\OT1/ppl/b/n/9.53561 Logic-Aware Shuf-fle Par-ti-tion-ing\OT1/ppl/m/n/9.53561
  : Some sim-i-lar
  []
 
 
-Underfull \hbox (badness 1924) in paragraph at lines 2213--2227
+Underfull \hbox (badness 1924) in paragraph at lines 2316--2330
 \OT1/ppl/m/n/9.53561 and con-sid-ered the data re-la-tion across it-er-a-tions 
 to
  []
 
 
-Underfull \hbox (badness 3375) in paragraph at lines 2213--2227
+Underfull \hbox (badness 3375) in paragraph at lines 2316--2330
 \OT1/ppl/m/n/9.53561 avoid un-nec-es-sary shuf-fle net-work traf-fic. But their
 
  []
 
-[12]
-Underfull \hbox (badness 2393) in paragraph at lines 2606--2609
+[13]
+Underfull \hbox (badness 2393) in paragraph at lines 2709--2712
 \OT1/ppl/m/n/8.03 able: https://databricks-training.s3.amazonaws.com/movie-
  []
 
 
-Underfull \hbox (badness 2181) in paragraph at lines 2612--2615
+Underfull \hbox (badness 2181) in paragraph at lines 2715--2718
 []\OT1/ppl/m/n/8.03 ``Multiadjacentlist bench-mark.'' [On-line]. Avail-able:
  []
 
 
-Underfull \hbox (badness 1533) in paragraph at lines 2618--2621
+Underfull \hbox (badness 1533) in paragraph at lines 2721--2724
 []\OT1/ppl/m/n/8.03 ``Spark kmeans bench-mark.'' [On-line]. Avail-able:
  []
 
 
-Underfull \hbox (badness 3219) in paragraph at lines 2626--2629
+Underfull \hbox (badness 3219) in paragraph at lines 2728--2731
 []\OT1/ppl/m/n/8.03 ``Hku gideon-ii clus-ter.'' [On-line]. Avail-able:
  []
 
@@ -629,57 +643,61 @@ Missing character: There is no â in font pplr7t!
 Missing character: There is no € in font pplr7t!
 Missing character: There is no ™ in font pplr7t!
 
-Underfull \hbox (badness 2318) in paragraph at lines 2632--2634
+Underfull \hbox (badness 2318) in paragraph at lines 2734--2736
 []\OT1/ppl/m/n/8.03 J.C. Cor-bett et al., ``Span-ner: Googles glob-ally dis-tri
 buted
  []
 
-[13] <./figure/author1.png, id=410, 447.6725pt x 555.07375pt>
+
+Underfull \vbox (badness 1221) has occurred while \output is active []
+
+
+<./figure/author1.png, id=444, 447.6725pt x 555.07375pt>
 File: ./figure/author1.png Graphic file (type png)
 
 <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2751.
+Package pdftex.def Info: ./figure/author1.png used on input line 2853.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 File: ./figure/author1.png Graphic file (type png)
  <use ./figure/author1.png>
-Package pdftex.def Info: ./figure/author1.png used on input line 2751.
+Package pdftex.def Info: ./figure/author1.png used on input line 2853.
 (pdftex.def)             Requested size: 72.27116pt x 89.60976pt.
 
-<./figure/author2.png, id=414, 151.56625pt x 181.67876pt>
+<./figure/author2.png, id=448, 151.56625pt x 181.67876pt>
 File: ./figure/author2.png Graphic file (type png)
 
 <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2757.
+Package pdftex.def Info: ./figure/author2.png used on input line 2859.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 File: ./figure/author2.png Graphic file (type png)
  <use ./figure/author2.png>
-Package pdftex.def Info: ./figure/author2.png used on input line 2757.
+Package pdftex.def Info: ./figure/author2.png used on input line 2859.
 (pdftex.def)             Requested size: 72.26991pt x 86.62819pt.
 
-<./figure/author3.png, id=417, 334.24875pt x 397.485pt>
+<./figure/author3.png, id=451, 334.24875pt x 397.485pt>
 File: ./figure/author3.png Graphic file (type png)
 
 <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2766.
+Package pdftex.def Info: ./figure/author3.png used on input line 2867.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 File: ./figure/author3.png Graphic file (type png)
  <use ./figure/author3.png>
-Package pdftex.def Info: ./figure/author3.png used on input line 2766.
+Package pdftex.def Info: ./figure/author3.png used on input line 2867.
 (pdftex.def)             Requested size: 72.2701pt x 85.94281pt.
 
-Underfull \hbox (badness 1400) in paragraph at lines 2766--2769
+Underfull \hbox (badness 1400) in paragraph at lines 2867--2870
 \OT1/phv/m/n/8.03 are in op-er-at-ing sys-tems, pro-gram-ming lan-
  []
 
-<./figure/author4.png, id=420, 110.4125pt x 121.45375pt>
+<./figure/author4.png, id=454, 110.4125pt x 121.45375pt>
 File: ./figure/author4.png Graphic file (type png)
 
 <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2772.
+Package pdftex.def Info: ./figure/author4.png used on input line 2873.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 File: ./figure/author4.png Graphic file (type png)
  <use ./figure/author4.png>
-Package pdftex.def Info: ./figure/author4.png used on input line 2772.
+Package pdftex.def Info: ./figure/author4.png used on input line 2873.
 (pdftex.def)             Requested size: 72.27269pt x 79.49995pt.
 Missing character: There is no â in font phvr7t!
 Missing character: There is no € in font phvr7t!
@@ -688,10 +706,10 @@ Missing character: There is no ™ in font phvr7t!
 gure/author4.png>]
 (./confluence.aux) ) 
 Here is how much of TeX's memory you used:
- 7357 strings out of 493089
- 111812 string characters out of 6134842
- 258468 words of memory out of 5000000
- 10709 multiletter control sequences out of 15000+600000
+ 7363 strings out of 493089
+ 111981 string characters out of 6134842
+ 278999 words of memory out of 5000000
+ 10714 multiletter control sequences out of 15000+600000
  50129 words of font info for 110 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
  38i,17n,41p,498b,1122s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -724,10 +742,10 @@ w/palatino/uplb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palat
 ino/uplr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/palatino/upl
 ri8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
 
-Output written on confluence.pdf (14 pages, 1537416 bytes).
+Output written on confluence.pdf (14 pages, 1574251 bytes).
 PDF statistics:
- 517 PDF objects out of 1000 (max. 8388607)
- 334 compressed objects within 4 object streams
+ 551 PDF objects out of 1000 (max. 8388607)
+ 359 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 99 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1104,7 +1104,11 @@ $p$ for specific $k$ and $f(k)$.
 In the matrix multiplication example, we can easily deduce
 the key dependency of the second iteration: 
 $\forall i, j, p \in domain: (i, j, p) \Rightarrow_{1} (i, j)$.  
-Specifically, the key mapping function is $f((i, j, p)) = (i, j)$.
+Specifically, the key mapping function is $f((i, j, p)) = (i, j)$, 
+and the dependency probability is 1. 
+More details about calculating the dependency probability will be 
+illustrate with application examples in Section~\ref{section:application}.
+
 % it means that we know what the output key-value pairs will be 
 % for an input key-value pair in every computing iteration. 
 
@@ -1248,8 +1252,8 @@ These two constraints are considered as common sense when we design new key part
     Bind input key $k$ to mapped key $f_J(k)$;
 }
 
-\caption{Enhanced Key Partitioning Scheme X}
-\label{algo:x}
+\caption{Key Partitioning Scheme Y}
+\label{algo:y}
 \end{algorithm}
 \end{figure}
 
@@ -1259,11 +1263,12 @@ Surprisingly, by the binding theorem, we find that
 binding key dependency always reduces shuffle size as compared to RKP. 
 Note that by binding key partitions, the shuffle size reduction is 
 linearly proportional to the dependency probability. 
-We can further enhance scheme X 
+We can further improve scheme X 
 by applying key binding based on the key dependency with the 
-maximum dependency probability for each key in an specific iteration (Algorithm~\ref{algo:x}). 
+maximum dependency probability for each key in an specific iteration 
+(scheme Y in Algorithm~\ref{algo:y}). 
 
-A problem exists in the enhanced scheme X.
+A problem exists in scheme Y.
 The key dependency is usually provided by the programmer.
 In just one iteration, the programmer needs to find a distinguished
 key dependency set for every input key. 
@@ -1273,7 +1278,7 @@ times the number of keys (usually large),
 or roughly, $O$(\# of keys), which is usually large. 
 
 
-We presents the efficient Confluence Key Partitioning (CKP) scheme that 
+We present the efficient Confluence Key Partitioning (CKP) scheme that 
 reduces or even eliminates 
 the shuffle size in each iteration with as little as $O(1)$ time complexity. 
 The procedure of applying CKP is shown in Algorithm~\ref{algo:CKP}.
@@ -1316,7 +1321,7 @@ iteration whether key partition binding should be applied or not.
 In some iterations, it may happen that the programmer fails to find the
 key dependency,
 or the maximum dependency probability of the key dependency set is very small, 
-and thus applying CKP would not help much.%is trivial. 
+and thus applying CKP would not help much.    
 In these cases, the programmer may decide not to bind key partitions. 
 Further discussion about these cases will be presented in Section~\ref{section:limitation}.
 When a key dependency with a large dependency probability exists in an
@@ -1358,53 +1363,81 @@ When $pr_J$ equals 1 in an iteration, the shuffle size is 0 in that iteration.
 
 \subsection{Workload Skewness Analysis}\label{section:skew}
 CKP does not increase the workload skewness in most applications. 
-The workload of a node is the number of input entries for the transform
-operation in that node and 
-the workload skewness of an iteration is the standard deviation of the workloads of different nodes in that iteration. 
+The workload of a partition is the number of input entries for the transform operation in that partition and 
+the workload skewness of an iteration is the standard deviation of the workloads of different partitions in that iteration. 
+As shuffle operations only change data partitions, but do not change 
+key-value entry formats, the workload skewness is also the standard deviation of 
+the shuffle input value distribution between the partitions of their mapped keys, 
+where we denote this distribution as $V|P$. 
+
 % The math symbols in Section~\ref{section:CKP} are reused here without duplicated definition. 
 % Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and 
 % CKP and will not affect the standard deviation of the workloads.
 
 
-We compare workload skewness of CKP and RKP in iterations 
-that apply key partition binding.
-In unbound iterations, the key partitioning policy of CKP is the same as
-that of RKP, and the workload skewness in these iterations is the same
-in both schemes. Suppose in one of such iterations, keys of input
-entries follow a distribution $Dist$.
-In RKP, these input keys have been uniformly partitioned, 
-and the workload skewness is the standard deviation of $Dist$ times 
-% the total number of input entries times
-the average number of distinguished input keys in each node. 
+Suppose in a distributed iteration, the shuffle input value distribution
+between input keys is $V|K \sim D_{v}$, the shuffle input key distribution 
+between mapped keys is $K|f(K) \sim D_{k}$, and the mapped key distribution 
+between partitions is $f(K)|P \sim D_{f(K)}$. 
+Therefore, the workload skewness of an iteration is decided by 
+the joint distribution $D_{v} \bowtie D_{k} \bowtie D_{f(K)}$ of this iteration.
+As $D_{v}$ is decided by the nature of input data, 
+and CKP and RKP both hashed mapped keys to their partitions, 
+CKP and RKP differ only in distribution $D_{k}$. 
+In RKP, the mapped key can be considered as the shuffle input key itself, 
+and input keys are uniformly (one-to-one) distributed on mapped keys. 
 
-In CKP, in a binding iteration, suppose two conditions are met: 
-1) input keys are uniformly bound to mapped keys;
-2) the mapped keys, which are also the input keys of the next iteration,
-will be uniformly partitioned in the shuffle operation.
-The first condition means that the expected number of distinguished input keys bound to every mapped key is the same.
-If both conditions are satisfied, it indicates that the input keys have also 
-been uniformly partitioned in the previous iteration,
-and therefore, the workload skewness is the same as that of RKP.
-The second condition will be eventually satisfied, as the last iteration
-always randomly partitions the keys.
-If the first condition is always true in all iterations, 
-the second condition can be proved to be always true by induction from
-the last iteration back to the previous iterations.
+% We compare workload skewness of CKP and RKP in iterations 
+% that apply key partition binding.
+% In unbound iterations, the key partitioning policy of CKP is the same as
+% that of RKP, and the workload skewness in these iterations is the same
+% in both schemes. 
 
-In a nutshell, if input keys are uniformly bound to mapped keys in all
-iterations, the workload skewness of CKP is the same as that of RKP. 
+
+% Suppose in one of such iterations, keys of input
+% entries follow a distribution $Dist$.
+% In RKP, these input keys have been uniformly partitioned, 
+% and the workload skewness is the standard deviation of $Dist$ times 
+% % the total number of input entries times
+% the average number of distinguished input keys in each node. 
+
+% In CKP, in a binding iteration, suppose two conditions are met: 
+% 1) input keys are uniformly bound to mapped keys;
+% 2) the mapped keys, which are also the input keys of the next iteration,
+% will be uniformly partitioned in the shuffle operation.
+% The first condition means that the expected number of distinguished input keys bound to every mapped key is the same.
+% If both conditions are satisfied, it indicates that the input keys have also 
+% been uniformly partitioned in the previous iteration,
+% and therefore, the workload skewness is the same as that of RKP.
+% The second condition will be eventually satisfied, as the last iteration
+% always randomly partitions the keys.
+% If the first condition is always true in all iterations, 
+% the second condition can be proved to be always true by induction from
+% the last iteration back to the previous iterations.
+
+In a nutshell, if input keys are uniformly bound to mapped keys in each
+iteration, the workload skewness of CKP is the same as that of RKP. 
 Luckily, this condition is true in most applications we observe.
 For example, in the second iteration of matrix multiplication, 
 the number of input keys $(i,j,p)$ that
 are bound to mapped key $(i,j)$ is equal to the dimension size of the matrix.
 In the MovieLensALS algorithm introduced later in Section~\ref{section:application}, the expected number of input keys $(userId, itemId)$
-that are bound to mapped key $userId$ is equal to the average number of
+that are bound to each mapped key $userId$ is equal to the average number of
 items all users have bought.
 In a few cases (e.g., KMeans in Section~\ref{section:application}) where
 this condition does not hold,
 we find that the workload skewness difference of CKP and RKP is so small
 that it could be ignored.%regarding the shuffle size CKP reduces.
 
+Note that both RKP and CKP do not try to decrease the skewness of
+input value distribution between keys, i.e., $D_v$.
+The skewness of $D_v$ refers to the case that some keys have much larger 
+number of values than others, and the balanced partitioning of keys 
+would not erase the skewness. 
+The decrease of skewness of values between keys can be done by other 
+techniques~\cite{kwon2010skew, kwon2012skewtune}, 
+and CKP does not try to decrease or erase this skewness, but tries not to 
+increase the workload skewness of each iteration compared to RKP. 
 % In all iterations when RKP is applied, every entry is a uniformly-partitioned entry, the expected workloads of the all the nodes are the same and the expected workload skewness is 0. 
 
 % When CKP is applied, as each output entry of the shuffle operation is the uniformly-partitioned entry in Iteration $u$, the workloads of all the nodes are the same in Iteration $u+1$. 
@@ -1432,7 +1465,7 @@ that it could be ignored.%regarding the shuffle size CKP reduces.
 \subsection{Inaccurate Key Dependency}\label{section:inaccurate}
 Note that programmers do not need to change the original logic of
 applications in order to apply CKP.
-Applying any key partition scheme, including CKP, will not affect
+Applying any key partitioning scheme, including CKP, will not affect
 the logic correctness of the applications, but only affect the traffic 
 performance of shuffle (shuffle size and workload skewness). 
 
@@ -1838,16 +1871,35 @@ becomes free, the task scheduler selects a task with whichever partition
 from the head of task queue. The selected task will run in that
 executor.
 Now, if the partition-executor-tying feature is turned on, when the task scheduler selects a task for the free executor, 
-it selects one whose task partition hash code is the same as the hash code of the free executor. 
+it selects the one whose task partition hash code is the same as the hash code of the free executor. 
 The hash based tying ensures that tasks of the same partition will always be allocated to the same executor in different iterations. 
 Finding the first task that hashes the executor from the task queue, 
 the time complexity of scheduling each task is $O(N)$, 
 where $N$ is the number of the executors in a computing iteration. 
 
+A dense hashing conflict problem may exist if inappropriate hash functions are used when multiple distributed applications are running. 
+For a concrete example, suppose there were three executors in the Spark cluster, 
+and there were three applications, whose number of tasks is 1, 2, 3, respectively, and the task IDs are numbered incrementally from 0, 1, 
+until 2 if possible. 
+If we use a \emph{mod-by-3} function as the hash function, all of the three applications 
+will compete to tie their task 0 to the executor with hash code being 0, 
+but only 1 applications with 3 tasks will be tied to the executor
+whose hash code is 2.
+In general \emph{mod} hash cases, the distribution of task hash codes of multiple applications
+will concentrate on smaller values, but the distribution of executor hash codes 
+tends to be normal. Therefore, tasks with small hash codes will be waiting 
+for the competition for free executors, while executors with larger hash code 
+may keep idle.
+A solution to this problem is to choose a hash function that make 
+the distribution of task hash code of multiple applications also normal, 
+so that the expected number of tasks assigned to each executor are the same.
+For example, instead of using the incremental task ID to directly \emph{mod}, every application can use a different hash function that transform the task ID to a random value before using \emph{mod}.
+
+
 The partition-executor-tying implementation will not introduce any negative
 side effects into the system for the following three reasons: 1)  The
 order to run pending tasks of the same iteration does not affect the
-completion time of each iteration; 2) due to hashing, each executor
+completion time of each iteration; 2) with random hashing, each executor
 is expected to run the same number of tasks in each iteration;
 3) the task scheduling overhead is often trivial and negligible, which
 is only linear in the number of executors.
@@ -2022,6 +2074,10 @@ remaining 16 nodes are configured as both HDFS data nodes and YARN node
 managers, and are connected to an internal non-blocking switch with GbE
 ports.
 Spark is deployed on top of the YARN cluster with 16 executor, where each executor runs with 8 GB memories. 
+When sending shuffle data through network, Spark network streams use 
+\emph{Lz4}, one of the fastest (de-)compression algorithm, to serialize and deserialize shuffle 
+data by default. 
+
 
 Several benchmarks that are representative ones of their fields are used to evaluate the performance of CKP.
 Unless further specified, the input data sizes and the running setting of the benchmarks are listed in Table~\ref{table:benchmark}.
@@ -2032,6 +2088,7 @@ These key partitioning schemes are for special purpose and we do not compare CKP
 \subsection{Metrics}
 We measure the shuffle size of each distributed computing iteration (or alternately, stage) of the benchmarks. 
 The shuffle size of each iteration is the sum of the cross-node traffic size of the shuffle operation of all executors in that iteration. 
+Note that the shuffle size is the compressed one after shuffle network streams serialize the raw shuffle data using \emph{Lz4}. 
 This metric depicts the performance of CKP in reducing the shuffle size. 
 Besides, the standard deviation of input workloads of executors is measured as the metric of workload skewness in binding iterations. 
 The completion time measure how CKP improves the job completion time by shuffle 
@@ -2132,13 +2189,59 @@ We conclude that the overall completion time improvement
 depends on how large portion the completion time of binding iterations 
 occupy. 
 
-An other observation is that how much the overall completion time is improved 
+Another observation is that how much the overall completion time is improved 
 depends on whether the network performance for shuffling is the bottleneck for 
 an iterative distributed operation. For example, in MultiAdjacentList, the shuffle size of every iteration is reduced by 50\%, but the average completion time reduction of all iterations
 is only about 6\%, resulting in about 6\% overall completion time reduction.
 The reason is that this algorithm spends more time generating dozens of 
 new lists from every shorter list, where CPU is the bottleneck most of the time
 and network is unlikely a bottleneck. 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\columnwidth]{adjList_compress}
+\caption{Shuffle Size and Completion Time of Each Iteration in MultiAdjacentList
+Benchmark Using Different Compression and Key Partitioning Schemes. ``Raw'' Stands for Raw Data without Compression.}
+\label{fig:compress}
+%\vspace{-0.2in}
+\end{figure}
+
+\subsection{CKP vs. Compression}
+Data compression is another approach often used to reduce the shuffle size. 
+CKP and compression are not mutually exclusive and they can be used at the 
+same time, as what we have been doing so far by apply CKP along with  
+the default \emph{Lz4} shuffle streamer. 
+Still, we are interested on how CKP and data compression, 
+individually, affect the shuffle performance. 
+We selectively run the MultiAdjanceList benchmark, which has many key binding iterations, and double the input size to amplify the effect.
+Different combinations of compression policies and key partitioning
+schemes are used, i.e., with or without compression, and with RKP or with
+CKP. Results of the shuffle size and the shuffle completion time of each iteration
+are shown in Fig.~\ref{fig:compress}. 
+
+CKP and compression can work together to reduce shuffle sizes by a larger margin. 
+Compression is supposed to reduce the shuffle size by a relatively
+stable ratio, e.g., about 37\% regardless of the key partitioning scheme 
+in this benchmark, though the theoretical \emph{Lz4} 
+compression ratio is about 2.2. 
+The shuffle size reduction of CKP is about 50\% of the according one of RKP, 
+and can be very different in different benchmarks, as we have shown. 
+The shuffle size with both CKP and compression used is only about 33\% of 
+the one with RKP and no compression used (in Fig.~\ref{fig:compress}(a)). 
+
+However, compression can increase the completion time of the shuffle. 
+In Fig.~\ref{fig:compress}(b), with compression, 
+the overall completion time is about 14\% to 18\% higher than that 
+without compression, regardless of the key partitioning scheme. 
+Even when CKP is used along with compression, the completion time is still
+about 7\% higher than that using RKP without compression.  
+The reason is that compression increases the time to serialize and deserialize
+shuffle data in network streams, and (de-)serialization overhead time can
+overtake the benefit of transferring less shuffle data through the network.
+The overhead of CKP is only the increased calculation time of the mapping function
+for each entry, as compared to the hash function in RKP. 
+CKP reduces the shuffle completion time in all cases we have seen. 
+
 
 
 
@@ -2619,7 +2722,6 @@ H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
   \url{http://spark.apache.org/docs/latest/mllib-clustering.html}
 \BIBentrySTDinterwordspacing
 
-\newpage 
 
 \bibitem{gideon}
 \BIBentryALTinterwordspacing
@@ -2745,7 +2847,7 @@ A.~Harlap et al., ``Addressing the straggler problem for iterative convergent
 % or if you just want to reserve a space for a photo:
 
 
-\newpage
+% \newpage
 
 % \vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1}}]{Feng Liang}
@@ -2753,22 +2855,21 @@ received the BS degree in software engineering from Nanjing University in 2012, 
 [homepage] i.cs.hku.hk/\%7Efliang
 \end{IEEEbiography}
 
-\vspace{-6.5in}
+\vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author2}}]{Francis C.M. Lau}
 received his PhD in computer science from the University of Waterloo in 1986. He has been a faculty member of the Department of Computer Science, The University of Hong Kong since 1987, where he served as the department chair from 2000 to 2005. He is now Associate Dean of Faculty of Engineering, the University of Hong Kong. He was a honorary chair professor in the Institute of Theoretical Computer Science of Tsinghua University from 2007 to 2010. His research interests include
 computer systems and networking, algorithms, HCI, and application of IT to arts. He is the editor-in-chief of the Journal of Interconnection Networks.
 [homepage] i.cs.hku.hk/\%7Efcmlau
 \end{IEEEbiography}
 
-\newpage
 
-% \vspace{-.5in}
+ \vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author3}}]{Heming Cui}
 is an assistant professor in Computer Science of HKU. His research interests are in operating systems, programming languages, distributed systems, and cloud computing, with a particular focus on building software infrastructures and tools to improve reliability and security of real-world software. 
 [homepage] i.cs.hku.hk/\%7Eheming
 \end{IEEEbiography}
 
-\vspace{-6.5in}
+\vspace{-.5in}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author4}}]{Cho-Li Wang}
 is currently a Professor in the Department of Computer Science at The
 University of Hong Kong. He graduated with a B.S. degree in Computer Science and
