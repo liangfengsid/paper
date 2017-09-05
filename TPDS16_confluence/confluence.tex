@@ -924,7 +924,7 @@ transformation.
 % One typical example of the distributed operation is
 % MapReduce~\cite{dean2008mapreduce}, 
 % which divides the operation into two primitives: map and reduce.
-Most iterative distributed paradigms such as the in-memory %paradigm
+Iterative map-and-reduce-like paradigms such as the in-memory %paradigm
 Spark~\cite{zaharia2012resilient} and the distributed database query
 engine Hive~\cite{thusoo2009hive} can be equated to iterative transform-and-shuffle operations.
 The matrix multiplication example in Section~\ref{section:introduction}
@@ -1208,7 +1208,7 @@ input key $k$ to mapped key $k_x$ in this iteration $i$.
 
 By the definition of the key dependency and recalling that 
 the shuffle size only refers to cross-node data traffic,
-we can easily deduce the following theorem.
+we can deduce the following theorem.
 \newtheorem*{theorem*}{\textbf{Binding Theorem}}
 \begin{theorem*}\label{thm:binding}
 Suppose a key dependency $k \Rightarrow_{pr} f(k)$ in an iteration of a distributed operation,
@@ -1335,11 +1335,11 @@ The key dependency is derived from the transform operation logic.
 In some cases, for input key-value entries with a specific key, 
 the transform operation always generates output entries with predictable keys, 
 regardless of what the actual values are. 
-The matrix multiplication algorithm falls in this case. 
+Algorithms like matrix multiplication and PageRank (see Section~\ref{section:pagerank}) fall in this case. 
 Finding key dependency in such cases is usually simple, 
 and a programmer may start from the domain of the input keys and 
 derive the general key dependency for each range of the domain.
-In some other cases, keys of the output entries are also affected by 
+In some other cases, like MultiAdjacentList and KMeans (see Section~\ref{section:multiAdjlist} and \ref{section:kmeans}), keys of the output entries are also affected by 
 the values of the input key-value entries. 
 In these cases, the programmer needs also consider the key-value entries as 
 a whole to deduce the mapped keys and the probability
@@ -1362,7 +1362,6 @@ When $pr_J$ equals 1 in an iteration, the shuffle size is 0 in that iteration.
 
 
 \subsection{Workload Skewness Analysis}\label{section:skew}
-CKP does not increase the workload skewness in most applications. 
 The workload of a partition is the number of input entries for the transform operation in that partition and 
 the workload skewness of an iteration is the standard deviation of the workloads of different partitions in that iteration. 
 As shuffle operations only change data partitions, but do not change 
@@ -1374,18 +1373,21 @@ where we denote this distribution as $V|P$.
 % Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and 
 % CKP and will not affect the standard deviation of the workloads.
 
-
+In a nutshell, if shuffle input keys are uniformly bound to mapped keys in each
+iteration, the workload skewness of CKP is the same as that of RKP. 
 Suppose in a distributed iteration, the shuffle input value distribution
-between input keys is $V|K \sim D_{v}$, the shuffle input key distribution 
-between mapped keys is $K|f(K) \sim D_{k}$, and the mapped key distribution 
-between partitions is $f(K)|P \sim D_{f(K)}$. 
+between input keys is $V|K \sim D_v$, the shuffle input key distribution 
+between mapped keys is $K|f(K) \sim D_k$, and the mapped key distribution 
+between partitions is $f(K)|P \sim D_{f(k)}$. 
 Therefore, the workload skewness of an iteration is decided by 
-the joint distribution $D_{v} \bowtie D_{k} \bowtie D_{f(K)}$ of this iteration.
-As $D_{v}$ is decided by the nature of input data, 
+the joint distribution $D_v \bowtie D_k \bowtie D_{f(k)}$ of this iteration.
+As $D_v$ is decided by the nature of input data, 
 and CKP and RKP both hashed mapped keys to their partitions, 
-CKP and RKP differ only in distribution $D_{k}$. 
+CKP and RKP differ only in distribution $D_k$. 
 In RKP, the mapped key can be considered as the shuffle input key itself, 
 and input keys are uniformly (one-to-one) distributed on mapped keys. 
+If distribution $D_k$ is also uniform in CKP, 
+the workload skewness of CKP and RKP are the same. 
 
 % We compare workload skewness of CKP and RKP in iterations 
 % that apply key partition binding.
@@ -1415,16 +1417,14 @@ and input keys are uniformly (one-to-one) distributed on mapped keys.
 % the second condition can be proved to be always true by induction from
 % the last iteration back to the previous iterations.
 
-In a nutshell, if input keys are uniformly bound to mapped keys in each
-iteration, the workload skewness of CKP is the same as that of RKP. 
-Luckily, this condition is true in most applications we observe.
+Luckily, this condition of uniform distribution $D_k$ is true in many applications we observe.
 For example, in the second iteration of matrix multiplication, 
 the number of input keys $(i,j,p)$ that
 are bound to mapped key $(i,j)$ is equal to the dimension size of the matrix.
 In the MovieLensALS algorithm introduced later in Section~\ref{section:application}, the expected number of input keys $(userId, itemId)$
 that are bound to each mapped key $userId$ is equal to the average number of
 items all users have bought.
-In a few cases (e.g., KMeans in Section~\ref{section:application}) where
+In a few cases (e.g., KMeans in Section~\ref{section:kmeans}) where
 this condition does not hold,
 we find that the workload skewness difference of CKP and RKP is so small
 that it could be ignored.%regarding the shuffle size CKP reduces.
@@ -1580,7 +1580,7 @@ and the shuffle size generating the item block in iteration 3
 is the same as that of RKP.
 
 
-\subsection{GoogleAlbum and PageRank}
+\subsection{GoogleAlbum and PageRank}\label{section:pagerank}
 CKP can usually be applied to \emph{join} operations in distributed databases.
 For example, in the Google album application~\cite{google2012spanner}, 
 an entry in table Users is identified by primary key ``$uid$''
@@ -1628,7 +1628,7 @@ we formalize it here via the concept of key dependency.
 % partitioning the link list dataset by it key $url$ first.
 
 
-\subsection{MultiAdjacentList}
+\subsection{MultiAdjacentList}\label{section:multiAdjlist}
 MultiAdjacentList~\cite{multiAdjList} is
 a graph computing application which generates 
 lists of different lengths in a graph by concatenating adjacent nodes 
@@ -1672,7 +1672,7 @@ key $L_i$ (and another 50\% from entries with key $(L_{i-1}, tail)$
 % In the setting that every node has $l$ heads and $l$ tails on average, every map input entry is expected to generate $2 \cdot l$ shuffle output entries in each iteration. Therefore, by the discussion in Section~\ref{section:skew}, the workload skewness of each iteration is 0 when CKP is applied. 
 % }
 
-\subsection{KMeans}
+\subsection{KMeans}\label{section:kmeans}
 KMeans~\cite{kmeans} is a famous clustering algorithm in data mining.
 It groups vector points into $k$ clusters where each vector point belongs to the cluster with the minimum mean value. 
 This procedure is done in a dedicated number of iterations. 
@@ -1878,22 +1878,23 @@ the time complexity of scheduling each task is $O(N)$,
 where $N$ is the number of the executors in a computing iteration. 
 
 A dense hashing conflict problem may exist if inappropriate hash functions are used when multiple distributed applications are running. 
-For a concrete example, suppose there were three executors in the Spark cluster, 
-and there were three applications, whose number of tasks is 1, 2, 3, respectively, and the task IDs are numbered incrementally from 0, 1, 
-until 2 if possible. 
-If we use a \emph{mod-by-3} function as the hash function, all of the three applications 
-will compete to tie their task 0 to the executor with hash code being 0, 
-but only 1 applications with 3 tasks will be tied to the executor
-whose hash code is 2.
-In general \emph{mod} hash cases, the distribution of task hash codes of multiple applications
-will concentrate on smaller values, but the distribution of executor hash codes 
-tends to be normal. Therefore, tasks with small hash codes will be waiting 
-for the competition for free executors, while executors with larger hash code 
-may keep idle.
-A solution to this problem is to choose a hash function that make 
+% For a concrete example, suppose there were three executors in the Spark cluster, 
+% and there were three applications, whose number of tasks is 1, 2, 3, respectively, and the task IDs are numbered incrementally from 0, 1, 
+% until 2 if possible. 
+% If we use a \emph{mod-by-3} function as the hash function, all of the three applications 
+% will compete to tie their task 0 to the executor with hash code being 0, 
+% but only 1 applications with 3 tasks will be tied to the executor
+% whose hash code is 2.
+For example, in a \emph{mod-by-n} hash case, as applications can have different numbers of tasks and their task IDs are usually arranged incrementally from 0, 
+the distribution of task hash codes of multiple applications
+will concentrate on smaller values in range $[0, n)$, but tends to be sparse in values near $n$. 
+The distribution of executor hash codes 
+tends to be normal. Therefore, tasks with small hash codes will be competing for free executors with small hash codes, while executors with larger hash code 
+may remain idle.
+We solve this problem by choosing a hash function that make 
 the distribution of task hash code of multiple applications also normal, 
 so that the expected number of tasks assigned to each executor are the same.
-For example, instead of using the incremental task ID to directly \emph{mod}, every application can use a different hash function that transform the task ID to a random value before using \emph{mod}.
+For example, instead of using the incremental task ID to directly \emph{mod}, every application can use a different hash function that transforms the task ID to a random value before using \emph{mod}.
 
 
 The partition-executor-tying implementation will not introduce any negative
@@ -2222,8 +2223,9 @@ are shown in Fig.~\ref{fig:compress}.
 CKP and compression can work together to reduce shuffle sizes by a larger margin. 
 Compression is supposed to reduce the shuffle size by a relatively
 stable ratio, e.g., about 37\% regardless of the key partitioning scheme 
-in this benchmark, though the theoretical \emph{Lz4} 
-compression ratio is about 2.2. 
+in this benchmark. 
+% Though the theoretical \emph{Lz4} compression ratio is about 2.1, 
+% the compression ratio in this benchmark matches that in a Yahoo! Hadoop use report~\cite{hadoopCompression}.
 The shuffle size reduction of CKP is about 50\% of the according one of RKP, 
 and can be very different in different benchmarks, as we have shown. 
 The shuffle size with both CKP and compression used is only about 33\% of 
@@ -2566,7 +2568,7 @@ This work is supported in part by a Hong Kong RGC CRF grant
 % (used to reserve space for the reference number labels box)
 %\begin{thebibliography}{1}
 % Generated by IEEEtran.bst, version: 1.13 (2008/09/30)
-\begin{thebibliography}{43}
+\begin{thebibliography}{44}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
 \providecommand{\newblock}{\relax}
@@ -2728,6 +2730,12 @@ H.~Zhao and R.~Sakellariou, ``Scheduling multiple dags onto heterogeneous
 ``Hku gideon-ii cluster.'' [Online]. Available:
   \url{http://i.cs.hku.hk/\%7Eclwang/Gideon-II/}
 \BIBentrySTDinterwordspacing
+
+% \bibitem{hadoopCompression}
+% \BIBentryALTinterwordspacing
+% ``Compression Options in Hadoop - A Tale of Tradeoffs,'' Hadoop Submit 2013  [Online]. Available:
+%   \url{https://www.slideshare.net/Hadoop\\\%5FSummit/singh\%2Dkamat\%2Djune27425pmroom210c/}
+% \BIBentrySTDinterwordspacing
 
 
 \bibitem{google2012spanner}
