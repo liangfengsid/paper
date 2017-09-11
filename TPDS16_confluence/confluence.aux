@@ -45,19 +45,20 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Key Partition Binding}{4}}
 \newlabel{section:binding}{{3.1}{4}}
 \newlabel{thm:binding}{{3.1}{4}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Enhanced Key Partitioning Scheme X}}{5}}
-\newlabel{algo:x}{{1}{5}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Key Partitioning Scheme Y}}{5}}
+\newlabel{algo:y}{{1}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Confluence Key Partitioning}{5}}
 \newlabel{section:ckp}{{3.2}{5}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Confluence Key Partitioning}}{5}}
 \newlabel{algo:CKP}{{2}{5}}
+\citation{kwon2010skew,kwon2012skewtune}
 \citation{movielensals}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Workload Skewness Analysis}{6}}
 \newlabel{section:skew}{{3.3}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Inaccurate Key Dependency}{6}}
-\newlabel{section:inaccurate}{{3.4}{6}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces CKP Shuffle Size Reduction in Different Distributed Operations}}{6}}
 \newlabel{table:reduction}{{2}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Inaccurate Key Dependency}{6}}
+\newlabel{section:inaccurate}{{3.4}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Application}{6}}
 \newlabel{section:application}{{4}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}MovieLensALS}{6}}
@@ -68,13 +69,16 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The Transformation Lineage of Keys between Iterations and the Key Dependency of Different Applications. Key Partition Binding is Applied to Keys in Iterations Wrapped in Dashed Rhombus Boxes }}{7}}
 \newlabel{fig:application}{{2}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}GoogleAlbum and PageRank}{7}}
+\newlabel{section:pagerank}{{4.2}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}MultiAdjacentList}{7}}
+\newlabel{section:multiAdjlist}{{4.3}{7}}
 \citation{kmeans}
 \citation{shvachko2010hadoop}
 \citation{dean2008mapreduce}
 \citation{ekanayake2010twister}
 \citation{bu2010haloop}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}KMeans}{8}}
+\newlabel{section:kmeans}{{4.4}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Limitations Applying Confluence}{8}}
 \newlabel{section:limitation}{{4.5}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Implementation}{8}}
@@ -83,32 +87,37 @@
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Key Mapping Functions of ConfluencePartitioner in Different Iterative Distributed Operations}}{9}}
 \newlabel{table:code}{{3}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Confluence Partitioner Interface}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Code Comparison after Using the ConfluencePartitioner Interface to Apply CKP in MovieLensALS and KMeans}}{9}}
-\newlabel{fig:code}{{3}{9}}
 \citation{gideon}
 \citation{zaharia2012resilient}
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmark Settings}}{10}}
 \newlabel{table:benchmark}{{4}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Code Comparison after Using the ConfluencePartitioner Interface to Apply CKP in MovieLensALS and KMeans}}{10}}
+\newlabel{fig:code}{{3}{10}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation}{10}}
 \newlabel{section:evaluation}{{6}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Testbed and Benchmarks}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Metrics}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{10}}
-\newlabel{fig:size}{{4}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Shuffle Size Improvement}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Shuffle Size and Standard Deviation of Workloads of Multiple Iterations (or Stages) in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks }}{11}}
+\newlabel{fig:size}{{4}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Completion Time of Multiple Iterations in Different Benchmarks}}{11}}
 \newlabel{fig:time}{{5}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Workload Skew}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{11}}
-\newlabel{fig:sizeLine}{{6}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Completion Time}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Scalability}{11}}
 \citation{gunarathne2013scalable,zaharia2012resilient,bu2010haloop,ekanayake2010twister}
 \citation{bekkerman2011scaling}
 \citation{kiran2013verification,mensink2012metric}
 \citation{buluc2012parallel,ballard2012communication}
 \citation{Sarma:2013:ULB}
 \citation{faraz2014shufflewatcher}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Shuffle Size and Completion Time of Each Iteration in MultiAdjacentList Benchmark Using Different Compression and Key Partitioning Schemes. ``Raw'' Stands for Raw Data without Compression.}}{12}}
+\newlabel{fig:compress}{{6}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}CKP vs. Compression}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}Scalability}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Overall Shuffle Size of the Key Partition Binding Iterations in MatrixMultiplication (Matrix), MovieLensALS (ALS), MultiAdjacentList (AdjList) and KMeans Benchmarks with Different Input Size}}{12}}
+\newlabel{fig:sizeLine}{{7}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{12}}
+\newlabel{section:relatedWork}{{7}{12}}
 \citation{zhou2010scope,zhang2012shuffle}
 \citation{zhang2012shuffle}
 \citation{zhou2010scope}
@@ -121,11 +130,6 @@
 \bibcite{Lu:2014:LDG}{3}
 \bibcite{thusoo2009hive}{4}
 \bibcite{Yu:2008:DSG}{5}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Related Work}{12}}
-\newlabel{section:relatedWork}{{7}{12}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{12}}
-\newlabel{section:conclusion}{{8}{12}}
-\@writefile{toc}{\contentsline {section}{References}{12}}
 \bibcite{Armbrust:2015:SSR}{6}
 \bibcite{low2012distributed}{7}
 \bibcite{kraska2013mlbase}{8}
@@ -140,6 +144,9 @@
 \bibcite{bu2010haloop}{17}
 \bibcite{zaharia2012resilient}{18}
 \bibcite{ekanayake2010twister}{19}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion and Future Work}{13}}
+\newlabel{section:conclusion}{{8}{13}}
+\@writefile{toc}{\contentsline {section}{References}{13}}
 \bibcite{sakellariou2004hybrid}{20}
 \bibcite{zhao2006scheduling}{21}
 \bibcite{movielensals}{22}

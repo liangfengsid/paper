@@ -1,0 +1,827 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<title>ScholarOne Manuscripts</title>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
+
+<!--[if IE 8]><meta http-equiv="X-UA-Compatible" content="IE=8,chrome=1"><![endif]-->
+<!--[if IE 9]><meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
+<!--[if IE 10]><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+
+<!-- CSS ============================================================================== -->
+<link rel="stylesheet" type="text/css" href="/common/bento.ui/css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="/common/bento.ui/css/bootstrap-responsive.css">
+<!--[if !IE]><!-->
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/css/header.css">
+<link rel="stylesheet" type="text/css" href="/css/footer.css">
+<!--<![endif]-->
+<!--[if lt IE 9]>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/css/header_ie8.css">
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/css/footer_ie8.css">
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/common/bento.ui/css/font-awesome-ie7.min.css">
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/common/bento.ui/css/font-awesome-min.css">
+<![endif]-->
+<!--[if gte IE 9]>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/css/header.css">
+<link rel="stylesheet" type="text/css" href="/css/footer.css">
+<![endif]-->
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/css/en_US/scholarone.css">
+ <!--[if IE]>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="/css/scholarone_ie_specific.css">
+<![endif]-->
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="/common/bento.ui/js/jquery.min.js"></script>
+<script src="/common/bento.ui/js/bootstrap.min.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="/common/bento.ui/ico/favicon.ico?">
+
+<script language='JavaScript' type='text/javascript'>
+var ALERT_WAIT_FOR_SUBMIT = 'The form has been submitted, please wait until it has completed before pressing any more buttons.';
+var ALERT_TEXT_LIMIT = 'The text limit for this field has been reached. No more text may be added.';
+var ALERT_NO_SEARCH = 'Starting over will mean that the system will not perform this search. Are you sure?';
+var ALERT_TEXT_OVERFLOW = 'Text overflow';
+var PREFER_24HOUR = '0';
+var GMT_STR = 'GMT';
+var AM_STR = 'AM';
+var PM_STR = 'PM';
+</script>
+<script language='JavaScript' type='text/javascript'>
+var ALERT_WAIT_FOR_SUBMIT = 'The form has been submitted, please wait until it has completed before pressing any more buttons.';
+var ALERT_TEXT_LIMIT = 'The text limit for this field has been reached. No more text may be added.';
+var ALERT_NO_SEARCH = 'Starting over will mean that the system will not perform this search. Are you sure?';
+var ALERT_TEXT_OVERFLOW = 'Text overflow';
+var PREFER_24HOUR = '0';
+var GMT_STR = 'GMT';
+var AM_STR = 'AM';
+var PM_STR = 'PM';
+</script>
+<SCRIPT LANGUAGE='JavaScript' src='/common/scholarone.js?version=4.21.0.143'></SCRIPT>
+<link type='text/css' rel='StyleSheet' href='/css/en_US/helptip.css'/>
+<script language='JavaScript' src='/common/helptip.js?version=4.21.0.143'></script>
+<script language='JavaScript' type='text/javascript'>
+var LOGIN_PAGE='LOGIN';
+$( document ).ready(function() {
+checkCookieValues();
+ });;
+function isPageCompletelyLoaded()
+{
+  if (document.forms[0].PAGE_LOADED_FLAG.value != 'Y') {alert('The form has been submitted, please wait until it has completed before pressing any more buttons.'); return false;}
+       return true;
+}
+function getSiteURL()
+{
+   return 'tpds-cs';
+}
+function getLongRequestSiteURL()
+{
+   return '/LongRequest/tpds-cs';
+}
+function getPostParams(){}
+
+function popWindow(url,winname,width,height)
+{
+  winX=Math.round(screen.width/2)-(width/2);
+  winY=Math.round(screen.height/2)-(height/2);
+  winStats='toolbar=no,location=no,directories=no,menubar=no,resizable=yes,'
+  winStats+='scrollbars=yes,width='+width+',height='+height
+  if (navigator.appName.indexOf('Microsoft')>=0) {
+    winStats+=',left='+winX+',top='+winY+''
+  }else{ 
+    winStats+=',screenX='+winX+',screenY='+winY+''
+  }
+  restartTimer();
+  handle = window.open(encodeURI(url),winname,winStats) 
+  if(handle != null)
+  {
+   if (winname != 'add_person_to_pick_pop' && winname != 'mssearch_issue_popup' && winname != 'progress_pop_report' && winname != 'progress_pop_large' && winname != 'progress_pop_large2' && winname != 'transfer_pop' && winname != 'email_popup_stay' && winname != 'forms_instructions_popup') 
+   {
+     addHandleToArray(handle);  
+   }
+   handle.focus();  
+   handle.opener=self;  
+  }
+  if (winname == 'progress_pop_delayed' || winname == 'author_affil_details' || winname == 'sp_char_palette') 
+    return handle;  
+}
+function popWindowSecure(url,winname,width,height)
+{
+  winX=Math.round(screen.width/2)-(width/2);
+  winY=Math.round(screen.height/2)-(height/2);
+  winStats='toolbar=no,location=no,directories=no,menubar=no,status=yes,resizable=yes,'
+  winStats+='scrollbars=yes,width='+width+',height='+height
+  if (navigator.appName.indexOf('Microsoft')>=0) {
+    winStats+=',left='+winX+',top='+winY+''
+  }else{ 
+    winStats+=',screenX='+winX+',screenY='+winY+''
+  }
+  restartTimer();
+  handle = window.open(url,winname,winStats) 
+  if (winname != 'add_person_to_pick_pop' && winname != 'mssearch_issue_popup' && winname != 'progress_pop_report' && winname != 'progress_pop_large' && winname != 'progress_pop_large2' && winname != 'transfer_pop' && winname != 'email_popup_stay') 
+    addHandleToArray(handle);  
+  handle.focus();  
+}
+function popWindowSecureForPortal(url,winname,width,height)
+{
+  winX=Math.round(screen.width/2)-(width/2);
+  winY=Math.round(screen.height/2)-(height/2);
+  winStats='toolbar=yes,location=yes,directories=yes,menubar=yes,status=yes,resizable=yes,'
+  winStats+='scrollbars=yes,width='+width+',height='+height
+  if (navigator.appName.indexOf('Microsoft')>=0) {
+    winStats+=',left='+winX+',top='+winY+''
+  }else{ 
+    winStats+=',screenX='+winX+',screenY='+winY+''
+  }
+  restartTimer();
+  handle = window.open(url,winname,winStats) 
+  if (winname != 'add_person_to_pick_pop' && winname != 'mssearch_issue_popup' && winname != 'progress_pop_report' && winname != 'progress_pop_large' && winname != 'progress_pop_large2' && winname != 'transfer_pop' && winname != 'email_popup_stay') 
+    addHandleToArray(handle);  
+  handle.focus();  
+}
+function showProgressWindow() { 
+  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_DofGHqytdktFjhXcs4u8BSQsZoa5qKXsM5RoCKnN5YaT77Et5Hd5tEnNE3prAesi1aKJkUGBS5XqKUJhkuNHhNtwEywjASTyZyxPzHk6p9HeLESdRgps3qNqd42eQ6UGrtHX6hbgenPpD2g5MWR5iR8vitu6jPwjG6ptXjRoSAgBV6CC1DPU527UvxSVyscnSTK3cvonu1RiuEWkducDitb249QAbu9wzrfVPr6ZdmNJAkiQ','progress_pop', 400, 300); 
+}function showProgressWindowLarge(vPageName) { 
+ showProgressWindowLarge(vPageName, 'progress_pop_large'); 
+} 
+function showProgressWindowLarge(vPageName, vPopupWindowName) { 
+ if (vPopupWindowName == null) { vPopupWindowName = 'progress_pop_large'; } 
+  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_eDFqMhC5aTtfFC1DyWiKodwwX5ktFY42aRBWbLKALEMyXcohDgUrYpuZBPjWYzaC8yKV5LWykSnZyzHc1GvviZfoT6V39xvSGiiasxXxAm1GWu8WS5nDNCUb9TLsAdHTRWQkM18MypceFXjg4aAauRnoa4be5VwtPdPuAQ2BiYejH6B7VyDPuUxENhwVDcSy5yiD7oeJroTfCDiCv6xGtb1NpBkANCQuNf1r9WTP8y7uXzc5ghddYd5MNz7xmM8RZ7MTdX&PAGE_NAME=' + vPageName + '', vPopupWindowName, 800, 600); 
+}function showGenericProgressWindowLarge() { 
+  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_3Bp4h1dspoYwJsLvASqzGTnBRtJKPWwQEAkrPvbdBwnxMXCZ3nxjL9DWH7wDQ9STyS4obBqdNRvQhMHN1h8D48FuL5xABnY1AdtJzWhKFszrXqScm25vQVNEWFT4F3DE1chwrxrcV5kJ36caekQDmS1SULLsTvQeXoipgANx6jchh3WZEDCNt6gXU1VAmXQHskjK8DrSEhBsd1CAdxWevidp2sDPD2a56zqDN5CQAkF5A3kWx','progress_pop_large_generic', 800, 600); 
+}function showProgressWindowForReport() {  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_HZKc7zuNpEjviQYNGPDcrYwD7pnrMqCSWLgQwH1DkpeUA9jGkNeujkzCdc2CnvvPPzHY7bVbLqyZeZWoCUTH2DDvdp4wSu1oRNPAZnND3UQXwwptzCc82PjWQA99LLjRspMgNne8kWFnR6CkPDfSDXVhEc1QPxfjfcCNQLPHJA9tsV5DRRLyEFcTb7JCBnSNp31M5HPBj4C3HNA66drohwNpKtZM7S5YvQXoZxxGEjojJfsjFD3ZQ8eGgDZkTcoW9R5Z8v','progress_pop_report', 600, 500); 
+} 
+function showProgressWindowForReportSwitchConfig(configId) {  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_9kWkr7dJ2JNUXkuP1ZXp4tAn7ddpt9G47w4phrPKwqDbtcPPQwdtzaQUTMAH7Fv92p6RuiFEinPSxaxGSyRbbw9JGW5WKJkNrgHjwykJrNDeXwbZxfFMqhZPU3LnbyCNuSYCFSCVB6JkvwqdVWALY44onRqjqRdCnPwWjRz59DEUUzMJJ7MRWHp9sdjv1YrT5yA2PBwmEKMu7GD4YdcmTMjjSTtMfBAXEyfQkgrP2RP2swLsM6xgd74hNa7RG9UpR6tL85U8s6MGAVB28bxhwbqg6JEXv4PCfb5VAEEWE5woZsU75H','progress_pop_report', 600, 500); 
+} 
+function showProgressWindowRoleChange() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_3A8o1HMARSv1tipLUc5Ae3zDnoHw4uz8VuVi3VdRqJ8rqQ6UmAy9QBPiwjr2tcCiiNz3RZGApzXYoyzMrZ1EHEoW8UqiZiznSufWsrVq1JFWfvtfVAosZ5ie4iHG1z8YPQc2cETM2Qn255UWvigaoJrFAWGGUvi4QZ3CmH3m62nw6s6FACCvm4i65CLVP1UWVXy9RJqgX1TnqQ1jyah8jTfC4f6MhYZ5N2LbFvADr6sKdRvbGsfYn92MstriVSQu9HANr7b','progress_pop_report', 800, 600); 
+} 
+function showProgressWindowMSListExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_zm3U414AmBoE3SEMozbZvZtKrscyj5Cgs9yUm28aoindarmuzGiLUCPAMLCadh5dcrST9qSZSX4MemoJQqL9HPCUrtR1WUHGmv8bAm2ym8Pdoya4bSZLCzEVfzFXB7SgQ96radmBYX9YiowwHkEfshqTTPwjSuEy5iYmZqySP8ZvCDt7FzioEdXoQuwQkAxPdAEbabDtJ51kqin6Cf7SivvJhaLKGcWbuZ142KF5KaZ1xqy5xFBEWG5Xnbw1tVsgKaj3tt','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowStubsListExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_2NxgYmVG6udVYr9eFZyNTiEEpQJ2roT4H72aqAECtm8QWRyEZCz7kA7Ve9JpQauBgqzN74TURroFFD6UjTPocK6VLycbmxoNqAS3uP7chBg6xma4J2HkbFKrbqW1ddVbBdebjV13q6nzvXPyJj5VPVv3e7nTkc9kcPCcu5SGY7tCxvjoQUw1xSSg5BTwvaPERBKWSzCq4VnwXDc8jzLmj47kyGzPz2FvwPWdV8nhQtSxeRcNKdYcPTgPJDvFGt2pWcmu74i','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowMSListExportHistoryExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_4Bz1iP8gtRUyry8m6NRaXeaTtSCXJF3nvXsC3yxYpxJySNEJ9pi4JhZEYz9uLpwkxPQk1q9ZD7o9EeWXoiKnBVVVZhG9LuuhbYqeBFAZdSLqLrN1fR4rju3ByYnS2CRh3KrJKk9DwY5mkEBfj2j2kzGxgxsDpybxBBNitNfAEezKfHNiXysHtbcmk6A2UdkrRP4VBdHceYog1MBdeibLRxGfhTrtkHKNBsg3ZdcbVUng7gRHoiJLxAKwCz9RVrjBd489bUAuKjg9ZN5qYahzqKzPMBXr','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowSimpleExportHistory() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_KW1YajtDm945yZPdnew4cNC7r2k661Ny37URvBAL3tUp9AABdzNcwjsvq63Fdssx8G2movNc6dDEVLZdVaF4TkD8kuaCWn6i1oBBiU9TeSU3qzsJC6z1MhCaNxp9qAWb3WgkJ3V65VKbZe3aRgqqn2BQzncXC4wYqDLL2h3cAEZAShSQsPEfsQoTE5hFFZhjkBRrarufQ3qNsfRNsv3Fb1JZEbhZzz1qmAXMXsWCz16pqfFgXfcgb57ffRJEN1YoY6ufyg','progress_pop_report', 400, 300); 
+} 
+function showProgressAsyncSearchResultsExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_xbrxNpTEoLGSPzJ13yaTUdR4bopANCLjkBMYGtaCaoZ4tLWXKonGmfb3MrezSsQaZKgjdz4apE8RWwAZjC9FMhBgwQemMkKknEAbb7uQxhYpe34yDwJYRjkrFWFqrXQoABqfFUNUMXDDgQVYmpg8xgaGTefKuKmu8AEUwc6X8FDn9qMMB5CKDhdSoMd27qhkYTX7tfz6qWG4pSQAjCL2x3z73vqmP5dQpPMM64k2WEuuYef5BgpDBLbFonimvkDs5doRyx9jeqgDabvDXDsUFVko1T8g','progress_pop_report', 600, 500); 
+} 
+function showProgressWindowMSAddTasks() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_c6gFCQkXKcDyXeLNt6AQBwRfzUaheynabstsGYtZsUCbrAM9jUW6QeuMa6VmW9wajB8At5tjmTVVN6e6WjxmV4Sno6xQdiB8tbxNnW8jmEi65DCY3kUcrtXCQM3MSc3KQxd7LgB4gBkcmRxqkNsUr8hAukyZ8KhTMCdJVTBny7oALFFKiDCaBJSteG7SnnxjajB42H3AjHiQNoADEVnyRZqDTdLRMXeQHHMJdMKvWjPQjYeE','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowForIssueLineup(vRadioGroupName, vIssueId) {selVal = GetRadioValue(vRadioGroupName);if(selVal == '3') {javascript:setField('XIK_TAGACT', 'xik_9RB2Pgb4NG7AD1QRpbKiQgEVUBA73XiMi3JPfnkgTEh8');  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_ncXQWPNxZQPbQYefGTsZKsUr6tNv5doq2jurVjXHJPdRMzTQbEqDTW9joDzf3R33m8JRjFwRZnbYEt8jgBafeqTvJSzu1YTJo6jbvLfz5BHGtWHBwxcu2fxBfqvHqDy1moQ33TgA3Go9LqiJkEnDPAT8pYk5vgj9fv7MSimm63mdAB8koMjhajt5kmvppynmqA7k6soRJBTzu83DSD5L2U3fZRJmVVoF3wYGdodXpFN4doxtVVDjy2CDizK8czmU4ZjYBvL3dYGNFaUNCWjrr6z6kxwm','progress_pop_report', 400, 300); 
+} else {  javascript: showProgressWindowForReport();}} 
+function showProgressWindowGeneric(vProgressTypeId) {  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_RSkDWJcCXoKpN82jSm43hSwEfMKmA53YZHZaGe5u2ESgRniHF34ZbP2QnHwn4AJhE2LKHywTDzPqv9fdiiPu2rY8qiECUz7PsXG73ZzMKCmyKHXN4ZA6W2doPvDdrP6qbnRx8A6ia7YsgiC7HzHR4pTpWzU6wZFRPyPLk9wvtuT27xtTrWBzFUHYURuiNRDejQ3HPwU8briuPWicddr7A6qF3VH1m8RH84AenR64WAS3gJwV5LQnLaY36STFgWxzJR5a177dJ5BwLbFmxmokDBv34H4c','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowForTransfer() {  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_2F6DNXq5oaoMC7qqFPS2xj2jJAiM3DsWhtJpnmp1tk7k56Z1KL4yvybwSkSgUbDy3iE5wBujw2NZykf8JTUcQ5FUbDWaCLMH4asp4WHd47EZrcmSRbZHZMoHPjddGuiYkcFiJspqTZJ5m4nhjESUopzyZKPvU9D8d3Mkg2vJgR514NmLisjySATS5jpKRXgNw9yE9JVzjvTtR1taKHUCP9xCB3hvpPmV6LiE78f3sA7Q6V54v1Z6B2KhnbNqHS1mWJ6teWh','transfer_pop', 400, 300); 
+} 
+function showProgressWindowForIssueTransfer() {  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_4xgww6Te6Gt6LgG28yAYxbeWawHAkMFpxpQsBCk43AANBK9DQWGXiGayUgmr9PH9UobXFTPkgf7wUA8Kj2qWQACgbZx5fs554z8o9jTSDz3WLoVqSuwGHrcbfUZqZnCYbaKmFBUQovjTMGTYN78TcQtRveN333f75CPvwXXQFrDc3hEUTTQMBV8qbWGkwgxdh8B2bkAdWS3uAixRA4YYa1o5EqEnSLWweFKXfXokuBWfPR9dxAUgBmJ74B6o6DpRXUTywKd7iTnuBfy8ubux3HPsPEgxdd4pQCSUzwTRe6t92AxqUi','transfer_pop', 400, 300); 
+} 
+function showProgressWindowForImport() {  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_cTbrVRG6AR6cyAq3xokYGQJJs88iagaKKsDrsQbgS88ydJjF7a2BMUduZvpqR5ZfAF1VN6A7Bq4oetPXyzm9Etc67Az6dqkMcN6P8G7b5FW6njkJQbJk2288Vd7ctZB1V8E9ESoH1WGkfZcr4miuwcU6r73SGRSLUzfVekHG4Ck7x2etC4z5PQmRQqtNdp8ZutiLR4vPmAxNbr2xf5Ruz4Z29ACM3foTwX5k1oRSmCHyayCMQBrXqCCFfKLk5T6m4nkcXH','progress_pop_report', 600, 500); 
+} 
+function showProgressWindowArXiv() { 
+  javascript: popWindow('tpds\x2Dcs\x3FPARAMS\x3Dxik_3GcZszrUoJbFqQHPaE2vdxVHdjsFLYMjnWLi21MJ1czcXpTMPmNF1RQfwMu5ep9kh7kjHJ2Kpoxk8j3bb8H2FEUAijGzETJxR92KhqrJzbhxeh2aKqPRBAwzNipCRNaf2SPV5HkLZKRZSpsYpjeEsxu66S8888quzFsVrLS3Tddzky1t6bGZhTDhhnW6Q2boxNwkU5ZdadCsXxHZMtmLVxYsZu49d1ZUnRiA1HEWmJYBhuYREXhxnpqm4owxTCFvD6MM6k6','progress_pop_large', 800, 600); 
+}function checkForSomethingToUpload()
+{ 
+  var i=0; 
+  var existsFl = 0; 
+  for (i=0;i<20;i++) { 
+    var metaArray = document.getElementsByName('FILE_TO_UPLOAD'+i); 
+    if (metaArray.length == 1) { 
+     var filename = document.forms[0]['FILE_TO_UPLOAD'+i].value; 
+     if (filename.length > 0) 
+       existsFl = 1; 
+   } 
+  } 
+  for (i=0;i<20;i++) { 
+    var metaArray = document.getElementsByName('ZIP_FILE_TO_UPLOAD'+i); 
+    if (metaArray.length == 1) { 
+     var filename = document.forms[0]['ZIP_FILE_TO_UPLOAD'+i].value; 
+     if (filename.length > 0) 
+       existsFl = 1; 
+   } 
+  } 
+  if (existsFl == 1) { return true; }  
+  return false; 
+}
+function checkForDuplicateFiles()
+{ 
+  var i=0; 
+  var j=0; 
+  var existsFileFl = 0; 
+  var filename1 = '';
+  var filename2 = '';
+  var noOfFiles = 0;
+  noOfFiles =  document.getElementById('HIDDEN_VALUE_FOR_FILENO').value; 
+  for (i=0;i<noOfFiles && existsFileFl != 1;i++){
+     filename1 = document.forms[0]['FILE_TO_UPLOAD'+i].value; 
+     filename1 = trimAll(filename1.substring(filename1.lastIndexOf('\\')+1));     for(j=i+1; j<noOfFiles && existsFileFl != 1;j++){ 
+       filename2 = document.forms[0]['FILE_TO_UPLOAD'+j].value; 
+       filename2 = trimAll(filename2.substring(filename2.lastIndexOf('\\')+1));       if(filename1!='' && filename1==filename2) existsFileFl = 1; } } 
+  if (existsFileFl == 1) { alert ('A file named \'' + filename1 + '\' is already present for uploading for this manuscript. If you want to upload this file (e.g. this is a replacement for an existing file) you must rename the new file and then upload it.'); resetIsOk(); return false; }  
+  return true; 
+}
+function checkUploadFields()
+{ 
+   if(window.parent != null && window.parent.frames != null && window.parent.frames.length > 0) { 
+		return checkUploadFieldsLocal(); 
+   }   
+  return true; 
+}
+function checkUploadFieldsLocal()
+{ 
+  return true; 
+}
+function showProgressWindowUserListExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_2S1G2NjMLG3PzE26QKMdmQ9jcRk5JNKxZTbycDSEhh4TapyUmdjMFUAYsfw3LtkCjy6wtY57Kcia3YZJrPfMqk1HoTZ2gjANnpz4xTikFX82UYtDsNdgkshhsh5mahLCz2zD82fcqB8TssG2ecBY7Qwcaw6wLGrCMji5Z4sjJ3j1XsgpY4Tf5mxTYisowy19km13zAZh38ikEVCgF3CKsP6Q8RNiRyjzYEv98WdxPSmejU4iwssUkMr6nYeg99RcTWWhNFy','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowUPlagiarismDocExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_ft4jAV8a2fUh4vkfQ3uBfpYknUFLAmJ2gNs5cZSYgjDkvyudAjVLMQuzWnCkm26cVsvd6mowUT3stPC6gMyFrWFHR7hP3Le7rjLb1DQzfs76evNZAZpStiiVWpLQ75z5hHqZCuHAa6WFxXuzUc7caXhNifw8ra3ZmPVGebutYucoH5PubDNmRtATHh25nsn1eLVPU4G3mDUZNj4CMgwwSVEspizE4FuCy2F5rGYPdJSBzPiyXWVs9kqmVjgUZPPTacWcu5','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowRevExport() {  var assigneeRoleId = document.forms[0].XIK_ASSIGNEE_ROLE_ID.value;  var docTaskId = document.forms[0].XIK_DOCUMENT_TASK_ID.value;  popWindow("/LongRequest/tpds-cs?PARAMS=xik_28nF9PmLjZuvvmQk9ANNgzCR47BVtaSdRSJnznmeF9y6TXwHuWCi16PLgNf5YS7V9ugPJFGNY3EJnfCaYaXWtPsHne6RyfVtQko8RMfrWytK3yvV8YJDpxWdG8yuCbUQLRTvrMBjYcNvd9TskrKwWQELAH3RNiuWqHzce9YuoMWvDgjS5aiLiRMZcw3yWB5cBp2vp5ZzYQQa7KXZEr2YWf6SqnDaYrQmcXe82f7wX7Tk9hQJ2rivwD8fsnzBG3DWoAXg9cP&XIK_ASSIGNEE_ROLE_ID=" + assigneeRoleId + "&XIK_DOCUMENT_TASK_ID=" + docTaskId,"progress_pop_report", 480, 400); 
+} 
+function showProgressWindowEmailTagsListExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_XSbbZPkXAiG4GZpaMxAKQs87F1Cfm5TJRnWAYeichELbiAwNiZRpWkNKp1J7u76dqpbDkcow5YrZ89375zegdvzXwEVEKZfjgYz7oRj22aqU7251DihvqKVLR4r3Yj4NGytebgSNRhzSj9kmVeMUNe9qq3hhh4s5hbgtuT3CusT8KAmB1hpwCCT1LkaDhpzKHXnAZz6UXKTig8p2EJ7AdHpYK2KFnomRS82mZY2v5zaNbWg6YQ5XhEsJRnPoVX1dpbngPS','progress_pop_report', 400, 300); 
+} 
+
+var emailWindows = new Array();
+var emailWindowNames = new Array();
+var checkEmailWindowsCalled = false;
+function registerEmailWindow(emailWindow)
+{ 
+   emailWindows[emailWindows.length] = emailWindow;
+   if(emailWindowNames.toString().indexOf(emailWindow.name)==-1)
+   { 
+       emailWindowNames[emailWindowNames.length] = emailWindow.name;
+   }
+   if(document.forms[0].OPEN_EMAIL_WINDOWS!=null)
+   { 
+       document.forms[0].OPEN_EMAIL_WINDOWS.value = emailWindowNames.toString();
+   }
+} 
+
+function checkEmailWindows()
+{
+if(!checkEmailWindowsCalled)
+{
+   var blPopupsOpen=false;
+   if(false)
+   { 
+     if(document.forms[0].NEXT_PAGE.value.indexOf("MANUSCRIPT_DETAILS")==-1 || (document.forms[0].NEXT_PAGE.value.indexOf("MANUSCRIPT_DETAILS")!=-1 && document.forms[0].XIK_NEXT_PREV_DOCUMENT_ID!=null && document.forms[0].XIK_NEXT_PREV_DOCUMENT_ID.value!="" && document.forms[0].XIK_DOCU_ID.value != document.forms[0].XIK_NEXT_PREV_DOCUMENT_ID.value) || (document.forms[0].NEXT_PAGE.value.indexOf("MANUSCRIPT_DETAILS")!=-1 && document.forms[0].XIK_PREACT != null && document.forms[0].XIK_PREACT.value=="PERFORM_HEADER_QUICK_SEARCH" )|| (document.forms[0].NEXT_PAGE.value.indexOf("MANUSCRIPT_DETAILS")!=-1 && document.forms[0].XIK_PROXY_TO_ROLE_ID != null && document.forms[0].XIK_PROXY_TO_ROLE_ID.value != '' ))
+     { 
+       emailWindows.length=0;
+       for(var i = 0; i<emailWindowNames.length; i++)
+       {
+           emailWindowName = emailWindowNames[i];
+           if (typeof emailWindowName != 'undefined' && emailWindowName != '')
+           { 
+               var winHandle=window.open('',emailWindowName);
+               if(typeof winHandle.frames['mainemailwindow'] != 'undefined' && winHandle.frames['mainemailwindow'] != null)
+               {
+                   registerEmailWindow(winHandle);
+               }
+               else
+               {
+                   winHandle.close();
+               }
+           }
+       }
+       if(emailWindows.length > 0)
+       { 
+           for(var i = 0; i<emailWindows.length; i++)
+           {
+               if(!emailWindows[i].closed)
+               {
+                   blPopupsOpen=true;
+                   break;
+               }
+           }
+           if(!blPopupsOpen)
+           { 
+               checkEmailWindowsCalled=true;
+               return true;
+           }
+           if(confirm ('We have detected that there is at least one e-mail window open - these windows will be closed when you move from the details of one manuscript to another. If you would like to retain this text for use later,  please either save the e-mails as drafts or copy them to your hard drive for future reference.\nContinue?'))
+           { 
+               for(var i = 0; i<emailWindows.length; i++)
+               {
+                   if(!emailWindows[i].closed)
+                   {
+                       unRegisterWindow(emailWindows[i].name);
+                       emailWindows[i].close();
+                   }
+               }
+               checkEmailWindowsCalled=true;
+               return true;
+           }
+           else
+           { 
+               if(document.forms[0].XIK_NEXT_PREV_DOCUMENT_ID!=null){document.forms[0].XIK_NEXT_PREV_DOCUMENT_ID.value='';}
+               if(document.forms[0].XIK_PREACT!=null){document.forms[0].XIK_PREACT.value='';}
+               if(document.forms[0].XIK_PROXY_TO_ROLE_ID!=null){document.forms[0].XIK_PROXY_TO_ROLE_ID.value='';}
+               if(document.forms[0].CLEAR_SEARCH!=null){document.forms[0].CLEAR_SEARCH.value='';}
+               return false;
+           }
+       }
+       else
+       { 
+           checkEmailWindowsCalled=true;
+           return true;
+       }
+     }
+     else
+     { 
+       checkEmailWindowsCalled=true;
+       return true;
+     }
+   }
+   else
+   {
+       checkEmailWindowsCalled=true;
+       return true;
+   }
+}
+else
+{ 
+   checkEmailWindowsCalled=true;
+   return true;
+}
+}
+
+function getOpenEmailWindows()
+{ 
+   if(document.forms[0].OPEN_EMAIL_WINDOWS!=null)
+   { 
+       return document.forms[0].OPEN_EMAIL_WINDOWS.value;
+   }
+   else
+   { 
+       return '';
+   }
+} 
+
+function registerEmailWindowByName(emailWindowName)
+{ 
+ if (typeof emailWindowName != 'undefined')
+ { 
+   if(emailWindowNames.toString().indexOf(emailWindowName)==-1)
+   { 
+       emailWindowNames[emailWindowNames.length] = emailWindowName;
+   }
+   if(document.forms[0].OPEN_EMAIL_WINDOWS!=null)
+   { 
+       document.forms[0].OPEN_EMAIL_WINDOWS.value = emailWindowNames.toString(); 
+   }
+ } 
+} 
+
+function unRegisterWindow(emailWindowName)
+{ 
+  var newEmailWinNames = new Array(); 
+  for(var i = 0, j=0; i<emailWindowNames.length; i++)
+  {
+   if(emailWindowNames[i]!=emailWindowName)
+   { 
+      if(typeof emailWindowNames[i] != 'undefined' && emailWindowNames[i]!='')
+      { 
+         newEmailWinNames[j] = emailWindowNames[i];
+         j++;
+      }
+   }
+  }
+  emailWindowNames.length=0;
+  emailWindowNames=newEmailWinNames;
+  if(document.forms[0].OPEN_EMAIL_WINDOWS!=null)
+  { 
+      document.forms[0].OPEN_EMAIL_WINDOWS.value = emailWindowNames.toString();
+  }
+} 
+
+function showProgressWindowPermissionAuditTrailExport() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_QrmwfJ9t3Mdi9NyFD8btFbSLLCU6ejvTceteofmaMvVcV4Vvj5SzL2MtLuMjLv7EtSa8PQJmK8dKnj6WXiFD8Wnd1j8aePjG419f9BY7Qfmfi1sdTLb9SqHAUCKvZdtqsnb1haCaQXEJkBc2dqr3iprChCUZp7C6CULcKPbusnSFcv1WPuVkzFWRbYzHY6csDUEVsRRkk3TkuyTQi1j37bPNxVtKxUETfZwBgV2qyRzPJ3EnN1DgLu1HfJ3Hz2CP8zmWdvjaEW4UDf2g8seWvFrSEvnM','progress_pop_report', 400, 300); 
+} 
+function showProgressWindowSubmissionStatisticsExportCSV() {  javascript: popWindow('\x2FLongRequest\x2Ftpds\x2Dcs\x3FPARAMS\x3Dxik_3GGEceAfeBgAdbzsen6LhAf8N5zgUptV19fxJJZnAgChEV81DQpsHjVr9umr3QTacSusJz7pX8kHJtAjQhWFyrYBQBT5rRPN3VvAuXYd4hAmtrNWBKLjYgpuM43w5a7MNfBgueRNCRTeYPSc3mNTZmMPyZmvBVosVWoJiKXZAmKExVu9Zfkk6LwUB2YE6BswXgv5Aj7YsYQUfJ1hDhzEDXLAofhamLYPXfKLriCmRWUwr4dFkwC7AxKqYuy1wwu6zFp5DWo','progress_pop_report', 400, 300); 
+} 
+</script>
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+<body bgcolor="#D1D5D7"> 
+<div class="content_wrapper"><form style="margin:0px;" id="default_form" name="default_form" method="post" TARGET=""  action='https://mc.manuscriptcentral.com/tpds-cs'>
+<input type = "hidden" name ="PORTAL" value = "null">
+<input type = "hidden" name ="S1LOGIN" value = "null">
+<input type = "hidden" name ="NEXT_PAGE" value = "">
+<input type = "hidden" name ="NEXT_PAGE_FOR_REDIRECT" value = "">
+<input type = "hidden" name ="CURRENT_PAGE" value="VIEW_DECISION_LETTER_POPUP">
+<input type = "hidden" name ="XIK_PREACT" value="">
+<input type = "hidden" name ="XIK_POSTACT" value="">
+<input type = "hidden" name ="XIK_CUR_ROLE_ID" value="xik_8ThkGCkdBLZfixHX7gx8DCUfKPV5AzKJ1rP8PneswFz9">
+<input type = "hidden" name ="XIK_SWITCH_CONFIG_ID" value="">
+<input type = "hidden" name ="CHANGE_PORTAL_CONFIG_ID_FOR_LOGIN_PAGE" value="">
+<input type = "hidden" name ="SWITCH_CONFIG_ID_PREV" value="">
+<input type = "hidden" name ="XIK_NEW_USER_CONFIG_ID" value="">
+<input type = "hidden" name ="PROXY_TO_PAGE_NAME" value="">
+<input type = "hidden" name ="XIK_PROXY_TO_ROLE_ID" value="">
+<input type = "hidden" name ="XIK_PROXY_TO_DOCUMENT_ID" value="">
+<input type = "hidden" name ="XIK_PROXY_TO_DOCUMENT_TASK_ID" value="">
+<input type = "hidden" name ="PAGE_DIRTY_FL" value="">
+<input type = "hidden" name ="MS_EDIT_ADMIN_MODE_FOR_CUST_QUESTION_ANSWER_FROM_HEADER" value="null">
+<input type = "hidden" name ="ORIGINAL_JSESSIONID" value="">
+<input type = "hidden" name ="NEW_JSESSIONID" value="">
+<input type = "hidden" name ="PAGE_LOADED_FLAG" value="">
+<input type = "hidden" name ="DISPLAY" value="">
+<input type = "hidden" name ="DOCUMENT_HASHCODE" value="1071717095">
+<input type = "hidden" name ="XIK_CNFID" value="xik_Cjf99p8rvmnqYskAqvWZpJG4eXi1MGszmAVhqGYFkn7P">
+<input type="hidden" name="SAVE_MS_DETAILS_FL" value=""><input type="hidden" name="SAVE_MS_DETAILS_VALIDATE_FL" value=""><input type = "hidden" name="XIK_CUR_USER_ID" value="xik_48MSPJ5Q1gUqQreGrYwodctN8TKmroxycj9sK5JzKGFz">
+<input type = "hidden" name ="NATURAL_TIMEOUT" value="false">
+<input type = "hidden" name="XIK_CUR_USER_ID" value="xik_48MSPJ5Q1gUqQreGrYwodctN8TKmroxycj9sK5JzKGFz">
+<input type = "hidden" name="LOGIN_SITE_SHORT_NAME" value="null">
+<input type = "hidden" name="EXTERNAL_HTTP_REFERRER" value="https://mc.manuscriptcentral.com/tpds-cs">
+
+<div id="header">
+  <div class="popupheader">
+    <div class="container">
+      <h2>Transactions on Parallel and Distributed Systems</h2>
+    </div>
+  </div>
+</div>
+<table align=center cellpadding=0 cellspacing=0 border=0 width=100%>
+	<tr>
+		<td colspan=2>
+			
+
+
+
+
+
+<script type="text/javascript">
+
+  if (!IParameterName) { var IParameterName = {}; }
+  IParameterName.EMAIL_POPUP_CLOSE_WIN_FL = 'EMAIL_POPUP_CLOSE_WIN_FL';
+  IParameterName.CLOSE_WINDOW_FL = 'CLOSE_WINDOW_FL';
+  IParameterName.NATURAL_TIMEOUT = 'NATURAL_TIMEOUT';
+  
+  if (!IResourceName) { var IResourceName = {}; }
+  IResourceName.FOR_SECURITY_REASONS_PART1 = 'FOR_SECURITY_REASONS_PART1';
+  IResourceName.FOR_SECURITY_REASONS_PART2 = 'FOR_SECURITY_REASONS_PART2';
+  
+  if (!Resources ) { var Resources = {}; }
+  Resources.FOR_SECURITY_REASONS_PART1 = "For security reasons, your session will time out in 10 minutes (at";
+  Resources.FOR_SECURITY_REASONS_PART2 = ").  Please save your work to avoid potential loss.  To refresh your session, close this message and save your work or return to your main menu.  You may then continue working as normal.";
+  Resources.WARNING = "Warning";
+  
+  var stCurrentPageName = 'VIEW_DECISION_LETTER_POPUP';
+  var stSessionTimeOut = '10620000';
+  var stWarning = '168';
+  var isStTimeOutEnabled = 'true';
+  var isStPopup = 'true';
+  var stErrorUrl = '';
+  var stLoginPage = 'LOGIN';
+  var isStFromSSOFl = 'false';
+  var isStAuthorPage = 'false';
+
+  var aMinute = 60000;
+ </script>
+ <script type="text/javascript" src="/common/session_timeout.js"></script>
+			
+<DIV ID="warning" NAME="warning" STYLE="position:absolute;visibility:hidden" WIDTH="20%">    
+
+<table border=0 cellpadding=0 cellspacing=0 width=350>
+   <tr>
+       <td><p class="footer">&nbsp;</p></td>
+   </tr>
+   <tr>    
+       <td class="secondarymenubg">
+           <table cellpadding=5 cellspacing=10 border=0 width=100%>
+               <tr>
+                   <td class="dataentry">
+                       <table border=0 cellpadding=0 cellspacing=0>
+                           <tr>
+                               <td><p class="pagecontents"><br>For security reasons, your session will time out in 10 minutes (at <span id="tP"><script language='javascript'>showTime()</script></span>).  Please save your work to avoid potential loss.  To refresh your session, close this message and save your work or return to your main menu.  You may then continue working as normal.<br>&nbsp;</p></td>
+                           </tr>
+                           <tr>
+                               <td align=center><a href="#" onClick="showSessionWarning(false)"><img src="/images/en_US/buttons/close_message.gif" border=0></a></td>
+                           </tr>
+                       </table>
+                   </td>
+               </tr>
+           </table>
+       </td>
+   </tr>
+</table>   
+</DIV>
+	
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			
+
+
+
+
+
+
+
+
+    
+    <div id="ajaxEmailPopupAlert"></div>
+    <div class="error" id="MAIN_ERROR_DISPLAY_DIV" style="display: none;">
+    </div>
+
+		
+		</td>
+	</tr>
+	<tr>
+    <td>
+      <table align=center cellpadding=5 cellspacing=5 border=0 width=100%>
+      <tr>    
+		    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  						
+        
+          
+
+
+          
+          
+          
+          
+          
+          
+
+      </tr>
+      </table>
+    </td>            
+	</tr>
+</table>
+<br clear=all>
+
+<table align=center cellpadding=0 cellspacing=0 border=0 width=100%>
+	<tr>
+		<td colspan=2>
+			<table border=0 cellpadding=0 cellspacing=0 width=100%>
+				<tr>
+					<td><img src='/images/common/layout/details_header_left.gif' border=0></td>
+					<td class="detailsheaderbg" width=100%>&nbsp;</td>
+					<td><img src='/images/common/layout/details_header_right.gif' border=0></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="tablelines" colspan=2>
+			<table cellpadding=5 cellspacing=1 border=0 width=100%>
+				<tr>	
+					<td colspan=2 class="dataentry">
+					
+	        			
+
+<!-- Tag: com.scholarone.tags.authorViewDecisionLetterPopupTag -->
+
+<input type="hidden" name="XIK_TAGACT" value="">
+<TABLE ALIGN=LEFT CELLPADDING=0 CELLSPACING=5 BORDER=0 WIDTH=100%> 
+<TR>    
+<TD CLASS="dataentry" WIDTH=1% colspan=2> 
+	<TABLE ALIGN=LEFT CELLPADDING=0 CELLSPACING=5 BORDER=0 WIDTH=100%> 
+	<TR> 
+		<TD CLASS="tablelines" COLSPAN=2> 
+			<TABLE CELLPADDING=5 CELLSPACING=1 BORDER=0 WIDTH=100%> 
+				<TR>	 
+					<TD CLASS="headercells"><P CLASS="pagecontents"><b>Decision Letter (TPDS-2017-01-0006)</b></P></TD> 
+				</TR> 
+				<TR>	 
+					<TD CLASS="tablelightcolor"> 
+						<TABLE BORDER=0 CELLPADDING=4 CELLSPACING=0> 
+							<TR> 
+								<TD nowrap ALIGN=RIGHT WIDTH=1%> 
+									<P CLASS="pagecontents"><b>From:</b></P> 
+								</TD> 
+								<TD> 
+									<P CLASS="pagecontents">tpds-eic@computer.org</P> 
+								</TD> 
+							</TR> 
+							<TR> 
+								<TD nowrap ALIGN=RIGHT WIDTH=1%> 
+									<P CLASS="pagecontents"><b>To:</b></P> 
+								</TD> 
+								<TD> 
+									<P CLASS="pagecontents">loengf@connect.hku.hk, fcmlau@cs.hku.hk, heming@cs.hku.hk, clwang@cs.hku.hk</P> 
+								</TD> 
+							</TR> 
+							<TR> 
+								<TD nowrap ALIGN=RIGHT WIDTH=1%> 
+									<P CLASS="pagecontents"><b>CC:</b></P> 
+								</TD> 
+								<TD> 
+									<P CLASS="pagecontents">c.kurzawa@ieee.org</P> 
+								</TD> 
+							</TR> 
+							<TR> 
+								<TD nowrap ALIGN=RIGHT WIDTH=1%> 
+									<P CLASS="pagecontents"><b>Subject:</b></P> 
+								</TD> 
+								<TD> 
+									<P CLASS="pagecontents">Major Revision Decision Re: TPDS-2017-01-0006</P> 
+								</TD> 
+							</TR> 
+							<TR> 
+								<TD nowrap ALIGN=RIGHT WIDTH=1% VALIGN=TOP> 
+									<P CLASS="pagecontents"><b>Body:</b></P> 
+								</TD> 
+								<TD COLSPAN=2> 
+									<P CLASS="pagecontents"> 
+									RE: TPDS-2017-01-0006, &quot;Confluence: Improving Iterative Distributed Operations by Key-Dependency-Aware Partitioning&quot;<br/>Manuscript Type: Regular<br/><br/>30-Mar-2017<br/><br/>Dear Mr. Liang,<br/><br/><br/>We have completed the review process of the above referenced paper for the IEEE Transactions on Parallel and Distributed Systems and recommend that your paper undergo a Major Revision.<br/><br/>Your reviews are enclosed. We would suggest that you revise your paper according to the reviewers&#39; comments and resubmit the paper for a second round of reviews. If you wish to revise the paper, please do so by 28-Jun-2017.<br/><br/>If you do not intend to submit a revised version of your paper, please let us know so that we can formally close your file.<br/><br/>To revise your manuscript, log into https://mc.manuscriptcentral.com/tpds-cs and enter your Author Center, where you will find your manuscript title listed under &quot;Manuscripts with Decisions.&quot; Under &quot;Actions,&quot; click on &quot;Create a Revision.&quot; Your manuscript number has been appended to denote a revision.<br/><br/>Once the revised manuscript is prepared, you can upload it and submit it through your Author Center.<br/><br/>When submitting your revised manuscript, you will be able to respond to the comments made by the reviewer(s) in the space provided. You can use this space to document any changes you make to the original manuscript. In order to expedite the processing of the revised manuscript, please be as specific as possible in your response to the reviewer(s)&#39;questions and comments. You may also upload your responses as separate files for review along with your revision. If you choose to do this, please choose &quot;Summary of Changes&quot; as the file designation.<br/><br/>Please also identify a teaser image from your manuscript that may be used in the abstract book as part of the OnlinePlus program and upload this image file with your revision & summary of changes. Name the file &quot;Teaser&quot; and select &quot;Image&quot; as the file designation on the File Upload screen. Note that failure to include this information will cause delay in posting/processing your manuscript, if it is accepted for publication.<br/><br/>IMPORTANT: Your original files are available to you when you upload your revised manuscript. Please delete any redundant files before completing the submission.<br/><br/>When the submission process is complete, you will receive an automated confirmation email immediately. If you did not receive that email, your submission is not yet complete.<br/><br/>The Administrator will contact you should we have any concerns or questions regarding your revision. Otherwise, your revision will be forwarded to the assigned Associate Editor with a request for a final decision.<br/><br/>Please be mindful when making your revisions that you still need to maintain the size limitations for papers submitted to TPDS. &nbsp;TPDS manuscript types and submission length guidelines (including the main text, the abstract, index terms, illustrations, references, and author biographies/photos) are found at,<br/><br/>http://www.computer.org/portal/web/peerreviewjournals/author#manuscript<br/><br/>Please note that double column will translate more readily into the final publication format. &nbsp;Our peer review double column templates can be found at,<br/><br/>http://www.computer.org/portal/web/peerreviewjournals/author#templates<br/><br/>Text in any color other than black is not acceptable. Your revised paper must include the following:<br/><br/>-abstract<br/>-index terms<br/>-author affiliation information<br/>-main text<br/>-references<br/>-figure captions<br/>-table titles<br/>-*brief biography of each author*<br/>(biographies are not required for comments papers)<br/><br/>NOTE: All materials must fit within the paging guidelines. Papers that exceed the page limit will be returned for further editing.<br/><br/>Please do not hesitate in contacting me if you should have any questions about our process or are experiencing technical difficulties. You can reach the administrator, Christine Kurzawa, at c.kurzawa@ieee.org<br/><br/>Thank you for your contribution to TPDS, and we look forward to receiving your revised manuscript.<br/><br/>Sincerely,<br/><br/>David Bader, EIC,<br/>Transactions on Parallel and Distributed Systems<br/>c.kurzawa@ieee.org<br/><br/>***********<br/><br/>Editor Comments<br/><br/>Associate Editor<br/>Comments to the Author:<br/>The authors need to carefully read and address the concerns raised by the reviewers. The critical issues include, but not limited to, the following: (1) What are the limitations of the proposed mechanism? (2) How hard to derive a KDG, especially developers may modify the original distributed operations? (3) Given a developer-provided KDG, the following steps, i.e., extracting Confluence Subgraph and generating the CKP scheme, need to be automated. This part is done manually and not clearly described in the manuscript. (4) The end-to-end performance needs to be evaluated to demonstrate the effectiveness of the approach. (5) Discussing the related work.<br/><br/>**********<br/>Reviewers&#39; Comments<br/><br/>Please note that some reviewers may have included additional comments in a separate file. If a review contains the note &quot;see the attached file&quot; under Section III A - Public Comments, you will need to log on to ScholarOne Manuscripts &nbsp;to view the file. After logging in, select the Author Center, click on the &quot;Manuscripts with Decisions&quot; queue and then clicking on the &quot;view decision letter&quot; link for this manuscript. You must scroll down to the very bottom of the letter to see the file(s), if any. &nbsp;This will open the file that the reviewer(s) or the Associate Editor included for you along with their review.<br/><br/>Reviewer: 1<br/><br/>Recommendation: Author Should Prepare A Minor Revision<br/><br/>Comments:<br/>Shuffle operation causes significant network transfer traffic especially for iterative applications which consisting multiple shuffle operations. The authors found that the keys are dependent in these iterations and proposes Key Dependency Graph that can capture the key dependencies and smartly partition the relevant keys into the same node. The experimental results show that the network traffic is reduced significantly. Overall, this finding and the proposed idea are very interesting and the implementations are solid.<br/><br/>This paper can be further improved by solving the following problems:<br/>1.	Have you considered the very special case in your system? For example, a huge single-row matrix (billions of numbers) multiples a huge single-column matrix, then will all element multiplications be mapped to one single node and executed there by using your key partitioning policy? <br/>2.	Have you utilized the compression file format provided by Spark in your experiment? Can you specify it in your experimental setup part? Can you compare the performance for compressed setting and uncompressed setting?<br/>3.	Can you compare the code for a simple application (e.g., matrix multiplication) in original Spark and your optimized Spark?<br/><br/><br/>Additional Questions:<br/>1. Which category describes this manuscript?: Research/Technology<br/><br/>2. How relevant is this manuscript to the readers of this periodical? Please explain your rating under Public Comments below.: Very Relevant<br/><br/>1. &nbsp;Please explain how this manuscript advances this field of research and/or contributes something new to the literature. : This paper optimizes shuffle operations for iterative applications in the large-scale data centers by presenting new data structure that can capture the key dependencies in different iterations.<br/><br/>2. Is the manuscript technically sound? Please explain your answer under Public Comments below. : Yes<br/><br/>1. Are the title, abstract, and keywords appropriate? Please explain under Public Comments below.: Yes<br/><br/>2. Does the manuscript contain sufficient and appropriate references? Please explain under Public Comments below.: References are sufficient and appropriate<br/><br/>3. Does the introduction state the objectives of the manuscript in terms that encourage the reader to read on? Please explain your answer under Public Comments below.: Yes<br/><br/>4. How would you rate the organization of the manuscript? Is it focused? Is the length appropriate for the topic? Please explain under Public Comments below.: Could be improved<br/><br/>5. Please rate the readability of the manuscript. Explain your rating under Public Comments below.: Readable - but requires some effort to understand<br/><br/>6. Should the supplemental material be included? (Click on the Supplementary Files icon to view files): Does not apply, no supplementary files included<br/><br/>7. If yes to 6, should it be accepted: <br/><br/>Please rate the manuscript. Please explain your choice.: Excellent<br/><br/><br/>Reviewer: 2<br/><br/>Recommendation: Reject<br/><br/>Comments:<br/>The paper presents an important problem: shuffle operations are known to be a substantial bottleneck of large-scale data parallel processing systems. The authors propose to explicitly define dependencies between keys across multiple computation steps. This is a very interesting topic, that has been discussed in many specific problems, such as parallel data joins, or BSP-style graph computations. Exploring models that can capture the problem in a generic way is worthwhile. <br/><br/>However, the current manuscript is scientifically flawed; The contributions are vaguely defined, with several important aspects not clearly defined. The paper does not demonstrate what is the applicability of the proposed approach, moreover when the initial step requires manual code inspection and definition of the graph. Additionally, the actual benefits of adopting this model are not shown in a convincing manner. &nbsp;<br/><br/>Map Reduce is not the most appropriate abstraction for motivating the KDG. First, MapReduce is restricted to a single Map/Shuffle/Reduce cycle, and as the authors discuss, the framework itself is not suitable for applying this approach. Additionally, while Map Reduce is widely understood, the Reduce part of it is actually a compound operation. Reduce in MapReduce comes immediately after a Shuffle/GroupByKey, followed by a Reduce of the grouped values. The key part for the authors proposal is this shuffle part, but that is not explicitly named in the description provided in Section 2. <br/><br/>The CDG contribution should be expressed in more generic and accurate terms. Additionally, the claim that this technique works in approach is exclusively valid for iterative computations. Any dataflow where there are multiple stages of shuffling, or GroupByKey, can concievable benefit from this approach. Additionally, the paper should discuss whether the nature of other types of operations (Map, Reduce) actually matter or not for what it is being proposed. Intuitively, it seems that any Map-like operation (in the case of Spark Map, FlatMap, Filter), as well as the Reduce will be embarrasingly parallel. However, there are some cases, such as some functions applied to FlatMap, where the key space will change, hence having A&#39;i =/= Ai-1. The formulation of the abstraction should be thoroughly revisited, in order to clarify these concerns. There should be clear conclusions of the applicability of the KDG, as well as its limitations. It is impossible to know currently whether joins can be supported, or whether the number of partitions is relevant in any way to the presented approach. <br/><br/>The definition of a Confluence Graph is not expressed clearly enough. Authors claim that the preferred way to state dependencies is through patterns, but these patterns are not formally defined in any part of the paper. Patterns are claimed to be critical, as otherwise the complexity of building and implementing the graph would make this approach scale poorly. The usefulness of the algorithm described in Fig 2 is unclear. The algorithm directly maps key dependencies into a graph. However, it does not provide any insight in how to resolve patterns. &nbsp; <br/><br/>The graph needs to be manually defined, which greatly limits the applicability of the approach. Moreover, explicit mapping to computing frameworks also needs to be specified as part of the Confluence. Key mapping depends on finding pure confluence subgraphs, which might not appear in many problems. <br/><br/>It is not clear how the mapping works, in particular because sections 3.4 and 3.5 are very difficult to read as written. All the discussion covers a single pure confluence graph, but the section should describe the whole process of mapping a complete DKG. Otherwise, it is impossible to know the expected benefit. 3.5 mentions later stages are unpredicable, which adds to the confusion about the impact of this technique. <br/><br/>The choice of applications/algorithms does not seem representative enough of complex parallel data algorithms. Some choices are misleading, such as MovieLens ALS (The code that is being analysed is a sample of trained models with differing parameters, which has no real dependencies between the sets computed at each iteration, other than for computing a maximum). Adjacency list is a very unusual graph algorithm, whereas there is no mention of the main parallel graph computations using BSP-style graph traversals, such as PageRank, or Shortest Path. <br/><br/>Validation could be improved in order to obtain further insight. Shuffle size figures could be compared to job execution time figures, in order to estimate the actual performance impact of this type of optimisation. There is no mention of the number of partitions used in each experiment, moreover with relatively small datasets for a 16 node cluster. Experiments exploring variation in the number of partitions would also provide additional evaluation of the approach. <br/><br/>The paper is reasonably written. However, there are several aspects in which grammar errors complicate understanding. <br/><br/>Additional detailed comments follow:<br/><br/>The example in the abstract takes an excessive amount of space and it is a well known issue. <br/><br/>pg 1 In the introduction, YARN and Mesos are mentioned as computing frameworks, whereas they are only resource managers. <br/><br/>pg 1 There should be a reference on the impact of shuffle traffic in network operations. Additionally, this should be contrasted with the Ousterhout et al NSDI 15 paper that makes the opposite claim for Spark. <br/>Data are stored in disks in &quot;some&quot; traditional distributed paradigms. Which are these paradigms? how prevalent are they? &quot;some&quot; is too vague for a scientific statement. <br/><br/>Page 2: clarify &quot;KDG does not have to be accurate&quot; I presume this implies that at worst, performance will be degraded to similar levels to a random partition,but this is not mentioned at this point of the manuscript. <br/><br/>Contribution 1: KDG is not a data structure.<br/><br/>In many instances, the authors use the article &#39;the&#39; inappropriately. <br/><br/>2.3 should make explicit the restriction that Ai and A&#39;i are the same set of keys in the equations.<br/><br/>Figs and could be represented differently. A separate plot purely for standard deviation is not that meaningful. It would be possible to explore alternative representations (e.g. adding error bars to the first plot, while destacking the bars)<br/><br/>Section 5.2 can be greatly shortened. The discussion does not mention systems such as Hadoop, or the work by Jimmy Lin on enabling iterative computations with Hadoop.<br/><br/>Section 5.4 could be reduced to a single paragraph, as it mostly provides implementation details.<br/><br/><br/><br/>Additional Questions:<br/>1. Which category describes this manuscript?: Research/Technology<br/><br/>2. How relevant is this manuscript to the readers of this periodical? Please explain your rating under Public Comments below.: Very Relevant<br/><br/>1. &nbsp;Please explain how this manuscript advances this field of research and/or contributes something new to the literature. : The manuscript works on an important problem. Shuffle operations are commonly understood to be one of the main bottlenecks of data intensive parallel computations.<br/>The authors propose to explicitly identify the dependencies between keys among multiple steps and iterations, in order to co-locate the elements. The aim is to reduce shuffle traffic, and hence improve performance.<br/>Unfortunately, the contributions are not clearly defined. It is not evident what is the actual scope of the proposed model, its applicability or its effectiveness.<br/><br/>2. Is the manuscript technically sound? Please explain your answer under Public Comments below. : No<br/><br/>1. Are the title, abstract, and keywords appropriate? Please explain under Public Comments below.: Yes<br/><br/>2. Does the manuscript contain sufficient and appropriate references? Please explain under Public Comments below.: Important references are missing; more references are needed<br/><br/>3. Does the introduction state the objectives of the manuscript in terms that encourage the reader to read on? Please explain your answer under Public Comments below.: Yes<br/><br/>4. How would you rate the organization of the manuscript? Is it focused? Is the length appropriate for the topic? Please explain under Public Comments below.: Satisfactory<br/><br/>5. Please rate the readability of the manuscript. Explain your rating under Public Comments below.: Readable - but requires some effort to understand<br/><br/>6. Should the supplemental material be included? (Click on the Supplementary Files icon to view files): Does not apply, no supplementary files included<br/><br/>7. If yes to 6, should it be accepted: After revisions. &nbsp;Please include explanation under Public Comments below.<br/><br/>Please rate the manuscript. Please explain your choice.: Poor<br/><br/><br/>Reviewer: 3<br/><br/>Recommendation: Author Should Prepare A Major Revision For A Second Review<br/><br/>Comments:<br/>This paper presents Confluence, an improvement over Spark for reducing unnecessary shuffles by leveraging the dependencies in partitioning keys.<br/><br/>Here is the strong point of the paper:<br/><br/>S1. The paper designs and implements a programming interface extension for application programmers to expose the partitioning properties of their distributed Spark programs. Adding such an API and corresponding optimizations into distributed data processing frameworks like Spark and Hadoop would be useful.<br/><br/>However, this paper has the following issues:<br/><br/>W1. The technique for inferring dependencies of partitioning properties and reducing unnecessary repartitioning steps (a.k.a., shuffles) is not new. The SCOPE optimizer covers most state-of-the-art techniques for that (&#8220;Incorporating Partitioning and Parallel Plans into the SCOPE Optimizer&#8221;, published in ICDE&#8217;10). The SCOPE optimizer incorporates partitioning properties as part of the data properties that a query optimizer understands and uses a Valcano-style (&#8220;Volcano - An Extensible and Parallel Query Evaluation System&#8221;, published in TKDE&#8217;94) top-down strategy to enforce the partitioning properties. To some extent, the core technique presented in this paper falls into a subset of the SCOPE paper, as the latter covers a spectrum of data redistribution patterns. Regardless of that, this paper still have some contribution, i.e., how to build a useful API for programmers to express partitioning properties of their programs to the Spark/Hadoop framework.<br/><br/>W2. The theoretical analysis for shuffle data size (e.g., formula (5), Theorem 2, and Table 2) is obvious and is not very useful. Particularly, n usually is not a small number and hence (n-1)/n can almost be thought as 1. I suggest authors remove those analysis but focus more on the API.<br/><br/>W3. The experimental evaluation uses very small datasets, e.g., each individual dataset (20~60 million data points) can fit into a single machine used in for the experiments (32 GB DDR RAM). The shuffle sizes shown in Figure 5, 6 and 7 also show that the data involved in the experiments are tiny. Dataset size might not be a big issue for shuffle size experiments, given that the reduced shuffle size can be roughly estimated without actually running the algorithms. But it would be very informative if authors can report the end-to-end response time improvement given by the shuffle optimization -- in that case larger datasets will make more sense. <br/><br/>W4. In Section 3.6, authors claim that wrong KDGs will not affect the program correctness. &nbsp;This looks plausible. For example, if a shuffle step is removed by mistake, how can the program still deliver correct results? &nbsp;Please explain more details in the next revision.<br/><br/>W5. In Section 4.3, authors discuss the K-means algorithm. However, a typical K-Means implementation on Hadoop and Spark broadcasts cluster centers in each iteration, and hence the input data do not need to be shuffled. In that regard, I don&#8217;t think K-means is a good motivating example for the shuffle optimization. <br/><br/>W6. In Section 5.2, authors claim that Confluence cannot be applied to Hadoop. This is not entirely true, as contiguous Hadoop MR jobs can be pushed into the first MR job if the partitioning keys are compatible, just that the first reduce implementation need to call a pipeline of consequent map/reduce functions as well as perform the grouping of reduce keys. <br/><br/><br/><br/><br/>Additional Questions:<br/>1. Which category describes this manuscript?: Practice / Application / Case Study / Experience Report<br/><br/>2. How relevant is this manuscript to the readers of this periodical? Please explain your rating under Public Comments below.: Very Relevant<br/><br/>1. &nbsp;Please explain how this manuscript advances this field of research and/or contributes something new to the literature. : The tries to expose partitioning properties from a user-defined program to the underlying distributed data processing framework such that the framework can then reduce unnecessary data redistributions according to the given partitioning properties.<br/><br/>2. Is the manuscript technically sound? Please explain your answer under Public Comments below. : Partially<br/><br/>1. Are the title, abstract, and keywords appropriate? Please explain under Public Comments below.: Yes<br/><br/>2. Does the manuscript contain sufficient and appropriate references? Please explain under Public Comments below.: Important references are missing; more references are needed<br/><br/>3. Does the introduction state the objectives of the manuscript in terms that encourage the reader to read on? Please explain your answer under Public Comments below.: Yes<br/><br/>4. How would you rate the organization of the manuscript? Is it focused? Is the length appropriate for the topic? Please explain under Public Comments below.: Could be improved<br/><br/>5. Please rate the readability of the manuscript. Explain your rating under Public Comments below.: Readable - but requires some effort to understand<br/><br/>6. Should the supplemental material be included? (Click on the Supplementary Files icon to view files): No, it should not be included at all<br/><br/>7. If yes to 6, should it be accepted: <br/><br/>Please rate the manuscript. Please explain your choice.: Fair 
+									</P> 
+								</TD> 
+							</TR> 
+							<TR> 
+								<TD nowrap ALIGN=RIGHT WIDTH=1%> 
+									<P CLASS="pagecontents"><b>Date Sent:</b></P> 
+								</TD> 
+								<TD> 
+									<P CLASS="pagecontents">30-Mar-2017</P> 
+								</TD> 
+							</TR> 
+<script language="JavaScript" type="text/javascript">if(document.getElementById('autoattachmsg'))document.getElementById('autoattachmsg').innerHTML=''</script>						</TABLE> 
+					</TD> 
+				</TR> 
+			</TABLE> 
+		</TD> 
+	</TR>   
+	</TABLE>   
+</TD> 
+</TR> 
+<TR> 
+<TD COLSPAN=2>&nbsp;</TD> 
+</TR> 
+<TR> 
+<TD CLASS="tablelines" COLSPAN=2> 
+<TABLE CELLPADDING=5 CELLSPACING=1 BORDER=0 WIDTH=100%> 
+<TR>	 
+<TD CLASS="tablelightcolor" COLSPAN=2> 
+<TABLE CELLPADDING=5 CELLSPACING=1 BORDER=0 WIDTH=100%> 
+<TR> 
+<TD  ALIGN=RIGHT><A HREF="javascript:window.close();"><IMG SRC="/images/en_US/buttons/close_window.gif" BORDER=0></A></TD> 
+</TR> 
+</TABLE> 
+</TD> 
+</TD> 
+</TR> 
+</TABLE> 
+</TD> 
+</TR> 
+</TABLE> 
+
+	        		
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<script language='JavaScript' type='text/javascript'>  setField('DOCUMENT_HASHCODE','1071717095');   setField('XIK_CNFID','xik_Cjf99p8rvmnqYskAqvWZpJG4eXi1MGszmAVhqGYFkn7P');   setField('PAGE_LOADED_FLAG','Y'); </script></form></div><script language='JavaScript' type='text/javascript'></script>
+
+
+
+
+
+
+
+<!-- FOOTER ==================================================== -->
+
+<br style="clear:both" />
+<div class="footer_wrapper_light">
+<footer class="TRfooter" >
+  <div class="container">
+    <div class="row">
+      <div class="span11">
+        <p>
+        
+          <span>&nbsp;<b></b></span> 
+          <br>
+        
+            <a class="footerlink" href="http://thomsonreuters.com/copyright/" target="new">
+            &copy;&nbsp;Thomson Reuters</a>&nbsp;&#124;&nbsp;
+            <a class="footerlink" href="http://thomsonreuters.com/copyright/" target="new">
+	            
+	            &copy;&nbsp;ScholarOne, Inc., 2017.
+            </a> 
+            All Rights Reserved.
+        </p>      
+      </div>
+      <!-- Span11 --> 
+    </div>
+    <!-- row -->
+    
+    
+    <div class="clearfix"></div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+          
+  </div>
+  <!--Container --> 
+</footer>
+</div>
+<!-- END FOOTER -->
+
+
+      
+
+</body>
+</html>
+
+
+
+
