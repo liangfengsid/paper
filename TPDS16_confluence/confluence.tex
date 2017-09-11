@@ -1101,15 +1101,14 @@ A programmer is supposed to be well acquainted with the logic of the transform o
 By saying that we know the key dependency for a specific iterative distributed operation,
 we mean we are able to calculate $pr$ by the probability function 
 $p$ for specific $k$ and $f(k)$.
-In the matrix multiplication example, we can easily deduce
+In the matrix multiplication example, we can deduce
 the key dependency of the second iteration: 
 $\forall i, j, p \in domain: (i, j, p) \Rightarrow_{1} (i, j)$.  
 Specifically, the key mapping function is $f((i, j, p)) = (i, j)$, 
 and the dependency probability is 1. 
-\blue{
-More details about calculating the dependency probability will be 
-illustrate with application examples in Section~\ref{section:application}.
-}
+More on calculating the dependency probability together with illustrative
+application examples can be found in Section~\ref{section:application}.
+
 
 % it means that we know what the output key-value pairs will be 
 % for an input key-value pair in every computing iteration. 
@@ -1364,36 +1363,35 @@ When $pr_J$ equals 1 in an iteration, the shuffle size is 0 in that iteration.
 
 
 \subsection{Workload Skewness Analysis}\label{section:skew}
-\blue{
-The workload of a partition is the number of input entries for the transform operation in that partition and 
-the workload skewness of an iteration is the standard deviation of the workloads of different partitions in that iteration. 
-As shuffle operations only change data partitions, but do not change 
-key-value entry formats, the workload skewness is also the standard deviation of 
-the shuffle input value distribution between the partitions of their mapped keys, 
-where we denote this distribution as $V|P$. 
-}
+The workload of a partition is the number of input entries for the
+transform operation in that partition, and
+the workload skewness of an iteration is the standard deviation of the
+workloads of different partitions in that iteration. As shuffle
+operations only change data partitions, but not key-value
+entry formats, the workload skewness is also the standard deviation of
+the shuffle input value distribution over the partitions of the
+mapped keys; we denote this distribution as $V|P$.
+
 
 % The math symbols in Section~\ref{section:CKP} are reused here without duplicated definition. 
 % Only the data entries that associate with the pure confluence subgraphs are counted as the other data (if any) are randomly partitioned in both RKP and 
 % CKP and will not affect the standard deviation of the workloads.
 
-\blue{
-In a nutshell, if shuffle input keys are uniformly bound to mapped keys in each
-iteration, the workload skewness of CKP is the same as that of RKP. 
-Suppose in a distributed iteration, the shuffle input value distribution
-between input keys is $V|K \sim D_v$, the shuffle input key distribution 
-between mapped keys is $K|f(K) \sim D_k$, and the mapped key distribution 
-between partitions is $f(K)|P \sim D_{f(k)}$. 
-Therefore, the workload skewness of an iteration is decided by 
-the joint distribution $D_v \bowtie D_k \bowtie D_{f(k)}$ of this iteration.
-As $D_v$ is decided by the nature of input data, 
-and CKP and RKP both hashed mapped keys to their partitions, 
-CKP and RKP differ only in distribution $D_k$. 
-In RKP, the mapped key can be considered as the shuffle input key itself, 
-and input keys are uniformly (one-to-one) distributed on mapped keys. 
-If distribution $D_k$ is also uniform in CKP, 
-the workload skewness of CKP and RKP are the same. 
-}
+In a nutshell, if the shuffle input keys are uniformly bound to mapped keys
+in each iteration, the workload skewness of CKP is the same as that of
+RKP. Suppose in a distributed iteration, the shuffle input value
+distribution of the input keys is $V|K \sim D_v$, the shuffle input key
+distribution of the mapped keys is $K|f(K) \sim D_k$, and the mapped
+key distribution over the partitions is $f(K)|P \sim D_{f(k)}$.
+The workload skewness of an iteration then is decided by the joint
+distribution $D_v \bowtie D_k \bowtie D_{f(k)}$ of this iteration. As
+$D_v$ is decided by the nature of the input data, and CKP and RKP both
+hash the mapped keys to their partitions, CKP and RKP differ only in
+distribution $D_k$. In RKP, the mapped key can be considered as the
+shuffle input key itself, and input keys are uniformly (one-to-one)
+distributed on the mapped keys. If distribution $D_k$ is also uniform in
+CKP, the workload skewnesses of CKP and RKP are the same.
+
 
 % We compare workload skewness of CKP and RKP in iterations 
 % that apply key partition binding.
@@ -1435,17 +1433,16 @@ this condition does not hold,
 we find that the workload skewness difference of CKP and RKP is so small
 that it could be ignored.%regarding the shuffle size CKP reduces.
 
-\blue{
-Note that both RKP and CKP do not try to decrease the skewness of
-input value distribution between keys, i.e., $D_v$.
-The skewness of $D_v$ refers to the case that some keys have much larger 
-number of values than others, and the balanced partitioning of keys 
-would not erase the skewness. 
-The decrease of skewness of values between keys can be done by other 
-techniques~\cite{kwon2010skew, kwon2012skewtune}, 
-and CKP does not try to decrease or erase this skewness, but tries not to 
-increase the workload skewness of each iteration compared to RKP. 
-}
+
+Note that both RKP and CKP do not try to decrease the skewness of the input
+value distribution between the keys, i.e., $D_v$. The skewness of $D_v$
+refers to the case that some keys have a much larger number of values than
+others, and the balanced partitioning of keys would not remove the
+skewness. The decrease in skewness of values between keys can be done
+through other techniques~\cite{kwon2010skew, kwon2012skewtune}, and CKP does
+not try to decrease or remove this skewness, but tries not to increase
+the workload skewness of each iteration as compared to RKP.
+
 % In all iterations when RKP is applied, every entry is a uniformly-partitioned entry, the expected workloads of the all the nodes are the same and the expected workload skewness is 0. 
 
 % When CKP is applied, as each output entry of the shuffle operation is the uniformly-partitioned entry in Iteration $u$, the workloads of all the nodes are the same in Iteration $u+1$. 
@@ -1885,8 +1882,9 @@ Finding the first task that hashes the executor from the task queue,
 the time complexity of scheduling each task is $O(N)$, 
 where $N$ is the number of the executors in a computing iteration. 
 
-\blue{
-A dense hashing conflict problem may exist if inappropriate hash functions are used when multiple distributed applications are running. 
+
+A dense hashing conflict problem may exist if inappropriate hash
+functions are used when multiple distributed applications are running.
 % For a concrete example, suppose there were three executors in the Spark cluster, 
 % and there were three applications, whose number of tasks is 1, 2, 3, respectively, and the task IDs are numbered incrementally from 0, 1, 
 % until 2 if possible. 
@@ -1894,22 +1892,25 @@ A dense hashing conflict problem may exist if inappropriate hash functions are u
 % will compete to tie their task 0 to the executor with hash code being 0, 
 % but only 1 applications with 3 tasks will be tied to the executor
 % whose hash code is 2.
-For example, in a \emph{mod-by-n} hash case, as applications can have different numbers of tasks and their task IDs are usually arranged incrementally from 0, 
-the distribution of task hash codes of multiple applications
-will concentrate on smaller values in range $[0, n)$, but tends to be sparse in values near $n$. 
-The distribution of executor hash codes 
-tends to be normal. Therefore, tasks with small hash codes will be competing for free executors with small hash codes, while executors with larger hash code 
-may remain idle.
-We solve this problem by choosing a hash function that make 
-the distribution of task hash code of multiple applications also normal, 
-so that the expected number of tasks assigned to each executor are the same.
-For example, instead of using the incremental task ID to directly \emph{mod}, every application can use a different hash function that transforms the task ID to a random value before using \emph{mod}.
-}
+For example, in a \emph{mod-by-n} hash case, as applications can have
+different numbers of tasks and their task IDs are usually arranged
+incrementally from 0, the distribution of task hash codes of multiple
+applications will concentrate on smaller values in the range $[0, n)$, but
+tends to be sparse in values near $n$. The distribution of executor
+hash codes tends to be normal. Therefore, tasks with small hash codes
+will be competing for free executors with small hash codes, while
+executors with larger hash code may remain idle. We solve this problem
+by choosing a hash function that makes the distribution of task hash
+codes of multiple applications also normal, so that the expected number of
+tasks assigned to each executor is the same. For example, instead of
+using the incremental task ID directly in the \emph{mod}, every application
+can use a different hash function that transforms the task ID to a
+random value before applying \emph{mod}. 
 
 The partition-executor-tying implementation will not introduce any negative
-side effects into the system for the following three reasons: 1)  The
+side effect into the system for the following three reasons: 1)  The
 order to run pending tasks of the same iteration does not affect the
-completion time of each iteration; 2) \blue{with random hashing}, each executor
+completion time of each iteration; 2) with random hashing, each executor
 is expected to run the same number of tasks in each iteration;
 3) the task scheduling overhead is often trivial and negligible, which
 is only linear in the number of executors.
@@ -2085,11 +2086,10 @@ remaining 16 nodes are configured as both HDFS data nodes and YARN node
 managers, and are connected to an internal non-blocking switch with GbE
 ports.
 Spark is deployed on top of the YARN cluster with 16 executor, where each executor runs with 8 GB memories. 
-\blue{
-When sending shuffle data through network, Spark network streams use 
-\emph{Lz4}, one of the fastest (de-)compression algorithm, to serialize and deserialize shuffle 
-data by default. 
-}
+When sending shuffle data through the network, the Spark network streams use
+\emph{Lz4}, one of the fastest (de-)compression algorithms, to serialize
+and deserialize the shuffle data by default.
+
 
 
 Several benchmarks that are representative ones of their fields are used to evaluate the performance of CKP.
@@ -2101,7 +2101,8 @@ These key partitioning schemes are for special purpose and we do not compare CKP
 \subsection{Metrics}
 We measure the shuffle size of each distributed computing iteration (or alternately, stage) of the benchmarks. 
 The shuffle size of each iteration is the sum of the cross-node traffic size of the shuffle operation of all executors in that iteration. 
-\blue{Note that the shuffle size is the compressed one after shuffle network streams serialize the raw shuffle data using \emph{Lz4}. }
+Note that the shuffle size is the compressed one after the shuffle
+network streams serializing the raw shuffle data using \emph{Lz4}. 
 This metric depicts the performance of CKP in reducing the shuffle size. 
 Besides, the standard deviation of input workloads of executors is measured as the metric of workload skewness in binding iterations. 
 The completion time measure how CKP improves the job completion time by shuffle 
@@ -2221,47 +2222,44 @@ Benchmark Using Different Compression and Key Partitioning Schemes. ``Raw'' Stan
 
 
 \subsection{CKP vs. Compression}
-\blue{
-Data compression is another approach often used to reduce the shuffle size. 
-CKP and compression are not mutually exclusive and they can be used at the 
-same time, as what we have been doing so far by apply CKP along with  
-the default \emph{Lz4} shuffle streamer. 
-Still, we are interested on how CKP and data compression, 
-individually, affect the shuffle performance. 
-We selectively run the MultiAdjanceList benchmark, which has many key binding iterations, and double the input size to amplify the effect.
-Different combinations of compression policies and key partitioning
-schemes are used, i.e., with or without compression, and with RKP or with
-CKP. Results of the shuffle size and the shuffle completion time of each iteration
-are shown in Fig.~\ref{fig:compress}. 
-}
+Data compression is another approach often used to reduce the shuffle
+size. CKP and compression are not mutually exclusive and they can be
+used at the same time, which is what we have been doing so far by
+applying CKP along with the default \emph{Lz4} shuffle streamer. Still, we are
+interested in how CKP and data compression, separately, affect the
+shuffle performance. We selectively run the MultiAdjanceList benchmark,
+which has many key binding iterations, and double the input size to
+amplify the effect. Different combinations of compression policies and
+key partitioning schemes are used, i.e., with or without compression,
+and with RKP or with CKP. Results of the shuffle size and the shuffle
+completion time of each iteration are shown in Fig.~\ref{fig:compress}.
 
-\blue{
-CKP and compression can work together to reduce shuffle sizes by a larger margin. 
-Compression is supposed to reduce the shuffle size by a relatively
-stable ratio, e.g., about 37\% regardless of the key partitioning scheme 
-in this benchmark. 
+CKP and compression can work together to reduce shuffle sizes
+substantially.
+%by a larger margin.
+Compression can reduce the shuffle size by a
+relatively stable percentage, e.g., about 37\% regardless of the key
+partitioning scheme in the benchmark.
 % Though the theoretical \emph{Lz4} compression ratio is about 2.1, 
 % the compression ratio in this benchmark matches that in a Yahoo! Hadoop use report~\cite{hadoopCompression}.
-The shuffle size reduction of CKP is about 50\% of the according one of RKP, 
-and can be very different in different benchmarks, as we have shown. 
-The shuffle size with both CKP and compression used is only about 33\% of 
-the one with RKP and no compression used (in Fig.~\ref{fig:compress}(a)). 
-}
+The shuffle size reduction of CKP is about 50\% of the corresponding one
+in RKP, and can be very different in different benchmarks, as we have
+shown. The shuffle size with using both CKP and compression is only
+about 33\% of the one in RKP with no compression (in
+Fig.~\ref{fig:compress}(a)).  
 
-\blue{
-However, compression can increase the completion time of the shuffle. 
-In Fig.~\ref{fig:compress}(b), with compression, 
-the overall completion time is about 14\% to 18\% higher than that 
-without compression, regardless of the key partitioning scheme. 
-Even when CKP is used along with compression, the completion time is still
-about 7\% higher than that using RKP without compression.  
-The reason is that compression increases the time to serialize and deserialize
-shuffle data in network streams, and (de-)serialization overhead time can
-overtake the benefit of transferring less shuffle data through the network.
-The overhead of CKP is only the increased calculation time of the mapping function
-for each entry, as compared to the hash function in RKP. 
-CKP reduces the shuffle completion time in all cases we have seen. 
-}
+However, compression can increase the completion time of the shuffle.
+In Fig.~\ref{fig:compress}(b), with compression, the overall completion
+time is about 14\% to 18\% longer than that without compression,
+regardless of the key partitioning scheme. Even when CKP is used along
+with compression, the completion time is still about 7\% longer than
+that using RKP without compression. The reason is that compression
+increases the time to serialize and deserialize the shuffle data in the network
+streams, and (de-)serialization overhead time can more than offset the benefit
+of transferring less shuffle data through the network. The overhead of
+CKP is only in the increased calculation time of the mapping function for
+each entry, as compared to the hash function in RKP. CKP reduces the
+shuffle completion time in all the cases that we have seen.
 
 \begin{figure}[!t]
 \centering
